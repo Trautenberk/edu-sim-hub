@@ -1,6 +1,5 @@
 import {ReactElement} from "react"
 import {IEditorMenuItem} from "./EditorMenu"
-import {CanvasElementPropsWithouId, CanvasElement} from "./Canvas"
 
 export interface IEditorItem extends IEditorMenuItem{
     getCanvasElement : () => ReactElement;

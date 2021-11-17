@@ -24,7 +24,6 @@ export const Editor : FunctionComponent = () => {
         console.log("Canvas elements length: " + canvasElements.length);
     }
 
-
     return(
         <div className={styles.Editor}>
             <EditorMenu items={menuItems} onItemSelected={onMenuItemSelection}/>

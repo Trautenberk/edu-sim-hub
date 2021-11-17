@@ -1,7 +1,5 @@
 import {createContext, FunctionComponent, useState} from "react";
 
-
-
 interface ICanvasContext {
     selectedElementID : string | undefined;
     initXPos : number,
@@ -38,7 +36,7 @@ export const CanvasContextProvider : FunctionComponent = ({children}) => {
             initYPos,
             onClick
             }}>
-
+                {children}
         </CanvasContext.Provider>
     )
 }

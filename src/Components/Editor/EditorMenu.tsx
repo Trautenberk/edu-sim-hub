@@ -1,5 +1,4 @@
-import { ReactElement, Component, MouseEventHandler, FunctionComponent } from "react";
-import { IEditorItem } from "./EditorItem";
+import { MouseEventHandler, FunctionComponent } from "react";
 import styles from "./EditorMenu.module.css"
 import uniqid from 'uniqid';
 

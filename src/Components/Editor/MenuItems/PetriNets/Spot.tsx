@@ -1,9 +1,8 @@
 import { FunctionComponent, ReactElement, useContext, MouseEventHandler} from "react";
-import { EditorItem, IEditorItem } from "../../EditorItem";
+import { EditorItem } from "../../EditorItem";
 import spotImage from "./icons/PetriSpot.png"
 import styles from "./Spot.module.css"
 import {CanvasContext} from "../../../../Store/Editor/Canvas/CanvasContext"
-import uniqid from "uniqid"
 
 
 const SpotFilter : FunctionComponent<{filterID : string}>  = ({filterID}) =>{ 
