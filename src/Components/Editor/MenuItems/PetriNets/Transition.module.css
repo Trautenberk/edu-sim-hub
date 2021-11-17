@@ -1,0 +1,12 @@
+
+
+.Transition {
+    fill: rgba(0, 0, 0, 0.97);
+    stroke-width: 0px;
+    stroke-miterlimit: 10;
+    margin: 30px;
+}
+
+.selected {
+    border : solid black dotted;
+}

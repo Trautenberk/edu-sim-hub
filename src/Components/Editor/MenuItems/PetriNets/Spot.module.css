@@ -1,0 +1,12 @@
+
+
+.selected {
+    border: 1px solid black dotted;
+}
+
+.Spot {
+    margin: 30px;
+    stroke-width: 3px;
+    fill: rgb(246, 246, 246);
+    stroke: rgb(0, 0, 0);
+}

@@ -1,0 +1,24 @@
+
+
+.Editor {
+    display: grid;
+    grid-template-columns: 20% 70%;
+    grid-template-rows: 100%;
+    margin-left: 3%;
+    margin-right: 3%;
+    margin-top: 1%;
+    margin-bottom: 1%;
+    height: 90%;
+    width: 90%;
+}
+
+.EditorMenu {
+    width: 100%;
+    height: 100%;
+}
+
+.EditorCanvas {
+    margin-left: 5%;
+    width: 100%;
+    height: 100%;
+}
