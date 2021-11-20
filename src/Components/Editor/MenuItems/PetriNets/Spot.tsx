@@ -1,10 +1,12 @@
-import { FunctionComponent, ReactElement, useContext, MouseEventHandler, useState, useRef, useCallback} from "react";
+import { FunctionComponent, ReactElement, useContext, MouseEventHandler, useState, useRef, useCallback, useEffect} from "react";
 import { EditorItem } from "../../EditorItem";
 import spotImage from "./icons/PetriSpot.png"
 import styles from "./Spot.module.css"
 import {CanvasContext} from "../../../../Store/Editor/Canvas/CanvasContext"
 import {CanvasMouseMoveEventDetail} from "../../Canvas"
 import uniqid from "uniqid"
+import {useDragableSVGCompoennt} from "../../CustomHooks/useDraggableSVG"
+import {CanvasElementWrapper} from "../../CanvasElementWrapper"
   
 
 
@@ -35,7 +37,12 @@ export class Spot extends EditorItem {
     public static filterID() : string | undefined { return "SpotFilter"};
         
     public getCanvasElement: () => ReactElement  = () => {
-        return <SpotCanvasElement key={uniqid()} id={this.getElementId()}/>;
+
+        return (
+            <CanvasElementWrapper key={uniqid()}>
+                <SpotCanvasElement  id={this.getElementId()}/>
+            </CanvasElementWrapper>
+                );
     }
 
 
@@ -49,51 +56,39 @@ type CanvasElementProps ={
 
 const SpotCanvasElement : FunctionComponent<CanvasElementProps> = (props) => {
     const context = useContext(CanvasContext);
-    const [posX, setPosX] = useState(context.initXPos);
-    const [posY, setPosY] = useState(context.initYPos);
-    const [selected] = useState(props.id === context.selectedElementID);
+
+    const {
+        coordinates : coordinates,
+        setCoordinates: setCoordinates,
+        canvasBoundaries : canvasBoundaries,
+        mouseMoveEventHandler : mouseMoveEventHandler,
+        onMouseDownHandler : onMouseDownHandler,
+        onMouseUpHandler : onMouseUpHandler
+    
+    } = useDragableSVGCompoennt<SVGGElement>();
+
+    canvasBoundaries.current = context.canvasBoundaries;
+    console.log(`Upadeted boundaries: left: ${canvasBoundaries.current.left}  top: ${canvasBoundaries.current.top}`)
+
+    useEffect(() => {
+        setCoordinates(context.initPos);
+    }, []);
 
 
-    const onClickHandler : MouseEventHandler<SVGCircleElement> = () => {
+    const onClickHandler : MouseEventHandler<SVGGElement> = () => {
         context.onClick(props.id);
     }
 
-    const mouseMoveEventHandler = useCallback(
-        (e : MouseEvent) => {
-            // console.log("Listening");
-           setPosX(e.clientX - context.svgLeftBoundary);
-           setPosY(e.clientY - context.svgTopBoundary);
-        },
-        [],
-    )
-
-    // const mouseMoveEventHandler = (e : MouseEvent) => {
-    //     // console.log("Listening");
-    //    setPosX(e.clientX - context.svgLeftBoundary);
-    //    setPosY(e.clientY - context.svgTopBoundary);
-    // }
-
-
-    const onMouseDownHandler : MouseEventHandler<SVGCircleElement> = (e) => {
-        console.log("Mouse down Spot ")
-        document.addEventListener("mousemove", mouseMoveEventHandler)
-    }
-
-    const onMouseUpHandler : MouseEventHandler<SVGCircleElement> = (e) => {
-        console.log("mouse up Spot")
-        document.removeEventListener("mousemove", mouseMoveEventHandler);
-    }
 
     let filterID : string =  Spot.filterID() ?? "" ;
 
-    const selectedRectVisible = selected ? "visible" : "hidden"
-
+    const selectedRectVisible = context.isSelectedElement(props.id) ? "visible" : "hidden"
 
     return(
-        <g>
-            <circle onClick={onClickHandler} onMouseDown={onMouseDownHandler} onMouseUp={onMouseUpHandler} className={styles.Spot} filter={filterID} cx={posX} cy={posY} r="30"/>
-            <circle onClick={onClickHandler} onMouseDown={onMouseDownHandler} onMouseUp={onMouseUpHandler} visibility={selectedRectVisible} className={styles.SpotSelected} filter={filterID} cx={posX} cy={posY} r="30"/>
-        </g>
+        <>
+            <circle className={styles.Spot} filter={filterID}  r="30"/>
+            <circle visibility={selectedRectVisible} className={styles.SpotSelected} filter={filterID}  r="30"/>
+        </>
     )
 }
 

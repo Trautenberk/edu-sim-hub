@@ -1,7 +1,9 @@
-import {Component, MouseEventHandler, ReactElement, FunctionComponent, useContext, createRef, useRef, Children, useEffect} from "react"; 
+import React, {Component, MouseEventHandler, ReactElement, FunctionComponent, useContext, createRef, useRef, Children, useEffect, ReactNode, ReactPortal} from "react"; 
 import {IEditorMenuItem} from "./EditorMenu";
 import styles from "./Canvas.module.css";
 import {CanvasContext, CanvasContextProvider} from "../../Store/Editor/Canvas/CanvasContext"
+import { CanvasElementWrapper } from "./CanvasElementWrapper";
+import uniqid from "uniqid";
 
 interface ICanvasProps {
     filters? : any[];
@@ -70,7 +72,7 @@ export const Canvas : FunctionComponent<CanvasProps> = (props) => {
                     </defs>
                     <g>   // Canvas Elements
                             <CanvasGridElement/>
-                            {props.children}
+                            {props.children} 
                     </g>
                 </svg>
         </div>
@@ -81,22 +83,20 @@ export const Canvas : FunctionComponent<CanvasProps> = (props) => {
 
 const CanvasGridElement : FunctionComponent = ({children}) => {
 
-    const gridID = "gridID";
     const context = useContext(CanvasContext);
     const gridRef = useRef<SVGRectElement>(null);
 
     const onClickHandler : MouseEventHandler<SVGElement> = (e) => {
-        context.onClick(gridID);
+        context.onClick(null);
     }
 
 
     useEffect(() => {
         if(gridRef.current != null){
             const canvasBoundaries = gridRef.current.getBoundingClientRect();
-            context.svgLeftBoundary = canvasBoundaries.left;
-            context.svgTopBoundary = canvasBoundaries.top;
+            context.updateCanvasBoundaries({left : canvasBoundaries.left, top : canvasBoundaries.top});
         }
-    }) 
+    }, []) ;
 
 
     return(

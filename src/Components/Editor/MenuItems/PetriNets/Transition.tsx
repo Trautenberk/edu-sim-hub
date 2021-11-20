@@ -2,8 +2,10 @@ import { FunctionComponent,  MouseEventHandler, ReactElement, useContext, useSta
 import { EditorItem } from "../../EditorItem";
 import TransitionImage from "./icons/PetriTransition.png"
 import styles from "./Transition.module.css"
-import { CanvasContext } from "../../../../Store/Editor/Canvas/CanvasContext";
+import { CanvasContext, Coordinates } from "../../../../Store/Editor/Canvas/CanvasContext";
 import uniqid from "uniqid"
+import { useDragableSVGCompoennt } from "../../CustomHooks/useDraggableSVG";
+import { CanvasElementWrapper } from "../../CanvasElementWrapper";
 
 
 export class Transition extends EditorItem  {
@@ -14,14 +16,17 @@ export class Transition extends EditorItem  {
     public static hasFilter() : boolean  {return false};
     public static filterID() : string | undefined {return undefined};
 
-    getCanvasElement: () => ReactElement = () => <TransitionCanvasElement key={uniqid()} id={this.getElementId()}/>;
+    getCanvasElement = () : ReactElement => {
+        return( 
+            <CanvasElementWrapper>
+                <TransitionCanvasElement key={uniqid()} id={this.getElementId()}/>
+            </CanvasElementWrapper>
+        )}
 
     public iconPath: string | undefined = TransitionImage;
     public name: string = "Petri Net Transition";
 
 }
-
-
 
 type TransitionCanvasElementProps = {
     id : string
@@ -30,20 +35,15 @@ type TransitionCanvasElementProps = {
 const TransitionCanvasElement : FunctionComponent<TransitionCanvasElementProps> = (props) => {
     const context = useContext(CanvasContext);
 
-    const [posX, setPosX] = useState(context.initXPos);
-    const [posY, setPosY] = useState(context.initYPos);
 
     const onClickHandler : MouseEventHandler<SVGRectElement> = (e) => {
         context.onClick(props.id);
     }
 
-    const className = context.selectedElementID === props.id ? styles.TransitionSelected : styles.Transition;
+    
     return(
-        <g>
-            <rect className={className} onClick={onClickHandler} x={posX} y={posY} width="30" height="60" />
-        </g>
-    )
-
+            <rect className={styles.TransitionSelected}  width="30" height="60" />   
+        )
 }
 
 
