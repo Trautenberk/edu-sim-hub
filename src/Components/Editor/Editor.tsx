@@ -5,6 +5,7 @@ import {Canvas} from "./Canvas";
 import {Spot} from "./MenuItems/PetriNets/Spot";
 import {Transition} from "./MenuItems/PetriNets/Transition"
 import {IEditorItem} from "./EditorItem"
+import { CanvasContextProvider } from "../../Store/Editor/Canvas/CanvasContext";
 
 
 export const Editor : FunctionComponent = () => {
@@ -27,9 +28,11 @@ export const Editor : FunctionComponent = () => {
     return(
         <div className={styles.Editor}>
             <EditorMenu items={menuItems} onItemSelected={onMenuItemSelection}/>
-            <Canvas>
-                {canvasElements}
-            </Canvas>
+            <CanvasContextProvider>
+                <Canvas>
+                    {canvasElements}
+                </Canvas>
+            </CanvasContextProvider>
         </div>
     )
 }

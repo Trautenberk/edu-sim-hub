@@ -1,6 +1,19 @@
 
 
 .Canvas {
-    margin-left: 5%;
     border: 2px black solid;
+    width: 100%;
+    height: 100%;
+    margin-left: 5%;
+}
+
+
+.CanvasSvg {
+    height: 100%;
+    width: 100%;
+}
+
+.CanvasSvgRect {
+    width: 100%;
+    height: 100%;
 }

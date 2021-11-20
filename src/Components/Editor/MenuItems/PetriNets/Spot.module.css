@@ -1,12 +1,24 @@
 
 
-.selected {
-    border: 1px solid black dotted;
-}
 
 .Spot {
-    margin: 30px;
-    stroke-width: 3px;
+    stroke-width: 1px;
     fill: rgb(246, 246, 246);
     stroke: rgb(0, 0, 0);
+    cursor: move;
+    pointer-events: visible;
 }
+
+.SpotSelected {
+    opacity:1;
+    mix-blend-mode:normal;
+    fill: none;
+    stroke:#00d7ff;
+    stroke-width:3px;
+    stroke-miterlimit:4;
+    stroke-dasharray: 10, 5;
+    stroke-dashoffset:0;
+    stroke-opacity:1;
+    pointer-events: none;
+}
+

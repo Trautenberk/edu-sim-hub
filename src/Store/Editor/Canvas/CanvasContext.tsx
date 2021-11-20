@@ -3,15 +3,19 @@ import {createContext, FunctionComponent, useState} from "react";
 interface ICanvasContext {
     selectedElementID : string | undefined;
     initXPos : number,
-    initYPos : number,    
-    onClick : (id : string) => void;
+    initYPos : number,
+    svgLeftBoundary : number,
+    svgTopBoundary : number,    
+    onClick : (id : string) => void,
 }
 
 const defaultState : ICanvasContext = {
-    selectedElementID : undefined,
-    initXPos : 30,
-    initYPos : 30,
-    onClick: () => {}
+    selectedElementID: undefined,
+    initXPos: 40,
+    initYPos: 40,
+    svgLeftBoundary : 0,
+    svgTopBoundary: 0,
+    onClick: () => { throw new Error("Method not implemeted!")},
 }
 
 
@@ -23,7 +27,10 @@ export const CanvasContextProvider : FunctionComponent = ({children}) => {
     const [selectedElementID, setSelectedElementID] = useState(defaultState.selectedElementID);
     const [initXPos, setInitXPos] = useState(defaultState.initXPos);
     const [initYPos, setInitYPos] = useState(defaultState.initYPos);
-    
+
+    const svgLeftBoundary =  defaultState.svgLeftBoundary;
+    const svgTopBoundary = defaultState.svgTopBoundary;
+
     const onClick : (id : string) => void = (id) => {
         console.log("Clicked component ID: " + id);
         setSelectedElementID(id);
@@ -34,8 +41,10 @@ export const CanvasContextProvider : FunctionComponent = ({children}) => {
             selectedElementID,
             initXPos,
             initYPos,
-            onClick
-            }}>
+            svgLeftBoundary,
+            svgTopBoundary,
+            onClick,
+        }}>
                 {children}
         </CanvasContext.Provider>
     )

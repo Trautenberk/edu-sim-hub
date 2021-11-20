@@ -43,6 +43,7 @@
   },
   "devDependencies": {
     "@types/uniqid": "^5.3.1",
+    "react-draggable-svg": "0.0.3",
     "typescript-plugin-css-modules": "^3.4.0"
   }
 }

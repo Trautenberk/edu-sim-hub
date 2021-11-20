@@ -1,4 +1,4 @@
-import {Component, MouseEventHandler, ReactElement, FunctionComponent, useContext} from "react"; 
+import {Component, MouseEventHandler, ReactElement, FunctionComponent, useContext, createRef, useRef, Children, useEffect} from "react"; 
 import {IEditorMenuItem} from "./EditorMenu";
 import styles from "./Canvas.module.css";
 import {CanvasContext, CanvasContextProvider} from "../../Store/Editor/Canvas/CanvasContext"
@@ -40,42 +40,64 @@ type CanvasProps = {
     filters? : any[];
 }
 
+export type CanvasMouseMoveEventDetail = {
+    xCoord : number,
+    yCoord : number
+}
+
 export const Canvas : FunctionComponent<CanvasProps> = (props) => {
+
+    const onMouseDown : MouseEventHandler<SVGSVGElement> = (e) =>  {
+        console.log("Mouse down SVG");
+    }
+
+    const onMouseUp : MouseEventHandler<SVGSVGElement> = (e) => {
+        console.log("mouse up SVG")
+    }
 
     return(
         <div className={styles.Canvas}>
-            <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
-                <defs>
-                    <pattern id="smallGrid" width="8" height="8" patternUnits="userSpaceOnUse">
-                    <path d="M 8 0 L 0 0 0 8" fill="none" stroke="gray" strokeWidth="0.5"/>
-                    </pattern>
-                    <pattern id="grid" width="80" height="80" patternUnits="userSpaceOnUse">
-                    <rect width="80" height="80" fill="url(#smallGrid)"/>
-                    <path d="M 80 0 L 0 0 0 80" fill="none" stroke="gray" strokeWidth="1"/>
-                    </pattern>
-                    {props.filters}   // filters
-                </defs>
-                <g>   // Canvas Elements
-                    <CanvasContextProvider>
-                        <CanvasGridElement/>
-                        {props.children}   // CanvasElements
-                    </CanvasContextProvider>
-                </g>
-            </svg>
+                <svg className={styles.CanvasSvg} xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <pattern id="smallGrid" width="8" height="8" patternUnits="userSpaceOnUse">
+                        <path d="M 8 0 L 0 0 0 8" fill="none" stroke="gray" strokeWidth="0.5"/>
+                        </pattern>
+                        <pattern id="grid" width="80" height="80" patternUnits="userSpaceOnUse">
+                        <rect width="80" height="80" fill="url(#smallGrid)"/>
+                        <path d="M 80 0 L 0 0 0 80" fill="none" stroke="gray" strokeWidth="1"/>
+                        </pattern>
+                        {props.filters}   // filters
+                    </defs>
+                    <g>   // Canvas Elements
+                            <CanvasGridElement/>
+                            {props.children}
+                    </g>
+                </svg>
         </div>
     )
 
 }
 
 
-const CanvasGridElement : FunctionComponent = () => {
+const CanvasGridElement : FunctionComponent = ({children}) => {
 
     const gridID = "gridID";
     const context = useContext(CanvasContext);
+    const gridRef = useRef<SVGRectElement>(null);
 
     const onClickHandler : MouseEventHandler<SVGElement> = (e) => {
         context.onClick(gridID);
     }
+
+
+    useEffect(() => {
+        if(gridRef.current != null){
+            const canvasBoundaries = gridRef.current.getBoundingClientRect();
+            context.svgLeftBoundary = canvasBoundaries.left;
+            context.svgTopBoundary = canvasBoundaries.top;
+        }
+    }) 
+
 
     return(
         <g>
@@ -88,7 +110,7 @@ const CanvasGridElement : FunctionComponent = () => {
                 <path d="M 80 0 L 0 0 0 80" fill="none" stroke="gray" strokeWidth="1"/>
             </pattern>
             </defs>
-            <rect onClick={onClickHandler} width="100%" height="100%" fill="url(#grid)" />
+            <rect ref={gridRef} onClick={onClickHandler} className={styles.CanvasSvgRect} fill="url(#grid)" />
         </g>
     )
 }

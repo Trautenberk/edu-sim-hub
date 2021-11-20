@@ -1,8 +1,11 @@
-import { FunctionComponent, ReactElement, useContext, MouseEventHandler} from "react";
+import { FunctionComponent, ReactElement, useContext, MouseEventHandler, useState, useRef, useCallback} from "react";
 import { EditorItem } from "../../EditorItem";
 import spotImage from "./icons/PetriSpot.png"
 import styles from "./Spot.module.css"
 import {CanvasContext} from "../../../../Store/Editor/Canvas/CanvasContext"
+import {CanvasMouseMoveEventDetail} from "../../Canvas"
+import uniqid from "uniqid"
+  
 
 
 const SpotFilter : FunctionComponent<{filterID : string}>  = ({filterID}) =>{ 
@@ -32,7 +35,7 @@ export class Spot extends EditorItem {
     public static filterID() : string | undefined { return "SpotFilter"};
         
     public getCanvasElement: () => ReactElement  = () => {
-        return <SpotCanvasElement  id={this.getElementId()}/>;
+        return <SpotCanvasElement key={uniqid()} id={this.getElementId()}/>;
     }
 
 
@@ -46,47 +49,51 @@ type CanvasElementProps ={
 
 const SpotCanvasElement : FunctionComponent<CanvasElementProps> = (props) => {
     const context = useContext(CanvasContext);
+    const [posX, setPosX] = useState(context.initXPos);
+    const [posY, setPosY] = useState(context.initYPos);
+    const [selected] = useState(props.id === context.selectedElementID);
+
 
     const onClickHandler : MouseEventHandler<SVGCircleElement> = () => {
         context.onClick(props.id);
     }
 
+    const mouseMoveEventHandler = useCallback(
+        (e : MouseEvent) => {
+            // console.log("Listening");
+           setPosX(e.clientX - context.svgLeftBoundary);
+           setPosY(e.clientY - context.svgTopBoundary);
+        },
+        [],
+    )
+
+    // const mouseMoveEventHandler = (e : MouseEvent) => {
+    //     // console.log("Listening");
+    //    setPosX(e.clientX - context.svgLeftBoundary);
+    //    setPosY(e.clientY - context.svgTopBoundary);
+    // }
+
+
+    const onMouseDownHandler : MouseEventHandler<SVGCircleElement> = (e) => {
+        console.log("Mouse down Spot ")
+        document.addEventListener("mousemove", mouseMoveEventHandler)
+    }
+
+    const onMouseUpHandler : MouseEventHandler<SVGCircleElement> = (e) => {
+        console.log("mouse up Spot")
+        document.removeEventListener("mousemove", mouseMoveEventHandler);
+    }
+
     let filterID : string =  Spot.filterID() ?? "" ;
+
+    const selectedRectVisible = selected ? "visible" : "hidden"
+
 
     return(
         <g>
-            <circle onClick={onClickHandler} className={styles.Spot} filter={filterID} cx={context.initXPos} cy={context.initYPos} r="30"/>
+            <circle onClick={onClickHandler} onMouseDown={onMouseDownHandler} onMouseUp={onMouseUpHandler} className={styles.Spot} filter={filterID} cx={posX} cy={posY} r="30"/>
+            <circle onClick={onClickHandler} onMouseDown={onMouseDownHandler} onMouseUp={onMouseUpHandler} visibility={selectedRectVisible} className={styles.SpotSelected} filter={filterID} cx={posX} cy={posY} r="30"/>
         </g>
     )
 }
 
-
-// export class SpotComponent extends CanvasElement {
-
-//     static contextType = CanvasContext;
-
-//     constructor(props : CanvasElementProps){
-//         super(props);
-
-//         this.state = {
-//             posX : props.posX,
-//             posY : props.posY,
-//             styles : props.sylesClass
-//         }
-//     }
-
-    
-//     private onClick : React.MouseEventHandler<SVGCircleElement> = (e) => {
-//         console.log("Spot click!");
-//         this.context.
-//         this.props.onClick(this.id);
-//     }
- 
-//     render(){
-//         return(
-//             <g>
-//                 <circle onClick={this.context.} className={styles.Spot} filter={SpotFilter.filterID} cx={this.props.posX} cy={this.props.posY} r="30"/>
-//             </g>
-//         )
-//     }
-// }
