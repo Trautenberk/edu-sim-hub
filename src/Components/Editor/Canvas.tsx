@@ -4,6 +4,8 @@ import styles from "./Canvas.module.css";
 import {CanvasContext, CanvasContextProvider} from "../../Store/Editor/Canvas/CanvasContext"
 import { CanvasElementWrapper } from "./CanvasElementWrapper";
 import uniqid from "uniqid";
+import { ConnectionPoint } from "./Connections/ConnectionPoint";
+
 
 interface ICanvasProps {
     filters? : any[];
@@ -72,7 +74,8 @@ export const Canvas : FunctionComponent<CanvasProps> = (props) => {
                     </defs>
                     <g>   // Canvas Elements
                             <CanvasGridElement/>
-                            {props.children} 
+                            {props.children}
+                            <ConnectionPoint coordinates={{posX: 15, posY: 15}}  parentElementID="test" />
                     </g>
                 </svg>
         </div>
