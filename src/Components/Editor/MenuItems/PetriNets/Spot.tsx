@@ -7,6 +7,7 @@ import {CanvasMouseMoveEventDetail} from "../../Canvas"
 import uniqid from "uniqid"
 import {useDragableSVGCompoennt} from "../../CustomHooks/useDraggableSVG"
 import {CanvasElementWrapper} from "../../CanvasElementWrapper"
+import { ConnectionPoint } from "../../Connections/ConnectionPoint";
   
 
 
@@ -33,6 +34,8 @@ export class Spot extends EditorItem {
         super();
     }
 
+    private id = uniqid();
+
     public static hasFilter() : boolean {return true};
     public static filterID() : string | undefined { return "SpotFilter"};
         
@@ -42,7 +45,7 @@ export class Spot extends EditorItem {
             <CanvasElementWrapper key={uniqid()}>
                 <SpotCanvasElement  id={this.getElementId()}/>
             </CanvasElementWrapper>
-                );
+        );
     }
 
 
@@ -57,37 +60,21 @@ type CanvasElementProps ={
 const SpotCanvasElement : FunctionComponent<CanvasElementProps> = (props) => {
     const context = useContext(CanvasContext);
 
-    const {
-        coordinates : coordinates,
-        setCoordinates: setCoordinates,
-        canvasBoundaries : canvasBoundaries,
-        mouseMoveEventHandler : mouseMoveEventHandler,
-        onMouseDownHandler : onMouseDownHandler,
-        onMouseUpHandler : onMouseUpHandler
-    
-    } = useDragableSVGCompoennt<SVGGElement>();
-
-    canvasBoundaries.current = context.canvasBoundaries;
-    console.log(`Upadeted boundaries: left: ${canvasBoundaries.current.left}  top: ${canvasBoundaries.current.top}`)
-
-    useEffect(() => {
-        setCoordinates(context.initPos);
-    }, []);
-
-
     const onClickHandler : MouseEventHandler<SVGGElement> = () => {
         context.onClick(props.id);
     }
 
 
     let filterID : string =  Spot.filterID() ?? "" ;
-
-    const selectedRectVisible = context.isSelectedElement(props.id) ? "visible" : "hidden"
-
     return(
         <>
-            <circle className={styles.Spot} filter={filterID}  r="30"/>
-            <circle visibility={selectedRectVisible} className={styles.SpotSelected} filter={filterID}  r="30"/>
+            <circle className={styles.Spot} filter={filterID} onClick={onClickHandler}  r="30"/>
+            <circle visibility={context.getVisibility(props.id)} className={styles.SpotSelected} filter={filterID}  r="30"/>
+            <ConnectionPoint   coordinates={{posX : 30, posY: 0}} parentElementID={props.id}/>
+            <ConnectionPoint   coordinates={{posX : -30, posY: 0}} parentElementID={props.id}/>
+            <ConnectionPoint   coordinates={{posX : 0, posY: 30}} parentElementID={props.id}/>
+            <ConnectionPoint   coordinates={{posX : 0, posY: -30}} parentElementID={props.id}/>
+
         </>
     )
 }

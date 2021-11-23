@@ -19,6 +19,7 @@ interface ICanvasContext {
     onClick : (id : string | null) => void,
     updateCanvasBoundaries : (boundaries : Boundaries) => void,
     isSelectedElement : (id : string | null) => boolean,
+    getVisibility : (id : string) => string,
 }
 
 const defaultState : ICanvasContext = {
@@ -28,7 +29,9 @@ const defaultState : ICanvasContext = {
     onClick: () => { throw new Error("Method not implemeted!")},
     updateCanvasBoundaries : () => { throw new Error("Method not implemeted!")},
     isSelectedElement: () => { throw new Error("Method not implemeted!")},
+    getVisibility: () => {throw new Error("Method not implemeted!")},
 }
+
 
 
 export const CanvasContext = createContext<ICanvasContext>(defaultState);
@@ -60,6 +63,10 @@ export const CanvasContextProvider : FunctionComponent = ({children}) => {
         return id === selectedElementID;
     }
 
+    const getVisibility = (id : string) : string => {
+        return isSelectedElement(id) ? "visible" : "hidden";
+    }
+
     return(
         <CanvasContext.Provider value={{
             selectedElementID,
@@ -67,7 +74,8 @@ export const CanvasContextProvider : FunctionComponent = ({children}) => {
             canvasBoundaries,
             updateCanvasBoundaries,
             onClick,
-            isSelectedElement
+            isSelectedElement,
+            getVisibility
         }}>
                 {children}
         </CanvasContext.Provider>

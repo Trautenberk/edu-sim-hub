@@ -1,0 +1,11 @@
+
+
+.ConnectionPoint {
+    stroke-width: 1px;
+    stroke:#00d7ff;
+    fill: #00d7ff;
+    cursor: pointer;
+    pointer-events: visible;
+    width: 10px;
+    height: 10px;
+}

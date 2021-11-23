@@ -12,9 +12,9 @@ export abstract class EditorItem implements IEditorItem{
     public  static   hasFilter() : boolean { throw new Error("Error, class has to overide this method")};
     public  static   filterID() : string | undefined { throw new Error("Error, class has to overide this method")};
 
-    protected _idCounter : number = 1;
+    protected _idCounter : number = 0;
 
-    protected get idCount() : number  {
+    protected  get idCount() : number  {
             return this._idCounter++;
     }
 
