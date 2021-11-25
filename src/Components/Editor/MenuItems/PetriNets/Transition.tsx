@@ -5,7 +5,7 @@ import styles from "./Transition.module.css"
 import { CanvasContext, Coordinates } from "../../../../Store/Editor/Canvas/CanvasContext";
 import uniqid from "uniqid"
 import { useDragableSVGCompoennt } from "../../CustomHooks/useDraggableSVG";
-import { CanvasElementWrapper } from "../../CanvasElementWrapper";
+import { MovableSVGGroupElement } from "../../MovableSVGGroupElement";
 
 
 export class Transition extends EditorItem  {
@@ -18,9 +18,7 @@ export class Transition extends EditorItem  {
 
     getCanvasElement = () : ReactElement => {
         return( 
-            <CanvasElementWrapper>
-                <TransitionCanvasElement key={uniqid()} id={this.getElementId()}/>
-            </CanvasElementWrapper>
+            <TransitionCanvasElement key={uniqid()} id={this.getElementId()}/>
         )}
 
     public iconPath: string | undefined = TransitionImage;

@@ -2,9 +2,9 @@ import React, {Component, MouseEventHandler, ReactElement, FunctionComponent, us
 import {IEditorMenuItem} from "./EditorMenu";
 import styles from "./Canvas.module.css";
 import {CanvasContext, CanvasContextProvider} from "../../Store/Editor/Canvas/CanvasContext"
-import { CanvasElementWrapper } from "./CanvasElementWrapper";
+import { MovableSVGGroupElement } from "./MovableSVGGroupElement";
 import uniqid from "uniqid";
-import { ConnectionPoint } from "./Connections/ConnectionPoint";
+
 
 
 interface ICanvasProps {
@@ -75,7 +75,6 @@ export const Canvas : FunctionComponent<CanvasProps> = (props) => {
                     <g>   // Canvas Elements
                             <CanvasGridElement/>
                             {props.children}
-                            <ConnectionPoint coordinates={{posX: 15, posY: 15}}  parentElementID="test" />
                     </g>
                 </svg>
         </div>

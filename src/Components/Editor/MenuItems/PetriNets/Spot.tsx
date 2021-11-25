@@ -2,12 +2,12 @@ import { FunctionComponent, ReactElement, useContext, MouseEventHandler, useStat
 import { EditorItem } from "../../EditorItem";
 import spotImage from "./icons/PetriSpot.png"
 import styles from "./Spot.module.css"
-import {CanvasContext} from "../../../../Store/Editor/Canvas/CanvasContext"
+import {CanvasContext, Coordinates} from "../../../../Store/Editor/Canvas/CanvasContext"
 import {CanvasMouseMoveEventDetail} from "../../Canvas"
 import uniqid from "uniqid"
 import {useDragableSVGCompoennt} from "../../CustomHooks/useDraggableSVG"
-import {CanvasElementWrapper} from "../../CanvasElementWrapper"
-import { ConnectionPoint } from "../../Connections/ConnectionPoint";
+import {MovableSVGGroupElement} from "../../MovableSVGGroupElement"
+import { EndPoint } from "../../Connections/EndPoint";
   
 
 
@@ -27,8 +27,6 @@ const SpotFilter : FunctionComponent<{filterID : string}>  = ({filterID}) =>{
     )
 }
 
-
-
 export class Spot extends EditorItem {
     constructor(){
         super();
@@ -42,9 +40,7 @@ export class Spot extends EditorItem {
     public getCanvasElement: () => ReactElement  = () => {
 
         return (
-            <CanvasElementWrapper key={uniqid()}>
-                <SpotCanvasElement  id={this.getElementId()}/>
-            </CanvasElementWrapper>
+            <SpotCanvasElement  key={uniqid()} id={this.getElementId()}/>
         );
     }
 
@@ -55,6 +51,7 @@ export class Spot extends EditorItem {
 
 type CanvasElementProps ={
     id : string
+    canvasCoords? : Coordinates
 }
 
 const SpotCanvasElement : FunctionComponent<CanvasElementProps> = (props) => {
@@ -65,17 +62,15 @@ const SpotCanvasElement : FunctionComponent<CanvasElementProps> = (props) => {
     }
 
 
-    let filterID : string =  Spot.filterID() ?? "" ;
     return(
-        <>
-            <circle className={styles.Spot} filter={filterID} onClick={onClickHandler}  r="30"/>
-            <circle visibility={context.getVisibility(props.id)} className={styles.SpotSelected} filter={filterID}  r="30"/>
-            <ConnectionPoint   coordinates={{posX : 30, posY: 0}} parentElementID={props.id}/>
-            <ConnectionPoint   coordinates={{posX : -30, posY: 0}} parentElementID={props.id}/>
-            <ConnectionPoint   coordinates={{posX : 0, posY: 30}} parentElementID={props.id}/>
-            <ConnectionPoint   coordinates={{posX : 0, posY: -30}} parentElementID={props.id}/>
-
-        </>
+        <MovableSVGGroupElement>
+            <circle className={styles.Spot} filter={""} onClick={onClickHandler}  r="30"/>
+            <circle visibility={context.getVisibility(props.id)} className={styles.SpotSelected} filter={""}  r="30"/>
+            <EndPoint   coordinates={{posX : 30, posY: 0}} parentElementID={props.id}/>
+            <EndPoint   coordinates={{posX : -30, posY: 0}} parentElementID={props.id}/>
+            <EndPoint   coordinates={{posX : 0, posY: 30}} parentElementID={props.id}/>
+            <EndPoint   coordinates={{posX : 0, posY: -30}} parentElementID={props.id}/>
+        </MovableSVGGroupElement>
     )
 }
 
