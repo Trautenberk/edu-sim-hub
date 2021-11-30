@@ -9,3 +9,13 @@
     width: 10px;
     height: 10px;
 }
+
+.EndPointSelected {
+    stroke-width: 1px;
+    stroke:#00d7ff;
+    fill: #F5A65B;
+    cursor: pointer;
+    pointer-events: visible;
+    width: 10px;
+    height: 10px;
+}

@@ -29,7 +29,7 @@ export const MovableSVGGroupElement : FC = ({children}) => {
     const childrenWithCoords = Children.map(children, child => {
         if (isValidElement(child)) {
             if(child.type == EndPoint )
-                return cloneElement(child as ReactElement<EndPointProps>, {canvasCoordinates : coordinates} )
+                return cloneElement(child as ReactElement<EndPointProps>, {groupCoordinates : coordinates} )
         }
         return child;
         });

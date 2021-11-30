@@ -1,4 +1,4 @@
-import { useMemo, useRef } from "react"
+import { MouseEventHandler, useMemo, useRef } from "react"
 import uniqid from "uniqid"
 import { Coordinates } from "../../../Store/Editor/Canvas/CanvasContext"
 
@@ -16,8 +16,8 @@ export type pointMovedEventDetails = ConnectionPoint
 
 export type pointClickedEventDetails = {
     pointID : string;
+    coordinates : Coordinates;
 }
-
 
 
 export const useConnectionPoint = () => {
@@ -28,8 +28,8 @@ export const useConnectionPoint = () => {
         document.dispatchEvent(pointMovedEvent)
     }
 
-    const dispatchPointClicked = () => {
-        const pointClickedEvent = new CustomEvent<pointClickedEventDetails>(pointClickedEventName, {detail: {pointID : pointID.current}})
+    const dispatchPointClicked  = (coords : Coordinates) => {
+        const pointClickedEvent = new CustomEvent<pointClickedEventDetails>(pointClickedEventName, {detail: {pointID : pointID.current, coordinates: coords}})
         document.dispatchEvent(pointClickedEvent);
     }
 

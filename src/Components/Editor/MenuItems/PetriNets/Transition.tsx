@@ -35,7 +35,7 @@ const TransitionCanvasElement : FunctionComponent<TransitionCanvasElementProps> 
 
 
     const onClickHandler : MouseEventHandler<SVGRectElement> = (e) => {
-        context.onClick(props.id);
+        context.onElementClick(props.id);
     }
 
     

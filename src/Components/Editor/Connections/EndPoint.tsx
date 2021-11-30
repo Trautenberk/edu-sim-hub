@@ -7,22 +7,35 @@ import styles from "./EndPoint.module.css"
 
 export type EndPointProps = {
     parentElementID : string,
-    coordinates : Coordinates,
-    canvasCoordinates? : Coordinates
+    elementCoordinates : Coordinates,
+    groupCoordinates? : Coordinates
 }
 
 export const EndPoint : FC<EndPointProps> = (props) => {
     const context = useContext(CanvasContext);
 
     const {pointID, dispatchPointClicked, dispatchPointMoved} = useConnectionPoint()
+    const getCanvasCoords = () : Coordinates => {
+        return {
+            posX : (props.groupCoordinates?.posX ?? 0) + props.elementCoordinates.posX,
+            posY : (props.groupCoordinates?.posY ?? 0) + props.elementCoordinates.posY
+        } 
+    }
+    // console.log(`EndPointID: ${pointID.current} canvasCoordinates: ${JSON.stringify(getCanvasCoords())}`)
 
-    console.log(`EndPoint canvasCoordinates: ${JSON.stringify(props.canvasCoordinates)}`)
+    const clickedHandler : MouseEventHandler<SVGCircleElement> = (e) => {
+        e.stopPropagation();
+        dispatchPointClicked(getCanvasCoords());
+    }
+
+    const style =   context.isSelectedEndPoint(pointID.current) ? styles.EndPointSelected : styles.EndPoint 
 
     useEffect(() => {
+        context.registerEndPoint({pointID: pointID.current, coords : getCanvasCoords() });
     }, [])
 
     return(
-        <circle onClick={dispatchPointClicked} visibility={context.getVisibility(props.parentElementID)} className={styles.EndPoint} 
-        cx={props.coordinates.posX} cy={props.coordinates.posY}  r={5}/>
+        <circle onClick={clickedHandler} visibility={context.getVisibility(props.parentElementID)} className={style} 
+        cx={props.elementCoordinates.posX} cy={props.elementCoordinates.posY}  r={5}/>
     )
 }

@@ -23,11 +23,9 @@ export const Editor : FunctionComponent = () => {
     return(
         <div className={styles.Editor}>
             <EditorMenu items={menuItems} onItemSelected={onMenuItemSelection}/>
-            <CanvasContextProvider>
                 <Canvas>
                     {canvasElements}
                 </Canvas>
-            </CanvasContextProvider>
         </div>
     )
 }

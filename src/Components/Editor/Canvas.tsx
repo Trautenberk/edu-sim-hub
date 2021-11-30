@@ -1,9 +1,10 @@
 import React, {Component, MouseEventHandler, ReactElement, FunctionComponent, useContext, createRef, useRef, Children, useEffect, ReactNode, ReactPortal} from "react"; 
 import {IEditorMenuItem} from "./EditorMenu";
 import styles from "./Canvas.module.css";
-import {CanvasContext, CanvasContextProvider} from "../../Store/Editor/Canvas/CanvasContext"
+import {CanvasContext, CanvasContextProvider, Coordinates} from "../../Store/Editor/Canvas/CanvasContext"
 import { MovableSVGGroupElement } from "./MovableSVGGroupElement";
 import uniqid from "uniqid";
+import { ConnectionManager } from "./Connections/ConnectionManager";
 
 
 
@@ -73,8 +74,11 @@ export const Canvas : FunctionComponent<CanvasProps> = (props) => {
                         {props.filters}   // filters
                     </defs>
                     <g>   // Canvas Elements
+                        <CanvasContextProvider>
                             <CanvasGridElement/>
                             {props.children}
+                            <ConnectionManager/> 
+                        </CanvasContextProvider>
                     </g>
                 </svg>
         </div>
@@ -89,7 +93,11 @@ const CanvasGridElement : FunctionComponent = ({children}) => {
     const gridRef = useRef<SVGRectElement>(null);
 
     const onClickHandler : MouseEventHandler<SVGElement> = (e) => {
-        context.onClick(null);
+        const clickCoords : Coordinates = {
+            posX : e.clientX - context.canvasBoundaries.left,
+            posY: e.clientY - context.canvasBoundaries.top
+        }
+        context.onGridClick(clickCoords)
     }
 
 

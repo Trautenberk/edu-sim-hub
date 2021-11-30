@@ -58,7 +58,7 @@ const SpotCanvasElement : FunctionComponent<CanvasElementProps> = (props) => {
     const context = useContext(CanvasContext);
 
     const onClickHandler : MouseEventHandler<SVGGElement> = () => {
-        context.onClick(props.id);
+        context.onElementClick(props.id);
     }
 
 
@@ -66,10 +66,10 @@ const SpotCanvasElement : FunctionComponent<CanvasElementProps> = (props) => {
         <MovableSVGGroupElement>
             <circle className={styles.Spot} filter={""} onClick={onClickHandler}  r="30"/>
             <circle visibility={context.getVisibility(props.id)} className={styles.SpotSelected} filter={""}  r="30"/>
-            <EndPoint   coordinates={{posX : 30, posY: 0}} parentElementID={props.id}/>
-            <EndPoint   coordinates={{posX : -30, posY: 0}} parentElementID={props.id}/>
-            <EndPoint   coordinates={{posX : 0, posY: 30}} parentElementID={props.id}/>
-            <EndPoint   coordinates={{posX : 0, posY: -30}} parentElementID={props.id}/>
+            <EndPoint   elementCoordinates={{posX : 30, posY: 0}} parentElementID={props.id}/>
+            <EndPoint   elementCoordinates={{posX : -30, posY: 0}} parentElementID={props.id}/>
+            <EndPoint   elementCoordinates={{posX : 0, posY: 30}} parentElementID={props.id}/>
+            <EndPoint   elementCoordinates={{posX : 0, posY: -30}} parentElementID={props.id}/>
         </MovableSVGGroupElement>
     )
 }
