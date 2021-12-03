@@ -8,6 +8,7 @@ import uniqid from "uniqid"
 import {useDragableSVGCompoennt} from "../../CustomHooks/useDraggableSVG"
 import {MovableSVGGroupElement} from "../../MovableSVGGroupElement"
 import { EndPoint } from "../../Connections/EndPoint";
+import spotsvg from "./icons/petri-spot.svg"
   
 
 
@@ -45,7 +46,7 @@ export class Spot extends EditorItem {
     }
 
 
-    public iconPath = spotImage;
+    public iconPath = spotsvg;
     public name = "Petri Net Spot";
 }
 

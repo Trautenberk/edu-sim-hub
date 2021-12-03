@@ -7,6 +7,10 @@ export type Coordinates = {
     posY : number
 }
 
+
+const INIT_POS_OFFSET_X = 50;
+const INIT_POS_OFFSET_Y = 50
+
 export type Boundaries = {
     left : number,
     top : number
@@ -19,6 +23,7 @@ export type Connection = {
 
 interface ICanvasContext {
     initPos : Coordinates ;
+    updateInitPos : (position : Coordinates) => void,
     canvasBoundaries : Boundaries,
     onGridClick : (clickCoords : Coordinates) => void, 
     onElementClick : (id : string) => void,
@@ -33,7 +38,8 @@ interface ICanvasContext {
 }
 
 const defaultState : ICanvasContext = {
-    initPos : {posX : 40, posY : 40},
+    initPos : {posX : 0, posY : 0},
+    updateInitPos : () => { throw new Error("Method not implemeted!")}, 
     canvasBoundaries : {left : 0, top : 0},
     onGridClick: () => { throw new Error("Method not implemeted!")},
     onElementClick: () => { throw new Error("Method not implemeted!")},
@@ -62,7 +68,7 @@ export const CanvasContextProvider : FC = ({children}) => {
 
     const [selectedElementID, setSelectedElementID] = useState<string | null>(null);
     const [selectedEndPointID, setSelectedEndpointID] = useState<string | null>(null);
-    const [initPos] = useState(defaultState.initPos);
+    const [initPos, setInitPos] = useState(defaultState.initPos);
     const [canvasState, setCanvasState] = useState<CanvasState>(CanvasState.normal);
     const [canvasBoundaries, setCanvasBoundaries] = useState(defaultState.canvasBoundaries);
     const endPointsCollection = useRef<ConnectionPoint[]>([]);
@@ -73,8 +79,13 @@ export const CanvasContextProvider : FC = ({children}) => {
     const [drawLineCoords, setDrawLineCoords] = useState(defaultState.drawLineCoords)
 
 
+    const updateInitPos = (position : Coordinates ) => {
+        setInitPos(position);
+    }
+
     const updateCanvasBoundaries =  (boundaries :  {left : number, top : number}) => {
         setCanvasBoundaries(boundaries);
+        setInitPos({posX: boundaries.left + INIT_POS_OFFSET_X , posY : boundaries.top +  INIT_POS_OFFSET_Y })
     }
 
     const clearSelection = () => {
@@ -187,6 +198,7 @@ export const CanvasContextProvider : FC = ({children}) => {
     return(
         <CanvasContext.Provider value={{
             initPos,
+            updateInitPos,
             canvasBoundaries,
             updateCanvasBoundaries,
             onGridClick,

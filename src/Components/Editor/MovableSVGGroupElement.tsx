@@ -2,7 +2,7 @@
 import React, { Children, FC, MouseEventHandler, useContext, useEffect, useRef, useState, cloneElement, ReactElement, isValidElement } from "react"
 import { CanvasContext, Coordinates } from "../../Store/Editor/Canvas/CanvasContext";
 import { EndPoint, EndPointProps } from "./Connections/EndPoint";
-import { useDragableSVGCompoennt } from "./CustomHooks/useDraggableSVG";
+import { useDragableSVGCompoennt } from "./CustomHooks/useDraggableSVG"
 
 
 
@@ -12,17 +12,15 @@ export const MovableSVGGroupElement : FC = ({children}) => {
     const [coordinates, setCoordinates] = useState<Coordinates>({posX: 0, posY: 0})
 
     const {
-        canvasBoundaries : canvasBoundaries,
         onMouseDownHandler : onMouseDownHandler,
         onMouseUpHandler : onMouseUpHandler
     
     } = useDragableSVGCompoennt<SVGGElement>(setCoordinates);
 
-    canvasBoundaries.current = context.canvasBoundaries;
 
     useEffect(() => {
         setCoordinates(context.initPos);
-        canvasBoundaries.current = context.canvasBoundaries;
+
     }, []);
 
 

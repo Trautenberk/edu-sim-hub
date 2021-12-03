@@ -43,12 +43,12 @@ const EditorMenuItem : FunctionComponent<EditorMenuItemProps> = (props) => {
 
     return(
         <li className={styles.List}>
-            <div className={styles.EditorMenuItem} >
                 <button className={styles.EditorMenuButton} onClick={onClickHandler} >
                     <img className={styles.EditorMenUImage} src={props.item.iconPath} />
-                    {props.item.name}
+                    <p>
+                        {props.item.name}
+                    </p>
                 </button>
-            </div>
         </li>
     )
 }

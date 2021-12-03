@@ -1,14 +1,15 @@
-import {useState, useMemo, useCallback, MouseEventHandler, useRef} from "react"
-import { Coordinates, Boundaries } from "../../../Store/Editor/Canvas/CanvasContext";
+import {useState, useMemo, useCallback, MouseEventHandler, useRef, useContext} from "react"
+import { Coordinates, Boundaries, CanvasContext } from "../../../Store/Editor/Canvas/CanvasContext";
 
 
 export const useDragableSVGCompoennt = <T extends SVGElement>(setCoordinates : React.Dispatch<React.SetStateAction<Coordinates>>) => {
 
+    const context = useContext(CanvasContext);
     const canvasBoundaries  = useRef<Boundaries>({left: 0, top: 0}) 
 
     const mouseMoveEventHandler = useCallback(
         (e : MouseEvent) => {
-            setCoordinates({posX : e.clientX - canvasBoundaries.current.left, posY : e.clientY - canvasBoundaries.current.top})
+            setCoordinates({posX : e.clientX - context.canvasBoundaries.left, posY : e.clientY - context.canvasBoundaries.top})
         },[],
     )
 
@@ -22,11 +23,10 @@ export const useDragableSVGCompoennt = <T extends SVGElement>(setCoordinates : R
 
     const values = useMemo(
         () => ({
-            canvasBoundaries,
             mouseMoveEventHandler,
             onMouseDownHandler,
             onMouseUpHandler
-        }), [canvasBoundaries, mouseMoveEventHandler, onMouseDownHandler, onMouseUpHandler]
+        }), [mouseMoveEventHandler, onMouseDownHandler, onMouseUpHandler]
     )
 
     return values;

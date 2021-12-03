@@ -35,14 +35,12 @@ export const LinePoint : FC<Coordinates> = (initialCoordinates) => {
     const context = useContext(CanvasContext);
     const [coordinates, setCoordinates] = useState<Coordinates>(initialCoordinates);
     const [id] = useState<string>(uniqid())
-    const {canvasBoundaries, onMouseDownHandler : onMouseDownHandlerFromCustomHook, onMouseUpHandler} = useDragableSVGCompoennt<SVGCircleElement>(setCoordinates);
+    const {onMouseDownHandler : onMouseDownHandlerFromCustomHook, onMouseUpHandler} = useDragableSVGCompoennt<SVGCircleElement>(setCoordinates);
 
 
     const onMouseDownHandler : MouseEventHandler<SVGCircleElement> = (e) => {
         onMouseDownHandlerFromCustomHook(e);
     }
-
-    canvasBoundaries.current = context.canvasBoundaries;
 
     return(
         <circle r={2}  />
