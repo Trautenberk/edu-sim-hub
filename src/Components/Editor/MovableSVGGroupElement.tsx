@@ -9,18 +9,17 @@ import { useDragableSVGCompoennt } from "./CustomHooks/useDraggableSVG"
 
 export const MovableSVGGroupElement : FC = ({children}) => {
     const context = useContext(CanvasContext);
-    const [coordinates, setCoordinates] = useState<Coordinates>({posX: 0, posY: 0})
-
-    const {
-        onMouseDownHandler : onMouseDownHandler,
-        onMouseUpHandler : onMouseUpHandler
     
-    } = useDragableSVGCompoennt<SVGGElement>(setCoordinates);
+    const {
+        coordinates,
+        setCoordinates,
+        onMouseDownHandler,
+        onMouseUpHandler
+    } = useDragableSVGCompoennt<SVGGElement>();
 
 
     useEffect(() => {
         setCoordinates(context.initPos);
-
     }, []);
 
 

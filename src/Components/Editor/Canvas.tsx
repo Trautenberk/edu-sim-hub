@@ -1,10 +1,14 @@
-import  {Component, MouseEventHandler, useContext, useRef, useEffect,  useState, FC} from "react"; 
+import  {Component, MouseEventHandler, useContext, useRef, useEffect,  useState, FC, WheelEventHandler, EventHandler, KeyboardEventHandler} from "react"; 
 import {IEditorMenuItem} from "./EditorMenu";
 import styles from "./Canvas.module.css";
 import {CanvasContext, Coordinates} from "../../Store/Editor/Canvas/CanvasContext"
 import { ConnectionManager } from "./Connections/ConnectionManager";
+import {Helmet} from "react-helmet"
+import { useDragableSVGCompoennt } from "./CustomHooks/useDraggableSVG";
 
 
+const MAX_SCALE : number = 5;
+const MIN_SCALE : number = 0.15; 
 
 interface ICanvasProps {
     filters? : any[];
@@ -32,18 +36,60 @@ export type CanvasMouseMoveEventDetail = {
     yCoord : number
 }
 
+type TransormMatrix = {
+    scaleX : number,
+    skewY : number,
+    skewX : number,
+    scaleY : number,
+    translateX : number,
+    transalteY : number
+}
+
 export const Canvas : FC<CanvasProps> = (props) => {
     const context = useContext(CanvasContext);
     const [svgSize, setSvgSize] = useState({width : 0, height: 0})
     const [gridPosition, setGridPosition] = useState<Coordinates>({posX: 0, posY: 0});
     const canvasBoundingElementRef = useRef<HTMLDivElement>(null);
+    const [scale, setScale] = useState(1);
+    const {coordinates : translate ,onMouseDownHandler, onMouseUpHandler} = useDragableSVGCompoennt<SVGGElement>();
+    
+    const mainGroupTransformMatrix : TransormMatrix = ({scaleX: scale, skewY : 0 , skewX : 0, scaleY : scale, translateX : translate.posX, transalteY : translate.posY})
+
+
+    const convertMatrixToString = (matrix : TransormMatrix) => {
+        return `matrix(${matrix.scaleX}, ${matrix.skewY}, ${matrix.skewX}, ${matrix.scaleY}, ${matrix.translateX}, ${matrix.transalteY})`
+
+    }
+
+    const zoomHandler  = (evt : WheelEvent) => {
+        if(evt.ctrlKey != true){
+            return;
+        }
+
+        evt.preventDefault();
+
+        let scaleStep = evt.deltaY > 0 ? 1.25 : 0.8;
+
+        if (scale * scaleStep > MAX_SCALE) {
+            scaleStep = MAX_SCALE / scale;
+          }
+          
+          if (scale * scaleStep < MIN_SCALE) {
+            scaleStep = MIN_SCALE / scale;
+          }
+
+          setScale(prevScale => (prevScale * scaleStep))
+    }
 
     useEffect(() => {
         if(canvasBoundingElementRef.current != null ){
             const boundElement = canvasBoundingElementRef.current;
             setSvgSize({width: boundElement.clientWidth, height: boundElement.clientHeight});
             context.updateCanvasBoundaries({left: boundElement.getBoundingClientRect().left, top: boundElement.getBoundingClientRect().top})}
-    }, []) ;
+            
+            canvasBoundingElementRef.current?.addEventListener("wheel", zoomHandler, {passive: false})
+    
+        }, []) ;
 
     return(
         <div ref={canvasBoundingElementRef} className={styles.Canvas}>
@@ -58,9 +104,9 @@ export const Canvas : FC<CanvasProps> = (props) => {
                         </pattern>
                         {props.filters}   // filters
                     </defs>
-                    <g>   // Canvas Elements
+                    <g transform={convertMatrixToString(mainGroupTransformMatrix)} onMouseDown={onMouseDownHandler} onMouseUp={onMouseUpHandler} >   
                             <CanvasGridElement size={svgSize} />
-                            {props.children}
+                            {props.children}            // Canvas Elements
                             <ConnectionManager/> 
                     </g>
                 </svg>
@@ -98,7 +144,7 @@ const CanvasGridElement : FC<CanvasGridElementProps> = (props) => {
                 <path d="M 80 0 L 0 0 0 80" fill="none" stroke="gray" strokeWidth="1"/>
             </pattern>
             </defs>
-            <rect width={props.size.width} height={props.size.height} ref={gridRef} onClick={onClickHandler} className={styles.CanvasSvgRect} fill="url(#grid)" />
+            <rect width={3600} height={3600} ref={gridRef} onClick={onClickHandler} className={styles.CanvasSvgRect} fill="url(#grid)" />
         </g>
     )
 }

@@ -62,7 +62,6 @@ const SpotCanvasElement : FunctionComponent<CanvasElementProps> = (props) => {
         context.onElementClick(props.id);
     }
 
-
     return(
         <MovableSVGGroupElement>
             <circle className={styles.Spot} filter={""} onClick={onClickHandler}  r="30"/>
