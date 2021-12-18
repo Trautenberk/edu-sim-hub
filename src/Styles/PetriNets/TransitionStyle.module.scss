@@ -1,0 +1,16 @@
+@use "./Styles/Variables" as v;
+@use "./Styles/Mixins" as m;
+
+
+
+.transition {
+    fill: rgba(0, 0, 0, 0.97);
+    stroke-width: 0px;
+    stroke-miterlimit: 10;
+    margin: 30px;
+    cursor: move;
+}
+
+.transition_selected {
+    @include m.selected-svg;
+}

@@ -1,11 +1,14 @@
 import { FunctionComponent,  MouseEventHandler, ReactElement, useContext, useState} from "react";
 import { EditorItem } from "../../EditorItem";
 import TransitionImage from "./icons/PetriTransition.png"
-import styles from "Styles/PetriNets/Transition.module.css"
 import { CanvasContext, Coordinates } from "../../../../Store/Editor/Canvas/CanvasContext";
 import uniqid from "uniqid"
 import { useDragableSVGCompoennt } from "../../CustomHooks/useDraggableSVG";
 import { MovableSVGGroupElement } from "../../MovableSVGGroupElement";
+import transitionsvg from "./icons/petri-transition.svg"
+import { EndPoint } from "Components/Editor/Connections/EndPoint";
+import styles from "Styles/PetriNets/TransitionStyle.module.scss"
+
 
 
 export class Transition extends EditorItem  {
@@ -21,7 +24,7 @@ export class Transition extends EditorItem  {
             <TransitionCanvasElement key={uniqid()} id={this.getElementId()}/>
         )}
 
-    public iconPath: string | undefined = TransitionImage;
+    public iconPath: string | undefined = transitionsvg;
     public name: string = "Přechod";
 
 }
@@ -37,10 +40,24 @@ const TransitionCanvasElement : FunctionComponent<TransitionCanvasElementProps> 
     const onClickHandler : MouseEventHandler<SVGRectElement> = (e) => {
         context.onElementClick(props.id);
     }
-
+    const width = 30;
+    const height = 80;
     
     return(
-            <rect className={styles.TransitionSelected}  width="30" height="60" />   
+        <MovableSVGGroupElement>
+            <rect className={styles.transition} onClick={onClickHandler} width={width} height={height} />  
+            <rect className={styles.transition_selected} visibility={context.getVisibility(props.id)} width={width} height={height}/> 
+            // rohy
+            <EndPoint   elementCoordinates={{posX : 0, posY: 0}} parentElementID={props.id}/>
+            <EndPoint   elementCoordinates={{posX : width, posY: 0}} parentElementID={props.id}/>
+            <EndPoint   elementCoordinates={{posX : 0, posY: height}} parentElementID={props.id}/>
+            <EndPoint   elementCoordinates={{posX : width, posY: height}} parentElementID={props.id}/>
+            
+            // boční hrany
+            <EndPoint   elementCoordinates={{posX : 0, posY: height / 2}} parentElementID={props.id}/>
+            <EndPoint   elementCoordinates={{posX : width, posY: height / 2}} parentElementID={props.id}/>
+
+        </MovableSVGGroupElement>
         )
 }
 

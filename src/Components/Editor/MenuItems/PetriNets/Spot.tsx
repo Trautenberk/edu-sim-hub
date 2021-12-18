@@ -1,14 +1,11 @@
 import { FunctionComponent, ReactElement, useContext, MouseEventHandler, useState, useRef, useCallback, useEffect} from "react";
 import { EditorItem } from "../../EditorItem";
-import spotImage from "./icons/PetriSpot.png"
-import styles from "Styles/PetriNets/Spot.module.css"
 import {CanvasContext, Coordinates} from "../../../../Store/Editor/Canvas/CanvasContext"
-import {CanvasMouseMoveEventDetail} from "../../Canvas"
 import uniqid from "uniqid"
-import {useDragableSVGCompoennt} from "../../CustomHooks/useDraggableSVG"
 import {MovableSVGGroupElement} from "../../MovableSVGGroupElement"
 import { EndPoint } from "../../Connections/EndPoint";
 import spotsvg from "./icons/petri-spot.svg"
+import styles from "Styles/PetriNets/SpotStyle.module.scss"
   
 
 
@@ -64,8 +61,8 @@ const SpotCanvasElement : FunctionComponent<CanvasElementProps> = (props) => {
 
     return(
         <MovableSVGGroupElement>
-            <circle className={styles.Spot} filter={""} onClick={onClickHandler}  r="30"/>
-            <circle visibility={context.getVisibility(props.id)} className={styles.SpotSelected} filter={""}  r="30"/>
+            <circle className={styles.spot} filter={""} onClick={onClickHandler}  r="30"/>
+            <circle visibility={context.getVisibility(props.id)} className={styles.spot_selected} filter={""}  r="30"/>
             <EndPoint   elementCoordinates={{posX : 30, posY: 0}} parentElementID={props.id}/>
             <EndPoint   elementCoordinates={{posX : -30, posY: 0}} parentElementID={props.id}/>
             <EndPoint   elementCoordinates={{posX : 0, posY: 30}} parentElementID={props.id}/>

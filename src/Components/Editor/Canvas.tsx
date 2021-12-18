@@ -66,6 +66,7 @@ export const Canvas : FC<CanvasProps> = (props) => {
             return;
         }
         evt.preventDefault();
+
         const currentScale = scaleRef.current;
         let scaleStep = evt.deltaY < 0 ? 1.25 : 0.8;
 
@@ -78,7 +79,6 @@ export const Canvas : FC<CanvasProps> = (props) => {
         }
 
         scaleRef.current = currentScale * scaleStep;
-        console.log(`Scale: ${scaleRef.current}`)
         context.setCurrentZoom(scaleRef.current);
     }
 

@@ -1,0 +1,17 @@
+
+@use "./Styles/Variables" as v;
+@use "./Styles/Mixins" as m;
+
+
+.spot {
+    stroke-width: 1px;
+    fill: rgb(246, 246, 246);
+    stroke: rgb(0, 0, 0);
+    cursor: move;
+    pointer-events: visible;
+}
+
+.spot_selected {
+    @include m.selected-svg;
+}
+
