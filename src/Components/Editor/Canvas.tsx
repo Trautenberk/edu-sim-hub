@@ -1,4 +1,4 @@
-import  {MouseEventHandler, useContext, useRef, useEffect,  useState, FC} from "react"; 
+import  {MouseEventHandler, useContext, useRef, useEffect,  useState, FC, useCallback} from "react"; 
 import {CanvasContext, Coordinates} from "../../Store/Editor/Canvas/CanvasContext"
 import { ConnectionManager } from "./Connections/ConnectionManager";
 import { useDragableSVGCompoennt } from "./CustomHooks/useDraggableSVG";
@@ -50,9 +50,10 @@ export const Canvas : FC<CanvasProps> = (props) => {
     const [gridPosition, setGridPosition] = useState<Coordinates>({posX: 0, posY: 0});
     const canvasBoundingElementRef = useRef<HTMLDivElement>(null);
     const [scale, setScale] = useState(1);
+    const scaleRef = useRef(scale);
     const {coordinates : translate ,onMouseDownHandler, onMouseUpHandler} = useDragableSVGCompoennt<SVGGElement>();
     
-    const mainGroupTransformMatrix : TransormMatrix = ({scaleX: scale, skewY : 0 , skewX : 0, scaleY : scale, translateX : translate.posX, transalteY : translate.posY})
+    const mainGroupTransformMatrix : TransormMatrix = ({scaleX: context.currentZoom, skewY : 0 , skewX : 0, scaleY : context.currentZoom, translateX : translate.posX, transalteY : translate.posY})
 
 
     const convertMatrixToString = (matrix : TransormMatrix) => {
@@ -64,20 +65,21 @@ export const Canvas : FC<CanvasProps> = (props) => {
         if(evt.ctrlKey != true){
             return;
         }
-
         evt.preventDefault();
+        const currentScale = scaleRef.current;
+        let scaleStep = evt.deltaY < 0 ? 1.25 : 0.8;
 
-        let scaleStep = evt.deltaY > 0 ? 1.25 : 0.8;
+        if (currentScale * scaleStep > MAX_SCALE) {
+            scaleStep = MAX_SCALE / currentScale;
+        }
+        
+        if (currentScale * scaleStep < MIN_SCALE) {
+            scaleStep = MIN_SCALE / currentScale;
+        }
 
-        if (scale * scaleStep > MAX_SCALE) {
-            scaleStep = MAX_SCALE / scale;
-          }
-          
-          if (scale * scaleStep < MIN_SCALE) {
-            scaleStep = MIN_SCALE / scale;
-          }
-
-          setScale(prevScale => (prevScale * scaleStep))
+        scaleRef.current = currentScale * scaleStep;
+        console.log(`Scale: ${scaleRef.current}`)
+        context.setCurrentZoom(scaleRef.current);
     }
 
     useEffect(() => {

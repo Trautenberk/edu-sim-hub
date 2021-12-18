@@ -35,6 +35,8 @@ interface ICanvasContext {
     connections : Connection[],
     drawLineVisibility : "hidden" | "visible",
     drawLineCoords : {start : Coordinates, end : Coordinates},
+    currentZoom : number;
+    setCurrentZoom : (zoomValue : number) => void,
 }
 
 const defaultState : ICanvasContext = {
@@ -50,7 +52,9 @@ const defaultState : ICanvasContext = {
     registerEndPoint : () => {throw new Error("Method not implemeted!")},
     connections : [],
     drawLineVisibility : "hidden",
-    drawLineCoords: {end : {posX : 0, posY: 0}, start: {posX: 0, posY: 0}}
+    drawLineCoords: {end : {posX : 0, posY: 0}, start: {posX: 0, posY: 0}},
+    currentZoom : 1,
+    setCurrentZoom : (zoomValue : number) => {throw new Error("Method not implemeted!")},
 }
 
 enum CanvasState {
@@ -77,6 +81,7 @@ export const CanvasContextProvider : FC = ({children}) => {
     const mouseCoords = useRef<Coordinates>({posX : 0, posY : 0});
     const [drawLineVisibility, setDrawLineVisibility] = useState<"hidden" | "visible">(defaultState.drawLineVisibility);
     const [drawLineCoords, setDrawLineCoords] = useState(defaultState.drawLineCoords)
+    const [currentZoom, setCurrentZoom] = useState(1);
 
 
     const updateInitPos = (position : Coordinates ) => {
@@ -209,7 +214,9 @@ export const CanvasContextProvider : FC = ({children}) => {
             registerEndPoint,
             connections, 
             drawLineCoords,
-            drawLineVisibility
+            drawLineVisibility,
+            currentZoom,
+            setCurrentZoom
         }}>
                 {children}
         </CanvasContext.Provider>

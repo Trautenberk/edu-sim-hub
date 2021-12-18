@@ -13,15 +13,11 @@ export const useDragableSVGCompoennt = <T extends SVGElement>() => {
 
     const mouseMoveEventHandler = useCallback(
         (e : MouseEvent) => {
-            console.log(`test: ${JSON.stringify(context.canvasBoundaries)}`)
             const currentMousePos = calcCoordinatesFromMouseEvent(e, context.canvasBoundaries);
             const moveVector = {posX: currentMousePos.posX - initMousePos.current.posX, posY: currentMousePos.posY - initMousePos.current.posY }
 
-            setCoordinates((prev) => {
-                const test = {posX: initElementPos.current.posX + moveVector.posX, posY : initElementPos.current.posY + moveVector.posY}
-                return test;
-            })
-        },[context.canvasBoundaries],
+            setCoordinates({posX: initElementPos.current.posX + (moveVector.posX / context.currentZoom), posY : initElementPos.current.posY + (moveVector.posY / context.currentZoom)})
+        },[context.canvasBoundaries, context.currentZoom],
     )
 
     const onMouseDownHandler : MouseEventHandler<T> = (e) => {
