@@ -5,7 +5,6 @@ import styles from "AppStyle.module.scss"
 
 
 
-
 export type Action = {
   name : string,
   params? : any[],
@@ -23,7 +22,8 @@ export const App : FC = () => {
 
   const [showMenu, setShowMenu] = useState(true);
   const [mainComponent, setMainComponent] = useState<ReactElement>();
-  
+ 
+
   const showMainMenu = useCallback<()=>void>(
     () => {
      setShowMenu(true)
@@ -32,6 +32,7 @@ export const App : FC = () => {
   const [topMenuActions, setTopMenuActions] = useState<Action[]>([
     {name : "Do hlavního menu", method : showMainMenu}
   ])
+
 
   const [mainComponents] = useState([ 
     {name: "Petriho sítě", component: <PetriNets topMenuActions={topMenuActions}/>},
