@@ -2,7 +2,7 @@ import { FC, MouseEventHandler, useContext, useState } from "react"
 import uniqid from "uniqid"
 import { CanvasContext, Coordinates } from "../../../Store/Editor/Canvas/CanvasContext"
 import { useDragableSVGCompoennt } from "../CustomHooks/useDraggableSVG"
-import styles from "./ConnectionLine.module.css"
+import styles from "Styles/Editor/ConnectionLine.module.css"
 
 
 

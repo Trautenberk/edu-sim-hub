@@ -1,14 +1,15 @@
-import {FC, MouseEventHandler, ReactElement} from "react";
+import {Children, FC, MouseEventHandler, ReactElement} from "react";
 
 
 type MenuProps = {
+    clasName? : string,
     divClassName? : string,
     listClassName? : string,
 }
 
 export const Menu : FC<MenuProps> = (props) => {
     return(
-        <div className={props.divClassName}>
+        <div className={props.clasName}>
             <ul className={props.listClassName} >
             {props.children}
             </ul>
@@ -18,6 +19,7 @@ export const Menu : FC<MenuProps> = (props) => {
 
 
 type MenuItemButtonProps = {
+    className? : string,
     listItemClass? : string,
     buttonClass? : string
     imageClass? : string,
@@ -38,8 +40,8 @@ export const MenuItemButton : FC<MenuItemButtonProps> = (props) => {
     return(
         <li className={props.listItemClass}>
                 <button className={props.buttonClass} onClick={onClickHandler} >
-                    {props.imageElement}
-                    <p>{props.buttonText}</p>
+                    {props.children}
+                    {props.buttonText}
                 </button>
         </li>
     )

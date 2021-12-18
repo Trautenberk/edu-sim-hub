@@ -1,0 +1,42 @@
+@use "./Styles/Variables" as v;
+@use "./Styles/Mixins" as m;
+
+body {
+  background-color: white;
+  background-image: url("./Icons/Images/page-background.jpg");
+  background-position: center;
+  background-size: auto;
+}
+
+.main_page {
+  overflow: auto;
+  margin: 0;
+  padding: 0; 
+  height: v.$max-height;
+  width: v.$max-width;
+}
+
+.main_menu{
+  ul {
+    margin: 10% auto auto auto ;
+    position: relative;
+    list-style: none;
+    width: 30%;
+  }
+  li{
+    padding-bottom: 20px
+  }
+  button {
+    border-radius: 20px;
+    background-color: v.$background-blue;
+    width: 100%;
+    height: 50px;
+    font-weight: bold;
+    font-size: larger;
+    @include m.default-shadow;
+  }
+  button:hover {
+    @include m.default-shadow-hover;
+    background-color: v.$background-blue-hover;
+  }
+}

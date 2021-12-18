@@ -1,11 +1,6 @@
 import {ReactElement} from "react"
-import {IEditorMenuItem} from "./EditorMenu"
 
-export interface IEditorItem extends IEditorMenuItem{
-    getCanvasElement : () => ReactElement;
-}  
-
-export abstract class EditorItem implements IEditorItem{
+export abstract class EditorItem {
     abstract name : string;
     abstract iconPath: string | undefined;
     
@@ -13,7 +8,7 @@ export abstract class EditorItem implements IEditorItem{
     public  static   filterID() : string | undefined { throw new Error("Error, class has to overide this method")};
 
     protected _idCounter : number = 0;
-
+    
     protected  get idCount() : number  {
             return this._idCounter++;
     }

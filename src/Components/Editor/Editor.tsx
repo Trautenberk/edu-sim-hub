@@ -1,29 +1,30 @@
 import {FC, ReactElement, useCallback, useEffect, useState} from "react";
-import {EditorMenu, onItemSelectedType}  from "./EditorMenu";
-import styles from "./Editor.module.css"
+import styles from "Styles/Editor/EditorStyle.module.scss"
 import {Canvas} from "./Canvas";
-import {IEditorItem} from "./EditorItem"
+import {EditorItem} from "./EditorItem"
 import { CanvasContextProvider } from "../../Store/Editor/Canvas/CanvasContext";
+import { Menu, MenuItemButton } from "Components/UtilComponents/Menu";
+import uniqid from "uniqid";
 
 type EditorProps = {
-    menuItems : IEditorItem[];
+    items : EditorItem[];
     clearEventName : string;
 }
 
 export const Editor : FC<EditorProps> = (props) => {
     
     const [canvasElements, setCanvasElements] = useState<ReactElement[]>([]);
-    const [menuItems] = useState<IEditorItem[]>(props.menuItems);
 
     const clearEventHandler : EventListener =  useCallback<EventListener>(
      (evt) => {
         setCanvasElements([]);
     }, [])
     
-    let onMenuItemSelection : onItemSelectedType = (item) => {
-        let element = (item as IEditorItem).getCanvasElement();
+    let onMenuItemClicked  = (item : any) => {
+        let element = (item[0] as EditorItem).getCanvasElement();
         setCanvasElements([...canvasElements, element]);
     }
+
 
     useEffect(() => {
         document.addEventListener(props.clearEventName, clearEventHandler);
@@ -33,15 +34,24 @@ export const Editor : FC<EditorProps> = (props) => {
     }, [])
 
     return(
-        <div className={styles.Editor}>
-            <EditorMenu items={menuItems} onItemSelected={onMenuItemSelection}/>
+        <>
+        <Menu clasName={styles.editor_menu} >
+            {
+                props.items.map(item => <MenuItemButton key={uniqid()}
+                                         onItemSelected={onMenuItemClicked} 
+                                         onItemSelectedParams={[item]}
+                                         iconPath={item.iconPath}
+                                         buttonText={item.name}>
+                    <img src={item.iconPath}></img>
+                     </MenuItemButton>)
+            }
+        </Menu>
             <CanvasContextProvider>
                 <Canvas>
                     {canvasElements}
                 </Canvas>
             </CanvasContextProvider>
 
-        </div>
+        </>
     )
 }
-

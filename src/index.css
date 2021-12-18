@@ -3,10 +3,10 @@ html, body {
   padding: 0;
   height: 100%;
   width: 100%;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif !important;
 }
 
 #root {
   height: 100%;
   width: 100%;
 }
-

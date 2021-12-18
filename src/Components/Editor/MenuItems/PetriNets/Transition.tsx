@@ -1,7 +1,7 @@
 import { FunctionComponent,  MouseEventHandler, ReactElement, useContext, useState} from "react";
 import { EditorItem } from "../../EditorItem";
 import TransitionImage from "./icons/PetriTransition.png"
-import styles from "./Transition.module.css"
+import styles from "Styles/PetriNets/Transition.module.css"
 import { CanvasContext, Coordinates } from "../../../../Store/Editor/Canvas/CanvasContext";
 import uniqid from "uniqid"
 import { useDragableSVGCompoennt } from "../../CustomHooks/useDraggableSVG";
@@ -22,7 +22,7 @@ export class Transition extends EditorItem  {
         )}
 
     public iconPath: string | undefined = TransitionImage;
-    public name: string = "Petri Net Transition";
+    public name: string = "Přechod";
 
 }
 

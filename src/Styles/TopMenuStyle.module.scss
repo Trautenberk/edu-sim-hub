@@ -1,0 +1,46 @@
+@use "Variables" as v;
+@use "Mixins" as m;
+
+.top_menu {
+    width: 100%;
+    border-top: 2px solid black;
+    border-bottom: 2px solid black;
+    height: 50px;
+    margin: 0;
+    background-color: v.$background-blue;
+    
+    ul {
+        margin: 0 30%;
+        height: 100%;
+        width: 100%;
+    }
+
+    li {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        display: inline;
+        border-left: solid black 2px ;
+    }
+
+    li:nth-child(1){
+        border: none;
+    }
+
+    button{
+        padding: 0 20px 0 20px;
+        border: none;
+        margin: 0;
+        height: 100%;
+        font-weight: bold;
+        font-size: smaller;
+        background-color: v.$background-blue;
+     }
+     button:hover {
+        background-color:  v.$background-blue-hover;
+        @include m.default-shadow-hover;
+    }
+}
+
+
+

@@ -1,7 +1,7 @@
 import { FunctionComponent, ReactElement, useContext, MouseEventHandler, useState, useRef, useCallback, useEffect} from "react";
 import { EditorItem } from "../../EditorItem";
 import spotImage from "./icons/PetriSpot.png"
-import styles from "./Spot.module.css"
+import styles from "Styles/PetriNets/Spot.module.css"
 import {CanvasContext, Coordinates} from "../../../../Store/Editor/Canvas/CanvasContext"
 import {CanvasMouseMoveEventDetail} from "../../Canvas"
 import uniqid from "uniqid"
@@ -47,7 +47,7 @@ export class Spot extends EditorItem {
 
 
     public iconPath = spotsvg;
-    public name = "Petri Net Spot";
+    public name = "Stav";
 }
 
 type CanvasElementProps ={

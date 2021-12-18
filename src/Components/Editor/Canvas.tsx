@@ -1,10 +1,9 @@
-import  {Component, MouseEventHandler, useContext, useRef, useEffect,  useState, FC, WheelEventHandler, EventHandler, KeyboardEventHandler} from "react"; 
-import {IEditorMenuItem} from "./EditorMenu";
-import styles from "./Canvas.module.css";
+import  {MouseEventHandler, useContext, useRef, useEffect,  useState, FC} from "react"; 
 import {CanvasContext, Coordinates} from "../../Store/Editor/Canvas/CanvasContext"
 import { ConnectionManager } from "./Connections/ConnectionManager";
-import {Helmet} from "react-helmet"
 import { useDragableSVGCompoennt } from "./CustomHooks/useDraggableSVG";
+import styles from "Styles/Editor/CanvasStyle.module.scss";
+
 
 
 const MAX_SCALE : number = 5;
@@ -92,8 +91,8 @@ export const Canvas : FC<CanvasProps> = (props) => {
         }, []) ;
 
     return(
-        <div ref={canvasBoundingElementRef} className={styles.Canvas}>
-                <svg className={styles.CanvasSvg} xmlns="http://www.w3.org/2000/svg">
+        <div ref={canvasBoundingElementRef} className={styles.canvas_wrapper}>
+                <svg className={styles.canvas_svg} xmlns="http://www.w3.org/2000/svg">
                     <defs>
                         <pattern id="smallGrid" width="8" height="8" patternUnits="userSpaceOnUse">
                         <path d="M 8 0 L 0 0 0 8" fill="none" stroke="gray" strokeWidth="0.5"/>
@@ -137,14 +136,14 @@ const CanvasGridElement : FC<CanvasGridElementProps> = (props) => {
         <g>
            <defs>
             <pattern id="smallGrid" width="8" height="8" patternUnits="userSpaceOnUse">
-                <path d="M 8 0 L 0 0 0 8" fill="none" stroke="gray" strokeWidth="0.5"/>
+                <path d="M 8 0 L 0 0 0 8" fill="white" stroke="black" strokeWidth="0.5"/>
             </pattern>
             <pattern id="grid" width="80" height="80" patternUnits="userSpaceOnUse">
                 <rect width="80" height="80" fill="url(#smallGrid)"/>
-                <path d="M 80 0 L 0 0 0 80" fill="none" stroke="gray" strokeWidth="1"/>
+                <path d="M 80 0 L 0 0 0 80" fill="white" stroke="black" strokeWidth="1"/>
             </pattern>
             </defs>
-            <rect width={3600} height={3600} ref={gridRef} onClick={onClickHandler} className={styles.CanvasSvgRect} fill="url(#grid)" />
+            <rect width={1201} height={1201} ref={gridRef} onClick={onClickHandler} className={styles.canvas_svg__grid} fill="url(#grid)" />  // TODO chybí třída
         </g>
     )
 }
