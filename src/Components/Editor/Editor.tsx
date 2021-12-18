@@ -1,24 +1,36 @@
-import {FunctionComponent, ReactElement, useState} from "react";
+import {FC, ReactElement, useCallback, useEffect, useState} from "react";
 import {EditorMenu, onItemSelectedType}  from "./EditorMenu";
 import styles from "./Editor.module.css"
 import {Canvas} from "./Canvas";
-import {Spot} from "./MenuItems/PetriNets/Spot";
-import {Transition} from "./MenuItems/PetriNets/Transition"
 import {IEditorItem} from "./EditorItem"
 import { CanvasContextProvider } from "../../Store/Editor/Canvas/CanvasContext";
 
+type EditorProps = {
+    menuItems : IEditorItem[];
+    clearEventName : string;
+}
 
-export const Editor : FunctionComponent = () => {
-
+export const Editor : FC<EditorProps> = (props) => {
+    
     const [canvasElements, setCanvasElements] = useState<ReactElement[]>([]);
-    const [menuItems] = useState<IEditorItem[]>([new Spot(), new Transition()])
+    const [menuItems] = useState<IEditorItem[]>(props.menuItems);
+
+    const clearEventHandler : EventListener =  useCallback<EventListener>(
+     (evt) => {
+        setCanvasElements([]);
+    }, [])
     
     let onMenuItemSelection : onItemSelectedType = (item) => {
-        console.log("Click: " + item.name);
         let element = (item as IEditorItem).getCanvasElement();
         setCanvasElements([...canvasElements, element]);
-        console.log("Canvas elements length: " + canvasElements.length);
     }
+
+    useEffect(() => {
+        document.addEventListener(props.clearEventName, clearEventHandler);
+        return () => {
+            document.removeEventListener(props.clearEventName, clearEventHandler);
+        }
+    }, [])
 
     return(
         <div className={styles.Editor}>

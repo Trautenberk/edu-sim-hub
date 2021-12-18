@@ -19,19 +19,14 @@ export const useDragableSVGCompoennt = <T extends SVGElement>() => {
 
             setCoordinates((prev) => {
                 const test = {posX: initElementPos.current.posX + moveVector.posX, posY : initElementPos.current.posY + moveVector.posY}
-                // console.log(`Init : ${JSON.stringify(initMousePos)}  current: ${JSON.stringify(currentMousePos)} `)
-                // console.log(`vector: ${JSON.stringify(moveVector)}  test: ${JSON.stringify(test)}`)
                 return test;
             })
-
-            // setCoordinates({posX: coords.posX - initMousePos.current.posX, posY: coords.posY - initMousePos.current.posY });
         },[context.canvasBoundaries],
     )
 
     const onMouseDownHandler : MouseEventHandler<T> = (e) => {
         e.preventDefault();
         e.stopPropagation();
-        console.log(`TestStart: ${JSON.stringify(context.canvasBoundaries)}`)
         initMousePos.current = calcCoordinatesFromMouseEvent(e as any as MouseEvent, context.canvasBoundaries);
         initElementPos.current = {posX : coordinates.posX, posY : coordinates.posY};
         document.addEventListener("mousemove", mouseMoveEventHandler)
