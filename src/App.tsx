@@ -4,6 +4,11 @@ import {Menu, MenuItemButton} from "./Components/UtilComponents/Menu"
 import styles from "AppStyle.module.scss"
 
 
+/**
+ * @author Jaromír Březina
+ * @abstract 
+ */
+
 
 export type Action = {
   name : string,
@@ -17,9 +22,13 @@ type MainComponent = {
 }
 
 
-
+/**
+ *  Komponenta reprezentující aplikaci
+ * @component
+ */
 export const App : FC = () => {
 
+  /* */
   const [showMenu, setShowMenu] = useState(true);
   const [mainComponent, setMainComponent] = useState<ReactElement>();
  
