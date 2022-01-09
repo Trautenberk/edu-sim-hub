@@ -1,6 +1,5 @@
-@use "./Styles/Variables" as v;
-@use "./Styles/Mixins" as m;
-
+@import "./Styles/Variables.scss";
+@import  "./Styles/Mixins.scss" ;
 body {
   background-color: white;
   background-image: url("./Icons/Images/page-background.jpg");
@@ -12,8 +11,8 @@ body {
   overflow: auto;
   margin: 0;
   padding: 0; 
-  height: v.$max-height;
-  width: v.$max-width;
+  height: $max-height;
+  width: $max-width;
 }
 
 .main_menu{
@@ -28,15 +27,15 @@ body {
   }
   button {
     border-radius: 20px;
-    background-color: v.$background-blue;
+    background-color: $background-blue;
     width: 100%;
     height: 50px;
     font-weight: bold;
     font-size: larger;
-    @include m.default-shadow;
+    @include default-shadow;
   }
   button:hover {
-    @include m.default-shadow-hover;
-    background-color: v.$background-blue-hover;
+    @include default-shadow-hover;
+    background-color: $background-blue-hover;
   }
 }

@@ -1,5 +1,5 @@
-@use "./Styles/Variables" as v;
-@use "./Styles/Mixins" as m;
+@import "../../Styles/Variables.scss";
+@import  "../../Styles/Mixins.scss" ;
 
 
 .loader_layer {
@@ -9,7 +9,7 @@
     height: 100%;
     top:0px;
     left: 0px;
-    background-color: v.$loader-bg-color;
+    background-color: $loader-bg-color;
 }
 
 .loader_wrapper {
@@ -22,9 +22,9 @@
 }
 
 .loader {
-    border: 16px solid  v.$loader-bar-color;
+    border: 16px solid  $loader-bar-color;
     border-radius: 50%;
-    border-top: 16px solid v.$loader-runner-color;
+    border-top: 16px solid $loader-runner-color;
     width: 250px;
     height: 250px;
     -webkit-animation: spin 2s linear infinite; /* Safari */

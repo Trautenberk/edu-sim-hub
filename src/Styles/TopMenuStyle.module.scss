@@ -1,5 +1,5 @@
-@use "Variables" as v;
-@use "Mixins" as m;
+@import "../Styles/Variables.scss";
+@import  "../Styles/Mixins.scss" ;
 
 .top_menu {
     width: 100%;
@@ -7,7 +7,7 @@
     border-bottom: 2px solid black;
     height: 50px;
     margin: 0;
-    background-color: v.$background-blue;
+    background-color: $background-blue;
     
     ul {
         margin: 0 30%;
@@ -34,11 +34,11 @@
         height: 100%;
         font-weight: bold;
         font-size: smaller;
-        background-color: v.$background-blue;
+        background-color: $background-blue;
      }
      button:hover {
-        background-color:  v.$background-blue-hover;
-        @include m.default-shadow-hover;
+        background-color:  $background-blue-hover;
+        @include default-shadow-hover;
     }
 }
 

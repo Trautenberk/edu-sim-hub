@@ -1,5 +1,5 @@
-@use "./Styles/Variables" as v;
-@use "./Styles/Mixins" as m;
+@import "../../Styles/Variables.scss";
+@import  "../../Styles/Mixins.scss" ;
 
 
 
@@ -12,5 +12,5 @@
 }
 
 .transition_selected {
-    @include m.selected-svg;
+    @include selected-svg;
 }

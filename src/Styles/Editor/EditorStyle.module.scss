@@ -1,6 +1,5 @@
-@use "./Styles/Variables" as v;
-@use "./Styles/Mixins" as m;
-
+@import "../../Styles/Variables.scss";
+@import  "../../Styles/Mixins.scss" ;
 
 .editor_menu {
     height: 85%;
@@ -23,12 +22,12 @@
     button {
         height: 100%;
         width: 100%;
-        background-color: v.$background-blue;
+        background-color: $background-blue;
         font-weight: bold;
     }
 
     button:hover {
-        background-color: v.$background-blue-hover;
+        background-color: $background-blue-hover;
     }
 
     img {
