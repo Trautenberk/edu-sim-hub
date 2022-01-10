@@ -6,7 +6,9 @@ import {MovableSVGGroupElement} from "../../MovableSVGGroupElement"
 import { EndPoint } from "../../Connections/EndPoint";
 import spotsvg from "./icons/petri-spot.svg"
 import styles from "Styles/PetriNets/SpotStyle.module.scss"
-  
+import {selectSelectedElementID, select} from "Feature/ElementSelectionSlice"
+import {store} from "Store/Store";
+import {useAppDispatch} from "Store/Hooks"
 
 
 const SpotFilter : FunctionComponent<{filterID : string}>  = ({filterID}) =>{ 
@@ -54,10 +56,12 @@ type CanvasElementProps ={
 
 const SpotCanvasElement : FunctionComponent<CanvasElementProps> = (props) => {
     const context = useContext(CanvasContext);
-
+    const dispatch = useAppDispatch();
     const onClickHandler : MouseEventHandler<SVGGElement> = () => {
         context.onElementClick(props.id);
+        dispatch(select(props.id));
     }
+    const selected = selectSelectedElementID(store.getState());
 
     return(
         <MovableSVGGroupElement>
