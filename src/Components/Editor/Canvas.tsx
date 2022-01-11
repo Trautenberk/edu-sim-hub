@@ -3,7 +3,8 @@ import {CanvasContext, Coordinates} from "../../Store/Editor/Canvas/CanvasContex
 import { ConnectionManager } from "./Connections/ConnectionManager";
 import { useDragableSVGCompoennt } from "./CustomHooks/useDraggableSVG";
 import styles from "Styles/Editor/CanvasStyle.module.scss";
-
+import {deselect} from "Feature/ElementSelectionSlice"
+import  {useAppDispatch} from "Store/Hooks"
 
 
 const MAX_SCALE : number = 5;
@@ -62,7 +63,7 @@ export const Canvas : FC<CanvasProps> = (props) => {
     }
 
     const zoomHandler  = (evt : WheelEvent) => {
-        if(evt.ctrlKey != true){
+        if(evt.ctrlKey !== true){
             return;
         }
         evt.preventDefault();
@@ -121,16 +122,17 @@ type CanvasGridElementProps = {
 }
 
 const CanvasGridElement : FC<CanvasGridElementProps> = (props) => {
-
     const context = useContext(CanvasContext);
     const gridRef = useRef<SVGRectElement>(null);
+
+    const dispatch = useAppDispatch();
 
     const onClickHandler : MouseEventHandler<SVGElement> = (e) => {
         const clickCoords : Coordinates = {
             posX : e.clientX - context.canvasBoundaries.left,
             posY: e.clientY - context.canvasBoundaries.top
         }
-        context.onGridClick(clickCoords)
+        dispatch(deselect());
     }
 
 

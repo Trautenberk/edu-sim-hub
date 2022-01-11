@@ -35,7 +35,7 @@ export const EndPoint : FC<EndPointProps> = (props) => {
     }, [])
 
     return(
-        <circle onClick={clickedHandler} visibility={context.getVisibility(props.parentElementID)} className={style} 
+        <circle onClick={clickedHandler} visibility={"visible"} className={style} 
         cx={props.elementCoordinates.posX} cy={props.elementCoordinates.posY}  r={5}/>
     )
 }

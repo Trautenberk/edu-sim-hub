@@ -3,7 +3,7 @@ import styles from "Styles/Editor/EditorStyle.module.scss"
 import {Canvas} from "./Canvas";
 import {EditorItem} from "./EditorItem"
 import { CanvasContextProvider } from "../../Store/Editor/Canvas/CanvasContext";
-import { Menu, MenuItemButton } from "Components/UtilComponents/Menu";
+import { Menu, MenuItemButton } from "Components/Utilities/UtilComponents/Menu";
 import uniqid from "uniqid";
 
 type EditorProps = {

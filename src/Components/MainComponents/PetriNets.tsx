@@ -3,8 +3,8 @@ import { Action } from "../../App";
 import { Editor } from "../Editor/Editor";
 import { Spot } from "../Editor/MenuItems/PetriNets/Spot";
 import { Transition } from "../Editor/MenuItems/PetriNets/Transition";
-import { Menu, MenuItemButton } from "../UtilComponents/Menu";
-import {Loader} from "Components/UtilComponents/Loader"
+import { Menu, MenuItemButton } from "../Utilities/UtilComponents/Menu";
+import {Loader} from "Components/Utilities/UtilComponents/Loader"
 import { setTimeout } from 'timers';
 import styles from "Styles/TopMenuStyle.module.scss";
 

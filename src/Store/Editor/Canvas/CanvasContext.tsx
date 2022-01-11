@@ -1,6 +1,6 @@
-import {createContext, FC, FunctionComponent, MouseEventHandler, ReactElement, useCallback, useEffect, useRef, useState} from "react";
+import {createContext, FC, useCallback, useEffect, useRef, useState} from "react";
 import uniqid from "uniqid";
-import { ConnectionPoint, pointClickedEventName ,pointClickedEventDetails, pointMovedEventName, pointMovedEventDetails } from "../../../Components/Editor/CustomHooks/useConnectionPoint";
+import { ConnectionPoint, pointClickedEventName ,pointClickedEventDetails } from "../../../Components/Editor/CustomHooks/useConnectionPoint";
 
 export type Coordinates = {
     posX : number,
@@ -25,12 +25,8 @@ interface ICanvasContext {
     initPos : Coordinates ;
     updateInitPos : (position : Coordinates) => void,
     canvasBoundaries : Boundaries,
-    onGridClick : (clickCoords : Coordinates) => void, 
-    onElementClick : (id : string) => void,
     updateCanvasBoundaries : (boundaries : Boundaries) => void,
-    isSelectedElement : (id : string | null) => boolean,
     isSelectedEndPoint : (id : string | null) => boolean,
-    getVisibility : (id : string) => string,
     registerEndPoint : (point : ConnectionPoint) => void,
     connections : Connection[],
     drawLineVisibility : "hidden" | "visible",
@@ -43,12 +39,8 @@ const defaultState : ICanvasContext = {
     initPos : {posX : 0, posY : 0},
     updateInitPos : () => { throw new Error("Method not implemeted!")}, 
     canvasBoundaries : {left : 0, top : 0},
-    onGridClick: () => { throw new Error("Method not implemeted!")},
-    onElementClick: () => { throw new Error("Method not implemeted!")},
     updateCanvasBoundaries : () => { throw new Error("Method not implemeted!")},
-    isSelectedElement: () => { throw new Error("Method not implemeted!")},
     isSelectedEndPoint: () => { throw new Error("Method not implemeted!")},
-    getVisibility: () => {throw new Error("Method not implemeted!")},
     registerEndPoint : () => {throw new Error("Method not implemeted!")},
     connections : [],
     drawLineVisibility : "hidden",
@@ -69,8 +61,6 @@ export const CanvasContext = createContext<ICanvasContext>(defaultState);
 
 
 export const CanvasContextProvider : FC = ({children}) => {
-
-    const [selectedElementID, setSelectedElementID] = useState<string | null>(null);
     const [selectedEndPointID, setSelectedEndpointID] = useState<string | null>(null);
     const [initPos, setInitPos] = useState(defaultState.initPos);
     const [canvasState, setCanvasState] = useState<CanvasState>(CanvasState.normal);
@@ -93,35 +83,15 @@ export const CanvasContextProvider : FC = ({children}) => {
         setInitPos({posX: boundaries.left + INIT_POS_OFFSET_X , posY : boundaries.top +  INIT_POS_OFFSET_Y })
     }
 
-    const clearSelection = () => {
-        setSelectedElementID(null);
-        setSelectedEndpointID(null);
-    }
-
-    const isSelectedElement = (id : string | null) : boolean => {
-        return id === selectedElementID;
-    }
 
     const isSelectedEndPoint = (id : string | null) : boolean => {
         return id === selectedEndPointID;
-    }
-
-    const onElementClick = (id : string) : void => {
-
-        if(canvasState == CanvasState.normal){
-            if(isSelectedElement(id)){
-                clearSelection()
-            }else{
-                setSelectedElementID(id);
-            }
-        }
     }
 
     const onGridClick = (clickCoords : Coordinates) : void  => {
         console.log("GridClick");
         if(canvasState == CanvasState.normal){
             console.log("Grid click clear selection")
-            clearSelection()
         }
         else if(canvasState == CanvasState.connecting){
             console.log("GridClick add point");
@@ -133,10 +103,6 @@ export const CanvasContextProvider : FC = ({children}) => {
         }
     }
 
-
-    const getVisibility = (id : string) : string => {
-        return isSelectedElement(id) ? "visible" : "hidden";
-    }
 
     const registerEndPoint = (point : ConnectionPoint) : void => {
         endPointsCollection.current.push(point);
@@ -206,11 +172,7 @@ export const CanvasContextProvider : FC = ({children}) => {
             updateInitPos,
             canvasBoundaries,
             updateCanvasBoundaries,
-            onGridClick,
-            onElementClick,
-            isSelectedElement,
             isSelectedEndPoint,
-            getVisibility,
             registerEndPoint,
             connections, 
             drawLineCoords,

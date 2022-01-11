@@ -1,15 +1,14 @@
-import { FunctionComponent, ReactElement, useContext, MouseEventHandler, useState, useRef, useCallback, useEffect} from "react";
+import { FunctionComponent, ReactElement, useContext, MouseEventHandler} from "react";
 import { EditorItem } from "../../EditorItem";
-import {CanvasContext, Coordinates} from "../../../../Store/Editor/Canvas/CanvasContext"
+import { CanvasContext, Coordinates } from "../../../../Store/Editor/Canvas/CanvasContext"
 import uniqid from "uniqid"
-import {MovableSVGGroupElement} from "../../MovableSVGGroupElement"
+import { MovableSVGGroupElement } from "../../MovableSVGGroupElement"
 import { EndPoint } from "../../Connections/EndPoint";
 import spotsvg from "./icons/petri-spot.svg"
 import styles from "Styles/PetriNets/SpotStyle.module.scss"
-import {selectSelectedElementID, select} from "Feature/ElementSelectionSlice"
-import {store} from "Store/Store";
-import {useAppDispatch} from "Store/Hooks"
-
+import { select, selectSelectedElementID } from "Feature/ElementSelectionSlice"
+import {useAppDispatch, useAppSelector} from "Store/Hooks"
+import {convertToVisibility} from "Components/Utilities/UtilMethods"
 
 const SpotFilter : FunctionComponent<{filterID : string}>  = ({filterID}) =>{ 
     return(
@@ -28,9 +27,6 @@ const SpotFilter : FunctionComponent<{filterID : string}>  = ({filterID}) =>{
 }
 
 export class Spot extends EditorItem {
-    constructor(){
-        super();
-    }
 
     private id = uniqid();
 
@@ -58,15 +54,15 @@ const SpotCanvasElement : FunctionComponent<CanvasElementProps> = (props) => {
     const context = useContext(CanvasContext);
     const dispatch = useAppDispatch();
     const onClickHandler : MouseEventHandler<SVGGElement> = () => {
-        context.onElementClick(props.id);
         dispatch(select(props.id));
     }
-    const selected = selectSelectedElementID(store.getState());
+
+    const visible = convertToVisibility(useAppSelector(state => selectSelectedElementID(state) === props.id));
 
     return(
         <MovableSVGGroupElement>
             <circle className={styles.spot} filter={""} onClick={onClickHandler}  r="30"/>
-            <circle visibility={context.getVisibility(props.id)} className={styles.spot_selected} filter={""}  r="30"/>
+            <circle visibility={visible} className={styles.spot_selected} filter={""}  r="30"/>
             <EndPoint   elementCoordinates={{posX : 30, posY: 0}} parentElementID={props.id}/>
             <EndPoint   elementCoordinates={{posX : -30, posY: 0}} parentElementID={props.id}/>
             <EndPoint   elementCoordinates={{posX : 0, posY: 30}} parentElementID={props.id}/>

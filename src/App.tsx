@@ -1,6 +1,6 @@
 import {FC,  ReactElement, useCallback, useEffect, useMemo, useState} from 'react';
 import { PetriNets } from './Components/MainComponents/PetriNets';
-import {Menu, MenuItemButton} from "./Components/UtilComponents/Menu"
+import {Menu, MenuItemButton} from "./Components/Utilities/UtilComponents/Menu"
 import styles from "AppStyle.module.scss"
 
 
