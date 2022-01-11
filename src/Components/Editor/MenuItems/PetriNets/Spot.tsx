@@ -8,7 +8,7 @@ import spotsvg from "./icons/petri-spot.svg"
 import styles from "Styles/PetriNets/SpotStyle.module.scss"
 import { select, selectSelectedElementID } from "Feature/ElementSelectionSlice"
 import {useAppDispatch, useAppSelector} from "Store/Hooks"
-import {convertToVisibility} from "Components/Utilities/UtilMethods"
+import {convertToVisibility} from "Components/Utilities/UtilMethodsAndTypes"
 
 const SpotFilter : FunctionComponent<{filterID : string}>  = ({filterID}) =>{ 
     return(
@@ -53,11 +53,12 @@ type CanvasElementProps ={
 const SpotCanvasElement : FunctionComponent<CanvasElementProps> = (props) => {
     const context = useContext(CanvasContext);
     const dispatch = useAppDispatch();
+    const useSelector = useAppSelector;
     const onClickHandler : MouseEventHandler<SVGGElement> = () => {
         dispatch(select(props.id));
     }
 
-    const visible = convertToVisibility(useAppSelector(state => selectSelectedElementID(state) === props.id));
+    const visible = convertToVisibility(useSelector(state => selectSelectedElementID(state) === props.id));
 
     return(
         <MovableSVGGroupElement>

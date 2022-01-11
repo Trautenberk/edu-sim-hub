@@ -4,11 +4,9 @@ import { ConnectionManager } from "./Connections/ConnectionManager";
 import { useDragableSVGCompoennt } from "./CustomHooks/useDraggableSVG";
 import styles from "Styles/Editor/CanvasStyle.module.scss";
 import {deselect} from "Feature/ElementSelectionSlice"
-import  {useAppDispatch} from "Store/Hooks"
-
-
-const MAX_SCALE : number = 5;
-const MIN_SCALE : number = 0.15; 
+import  {useAppDispatch, useAppSelector} from "Store/Hooks"
+import { zoom, currentZoom } from "Feature/ZoomSlice";
+import { convertMatrixToString, TransormMatrix } from "Components/Utilities/UtilMethodsAndTypes";
 
 interface ICanvasProps {
     filters? : any[];
@@ -36,57 +34,33 @@ export type CanvasMouseMoveEventDetail = {
     yCoord : number
 }
 
-type TransormMatrix = {
-    scaleX : number,
-    skewY : number,
-    skewX : number,
-    scaleY : number,
-    translateX : number,
-    transalteY : number
-}
+
 
 export const Canvas : FC<CanvasProps> = (props) => {
+    const dispatch = useAppDispatch();
+    const useSelector = useAppSelector;
     const context = useContext(CanvasContext);
     const [svgSize, setSvgSize] = useState({width : 0, height: 0})
     const [gridPosition, setGridPosition] = useState<Coordinates>({posX: 0, posY: 0});
     const canvasBoundingElementRef = useRef<HTMLDivElement>(null);
-    const [scale, setScale] = useState(1);
-    const scaleRef = useRef(scale);
+    const scale = useSelector(currentZoom); 
     const {coordinates : translate ,onMouseDownHandler, onMouseUpHandler} = useDragableSVGCompoennt<SVGGElement>();
     
-    const mainGroupTransformMatrix : TransormMatrix = ({scaleX: context.currentZoom, skewY : 0 , skewX : 0, scaleY : context.currentZoom, translateX : translate.posX, transalteY : translate.posY})
+    const mainGroupTransformMatrix : TransormMatrix = ( { scaleX: scale, skewY : 0 , skewX : 0, scaleY : scale, translateX : translate.posX, transalteY : translate.posY } )
 
-
-    const convertMatrixToString = (matrix : TransormMatrix) => {
-        return `matrix(${matrix.scaleX}, ${matrix.skewY}, ${matrix.skewX}, ${matrix.scaleY}, ${matrix.translateX}, ${matrix.transalteY})`
-
-    }
-
-    const zoomHandler  = (evt : WheelEvent) => {
-        if(evt.ctrlKey !== true){
+    const zoomHandler  = ( evt : WheelEvent ) => {
+        if ( evt.ctrlKey !== true ) {
             return;
         }
+
         evt.preventDefault();
-
-        const currentScale = scaleRef.current;
-        let scaleStep = evt.deltaY < 0 ? 1.25 : 0.8;
-
-        if (currentScale * scaleStep > MAX_SCALE) {
-            scaleStep = MAX_SCALE / currentScale;
-        }
-        
-        if (currentScale * scaleStep < MIN_SCALE) {
-            scaleStep = MIN_SCALE / currentScale;
-        }
-
-        scaleRef.current = currentScale * scaleStep;
-        context.setCurrentZoom(scaleRef.current);
+        dispatch(zoom(evt));
     }
 
     useEffect(() => {
         if(canvasBoundingElementRef.current != null ){
             const boundElement = canvasBoundingElementRef.current;
-            setSvgSize({width: boundElement.clientWidth, height: boundElement.clientHeight});
+            setSvgSize( { width: boundElement.clientWidth, height: boundElement.clientHeight } );
             context.updateCanvasBoundaries({left: boundElement.getBoundingClientRect().left, top: boundElement.getBoundingClientRect().top})}
             
             canvasBoundingElementRef.current?.addEventListener("wheel", zoomHandler, {passive: false})

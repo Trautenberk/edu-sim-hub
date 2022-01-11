@@ -6,7 +6,7 @@ import transitionsvg from "./icons/petri-transition.svg"
 import { EndPoint } from "Components/Editor/Connections/EndPoint";
 import styles from "Styles/PetriNets/TransitionStyle.module.scss"
 import {select, selectSelectedElementID} from "Feature/ElementSelectionSlice"
-import {convertToVisibility} from "Components/Utilities/UtilMethods";
+import {convertToVisibility} from "Components/Utilities/UtilMethodsAndTypes";
 import { useAppDispatch, useAppSelector } from "Store/Hooks";
 
 export class Transition extends EditorItem  {
@@ -30,6 +30,7 @@ type TransitionCanvasElementProps = {
 
 const TransitionCanvasElement : FunctionComponent<TransitionCanvasElementProps> = (props) => {
     const dispatch = useAppDispatch()
+    const useSelector = useAppSelector;
 
     const onClickHandler : MouseEventHandler<SVGRectElement> = (e) => {
         dispatch(select(props.id));
@@ -38,7 +39,7 @@ const TransitionCanvasElement : FunctionComponent<TransitionCanvasElementProps> 
     const width = 30;
     const height = 80;
 
-    const visible = convertToVisibility(useAppSelector(state => selectSelectedElementID(state) === props.id))
+    const visible = convertToVisibility(useSelector(state => selectSelectedElementID(state) === props.id))
 
     return(
         <MovableSVGGroupElement>

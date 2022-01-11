@@ -9,7 +9,7 @@ export type Coordinates = {
 
 
 const INIT_POS_OFFSET_X = 50;
-const INIT_POS_OFFSET_Y = 50
+const INIT_POS_OFFSET_Y = 50 
 
 export type Boundaries = {
     left : number,
@@ -31,8 +31,6 @@ interface ICanvasContext {
     connections : Connection[],
     drawLineVisibility : "hidden" | "visible",
     drawLineCoords : {start : Coordinates, end : Coordinates},
-    currentZoom : number;
-    setCurrentZoom : (zoomValue : number) => void,
 }
 
 const defaultState : ICanvasContext = {
@@ -45,8 +43,6 @@ const defaultState : ICanvasContext = {
     connections : [],
     drawLineVisibility : "hidden",
     drawLineCoords: {end : {posX : 0, posY: 0}, start: {posX: 0, posY: 0}},
-    currentZoom : 1,
-    setCurrentZoom : (zoomValue : number) => {throw new Error("Method not implemeted!")},
 }
 
 enum CanvasState {
@@ -71,8 +67,6 @@ export const CanvasContextProvider : FC = ({children}) => {
     const mouseCoords = useRef<Coordinates>({posX : 0, posY : 0});
     const [drawLineVisibility, setDrawLineVisibility] = useState<"hidden" | "visible">(defaultState.drawLineVisibility);
     const [drawLineCoords, setDrawLineCoords] = useState(defaultState.drawLineCoords)
-    const [currentZoom, setCurrentZoom] = useState(1);
-
 
     const updateInitPos = (position : Coordinates ) => {
         setInitPos(position);
@@ -87,22 +81,6 @@ export const CanvasContextProvider : FC = ({children}) => {
     const isSelectedEndPoint = (id : string | null) : boolean => {
         return id === selectedEndPointID;
     }
-
-    const onGridClick = (clickCoords : Coordinates) : void  => {
-        console.log("GridClick");
-        if(canvasState == CanvasState.normal){
-            console.log("Grid click clear selection")
-        }
-        else if(canvasState == CanvasState.connecting){
-            console.log("GridClick add point");
-            const nextConnectionPoint : ConnectionPoint = {pointID : uniqid(), coords: clickCoords}
-            setConnections(prev => (
-                    prev.map(value => (value.connectionID == newConnectionID.current ? {connectionID : value.connectionID, points: [...value.points, nextConnectionPoint] } : value ))
-                )
-            )
-        }
-    }
-
 
     const registerEndPoint = (point : ConnectionPoint) : void => {
         endPointsCollection.current.push(point);
@@ -177,8 +155,6 @@ export const CanvasContextProvider : FC = ({children}) => {
             connections, 
             drawLineCoords,
             drawLineVisibility,
-            currentZoom,
-            setCurrentZoom
         }}>
                 {children}
         </CanvasContext.Provider>

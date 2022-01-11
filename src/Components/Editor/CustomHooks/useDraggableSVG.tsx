@@ -1,7 +1,9 @@
 import { verify } from "crypto";
 import {useState, useMemo, useCallback, MouseEventHandler, useRef, useContext} from "react"
-import { Coordinates, Boundaries, CanvasContext } from "../../../Store/Editor/Canvas/CanvasContext";
+import { Coordinates, CanvasContext } from "../../../Store/Editor/Canvas/CanvasContext";
 import {calcCoordinatesFromMouseEvent} from "../../../Utils"
+import { currentZoom } from "Feature/ZoomSlice";
+import { useAppSelector } from "Store/Hooks";
 
 export const useDragableSVGCompoennt = <T extends SVGElement>() => {
 
@@ -9,15 +11,15 @@ export const useDragableSVGCompoennt = <T extends SVGElement>() => {
     const [coordinates, setCoordinates] = useState<Coordinates>({posX: 0, posY: 0});
     const initMousePos = useRef<Coordinates>({posX: 0, posY: 0});
     const initElementPos = useRef<Coordinates>({posX: 0, posY: 0});
-
+    const zoom = useAppSelector(state => currentZoom(state))
 
     const mouseMoveEventHandler = useCallback(
         (e : MouseEvent) => {
             const currentMousePos = calcCoordinatesFromMouseEvent(e, context.canvasBoundaries);
             const moveVector = {posX: currentMousePos.posX - initMousePos.current.posX, posY: currentMousePos.posY - initMousePos.current.posY }
 
-            setCoordinates({posX: initElementPos.current.posX + (moveVector.posX / context.currentZoom), posY : initElementPos.current.posY + (moveVector.posY / context.currentZoom)})
-        },[context.canvasBoundaries, context.currentZoom],
+            setCoordinates({posX: initElementPos.current.posX + (moveVector.posX / zoom), posY : initElementPos.current.posY + (moveVector.posY / zoom)})
+        },[context.canvasBoundaries, zoom],
     )
 
     const onMouseDownHandler : MouseEventHandler<T> = (e) => {
