@@ -5,7 +5,7 @@ import canvasContextReducer from "Feature/CanvasContextSlice"
 
 export const store = configureStore({
     reducer: {
-        selectedElement : elementSelectionReducer,
+        elementSelection : elementSelectionReducer,
         zoom : zoomReducer,
         canvasContext : canvasContextReducer
     }

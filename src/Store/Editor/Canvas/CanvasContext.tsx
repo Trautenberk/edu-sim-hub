@@ -1,4 +1,4 @@
-import { Boundaries, Coordinates } from "Components/Utilities/UtilMethodsAndTypes";
+import { Coordinates } from "Components/Utilities/UtilMethodsAndTypes";
 import {createContext, FC, useCallback, useEffect, useRef, useState} from "react";
 import uniqid from "uniqid";
 import { ConnectionPoint, pointClickedEventName ,pointClickedEventDetails } from "../../../Components/Editor/CustomHooks/useConnectionPoint";

@@ -5,7 +5,7 @@ import { MovableSVGGroupElement } from "../../MovableSVGGroupElement";
 import transitionsvg from "./icons/petri-transition.svg"
 import { EndPoint } from "Components/Editor/Connections/EndPoint";
 import styles from "Styles/PetriNets/TransitionStyle.module.scss"
-import {select, selectSelectedElementID} from "Feature/ElementSelectionSlice"
+import {selectElement, selectSelectedElementID} from "Feature/ElementSelectionSlice"
 import {convertToVisibility} from "Components/Utilities/UtilMethodsAndTypes";
 import { useAppDispatch, useAppSelector } from "Store/Hooks";
 
@@ -33,7 +33,7 @@ const TransitionCanvasElement : FunctionComponent<TransitionCanvasElementProps> 
     const useSelector = useAppSelector;
 
     const onClickHandler : MouseEventHandler<SVGRectElement> = (e) => {
-        dispatch(select(props.id));
+        dispatch(selectElement(props.id));
     }
 
     const width = 30;

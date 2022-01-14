@@ -1,15 +1,11 @@
-import  {MouseEventHandler, useContext, useRef, useEffect,  useState, FC} from "react"; 
-import { ConnectionManager } from "./Connections/ConnectionManager";
+import  {MouseEventHandler, useRef, useEffect,  useState, FC} from "react"; 
 import { useDragableSVGCompoennt } from "./CustomHooks/useDraggableSVG";
 import styles from "Styles/Editor/CanvasStyle.module.scss";
-import {deselect} from "Feature/ElementSelectionSlice"
+import {deselectAll} from "Feature/ElementSelectionSlice"
 import  {useAppDispatch, useAppSelector} from "Store/Hooks"
 import { zoom, currentZoom } from "Feature/ZoomSlice";
 import { convertMatrixToString, TransormMatrix, Coordinates } from "Components/Utilities/UtilMethodsAndTypes";
-import { selectCanvasBoundaries, updateCanvasBoundaries} from "Feature/CanvasContextSlice"
-interface ICanvasProps {
-    filters? : any[];
-}
+import { updateCanvasBoundaries} from "Feature/CanvasContextSlice"
 
 export type CanvasElementProps = {
     id : string;
@@ -39,7 +35,6 @@ export const Canvas : FC<CanvasProps> = (props) => {
     const dispatch = useAppDispatch();
     const useSelector = useAppSelector;
     const [svgSize, setSvgSize] = useState({width : 0, height: 0})
-    const [gridPosition, setGridPosition] = useState<Coordinates>({posX: 0, posY: 0});
     const canvasBoundingElementRef = useRef<HTMLDivElement>(null);
     const scale = useSelector(currentZoom); 
     const {coordinates : translate, onMouseDownHandler, onMouseUpHandler} = useDragableSVGCompoennt<SVGGElement>();
@@ -80,7 +75,6 @@ export const Canvas : FC<CanvasProps> = (props) => {
                     <g transform={convertMatrixToString(mainGroupTransformMatrix)} onMouseDown={onMouseDownHandler} onMouseUp={onMouseUpHandler} >   
                             <CanvasGridElement size={svgSize} />
                             {props.children}            // Canvas Elements
-                            <ConnectionManager/> 
                     </g>
                 </svg>
         </div>
@@ -97,7 +91,7 @@ const CanvasGridElement : FC<CanvasGridElementProps> = (props) => {
     const dispatch = useAppDispatch();
 
     const onClickHandler : MouseEventHandler<SVGElement> = (e) => {
-        dispatch(deselect());
+        dispatch(deselectAll());
     }
 
     return(

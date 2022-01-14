@@ -3,26 +3,39 @@ import { RootState } from "Store/Store";
 
 type ElementSelectionState = {
     selectedElementID: string | null;
+    selectedEndPoint : string | null;
 }
 
 const initialState : ElementSelectionState = {
-    selectedElementID : null
+    selectedElementID : null,
+    selectedEndPoint :  null,
 }
 
 const elementSelectionSlice = createSlice({
     name : "SelectedElement", 
     initialState,
     reducers: {
-        select(state, action : PayloadAction<string>) {
+        selectElement(state, action : PayloadAction<string>) {
             state.selectedElementID = action.payload;
         },
-        deselect(state) {
+        deselectElement(state){
             state.selectedElementID = null;
-        }     
+        },
+        deselectAll(state) {
+            state.selectedElementID = null;
+            state.selectedEndPoint =  null;
+        },
+        selectEndPoint(state, action : PayloadAction<string>){
+            state.selectedEndPoint = action.payload;
+        },
+        deselectEndPoint(state){
+            state.selectedEndPoint = null
+        }    
     }
 })
 
-export const selectSelectedElementID = (state : RootState) => state.selectedElement.selectedElementID;
+export const selectSelectedElementID = (state : RootState) => state.elementSelection.selectedElementID;
+export const selectedEndPoint = (state : RootState) => state.elementSelection.selectedEndPoint;
 
-export const {select, deselect} = elementSelectionSlice.actions;
+export const {selectElement, deselectElement, deselectAll, selectEndPoint, deselectEndPoint} = elementSelectionSlice.actions;
 export default elementSelectionSlice.reducer;

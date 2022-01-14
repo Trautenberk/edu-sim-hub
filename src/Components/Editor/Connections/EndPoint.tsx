@@ -1,10 +1,11 @@
-import {FC, MouseEventHandler, useContext, useEffect, useState} from "react"
-import { CanvasContext } from "../../../Store/Editor/Canvas/CanvasContext"
-import { useConnectionPoint } from "../CustomHooks/useConnectionPoint"
+import {FC, MouseEventHandler, useEffect, useRef} from "react"
 import styles from "Styles/Editor//EndPoint.module.css"
-import { Coordinates } from "Components/Utilities/UtilMethodsAndTypes"
-
-
+import {convertToVisibility, Coordinates} from "Components/Utilities/UtilMethodsAndTypes"
+import {selectSelectedElementID} from "Feature/ElementSelectionSlice"
+import {useAppSelector, useAppDispatch} from "Store/Hooks"
+import {registerEndPoint} from "Feature/CanvasContextSlice"
+import uniqid from "uniqid"
+import {selectEndPoint, selectedEndPoint} from "Feature/ElementSelectionSlice"
 export type EndPointProps = {
     parentElementID : string,
     elementCoordinates : Coordinates,
@@ -12,9 +13,9 @@ export type EndPointProps = {
 }
 
 export const EndPoint : FC<EndPointProps> = (props) => {
-    const context = useContext(CanvasContext);
-
-    const {pointID, dispatchPointClicked, dispatchPointMoved} = useConnectionPoint()
+    const useSelector = useAppSelector;
+    const dispatch = useAppDispatch();
+    const pointID = useRef(uniqid())
     const getCanvasCoords = () : Coordinates => {
         return {
             posX : (props.groupCoordinates?.posX ?? 0) + props.elementCoordinates.posX,
@@ -25,17 +26,18 @@ export const EndPoint : FC<EndPointProps> = (props) => {
 
     const clickedHandler : MouseEventHandler<SVGCircleElement> = (e) => {
         e.stopPropagation();
-        dispatchPointClicked(getCanvasCoords());
+        dispatch(selectEndPoint(pointID.current));
     }
 
-    const style =   context.isSelectedEndPoint(pointID.current) ? styles.EndPointSelected : styles.EndPoint 
+    const style =  useSelector(state => selectedEndPoint(state)) === pointID.current ? styles.EndPointSelected : styles.EndPoint 
+    const visible = convertToVisibility(useSelector(state => selectSelectedElementID(state) === props.parentElementID));
 
     useEffect(() => {
-        context.registerEndPoint({pointID: pointID.current, coords : getCanvasCoords() });
+        dispatch(registerEndPoint({id: pointID.current, coords : getCanvasCoords()}))
     }, [])
 
     return(
-        <circle onClick={clickedHandler} visibility={"visible"} className={style} 
+        <circle onClick={clickedHandler} visibility={visible} className={style} 
         cx={props.elementCoordinates.posX} cy={props.elementCoordinates.posY}  r={5}/>
     )
 }
