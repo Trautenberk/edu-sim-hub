@@ -1,8 +1,9 @@
-import { FC, MouseEventHandler, useCallback, useContext, useState } from "react"
+import { FC, useContext, useState } from "react"
 import uniqid from "uniqid";
-import { CanvasContext, Coordinates, Connection } from "../../../Store/Editor/Canvas/CanvasContext"
-import { ConnectionPoint, pointMovedEventDetails } from "../CustomHooks/useConnectionPoint";
+import { CanvasContext, Connection } from "../../../Store/Editor/Canvas/CanvasContext"
+import { ConnectionPoint } from "../CustomHooks/useConnectionPoint";
 import styles from "Styles/Editor//ConnectionLine.module.css"
+import { Coordinates } from "Components/Utilities/UtilMethodsAndTypes";
 
 
 type LinePoint = {

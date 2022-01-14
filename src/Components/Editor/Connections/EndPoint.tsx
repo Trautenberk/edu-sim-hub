@@ -1,8 +1,8 @@
 import {FC, MouseEventHandler, useContext, useEffect, useState} from "react"
-import uniqid from "uniqid"
-import { CanvasContext, Coordinates } from "../../../Store/Editor/Canvas/CanvasContext"
+import { CanvasContext } from "../../../Store/Editor/Canvas/CanvasContext"
 import { useConnectionPoint } from "../CustomHooks/useConnectionPoint"
 import styles from "Styles/Editor//EndPoint.module.css"
+import { Coordinates } from "Components/Utilities/UtilMethodsAndTypes"
 
 
 export type EndPointProps = {

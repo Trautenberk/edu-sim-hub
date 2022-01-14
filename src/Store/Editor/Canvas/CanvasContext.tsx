@@ -1,20 +1,9 @@
+import { Boundaries, Coordinates } from "Components/Utilities/UtilMethodsAndTypes";
 import {createContext, FC, useCallback, useEffect, useRef, useState} from "react";
 import uniqid from "uniqid";
 import { ConnectionPoint, pointClickedEventName ,pointClickedEventDetails } from "../../../Components/Editor/CustomHooks/useConnectionPoint";
 
-export type Coordinates = {
-    posX : number,
-    posY : number
-}
 
-
-const INIT_POS_OFFSET_X = 50;
-const INIT_POS_OFFSET_Y = 50 
-
-export type Boundaries = {
-    left : number,
-    top : number
-}
 
 export type Connection = {
     connectionID : string,
@@ -22,10 +11,6 @@ export type Connection = {
 }
 
 interface ICanvasContext {
-    initPos : Coordinates ;
-    updateInitPos : (position : Coordinates) => void,
-    canvasBoundaries : Boundaries,
-    updateCanvasBoundaries : (boundaries : Boundaries) => void,
     isSelectedEndPoint : (id : string | null) => boolean,
     registerEndPoint : (point : ConnectionPoint) => void,
     connections : Connection[],
@@ -34,10 +19,6 @@ interface ICanvasContext {
 }
 
 const defaultState : ICanvasContext = {
-    initPos : {posX : 0, posY : 0},
-    updateInitPos : () => { throw new Error("Method not implemeted!")}, 
-    canvasBoundaries : {left : 0, top : 0},
-    updateCanvasBoundaries : () => { throw new Error("Method not implemeted!")},
     isSelectedEndPoint: () => { throw new Error("Method not implemeted!")},
     registerEndPoint : () => {throw new Error("Method not implemeted!")},
     connections : [],
@@ -58,24 +39,13 @@ export const CanvasContext = createContext<ICanvasContext>(defaultState);
 
 export const CanvasContextProvider : FC = ({children}) => {
     const [selectedEndPointID, setSelectedEndpointID] = useState<string | null>(null);
-    const [initPos, setInitPos] = useState(defaultState.initPos);
     const [canvasState, setCanvasState] = useState<CanvasState>(CanvasState.normal);
-    const [canvasBoundaries, setCanvasBoundaries] = useState(defaultState.canvasBoundaries);
     const endPointsCollection = useRef<ConnectionPoint[]>([]);
     const [connections, setConnections] = useState<Connection[]>([]);
     const newConnectionID = useRef<string>("");
     const mouseCoords = useRef<Coordinates>({posX : 0, posY : 0});
     const [drawLineVisibility, setDrawLineVisibility] = useState<"hidden" | "visible">(defaultState.drawLineVisibility);
     const [drawLineCoords, setDrawLineCoords] = useState(defaultState.drawLineCoords)
-
-    const updateInitPos = (position : Coordinates ) => {
-        setInitPos(position);
-    }
-
-    const updateCanvasBoundaries =  (boundaries :  {left : number, top : number}) => {
-        setCanvasBoundaries(boundaries);
-        setInitPos({posX: boundaries.left + INIT_POS_OFFSET_X , posY : boundaries.top +  INIT_POS_OFFSET_Y })
-    }
 
 
     const isSelectedEndPoint = (id : string | null) : boolean => {
@@ -131,25 +101,21 @@ export const CanvasContextProvider : FC = ({children}) => {
         }
     }, [])
 
-
-    const mouseMoveEventHandler = useCallback(
-        (e : MouseEvent) => {
-            // console.log(` Souradnice noveho bodu: ${e.clientX - canvasBoundaries.left,  e.clientY - canvasBoundaries.top}`)
-            mouseCoords.current = {posX : e.clientX - canvasBoundaries.left, posY: e.clientY - canvasBoundaries.top}
-        },[],
-    )
+    // TODO - nevim proč to tu je
+    // const mouseMoveEventHandler = useCallback(
+    //     (e : MouseEvent) => {
+    //         // console.log(` Souradnice noveho bodu: ${e.clientX - canvasBoundaries.left,  e.clientY - canvasBoundaries.top}`)
+    //         mouseCoords.current = {posX : e.clientX - canvasBoundaries.left, posY: e.clientY - canvasBoundaries.top}
+    //     },[],
+    // )
 
     useEffect(() => {
         document.addEventListener(pointClickedEventName, pointClickedHandler);
-        document.addEventListener("mousemove",mouseMoveEventHandler);
+        // document.addEventListener("mousemove",mouseMoveEventHandler); // TODO - taky nevim proč to tu je v tuto chvíli
     }, [])
 
     return(
         <CanvasContext.Provider value={{
-            initPos,
-            updateInitPos,
-            canvasBoundaries,
-            updateCanvasBoundaries,
             isSelectedEndPoint,
             registerEndPoint,
             connections, 

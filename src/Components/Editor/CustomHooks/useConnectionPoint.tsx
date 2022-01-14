@@ -1,6 +1,6 @@
-import { MouseEventHandler, useMemo, useRef } from "react"
+import { Coordinates } from "Components/Utilities/UtilMethodsAndTypes";
+import { useMemo, useRef } from "react"
 import uniqid from "uniqid"
-import { Coordinates } from "../../../Store/Editor/Canvas/CanvasContext"
 
 
 export const pointMovedEventName = "point-moved-event";

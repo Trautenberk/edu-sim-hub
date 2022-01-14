@@ -1,15 +1,15 @@
 
-import React, { Children, FC, MouseEventHandler, useContext, useEffect, useRef, useState, cloneElement, ReactElement, isValidElement } from "react"
-import { CanvasContext, Coordinates } from "../../Store/Editor/Canvas/CanvasContext";
+import { Children, FC, useEffect, cloneElement, ReactElement, isValidElement } from "react"
 import { EndPoint, EndPointProps } from "./Connections/EndPoint";
 import { useDragableSVGCompoennt } from "./CustomHooks/useDraggableSVG"
-
-
+import {selectInitPos} from "Feature/CanvasContextSlice"
+import { useAppSelector } from "Store/Hooks";
 
 
 export const MovableSVGGroupElement : FC = ({children}) => {
-    const context = useContext(CanvasContext);
-    
+    const useSelector = useAppSelector;
+
+    const initPos = useSelector(state => selectInitPos(state));
     const {
         coordinates,
         setCoordinates,
@@ -19,7 +19,7 @@ export const MovableSVGGroupElement : FC = ({children}) => {
 
 
     useEffect(() => {
-        setCoordinates(context.initPos);
+        setCoordinates(initPos);
     }, []);
 
 

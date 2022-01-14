@@ -1,10 +1,9 @@
-import { FC, MouseEventHandler, useContext, useState } from "react"
+import { FC, useContext, useState } from "react"
 import uniqid from "uniqid"
-import { CanvasContext, Coordinates } from "../../../Store/Editor/Canvas/CanvasContext"
+import { CanvasContext } from "../../../Store/Editor/Canvas/CanvasContext"
 import { useDragableSVGCompoennt } from "../CustomHooks/useDraggableSVG"
 import styles from "Styles/Editor/ConnectionLine.module.css"
-
-
+import { Coordinates } from "Components/Utilities/UtilMethodsAndTypes"
 
 export const ConnectionLine : FC<Coordinates[]> = (points) => {
 

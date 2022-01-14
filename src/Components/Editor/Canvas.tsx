@@ -1,13 +1,12 @@
-import  {MouseEventHandler, useContext, useRef, useEffect,  useState, FC, useCallback} from "react"; 
-import {CanvasContext, Coordinates} from "../../Store/Editor/Canvas/CanvasContext"
+import  {MouseEventHandler, useContext, useRef, useEffect,  useState, FC} from "react"; 
 import { ConnectionManager } from "./Connections/ConnectionManager";
 import { useDragableSVGCompoennt } from "./CustomHooks/useDraggableSVG";
 import styles from "Styles/Editor/CanvasStyle.module.scss";
 import {deselect} from "Feature/ElementSelectionSlice"
 import  {useAppDispatch, useAppSelector} from "Store/Hooks"
 import { zoom, currentZoom } from "Feature/ZoomSlice";
-import { convertMatrixToString, TransormMatrix } from "Components/Utilities/UtilMethodsAndTypes";
-
+import { convertMatrixToString, TransormMatrix, Coordinates } from "Components/Utilities/UtilMethodsAndTypes";
+import { selectCanvasBoundaries, updateCanvasBoundaries} from "Feature/CanvasContextSlice"
 interface ICanvasProps {
     filters? : any[];
 }
@@ -39,12 +38,11 @@ export type CanvasMouseMoveEventDetail = {
 export const Canvas : FC<CanvasProps> = (props) => {
     const dispatch = useAppDispatch();
     const useSelector = useAppSelector;
-    const context = useContext(CanvasContext);
     const [svgSize, setSvgSize] = useState({width : 0, height: 0})
     const [gridPosition, setGridPosition] = useState<Coordinates>({posX: 0, posY: 0});
     const canvasBoundingElementRef = useRef<HTMLDivElement>(null);
     const scale = useSelector(currentZoom); 
-    const {coordinates : translate ,onMouseDownHandler, onMouseUpHandler} = useDragableSVGCompoennt<SVGGElement>();
+    const {coordinates : translate, onMouseDownHandler, onMouseUpHandler} = useDragableSVGCompoennt<SVGGElement>();
     
     const mainGroupTransformMatrix : TransormMatrix = ( { scaleX: scale, skewY : 0 , skewX : 0, scaleY : scale, translateX : translate.posX, transalteY : translate.posY } )
 
@@ -58,13 +56,12 @@ export const Canvas : FC<CanvasProps> = (props) => {
     }
 
     useEffect(() => {
-        if(canvasBoundingElementRef.current != null ){
-            const boundElement = canvasBoundingElementRef.current;
-            setSvgSize( { width: boundElement.clientWidth, height: boundElement.clientHeight } );
-            context.updateCanvasBoundaries({left: boundElement.getBoundingClientRect().left, top: boundElement.getBoundingClientRect().top})}
-            
-            canvasBoundingElementRef.current?.addEventListener("wheel", zoomHandler, {passive: false})
-    
+            if(canvasBoundingElementRef.current != null ){
+                const boundElement = canvasBoundingElementRef.current;
+                setSvgSize( { width: boundElement.clientWidth, height: boundElement.clientHeight } );
+                dispatch(updateCanvasBoundaries({left: boundElement.getBoundingClientRect().left, top: boundElement.getBoundingClientRect().top}))            
+                canvasBoundingElementRef.current?.addEventListener("wheel", zoomHandler, {passive: false})   
+            }
         }, []) ;
 
     return(
@@ -96,19 +93,12 @@ type CanvasGridElementProps = {
 }
 
 const CanvasGridElement : FC<CanvasGridElementProps> = (props) => {
-    const context = useContext(CanvasContext);
     const gridRef = useRef<SVGRectElement>(null);
-
     const dispatch = useAppDispatch();
 
     const onClickHandler : MouseEventHandler<SVGElement> = (e) => {
-        const clickCoords : Coordinates = {
-            posX : e.clientX - context.canvasBoundaries.left,
-            posY: e.clientY - context.canvasBoundaries.top
-        }
         dispatch(deselect());
     }
-
 
     return(
         <g>

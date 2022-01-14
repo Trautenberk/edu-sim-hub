@@ -1,6 +1,6 @@
 import { FunctionComponent, ReactElement, useContext, MouseEventHandler} from "react";
 import { EditorItem } from "../../EditorItem";
-import { CanvasContext, Coordinates } from "../../../../Store/Editor/Canvas/CanvasContext"
+import { CanvasContext } from "../../../../Store/Editor/Canvas/CanvasContext"
 import uniqid from "uniqid"
 import { MovableSVGGroupElement } from "../../MovableSVGGroupElement"
 import { EndPoint } from "../../Connections/EndPoint";
@@ -8,7 +8,7 @@ import spotsvg from "./icons/petri-spot.svg"
 import styles from "Styles/PetriNets/SpotStyle.module.scss"
 import { select, selectSelectedElementID } from "Feature/ElementSelectionSlice"
 import {useAppDispatch, useAppSelector} from "Store/Hooks"
-import {convertToVisibility} from "Components/Utilities/UtilMethodsAndTypes"
+import {convertToVisibility, Coordinates} from "Components/Utilities/UtilMethodsAndTypes"
 
 const SpotFilter : FunctionComponent<{filterID : string}>  = ({filterID}) =>{ 
     return(
@@ -51,7 +51,6 @@ type CanvasElementProps ={
 }
 
 const SpotCanvasElement : FunctionComponent<CanvasElementProps> = (props) => {
-    const context = useContext(CanvasContext);
     const dispatch = useAppDispatch();
     const useSelector = useAppSelector;
     const onClickHandler : MouseEventHandler<SVGGElement> = () => {
