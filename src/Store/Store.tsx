@@ -1,13 +1,12 @@
 import {configureStore} from "@reduxjs/toolkit"
-import elementSelectionReducer from "../Feature/ElementSelectionSlice"
 import zoomReducer from "Feature/ZoomSlice"
 import canvasContextReducer from "Feature/CanvasContextSlice"
-
+import pointConnectionReducer from "Feature/PointConnectionAndSelectionSlice"
 export const store = configureStore({
     reducer: {
-        elementSelection : elementSelectionReducer,
         zoom : zoomReducer,
-        canvasContext : canvasContextReducer
+        canvasContext : canvasContextReducer,
+        pointConnectionAndSelection : pointConnectionReducer,
     }
 })
 

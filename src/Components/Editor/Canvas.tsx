@@ -1,11 +1,11 @@
-import  {MouseEventHandler, useRef, useEffect,  useState, FC} from "react"; 
-import { useDragableSVGCompoennt } from "./CustomHooks/useDraggableSVG";
+import {MouseEventHandler, useRef, useEffect,  useState, FC} from "react"; 
+import {useDragableSVGCompoennt } from "./CustomHooks/useDraggableSVG";
 import styles from "Styles/Editor/CanvasStyle.module.scss";
-import {deselectAll} from "Feature/ElementSelectionSlice"
-import  {useAppDispatch, useAppSelector} from "Store/Hooks"
-import { zoom, currentZoom } from "Feature/ZoomSlice";
-import { convertMatrixToString, TransormMatrix, Coordinates } from "Components/Utilities/UtilMethodsAndTypes";
-import { updateCanvasBoundaries} from "Feature/CanvasContextSlice"
+import {useAppDispatch, useAppSelector} from "Store/Hooks"
+import {zoom, currentZoom } from "Feature/ZoomSlice";
+import {convertMatrixToString, TransormMatrix } from "Components/Utilities/UtilMethodsAndTypes";
+import {updateCanvasBoundaries} from "Feature/CanvasContextSlice"
+import {gridClicked} from "Feature/PointConnectionAndSelectionSlice"
 
 export type CanvasElementProps = {
     id : string;
@@ -91,7 +91,7 @@ const CanvasGridElement : FC<CanvasGridElementProps> = (props) => {
     const dispatch = useAppDispatch();
 
     const onClickHandler : MouseEventHandler<SVGElement> = (e) => {
-        dispatch(deselectAll());
+        dispatch(gridClicked({posX: e.clientX, posY: e.clientY})); 
     }
 
     return(

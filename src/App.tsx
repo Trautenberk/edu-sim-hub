@@ -25,6 +25,7 @@ type MainComponent = {
 /**
  *  Komponenta reprezentující aplikaci
  * @component
+ * 
  */
 export const App : FC = () => {
 
