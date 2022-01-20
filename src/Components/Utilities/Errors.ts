@@ -7,5 +7,6 @@ export function InvalidArgTypeError (argName : string, expectedType : string, re
 export class NotImplementedException extends Error {
     constructor(){
         super(" method not implemented yet!!")
-    }
+    } 
+  
 }

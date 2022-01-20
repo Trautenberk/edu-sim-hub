@@ -5,6 +5,8 @@ import {EditorItem} from "./EditorItem"
 import { CanvasContextProvider } from "../../Store/Editor/Canvas/CanvasContext";
 import { Menu, MenuItemButton } from "Components/Utilities/UtilComponents/Menu";
 import uniqid from "uniqid";
+import { useAppSelector } from "Store/Hooks";
+import { selectHint } from "Feature/PointConnectionAndSelectionSlice";
 
 type EditorProps = {
     items : EditorItem[];
@@ -12,7 +14,6 @@ type EditorProps = {
 }
 
 export const Editor : FC<EditorProps> = (props) => {
-    
     const [canvasElements, setCanvasElements] = useState<ReactElement[]>([]);
 
     const clearEventHandler : EventListener =  useCallback<EventListener>(
