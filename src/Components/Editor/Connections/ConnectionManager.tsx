@@ -10,9 +10,6 @@ type ConnectionManagerProps = {
 
 export const ConnectionManager : FC = () => {
 
-
-
-
     return (
         <>
         </>

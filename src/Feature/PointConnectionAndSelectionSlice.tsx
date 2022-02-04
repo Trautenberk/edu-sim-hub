@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Coordinates, PointBriefDesc } from "Components/Utilities/UtilMethodsAndTypes";
+import { Coordinates, NULL_COOORDS, PointBriefDesc } from "Components/Utilities/UtilMethodsAndTypes";
 import { RootState } from "Store/Store";
 
 
@@ -40,6 +40,7 @@ const pointConnectionSlice = createSlice({
         },
         endPointClicked(state, action : PayloadAction<string>){
             state.selectedEndPoint = action.payload;
+            state.hint = true;
         },
         // registrace endPointu
         registerEndPoint(state, action : PayloadAction<PointBriefDesc>){
@@ -63,10 +64,10 @@ const pointConnectionSlice = createSlice({
         },
         // aktualizace souřadnic endPointu
         updatePointCoords(state, action : PayloadAction<PointBriefDesc>){
-            if(Object.keys(state.endPoints).includes(action.payload.id)){   // pokud slovnik obsahuje endPoint s přijatým id
+            if(state.endPoints.includes(action.payload.id)){   // pokud slovnik obsahuje endPoint s přijatým id
                 state.points[action.payload.id] = action.payload.coords;  // provede update
             } else {
-                console.error(`update of nonexisting point ${action.payload.id}`);
+                // console.error(`update of nonexisting point ${action.payload.id}`); // TODO vyřešit logovani jinak
             }
         },
         // kliknuto na plochu 
@@ -77,16 +78,16 @@ const pointConnectionSlice = createSlice({
             }
             if(state.selectedElementID != null && state.selectedEndPoint != null) {
                 state.selectedElementID = null;
-                if ( Object.keys(state.endPoints).length === 1 ){   
-                    // TODO dodelat messageBox a vypsat hlasku
-                    console.warn("no other endpoints to connect to");
-                    state.selectedElementID = null;
-                    state.selectedEndPoint = null;
-                    return;
-                } else {
-                    // TODO zacit spojovat
-                }
-            }      
+                //if ( Object.keys(state.endPoints).length === 1 ){ // TODO dodelat elementy do reduxu   
+                // TODO dodelat messageBox a vypsat hlasku
+                state.selectedElementID = null;
+                state.selectedEndPoint = null;
+                state.hint = false;
+                return;
+                // TODO zacit spojovat
+            } else {
+                console.warn("Tady by to nemelo dojit");
+            }     
         }
     },
 })
@@ -96,6 +97,14 @@ const pointConnectionSlice = createSlice({
 export const selectedElementID = (state : RootState) => state.pointConnectionAndSelection.selectedElementID;
 export const selectedEndPoint = (state : RootState) => state.pointConnectionAndSelection.selectedEndPoint;
 export const selectHint = (state : RootState) => state.pointConnectionAndSelection.hint;
-export const selectHintStartCoords = (state : RootState) => state.pointConnectionAndSelection.endPoints[state.pointConnectionAndSelection.startingEndPoint]
+export const selectHintStartCoords = (state : RootState) => {   // počáteční souřadnice hintLine
+    if (state.pointConnectionAndSelection.selectedEndPoint != null) {
+        return state.pointConnectionAndSelection.points[state.pointConnectionAndSelection.selectedEndPoint]
+    } else {
+        // console.error("NULL_CORDS returned from selector") // TODO taky vyresit lepe
+        return NULL_COOORDS;
+    } 
+}
+
 export const {endPointClicked, gridClicked, registerEndPoint, unregisterEndPoint, updatePointCoords, elementClicked} = pointConnectionSlice.actions
 export default pointConnectionSlice.reducer;

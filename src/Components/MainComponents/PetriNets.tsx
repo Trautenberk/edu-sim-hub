@@ -1,8 +1,8 @@
 import { FC, useState } from "react";
 import { Action } from "../../App";
 import { Editor } from "../Editor/Editor";
-import { Spot } from "../Editor/MenuItems/PetriNets/Spot";
-import { Transition } from "../Editor/MenuItems/PetriNets/Transition";
+import { Place } from "../PetriNets/PlaceSVGComponent";
+import { Transition } from "../PetriNets/TransitionSVGComponent";
 import { Menu, MenuItemButton } from "../Utilities/UtilComponents/Menu";
 import {Loader} from "Components/Utilities/UtilComponents/Loader"
 import { setTimeout } from 'timers';
@@ -24,7 +24,7 @@ export const PetriNets : FC<PetriNetsProps> = (props) => {
     }
 
     const [showLoader, setShowLoader] = useState(false);
-    const [items] = useState([new Spot(), new Transition()]);
+    const [items] = useState([new Place(), new Transition()]);
 
     const showLoaderForDuration = async (duration : number) => {
         setShowLoader(true);

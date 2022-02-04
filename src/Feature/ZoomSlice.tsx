@@ -33,6 +33,6 @@ const zoomSlice = createSlice({
         }
     }
 })
-export const currentZoom = (state : RootState) => state.zoom.currentZoomScale;
+export const selelctCurrentZoom = (state : RootState) => state.zoom.currentZoomScale;
 export const {zoom} = zoomSlice.actions;
 export default zoomSlice.reducer;

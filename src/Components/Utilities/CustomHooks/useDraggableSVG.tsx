@@ -1,6 +1,6 @@
 import {useState, useMemo, useCallback, MouseEventHandler, useRef} from "react"
-import {calcCoordinatesFromMouseEvent, Coordinates } from "Components/Utilities/UtilMethodsAndTypes"
-import {currentZoom} from "Feature/ZoomSlice";
+import {calcCoordinatesFromMouseEvent, calcCoordinatesWithZoomScale, Coordinates } from "Components/Utilities/UtilMethodsAndTypes"
+import {selelctCurrentZoom} from "Feature/ZoomSlice";
 import {useAppSelector} from "Store/Hooks";
 import {selectCanvasBoundaries} from "Feature/CanvasContextSlice"
 export const useDragableSVGCompoennt = <T extends SVGElement>() => {
@@ -9,15 +9,15 @@ export const useDragableSVGCompoennt = <T extends SVGElement>() => {
     const initElementPos = useRef<Coordinates>({posX: 0, posY: 0});
     const useSelector = useAppSelector;
     
-    const zoom = useSelector(state => currentZoom(state))
+    const zoom = useSelector(selelctCurrentZoom)
     const canvasBoundaries = useSelector(state => selectCanvasBoundaries(state));
 
     const mouseMoveEventHandler = useCallback(
         (e : MouseEvent) => {
             const currentMousePos = calcCoordinatesFromMouseEvent(e, canvasBoundaries);
-            const moveVector = {posX: currentMousePos.posX - initMousePos.current.posX, posY: currentMousePos.posY - initMousePos.current.posY }
-
-            setCoordinates({posX: initElementPos.current.posX + (moveVector.posX / zoom), posY : initElementPos.current.posY + (moveVector.posY / zoom)})
+            const scaledMoveVector = calcCoordinatesWithZoomScale({posX: currentMousePos.posX - initMousePos.current.posX, posY: currentMousePos.posY - initMousePos.current.posY}, zoom);
+            
+            setCoordinates({posX: initElementPos.current.posX + scaledMoveVector.posX, posY : initElementPos.current.posY + scaledMoveVector.posY})
         },[canvasBoundaries, zoom],
     )
 

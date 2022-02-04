@@ -46,8 +46,7 @@ export const App : FC = () => {
 
   const [mainComponents] = useState([ 
     {name: "Petriho sítě", component: <PetriNets topMenuActions={topMenuActions}/>},
-    {name: "SHO", component: <PetriNets topMenuActions={topMenuActions}/>},
-    {name: "Spojitá simulace", component: <PetriNets topMenuActions={topMenuActions}/>}
+    {name: "Spojitá bloková schémata", component: <PetriNets topMenuActions={topMenuActions}/>}
 
   ]);
 

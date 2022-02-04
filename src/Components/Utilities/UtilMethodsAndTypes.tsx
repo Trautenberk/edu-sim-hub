@@ -9,6 +9,11 @@ export type Coordinates = {
     posX : number,
     posY : number
 }
+
+export const NULL_COOORDS : Coordinates = {
+                    posX : 0,
+                    posY : 0
+                }
 export type Boundaries = {
     left : number,
     top : number
@@ -36,10 +41,15 @@ export const calcCoordinates = (coords : Coordinates, boundaries: Boundaries) : 
     return {posX : coords.posX - boundaries.left, posY : coords.posY - boundaries.top}
 }
 
-
-export function calcCoordinatesFromMouseEvent (evt : React.MouseEvent, boundaries : Boundaries) : Coordinates;
-export function calcCoordinatesFromMouseEvent (evt : MouseEvent , boundaries : Boundaries) : Coordinates;
-
-export function calcCoordinatesFromMouseEvent (evt : any, boundaries : Boundaries) {    
+export function calcCoordinatesFromMouseEvent (evt : MouseEvent | React.MouseEvent, boundaries : Boundaries) : Coordinates;
+export function calcCoordinatesFromMouseEvent (evt : MouseEvent | React.MouseEvent, boundaries : Boundaries, zoomScale : number) : Coordinates;
+export function calcCoordinatesFromMouseEvent (evt : any, boundaries : Boundaries, zoomScale? : number) {
+    if(zoomScale != null){
+        return calcCoordinatesWithZoomScale(calcCoordinatesFromMouseEvent(evt, boundaries), zoomScale);
+    }    
     return calcCoordinates({posX: evt.pageX, posY: evt.pageY}, boundaries);
+}
+
+export function calcCoordinatesWithZoomScale (coords : Coordinates, zoomScale : number) : Coordinates {
+    return {posX: coords.posX / zoomScale, posY :  coords.posY / zoomScale}
 }

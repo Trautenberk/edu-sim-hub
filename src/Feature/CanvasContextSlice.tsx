@@ -1,6 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { NotImplementedException } from "Components/Utilities/Errors";
-import { Boundaries, Coordinates, PointBriefDesc } from "Components/Utilities/UtilMethodsAndTypes";
+import { Boundaries, Coordinates } from "Components/Utilities/UtilMethodsAndTypes";
 import { RootState } from "Store/Store";
 
 const INIT_POS_OFFSET_X = 50;

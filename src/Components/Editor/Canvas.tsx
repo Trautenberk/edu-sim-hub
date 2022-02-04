@@ -1,10 +1,10 @@
 import {MouseEventHandler, useRef, useEffect,  useState, FC, useCallback} from "react"; 
-import {useDragableSVGCompoennt } from "./CustomHooks/useDraggableSVG";
+import {useDragableSVGCompoennt } from "../Utilities/CustomHooks/useDraggableSVG";
 import styles from "Styles/Editor/CanvasStyle.module.scss";
 import {useAppDispatch, useAppSelector} from "Store/Hooks"
-import {zoom, currentZoom } from "Feature/ZoomSlice";
-import {convertMatrixToString, Coordinates, TransormMatrix } from "Components/Utilities/UtilMethodsAndTypes";
-import {updateCanvasBoundaries} from "Feature/CanvasContextSlice"
+import {zoom, selelctCurrentZoom } from "Feature/ZoomSlice";
+import {Boundaries, calcCoordinatesFromMouseEvent, convertMatrixToString, Coordinates, TransormMatrix } from "Components/Utilities/UtilMethodsAndTypes";
+import {selectCanvasBoundaries, updateCanvasBoundaries} from "Feature/CanvasContextSlice"
 import {gridClicked, selectHint, selectHintStartCoords} from "Feature/PointConnectionAndSelectionSlice"
 
 export type CanvasElementProps = {
@@ -40,7 +40,7 @@ export const Canvas : FC<CanvasProps> = (props) => {
 
     const [svgSize, setSvgSize] = useState({width : 0, height: 0})
     const canvasBoundingElementRef = useRef<HTMLDivElement>(null);
-    const scale = useSelector(currentZoom); 
+    const scale = useSelector(selelctCurrentZoom); 
     const {coordinates : translate, onMouseDownHandler, onMouseUpHandler} = useDragableSVGCompoennt<SVGGElement>();
     
     const mainGroupTransformMatrix : TransormMatrix = ( { scaleX: scale, skewY : 0 , skewX : 0, scaleY : scale, translateX : translate.posX, transalteY : translate.posY } )
@@ -95,7 +95,11 @@ type CanvasGridElementProps = {
 const CanvasGridElement : FC<CanvasGridElementProps> = (props) => {
     const gridRef = useRef<SVGRectElement>(null);
     const dispatch = useAppDispatch();
+    const useSelector = useAppSelector;
     const [hintEndCoords, setHintEndCoords] = useState<Coordinates>(props.hintStartCoords);
+    const canvasBoundaries : Boundaries = useSelector(selectCanvasBoundaries);
+
+    const zoom = useSelector(selelctCurrentZoom);
 
     const onClickHandler : MouseEventHandler<SVGElement> = (e) => {
         dispatch(gridClicked({posX: e.clientX, posY: e.clientY})); 
@@ -104,11 +108,18 @@ const CanvasGridElement : FC<CanvasGridElementProps> = (props) => {
     const hintMouseMoveHandler : MouseEventHandler =  useCallback(
         (e) => {
             if(props.hint === true){
-                setHintEndCoords({posX : e.clientX, posY: e.clientY});
+                console.log(JSON.stringify({posX : e.pageX, posY: e.pageY}))
+
+                setHintEndCoords(calcCoordinatesFromMouseEvent(e, canvasBoundaries, zoom));
             }
         },
-        [props.hint],
+        [props.hint, canvasBoundaries, zoom],
     )
+
+    useEffect(() => {
+        if(props.hint === true)
+        setHintEndCoords(props.hintStartCoords);
+    }, [props.hint])
 
 
 
@@ -141,7 +152,7 @@ type HintLineProps = {
 
 const HintLine : FC<HintLineProps> = (props) => {
     if(props.hint === true){
-        return <line x1="0" y1="50" x2="250" y2="50" stroke="#000" stroke-width="8" marker-end="url(#arrowhead)"/>
+        return <line x1={props.start.posX} y1={props.start.posY} x2={props.end.posX} y2={props.end.posY} stroke="#000" strokeWidth="2" markerEnd="url(#arrowhead)"/>
     }
     else{
         return <></>

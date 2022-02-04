@@ -1,7 +1,7 @@
 
 import { Children, FC, useEffect, cloneElement, ReactElement, isValidElement } from "react"
 import { EndPoint, EndPointProps } from "./Connections/EndPoint";
-import { useDragableSVGCompoennt } from "./CustomHooks/useDraggableSVG"
+import { useDragableSVGCompoennt } from "../Utilities/CustomHooks/useDraggableSVG"
 import {selectInitPos} from "Feature/CanvasContextSlice"
 import { useAppSelector } from "Store/Hooks";
 
