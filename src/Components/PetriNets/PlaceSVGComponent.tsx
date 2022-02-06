@@ -10,9 +10,6 @@ import {convertToVisibility, Coordinates} from "Components/Utilities/UtilMethods
 import {elementClicked, selectedElementID} from "Feature/PointConnectionAndSelectionSlice"
 
 export class Place extends EditorItem {
-    private id = uniqid()
-    public static hasFilter() : boolean {return true};
-    public static filterID() : string | undefined { return "SpotFilter"};
     public getCanvasElement: () => ReactElement  = () => {
         return (
             <PlaceSVGComponent  key={uniqid()} id={this.getElementId()}/>

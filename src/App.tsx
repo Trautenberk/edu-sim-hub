@@ -1,7 +1,11 @@
-import {FC,  ReactElement, useCallback, useEffect, useMemo, useState} from 'react';
-import { PetriNets } from './Components/MainComponents/PetriNets';
+import {FC,  ReactElement, useCallback,  useState} from 'react';
 import {Menu, MenuItemButton} from "./Components/Utilities/UtilComponents/Menu"
 import styles from "AppStyle.module.scss"
+import TopMenuStyle from "Styles/TopMenuStyle.module.scss";
+import { Loader } from 'Components/Utilities/UtilComponents/Loader';
+import { Editor } from 'Components/Editor/Editor';
+import { Place } from 'Components/PetriNets/PlaceSVGComponent';
+import { Transition } from 'Components/PetriNets/TransitionSVGComponent';
 
 
 /**
@@ -13,13 +17,9 @@ import styles from "AppStyle.module.scss"
 export type Action = {
   name : string,
   params? : any[],
-  method : (... params : any[]) => any
+  method : (...params : any[]) => any
 }
 
-type MainComponent = {
-  name : string,
-  component : ReactElement
-}
 
 
 /**
@@ -31,9 +31,7 @@ export const App : FC = () => {
 
   /* */
   const [showMenu, setShowMenu] = useState(true);
-  const [mainComponent, setMainComponent] = useState<ReactElement>();
  
-
   const showMainMenu = useCallback<()=>void>(
     () => {
      setShowMenu(true)
@@ -43,18 +41,19 @@ export const App : FC = () => {
     {name : "Do hlavního menu", method : showMainMenu}
   ])
 
-
-  const [mainComponents] = useState([ 
-    {name: "Petriho sítě", component: <PetriNets topMenuActions={topMenuActions}/>},
-    {name: "Spojitá bloková schémata", component: <PetriNets topMenuActions={topMenuActions}/>}
-
-  ]);
-
-  const onMainMenuItemSelected = (selectedComponent : ReactElement) => {
-    setMainComponent(selectedComponent);
+  const initializePetriNets = () => {
     setShowMenu(false);
   }
 
+  const initializeContBlocks = () => {
+    setShowMenu(false);
+  }
+
+
+  const [mainComponents] = useState([ 
+    {name: "Petriho sítě", initFunction: initializePetriNets},
+    {name: "Spojitá bloková schémata", initFunction: initializeContBlocks}
+  ]);
 
   if(showMenu){
     return(
@@ -63,8 +62,7 @@ export const App : FC = () => {
           {
             mainComponents.map(item => (
             <MenuItemButton buttonText={item.name}
-                            onItemSelectedParams={[item.component]}
-                            onItemSelected={onMainMenuItemSelected}
+                            onItemSelected={item.initFunction}
                             />
             ))
           }
@@ -75,7 +73,17 @@ export const App : FC = () => {
   else{
     return(
       <>
-      {mainComponent}
+            <Menu clasName={TopMenuStyle.top_menu}>
+                {
+                    topMenuActions.map((item) => (<MenuItemButton 
+                        buttonText={item.name}
+                        onItemSelected={item.method}
+                    />))
+                }
+
+            </Menu>
+            <Editor items={[new Place(), new Transition()]}></Editor>
+            <Loader visibile={false} >Jupiiiiiii </Loader>
       </>
     )
   }
