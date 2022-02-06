@@ -28,7 +28,7 @@ type TransitionCanvasElementProps = {
     id : string
 }
 
-const TransitionSVGComponent : FunctionComponent<TransitionCanvasElementProps> = (props) => {
+export const TransitionSVGComponent : FunctionComponent<TransitionCanvasElementProps> = (props) => {
     const dispatch = useAppDispatch()
     const useSelector = useAppSelector;
 

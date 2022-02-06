@@ -28,7 +28,7 @@ type CanvasElementProps ={
     canvasCoords? : Coordinates
 }
 
-const PlaceSVGComponent : FunctionComponent<CanvasElementProps> = (props) => {
+export const PlaceSVGComponent : FunctionComponent<CanvasElementProps> = (props) => {
     const dispatch = useAppDispatch();
     const useSelector = useAppSelector;
 

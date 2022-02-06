@@ -74,11 +74,11 @@ export const Canvas : FC<CanvasProps> = (props) => {
                         <rect width="80" height="80" fill="url(#smallGrid)"/>
                         <path d="M 80 0 L 0 0 0 80" fill="none" stroke="gray" strokeWidth="1"/>
                         </pattern>
-                        {props.filters}   // filters
+                        {props.filters}  
                     </defs>
                     <g transform={convertMatrixToString(mainGroupTransformMatrix)} onMouseDown={onMouseDownHandler} onMouseUp={onMouseUpHandler} >   
                             <CanvasGridElement size={svgSize} hint={hint} hintStartCoords={hintStartCoords} />
-                            {props.children}            // Canvas Elements
+                            {props.children}
                     </g>
                 </svg>
         </div>

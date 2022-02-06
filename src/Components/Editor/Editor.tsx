@@ -6,7 +6,6 @@ import { CanvasContextProvider } from "../../Store/Editor/Canvas/CanvasContext";
 import { Menu, MenuItemButton } from "Components/Utilities/UtilComponents/Menu";
 import uniqid from "uniqid";
 import { useAppSelector } from "Store/Hooks";
-import { selectHint } from "Feature/PointConnectionAndSelectionSlice";
 
 type EditorProps = {
     items : EditorItem[];
@@ -34,25 +33,25 @@ export const Editor : FC<EditorProps> = (props) => {
         }
     }, [])
 
-    return(
-        <>
-        <Menu clasName={styles.editor_menu} >
-            {
-                props.items.map(item => <MenuItemButton key={uniqid()}
+    const menuButtons  = props.items.map(item => 
+                                <MenuItemButton key={uniqid()}
                                          onItemSelected={onMenuItemClicked} 
                                          onItemSelectedParams={[item]}
                                          iconPath={item.iconPath}
                                          buttonText={item.name}>
-                    <img src={item.iconPath}></img>
-                     </MenuItemButton>)
-            }
-        </Menu>
+                                        <img src={item.iconPath}></img>
+                                </MenuItemButton>)
+
+    return(
+        <>
+            <Menu clasName={styles.editor_menu} >
+                {menuButtons}
+            </Menu>
             <CanvasContextProvider>
                 <Canvas>
                     {canvasElements}
                 </Canvas>
             </CanvasContextProvider>
-
         </>
     )
 }
