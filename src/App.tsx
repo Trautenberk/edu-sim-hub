@@ -1,4 +1,4 @@
-import {FC, useCallback,  useState} from 'react';
+import {FC, useCallback,  useMemo,  useState} from 'react';
 import {Menu, MenuItemButton} from "./Components/Utilities/UtilComponents/Menu"
 import styles from "AppStyle.module.scss"
 import editorStyles from "Styles/Editor/EditorStyle.module.scss"
@@ -12,6 +12,7 @@ import { Canvas } from 'Components/Editor/Canvas';
 import { PetriNetsComponentFactory } from 'Components/PetriNets/PetriNetsComponentFactory';
 import { ICanvasElementFactory } from 'Components/CanvasComponentFactory';
 import { useCanvasElementManagement } from 'Components/Utilities/CustomHooks/useCanvasElementManagement';
+import { DraggableSVGGroupElement } from 'Components/Editor/MovableSVGGroupElement';
 
 /**
  * @author Jaromír Březina
@@ -40,7 +41,7 @@ export const App : FC = () => {
   const [topMenuActions, setTopMenuActions] = useState<Action[]>([
     {name : "Do hlavního menu", method : showMainMenu}
   ])
-  const [canvasElementFactory, setCanvasElementFactory] = useState<ICanvasElementFactory | null>(null)
+  const [canvasElementFactory, setCanvasElementFactory] = useState<ICanvasElementFactory>(new PetriNetsComponentFactory())
 
   type CanvasElementType = {
     name: string,
@@ -73,7 +74,6 @@ export const App : FC = () => {
 
   const {elements, addElement} = useCanvasElementManagement();
 
-  const canvasElements = Object.values(elements).map(item => canvasElementFactory?.getElement(item))
   const [canvasElementTypes, setCanvasElementTypes] = useState<CanvasElementType[]>(petriNetsCanvasElementsTypes)
 
   if(showMenu){
@@ -93,7 +93,7 @@ export const App : FC = () => {
   }
   else{
     return(
-      <>
+      <div className={styles.main_page}>
         <Menu clasName={TopMenuStyle.top_menu}>
             {
                 topMenuActions.map(item => <MenuItemButton buttonText={item.name} onItemSelected={item.method}/>)
@@ -110,11 +110,19 @@ export const App : FC = () => {
          </Menu>
             <CanvasContextProvider>
                 <Canvas>
-                    {canvasElements}
+                    {Object.values(elements).map(item => <DraggableSVGGroupElement 
+                      coords={{
+                        posX: 30,
+                        posY: 30,
+                      }}
+                      id={item.id} 
+                      canvasElement={canvasElementFactory.getElement(item)}                   
+                       />)
+                    }
                 </Canvas>
             </CanvasContextProvider>
         <Loader visibile={false} >Jupiiiiiii </Loader>
-      </>
+      </div>
     )
   }
   

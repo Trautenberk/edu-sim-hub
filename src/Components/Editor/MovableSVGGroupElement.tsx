@@ -1,10 +1,39 @@
 
-import { Children, FC, useEffect, cloneElement, ReactElement, isValidElement } from "react"
+import { Children, FC, useEffect, cloneElement, ReactElement, isValidElement, FunctionComponent } from "react"
 import { EndPoint, EndPointProps } from "./Connections/EndPoint";
-import { useDragableSVGCompoennt } from "../Utilities/CustomHooks/useDraggableSVG"
+import { useDragableSVGComponent } from "../Utilities/CustomHooks/useDraggableSVG"
 import {selectInitPos} from "Feature/CanvasContextSlice"
 import { useAppSelector } from "Store/Hooks";
+import { Coordinates } from "Components/Utilities/UtilMethodsAndTypes";
+import { CanvasElementProps } from "./Canvas";
 
+
+type DraggableSVGGroupElementProps = {
+    coords : Coordinates,
+    id : string,
+    canvasElement : FunctionComponent<CanvasElementProps>;
+}
+
+
+export const DraggableSVGGroupElement : FC<DraggableSVGGroupElementProps> = (props) => {
+    const {
+        coordinates,
+        onMouseDownHandler,
+        onMouseUpHandler
+    } = useDragableSVGComponent<SVGGElement>(props.coords);
+
+    const mapCanvasElementProps = () : CanvasElementProps => ({
+       id : props.id,
+       coordinates
+    })
+
+    return(
+        <g onMouseDown={onMouseDownHandler} onMouseUp={onMouseUpHandler} transform={`translate(${coordinates.posX},${coordinates.posY})`}>
+            {props.canvasElement(mapCanvasElementProps())}
+            {props.children}
+        </g>
+    )
+}
 
 export const MovableSVGGroupElement : FC = ({children}) => {
     const useSelector = useAppSelector;
@@ -15,7 +44,7 @@ export const MovableSVGGroupElement : FC = ({children}) => {
         setCoordinates,
         onMouseDownHandler,
         onMouseUpHandler
-    } = useDragableSVGCompoennt<SVGGElement>();
+    } = useDragableSVGComponent<SVGGElement>({posX: 30, posY: 30});
 
 
     useEffect(() => {

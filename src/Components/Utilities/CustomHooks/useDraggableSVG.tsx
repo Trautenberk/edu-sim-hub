@@ -3,8 +3,8 @@ import {calcCoordinatesFromMouseEvent, calcCoordinatesWithZoomScale, Coordinates
 import {selelctCurrentZoom} from "Feature/ZoomSlice";
 import {useAppSelector} from "Store/Hooks";
 import {selectCanvasBoundaries} from "Feature/CanvasContextSlice"
-export const useDragableSVGCompoennt = <T extends SVGElement>() => {
-    const [coordinates, setCoordinates] = useState<Coordinates>({posX: 0, posY: 0});
+export const useDragableSVGComponent = <T extends SVGElement>(coords : Coordinates) => {
+    const [coordinates, setCoordinates] = useState<Coordinates>(coords);
     const initMousePos = useRef<Coordinates>({posX: 0, posY: 0});
     const initElementPos = useRef<Coordinates>({posX: 0, posY: 0});
     const useSelector = useAppSelector;

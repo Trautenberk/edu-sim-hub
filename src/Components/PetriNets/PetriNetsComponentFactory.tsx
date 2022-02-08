@@ -1,20 +1,20 @@
 import { PlaceSVGComponent } from "Components/PetriNets/PlaceSVGComponent";
 import { TransitionSVGComponent } from "Components/PetriNets/TransitionSVGComponent";
 import { ICanvasElementFactory } from "Components/CanvasComponentFactory";
-import uniqid from "uniqid";
 import { Place } from "../../Model/PetriNets/Place";
 import { Transition } from "../../Model/PetriNets/Transition";
 import { SimObject } from "Model/SimObject";
-import { ReactElement } from "react";
+import { FunctionComponent } from "react";
+import { CanvasElementProps } from "Components/Editor/Canvas";
 
 
 export class PetriNetsComponentFactory implements ICanvasElementFactory {
-    getElement (object : SimObject): ReactElement  {
+    getElement (object : SimObject): FunctionComponent<CanvasElementProps>  {
         switch(object.constructor) {
             case Place:
-                return <PlaceSVGComponent key={uniqid()} id={object.id}/> ;
+                return PlaceSVGComponent;
             case Transition:
-                return  <TransitionSVGComponent key={uniqid()} id={object.id}/>;
+                return  TransitionSVGComponent;
             default:
                 throw new Error("Tempory error");
         }

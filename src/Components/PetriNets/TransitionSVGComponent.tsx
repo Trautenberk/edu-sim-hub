@@ -1,34 +1,12 @@
-import { FunctionComponent,  MouseEventHandler, ReactElement} from "react";
-import { EditorItem } from "../Editor/EditorItem";
-import uniqid from "uniqid"
-import { MovableSVGGroupElement } from "../Editor/MovableSVGGroupElement";
-import transitionsvg from "./icons/petri-transition.svg"
+import { FunctionComponent,  MouseEventHandler } from "react";
 import { EndPoint } from "Components/Editor/Connections/EndPoint";
 import styles from "Styles/PetriNets/TransitionStyle.module.scss"
 import {elementClicked, selectedElementID} from "Feature/PointConnectionAndSelectionSlice"
 import {convertToVisibility} from "Components/Utilities/UtilMethodsAndTypes";
 import { useAppDispatch, useAppSelector } from "Store/Hooks";
+import { CanvasElementProps } from "Components/Editor/Canvas";
 
-export class Transition extends EditorItem  {
-
-    public static hasFilter() : boolean  {return false};
-    public static filterID() : string | undefined {return undefined};
-
-    getCanvasElement = () : ReactElement => {
-        return( 
-            <TransitionSVGComponent key={uniqid()} id={this.getElementId()}/>
-        )}
-
-    public iconPath: string | undefined = transitionsvg;
-    public name: string = "Přechod";
-
-}
-
-type TransitionCanvasElementProps = {
-    id : string
-}
-
-export const TransitionSVGComponent : FunctionComponent<TransitionCanvasElementProps> = (props) => {
+export const TransitionSVGComponent : FunctionComponent<CanvasElementProps> = (props) => {
     const dispatch = useAppDispatch()
     const useSelector = useAppSelector;
 
@@ -42,7 +20,7 @@ export const TransitionSVGComponent : FunctionComponent<TransitionCanvasElementP
     }
 
     return(
-        <MovableSVGGroupElement>
+        <>
             <rect className={styles.transition} onClick={onClickHandler} width={width} height={height} />  
             <rect className={styles.transition_selected} visibility={visible} width={width} height={height}/> 
             <EndPoint   elementCoordinates={{posX : 0, posY: 0}} parentElementID={props.id} ID={`${props.id}_1`}/>
@@ -51,7 +29,7 @@ export const TransitionSVGComponent : FunctionComponent<TransitionCanvasElementP
             <EndPoint   elementCoordinates={{posX : width, posY: height}} parentElementID={props.id} ID={`${props.id}_4`}/>
             <EndPoint   elementCoordinates={{posX : 0, posY: height / 2}} parentElementID={props.id} ID={`${props.id}_5`}/>
             <EndPoint   elementCoordinates={{posX : width, posY: height / 2}} parentElementID={props.id} ID={`${props.id}_6`}/>
-        </MovableSVGGroupElement>
+        </>
         )
 }
 

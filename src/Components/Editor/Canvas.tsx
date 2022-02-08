@@ -1,5 +1,5 @@
 import {MouseEventHandler, useRef, useEffect,  useState, FC, useCallback} from "react"; 
-import {useDragableSVGCompoennt } from "../Utilities/CustomHooks/useDraggableSVG";
+import {useDragableSVGComponent } from "../Utilities/CustomHooks/useDraggableSVG";
 import styles from "Styles/Editor/CanvasStyle.module.scss";
 import {useAppDispatch, useAppSelector} from "Store/Hooks"
 import {zoom, selelctCurrentZoom } from "Feature/ZoomSlice";
@@ -10,12 +10,7 @@ import { ICanvasElementFactory } from "Components/CanvasComponentFactory";
 
 export type CanvasElementProps = {
     id : string;
-    posX : number;
-    posY: number;
-    sylesClass? : string;
-    onClick : (key : string) => void;
-    onSelected? : () => void;
-    onDeselected? : () => void;
+    coordinates : Coordinates
 }
 
 export type CanvasElementPropsWithouId = Omit<CanvasElementProps, "id">
@@ -41,7 +36,7 @@ export const Canvas : FC<CanvasProps> = (props) => {
     const [svgSize, setSvgSize] = useState({width : 0, height: 0})
     const canvasBoundingElementRef = useRef<HTMLDivElement>(null);
 
-    const {coordinates : translate, onMouseDownHandler, onMouseUpHandler} = useDragableSVGCompoennt<SVGGElement>();
+    const {coordinates : translate, onMouseDownHandler, onMouseUpHandler} = useDragableSVGComponent<SVGGElement>({posX: 30, posY: 30});
     
     const mainGroupTransformMatrix : TransormMatrix = ( { scaleX: scale, skewY : 0 , skewX : 0, scaleY : scale, translateX : translate.posX, transalteY : translate.posY } )
 
