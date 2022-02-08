@@ -6,6 +6,7 @@ import {zoom, selelctCurrentZoom } from "Feature/ZoomSlice";
 import {Boundaries, calcCoordinatesFromMouseEvent, convertMatrixToString, Coordinates, TransormMatrix } from "Components/Utilities/UtilMethodsAndTypes";
 import {selectCanvasBoundaries, updateCanvasBoundaries} from "Feature/CanvasContextSlice"
 import {gridClicked, selectHint, selectHintStartCoords} from "Feature/PointConnectionAndSelectionSlice"
+import { ICanvasElementFactory } from "Components/CanvasComponentFactory";
 
 export type CanvasElementProps = {
     id : string;
@@ -21,7 +22,7 @@ export type CanvasElementPropsWithouId = Omit<CanvasElementProps, "id">
 
 
 type CanvasProps = {
-    filters? : any[];
+
 }
 
 export type CanvasMouseMoveEventDetail = {
@@ -29,18 +30,17 @@ export type CanvasMouseMoveEventDetail = {
     yCoord : number
 }
 
-
-
 export const Canvas : FC<CanvasProps> = (props) => {
     const dispatch = useAppDispatch();
     const useSelector = useAppSelector;
 
     const hint : boolean = useSelector(state => selectHint(state));
     const hintStartCoords = useSelector(state => selectHintStartCoords(state));
+    const scale = useSelector(selelctCurrentZoom); 
 
     const [svgSize, setSvgSize] = useState({width : 0, height: 0})
     const canvasBoundingElementRef = useRef<HTMLDivElement>(null);
-    const scale = useSelector(selelctCurrentZoom); 
+
     const {coordinates : translate, onMouseDownHandler, onMouseUpHandler} = useDragableSVGCompoennt<SVGGElement>();
     
     const mainGroupTransformMatrix : TransormMatrix = ( { scaleX: scale, skewY : 0 , skewX : 0, scaleY : scale, translateX : translate.posX, transalteY : translate.posY } )
@@ -74,7 +74,6 @@ export const Canvas : FC<CanvasProps> = (props) => {
                         <rect width="80" height="80" fill="url(#smallGrid)"/>
                         <path d="M 80 0 L 0 0 0 80" fill="none" stroke="gray" strokeWidth="1"/>
                         </pattern>
-                        {props.filters}  
                     </defs>
                     <g transform={convertMatrixToString(mainGroupTransformMatrix)} onMouseDown={onMouseDownHandler} onMouseUp={onMouseUpHandler} >   
                             <CanvasGridElement size={svgSize} hint={hint} hintStartCoords={hintStartCoords} />
