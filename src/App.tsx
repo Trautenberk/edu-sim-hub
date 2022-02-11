@@ -7,7 +7,6 @@ import { Loader } from 'Components/Utilities/UtilComponents/Loader';
 import { Place } from 'Model/PetriNets/Place';
 import {Transition} from "Model/PetriNets/Transition"
 import {MenuIcons} from "Components/Icons"
-import { CanvasContextProvider } from 'Store/Editor/Canvas/CanvasContext';
 import { Canvas } from 'Components/Editor/Canvas';
 import { PetriNetsComponentFactory } from 'Components/PetriNets/PetriNetsComponentFactory';
 import { ICanvasElementFactory } from 'Components/CanvasComponentFactory';
@@ -117,7 +116,6 @@ export const App : FC = () => {
                   )
                 }
          </Menu>
-            <CanvasContextProvider>
                 <Canvas>
                     {Object.values(elements).map(item => <DraggableSVGGroupElement
                       key={uniqid()} 
@@ -127,7 +125,6 @@ export const App : FC = () => {
                        />)
                     }
                 </Canvas>
-            </CanvasContextProvider>
         <Loader visibile={false} >Jupiiiiiii </Loader>
       </div>
     )
