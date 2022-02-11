@@ -1,4 +1,4 @@
-import {FC, useCallback,  useMemo,  useState} from 'react';
+import {FC, useCallback, useState} from 'react';
 import {Menu, MenuItemButton} from "./Components/Utilities/UtilComponents/Menu"
 import styles from "AppStyle.module.scss"
 import editorStyles from "Styles/Editor/EditorStyle.module.scss"
@@ -13,6 +13,10 @@ import { PetriNetsComponentFactory } from 'Components/PetriNets/PetriNetsCompone
 import { ICanvasElementFactory } from 'Components/CanvasComponentFactory';
 import { useCanvasElementManagement } from 'Components/Utilities/CustomHooks/useCanvasElementManagement';
 import { DraggableSVGGroupElement } from 'Components/Editor/MovableSVGGroupElement';
+import { NotImplementedException } from 'Components/Utilities/Errors';
+import uniqid from 'uniqid';
+import { Coordinates, Direction } from 'Components/Utilities/UtilMethodsAndTypes';
+import { ArrowSVGComponent } from 'Components/Utilities/UtilComponents/ArrowSVGComponent';
 
 /**
  * @author Jaromír Březina
@@ -23,7 +27,7 @@ import { DraggableSVGGroupElement } from 'Components/Editor/MovableSVGGroupEleme
 export type Action = {
   name : string,
   params? : any[],
-  method : (...params : any[]) => any
+  actionMethod : (...params : any[]) => any
 }
 
 /**
@@ -38,9 +42,14 @@ export const App : FC = () => {
      setShowMenu(true)
    }, [])
 
+   const {elements, addElement, removeAllElements} = useCanvasElementManagement();
+
   const [topMenuActions, setTopMenuActions] = useState<Action[]>([
-    {name : "Do hlavního menu", method : showMainMenu}
-  ])
+    {name : "Do hlavního menu", actionMethod : showMainMenu},
+    {name : "Smazat vše", actionMethod : removeAllElements },
+    {name : "Uložit", actionMethod : () => {throw new NotImplementedException()}},
+    {name : "Nahrát", actionMethod: () => {throw new NotImplementedException()}}
+  ]) 
   const [canvasElementFactory, setCanvasElementFactory] = useState<ICanvasElementFactory>(new PetriNetsComponentFactory())
 
   type CanvasElementType = {
@@ -72,7 +81,7 @@ export const App : FC = () => {
     {name: "Spojitá bloková schémata", initFunction: initializeContBlocks}
   ];
 
-  const {elements, addElement} = useCanvasElementManagement();
+
 
   const [canvasElementTypes, setCanvasElementTypes] = useState<CanvasElementType[]>(petriNetsCanvasElementsTypes)
 
@@ -96,7 +105,7 @@ export const App : FC = () => {
       <div className={styles.main_page}>
         <Menu clasName={TopMenuStyle.top_menu}>
             {
-                topMenuActions.map(item => <MenuItemButton buttonText={item.name} onItemSelected={item.method}/>)
+                topMenuActions.map(item => <MenuItemButton buttonText={item.name} onItemSelected={item.actionMethod}/>)
             }
         </Menu>
         <Menu clasName={editorStyles.editor_menu} >
@@ -110,11 +119,9 @@ export const App : FC = () => {
          </Menu>
             <CanvasContextProvider>
                 <Canvas>
-                    {Object.values(elements).map(item => <DraggableSVGGroupElement 
-                      coords={{
-                        posX: 30,
-                        posY: 30,
-                      }}
+                    {Object.values(elements).map(item => <DraggableSVGGroupElement
+                      key={uniqid()} 
+                      coords={{posX: 30, posY: 30}}
                       id={item.id} 
                       canvasElement={canvasElementFactory.getElement(item)}                   
                        />)
@@ -126,4 +133,18 @@ export const App : FC = () => {
     )
   }
   
+}
+
+
+type ConnectionProps = {
+  start : Coordinates,
+  end : Coordinates
+}
+
+const Connection : FC<ConnectionProps> = (props) => {
+  return(
+    <>
+      <line x1={props.start.posX} y1={props.start.posY} x2={props.end.posX} y2={props.end.posY} stroke="#000" strokeWidth="2" markerEnd="url(#arrowhead)"/>
+    </>
+  )
 }

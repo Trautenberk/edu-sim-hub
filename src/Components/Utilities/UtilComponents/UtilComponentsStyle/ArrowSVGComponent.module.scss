@@ -1,0 +1,14 @@
+
+
+.arrow {
+    stroke : none;
+    stroke-miterlimit: 10;
+    pointer-events: all;
+    fill: rgba($color: #39da11, $alpha: 0.3);
+    cursor: pointer;
+}
+
+
+.arrow:hover {
+    fill: rgba($color: #39da11, $alpha: 0.8);
+}

@@ -2,6 +2,13 @@ import React from "react";
 
 export type Visibility = "visible" | "hidden";
 
+export enum Direction {
+    Top,
+    Right,
+    Down,
+    Left
+}
+
 export function convertToVisibility(value : boolean) : Visibility {
     return value ? "visible" : "hidden";
 }

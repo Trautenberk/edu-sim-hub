@@ -23,12 +23,12 @@ export const TransitionSVGComponent : FunctionComponent<CanvasElementProps> = (p
         <>
             <rect className={styles.transition} onClick={onClickHandler} width={width} height={height} />  
             <rect className={styles.transition_selected} visibility={visible} width={width} height={height}/> 
-            <EndPoint   elementCoordinates={{posX : 0, posY: 0}} parentElementID={props.id} ID={`${props.id}_1`}/>
-            <EndPoint   elementCoordinates={{posX : width, posY: 0}} parentElementID={props.id} ID={`${props.id}_2`}/>
-            <EndPoint   elementCoordinates={{posX : 0, posY: height}} parentElementID={props.id} ID={`${props.id}_3`}/>
-            <EndPoint   elementCoordinates={{posX : width, posY: height}} parentElementID={props.id} ID={`${props.id}_4`}/>
-            <EndPoint   elementCoordinates={{posX : 0, posY: height / 2}} parentElementID={props.id} ID={`${props.id}_5`}/>
-            <EndPoint   elementCoordinates={{posX : width, posY: height / 2}} parentElementID={props.id} ID={`${props.id}_6`}/>
+            {/* <EndPoint coords={{posX : 0, posY: 0}} parentElementID={props.id} ID={`${props.id}_1`}/>
+            <EndPoint coords={{posX : width, posY: 0}} parentElementID={props.id} ID={`${props.id}_2`}/>
+            <EndPoint coords={{posX : 0, posY: height}} parentElementID={props.id} ID={`${props.id}_3`}/>
+            <EndPoint coords={{posX : width, posY: height}} parentElementID={props.id} ID={`${props.id}_4`}/>
+            <EndPoint coords={{posX : 0, posY: height / 2}} parentElementID={props.id} ID={`${props.id}_5`}/>
+            <EndPoint coords={{posX : width, posY: height / 2}} parentElementID={props.id} ID={`${props.id}_6`}/> */}
         </>
         )
 }

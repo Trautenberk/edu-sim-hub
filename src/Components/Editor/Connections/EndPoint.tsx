@@ -1,21 +1,23 @@
-import {FC, MouseEventHandler, useEffect} from "react"
+import {Children, FC, MouseEventHandler, useEffect} from "react"
 import styles from "Styles/Editor//EndPoint.module.css"
-import {convertToVisibility, Coordinates} from "Components/Utilities/UtilMethodsAndTypes"
+import {convertToVisibility, Coordinates, Direction} from "Components/Utilities/UtilMethodsAndTypes"
 import {useAppSelector, useAppDispatch} from "Store/Hooks"
 import {registerEndPoint, endPointClicked, updatePointCoords, unregisterEndPoint, selectedEndPoint, selectedElementID} from "Feature/PointConnectionAndSelectionSlice"
+import { ArrowSVGComponent } from "Components/Utilities/UtilComponents/ArrowSVGComponent"
 export type EndPointProps = {
     parentElementID : string,
     ID : string,
-    elementCoordinates : Coordinates,
-    groupCoordinates? : Coordinates
+    coords : Coordinates,
+    groupCoordinates? : Coordinates,
+    arrowDirection : Direction
 }
 
 export const EndPoint : FC<EndPointProps> = (props) => {
     const useSelector = useAppSelector;
     const dispatch = useAppDispatch();
     const coords : Coordinates = {
-        posX : (props.groupCoordinates?.posX ?? 0) + props.elementCoordinates.posX,
-        posY : (props.groupCoordinates?.posY ?? 0) + props.elementCoordinates.posY
+        posX : (props.groupCoordinates?.posX ?? 0) + props.coords.posX,
+        posY : (props.groupCoordinates?.posY ?? 0) + props.coords.posY
     };
 
     const clickedHandler : MouseEventHandler<SVGCircleElement> = (e) => {
@@ -37,7 +39,9 @@ export const EndPoint : FC<EndPointProps> = (props) => {
     }, [coords])
 
     return(
-        <circle onClick={clickedHandler} visibility={visible} className={style} 
-        cx={props.elementCoordinates.posX} cy={props.elementCoordinates.posY}  r={5}/>
-    )
+        <>
+            <circle onClick={clickedHandler} visibility={visible} className={style} cx={props.coords.posX} cy={props.coords.posY}  r={5}/>
+            <ArrowSVGComponent  visible={visible} direction={props.arrowDirection}  coordinates={props.coords} scale={1} />
+        </>
+        )   
 }

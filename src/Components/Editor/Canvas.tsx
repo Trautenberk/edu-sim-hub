@@ -6,26 +6,21 @@ import {zoom, selelctCurrentZoom } from "Feature/ZoomSlice";
 import {Boundaries, calcCoordinatesFromMouseEvent, convertMatrixToString, Coordinates, TransormMatrix } from "Components/Utilities/UtilMethodsAndTypes";
 import {selectCanvasBoundaries, updateCanvasBoundaries} from "Feature/CanvasContextSlice"
 import {gridClicked, selectHint, selectHintStartCoords} from "Feature/PointConnectionAndSelectionSlice"
-import { ICanvasElementFactory } from "Components/CanvasComponentFactory";
 
 export type CanvasElementProps = {
     id : string;
     coordinates : Coordinates
 }
 
-export type CanvasElementPropsWithouId = Omit<CanvasElementProps, "id">
 
 
-type CanvasProps = {
-
-}
 
 export type CanvasMouseMoveEventDetail = {
     xCoord : number,
     yCoord : number
 }
 
-export const Canvas : FC<CanvasProps> = (props) => {
+export const Canvas : FC = ({children}) => {
     const dispatch = useAppDispatch();
     const useSelector = useAppSelector;
 
@@ -71,8 +66,8 @@ export const Canvas : FC<CanvasProps> = (props) => {
                         </pattern>
                     </defs>
                     <g transform={convertMatrixToString(mainGroupTransformMatrix)} onMouseDown={onMouseDownHandler} onMouseUp={onMouseUpHandler} >   
-                            <CanvasGridElement size={svgSize} hint={hint} hintStartCoords={hintStartCoords} />
-                            {props.children}
+                            <GridSVGElement size={svgSize} hint={hint} hintStartCoords={hintStartCoords} />
+                            {children}
                     </g>
                 </svg>
         </div>
@@ -80,13 +75,13 @@ export const Canvas : FC<CanvasProps> = (props) => {
 }
 
 
-type CanvasGridElementProps = {
+type GridSVGElementProps = {
     size : {width: number, height : number},
     hint : boolean,
     hintStartCoords : Coordinates
 }
 
-const CanvasGridElement : FC<CanvasGridElementProps> = (props) => {
+const GridSVGElement : FC<GridSVGElementProps> = (props) => {
     const gridRef = useRef<SVGRectElement>(null);
     const dispatch = useAppDispatch();
     const useSelector = useAppSelector;
@@ -110,13 +105,6 @@ const CanvasGridElement : FC<CanvasGridElementProps> = (props) => {
         [props.hint, canvasBoundaries, zoom],
     )
 
-    useEffect(() => {
-        if(props.hint === true)
-        setHintEndCoords(props.hintStartCoords);
-    }, [props.hint])
-
-
-
     return(
         <g>
            <defs>
@@ -132,23 +120,7 @@ const CanvasGridElement : FC<CanvasGridElementProps> = (props) => {
             </marker>
             </defs>
             <rect width={1201} height={1201} ref={gridRef} onClick={onClickHandler} onMouseMove={hintMouseMoveHandler} className={styles.canvas_svg__grid} fill="url(#grid)" /> 
-            <HintLine hint={props.hint} start={props.hintStartCoords} end={hintEndCoords}></HintLine>
         </g>
     )
 }
 
-
-type HintLineProps = {
-    hint : boolean,
-    start: Coordinates,
-    end : Coordinates
-}
-
-const HintLine : FC<HintLineProps> = (props) => {
-    if(props.hint === true){
-        return <line x1={props.start.posX} y1={props.start.posY} x2={props.end.posX} y2={props.end.posY} stroke="#000" strokeWidth="2" markerEnd="url(#arrowhead)"/>
-    }
-    else{
-        return <></>
-    }
-}
