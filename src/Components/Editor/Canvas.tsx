@@ -1,9 +1,9 @@
-import {MouseEventHandler, useRef, useEffect,  useState, FC, useCallback} from "react"; 
+import {MouseEventHandler, useRef, useEffect,  useState, FC } from "react"; 
 import {useDragableSVGComponent } from "../Utilities/CustomHooks/useDraggableSVG";
 import styles from "Styles/Editor/CanvasStyle.module.scss";
 import {useAppDispatch, useAppSelector} from "Store/Hooks"
 import {zoom, selelctCurrentZoom } from "Feature/ZoomSlice";
-import {Boundaries, calcCoordinatesFromMouseEvent, convertMatrixToString, TransormMatrix } from "Components/Utilities/UtilMethodsAndTypes";
+import {Boundaries, convertMatrixToString, TransormMatrix } from "Components/Utilities/UtilMethodsAndTypes";
 import {selectCanvasBoundaries, updateCanvasBoundaries} from "Feature/CanvasContextSlice"
 import {gridClicked, selectHint, selectHintStartCoords} from "Feature/PointConnectionAndSelectionSlice"
 import { Coordinates } from "Components/Utilities/UtilClasses/Coordinates";
@@ -86,7 +86,6 @@ const GridSVG : FC<GridSVGElementProps> = (props) => {
     const gridRef = useRef<SVGRectElement>(null);
     const dispatch = useAppDispatch();
     const useSelector = useAppSelector;
-    const [hintEndCoords, setHintEndCoords] = useState<Coordinates>(props.hintStartCoords);
     const canvasBoundaries : Boundaries = useSelector(selectCanvasBoundaries);
 
     const zoom = useSelector(selelctCurrentZoom);
@@ -95,16 +94,6 @@ const GridSVG : FC<GridSVGElementProps> = (props) => {
         // dispatch(gridClicked(new Coordinates({x: e.clientX, y: e.clientY}))); 
     }
 
-    const hintMouseMoveHandler : MouseEventHandler =  useCallback(
-        (e) => {
-            if(props.hint === true){
-                console.log(JSON.stringify({x : e.pageX, y: e.pageY}))
-
-                setHintEndCoords(calcCoordinatesFromMouseEvent(e, canvasBoundaries, zoom));
-            }
-        },
-        [props.hint, canvasBoundaries, zoom],
-    )
 
     return(
         <g>
@@ -120,7 +109,7 @@ const GridSVG : FC<GridSVGElementProps> = (props) => {
                 <polygon points="0 0, 10 3.5, 0 7" />
             </marker>
             </defs>
-            <rect width={1201} height={1201} ref={gridRef} onClick={onClickHandler} onMouseMove={hintMouseMoveHandler} className={styles.canvas_svg__grid} fill="url(#grid)" /> 
+            <rect width={1201} height={1201} ref={gridRef} onClick={onClickHandler} className={styles.canvas_svg__grid} fill="url(#grid)" /> 
         </g>
     )
 }

@@ -1,5 +1,4 @@
 import {useState, useMemo, useCallback, MouseEventHandler, useRef} from "react"
-import {calcCoordinatesFromMouseEvent, calcCoordinatesWithZoomScale } from "Components/Utilities/UtilMethodsAndTypes"
 import {selelctCurrentZoom} from "Feature/ZoomSlice";
 import {useAppSelector} from "Store/Hooks";
 import {selectCanvasBoundaries} from "Feature/CanvasContextSlice"
@@ -15,27 +14,29 @@ export const useDragableSVGComponent = <T extends SVGElement>(coords : Coordinat
 
     const mouseMoveEventHandler = useCallback(
         (e : MouseEvent) => {
+            const scaledMoveVector = new Coordinates({x: e.clientX, y: e.clientY}); // souřadnice eventu v celem viewportu
+            scaledMoveVector.sub({x: canvasBoundaries.left, y: canvasBoundaries.top}); // je potřeba odečíst okraje canvas divu
+            scaledMoveVector.sub(initMousePos.current); // odečíst původní souřadnice
+            scaledMoveVector.scale(zoom); // vyškálování vektoru současným přiblížením
             
-            const currentMousePos = calcCoordinatesFromMouseEvent(e, canvasBoundaries);
-            const scaledMoveVector = calcCoordinatesWithZoomScale(new Coordinates({x: currentMousePos.x - initMousePos.current.x, y: currentMousePos.y - initMousePos.current.y}), zoom);
-            
-            setCoordinates(new Coordinates({x: initElementPos.current.x + scaledMoveVector.x, y : initElementPos.current.y + scaledMoveVector.y}))
+            const newElementCoords = new Coordinates(initElementPos.current); // původní souřadnice
+            newElementCoords.add(scaledMoveVector); // přičtení vektoru o který se má element posunout
+            setCoordinates(newElementCoords)
         },[canvasBoundaries, zoom],
     )
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     const onMouseDownHandler : MouseEventHandler<T> = (e) => {
-            e.preventDefault();
             e.stopPropagation();
-            initMousePos.current = calcCoordinatesFromMouseEvent(e, canvasBoundaries);
-            initElementPos.current = new Coordinates(coordinates);
+            (initMousePos.current = new Coordinates({x: e.clientX, y: e.clientY})).sub({x: canvasBoundaries.left, y: canvasBoundaries.top});  // pozice odkud se za4alo táhnout
+            initElementPos.current = new Coordinates(coordinates); // původní pozice elementu
             document.addEventListener("mousemove", mouseMoveEventHandler)            
     }
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     const onMouseUpHandler : MouseEventHandler<T> = (e) => {
-        e.preventDefault();
         e.stopPropagation();
-        console.log(`TestEnd: ${JSON.stringify(canvasBoundaries)}`)
-        initMousePos.current = new Coordinates();
+        initMousePos.current = new Coordinates();  
         initElementPos.current = new Coordinates();
         document.removeEventListener("mousemove", mouseMoveEventHandler);   
     }

@@ -1,4 +1,3 @@
-import React from "react";
 import { Coordinates } from "./UtilClasses/Coordinates";
 
 export type Visibility = "visible" | "hidden";
@@ -35,21 +34,4 @@ export type PointBriefDesc = {
 
 export function  convertMatrixToString (matrix : TransormMatrix) : string {
     return `matrix(${matrix.scaleX}, ${matrix.skewY}, ${matrix.skewX}, ${matrix.scaleY}, ${matrix.translateX}, ${matrix.transalteY})`
-}
-
-export const calcCoordinates = (coords : Coordinates, boundaries: Boundaries) : Coordinates => {
-    return new Coordinates({x : coords.x - boundaries.left, y : coords.y - boundaries.top})
-}
-
-export function calcCoordinatesFromMouseEvent (evt : MouseEvent | React.MouseEvent, boundaries : Boundaries) : Coordinates;
-export function calcCoordinatesFromMouseEvent (evt : MouseEvent | React.MouseEvent, boundaries : Boundaries, zoomScale : number) : Coordinates;
-export function calcCoordinatesFromMouseEvent (evt : any, boundaries : Boundaries, zoomScale? : number) {
-    if(zoomScale != null){
-        return calcCoordinatesWithZoomScale(calcCoordinatesFromMouseEvent(evt, boundaries), zoomScale);
-    }    
-    return calcCoordinates(new Coordinates({x: evt.pageX, y: evt.pageY}), boundaries);
-}
-
-export function calcCoordinatesWithZoomScale (coords : Coordinates, zoomScale : number) : Coordinates {
-    return new Coordinates({x: coords.x / zoomScale, y :  coords.y / zoomScale})
 }

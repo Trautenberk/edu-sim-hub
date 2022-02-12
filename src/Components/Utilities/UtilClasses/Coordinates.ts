@@ -13,23 +13,27 @@ export class Coordinates implements ICoordinates {
     public x : number = 0;
     public y : number = 0;
 
-    public add(obj : ICoordinates) {
+    public add (obj : ICoordinates) {
         this.x += obj.x;
         this.y += obj.y;
     }
 
-    public sub(obj : ICoordinates) {
+    public sub (obj : ICoordinates) {
         this.x -= obj.x;
         this.y -= obj.y;
     }
 
-    public mul(obj : ICoordinates) {
+    public mul (obj : ICoordinates) {
         this.x *= obj.x;
         this.y *= obj.y;
     }
-    public div(obj : ICoordinates) {
+    public div (obj : ICoordinates) {
         this.x /= obj.x;
         this.y /= obj.y;
+    }
+
+    public scale (value : number) {
+        this.div({x: value, y: value});
     }
     public toString = () => {
         return ""
