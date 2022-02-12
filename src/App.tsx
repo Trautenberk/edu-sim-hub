@@ -11,11 +11,10 @@ import { Canvas } from 'Components/Editor/Canvas';
 import { PetriNetsComponentFactory } from 'Components/PetriNets/PetriNetsComponentFactory';
 import { ICanvasElementFactory } from 'Components/CanvasComponentFactory';
 import { useCanvasElementManagement } from 'Components/Utilities/CustomHooks/useCanvasElementManagement';
-import { DraggableSVGGroupElement } from 'Components/Editor/MovableSVGGroupElement';
 import { NotImplementedException } from 'Components/Utilities/Errors';
-import uniqid from 'uniqid';
-import { Coordinates, Direction } from 'Components/Utilities/UtilMethodsAndTypes';
-import { ArrowSVGComponent } from 'Components/Utilities/UtilComponents/ArrowSVGComponent';
+import { DraggableGroupSVG } from 'Components/Utilities/UtilComponents/DraggableGroupSVG';
+import { EdgeSVG } from 'Components/Utilities/UtilComponents/EdgeSVG';
+import { Coordinates } from 'Components/Utilities/UtilClasses/Coordinates';
 
 /**
  * @author Jaromír Březina
@@ -82,6 +81,7 @@ export const App : FC = () => {
 
 
 
+
   const [canvasElementTypes, setCanvasElementTypes] = useState<CanvasElementType[]>(petriNetsCanvasElementsTypes)
 
   if(showMenu){
@@ -117,31 +117,18 @@ export const App : FC = () => {
                 }
          </Menu>
                 <Canvas>
-                    {Object.values(elements).map(item => <DraggableSVGGroupElement
-                      key={uniqid()} 
-                      coords={{posX: 30, posY: 30}}
+                    {Object.values(elements).map(item => <DraggableGroupSVG
+                      key={item.id}
+                      coords={{x: 30, y: 30}}
                       id={item.id} 
                       canvasElement={canvasElementFactory.getElement(item)}                   
                        />)
                     }
+                    <EdgeSVG points={[{x:50, y: 50}, {x: 80, y: 80}]}/>
                 </Canvas>
         <Loader visibile={false} >Jupiiiiiii </Loader>
       </div>
     )
   }
   
-}
-
-
-type ConnectionProps = {
-  start : Coordinates,
-  end : Coordinates
-}
-
-const Connection : FC<ConnectionProps> = (props) => {
-  return(
-    <>
-      <line x1={props.start.posX} y1={props.start.posY} x2={props.end.posX} y2={props.end.posY} stroke="#000" strokeWidth="2" markerEnd="url(#arrowhead)"/>
-    </>
-  )
 }

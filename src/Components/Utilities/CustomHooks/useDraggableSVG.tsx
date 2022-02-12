@@ -1,12 +1,13 @@
 import {useState, useMemo, useCallback, MouseEventHandler, useRef} from "react"
-import {calcCoordinatesFromMouseEvent, calcCoordinatesWithZoomScale, Coordinates } from "Components/Utilities/UtilMethodsAndTypes"
+import {calcCoordinatesFromMouseEvent, calcCoordinatesWithZoomScale } from "Components/Utilities/UtilMethodsAndTypes"
 import {selelctCurrentZoom} from "Feature/ZoomSlice";
 import {useAppSelector} from "Store/Hooks";
 import {selectCanvasBoundaries} from "Feature/CanvasContextSlice"
+import { Coordinates } from "../UtilClasses/Coordinates";
 export const useDragableSVGComponent = <T extends SVGElement>(coords : Coordinates) => {
     const [coordinates, setCoordinates] = useState<Coordinates>(coords);
-    const initMousePos = useRef<Coordinates>({posX: 0, posY: 0});
-    const initElementPos = useRef<Coordinates>({posX: 0, posY: 0});
+    const initMousePos = useRef<Coordinates>(new Coordinates());
+    const initElementPos = useRef<Coordinates>(new Coordinates());
     const useSelector = useAppSelector;
     
     const zoom = useSelector(selelctCurrentZoom)
@@ -14,10 +15,11 @@ export const useDragableSVGComponent = <T extends SVGElement>(coords : Coordinat
 
     const mouseMoveEventHandler = useCallback(
         (e : MouseEvent) => {
-            const currentMousePos = calcCoordinatesFromMouseEvent(e, canvasBoundaries);
-            const scaledMoveVector = calcCoordinatesWithZoomScale({posX: currentMousePos.posX - initMousePos.current.posX, posY: currentMousePos.posY - initMousePos.current.posY}, zoom);
             
-            setCoordinates({posX: initElementPos.current.posX + scaledMoveVector.posX, posY : initElementPos.current.posY + scaledMoveVector.posY})
+            const currentMousePos = calcCoordinatesFromMouseEvent(e, canvasBoundaries);
+            const scaledMoveVector = calcCoordinatesWithZoomScale(new Coordinates({x: currentMousePos.x - initMousePos.current.x, y: currentMousePos.y - initMousePos.current.y}), zoom);
+            
+            setCoordinates(new Coordinates({x: initElementPos.current.x + scaledMoveVector.x, y : initElementPos.current.y + scaledMoveVector.y}))
         },[canvasBoundaries, zoom],
     )
 
@@ -25,7 +27,7 @@ export const useDragableSVGComponent = <T extends SVGElement>(coords : Coordinat
             e.preventDefault();
             e.stopPropagation();
             initMousePos.current = calcCoordinatesFromMouseEvent(e, canvasBoundaries);
-            initElementPos.current = {posX : coordinates.posX, posY : coordinates.posY};
+            initElementPos.current = new Coordinates(coordinates);
             document.addEventListener("mousemove", mouseMoveEventHandler)            
     }
 
@@ -33,8 +35,8 @@ export const useDragableSVGComponent = <T extends SVGElement>(coords : Coordinat
         e.preventDefault();
         e.stopPropagation();
         console.log(`TestEnd: ${JSON.stringify(canvasBoundaries)}`)
-        initMousePos.current = {posX: 0, posY: 0};
-        initElementPos.current = {posX: 0, posY: 0}
+        initMousePos.current = new Coordinates();
+        initElementPos.current = new Coordinates();
         document.removeEventListener("mousemove", mouseMoveEventHandler);   
     }
 
@@ -45,7 +47,7 @@ export const useDragableSVGComponent = <T extends SVGElement>(coords : Coordinat
             mouseMoveEventHandler,
             onMouseDownHandler,
             onMouseUpHandler
-        }), [mouseMoveEventHandler, onMouseDownHandler, onMouseUpHandler]
+        }), [coordinates, mouseMoveEventHandler, onMouseDownHandler, onMouseUpHandler]
     )
 
     return values;

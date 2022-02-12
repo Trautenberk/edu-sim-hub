@@ -1,5 +1,5 @@
-import { PlaceSVGComponent } from "Components/PetriNets/PlaceSVGComponent";
-import { TransitionSVGComponent } from "Components/PetriNets/TransitionSVGComponent";
+import { PlaceSVG } from "Components/PetriNets/PlaceSVG";
+import { TransitionSVG } from "Components/PetriNets/TransitionSVG";
 import { ICanvasElementFactory } from "Components/CanvasComponentFactory";
 import { Place } from "../../Model/PetriNets/Place";
 import { Transition } from "../../Model/PetriNets/Transition";
@@ -12,9 +12,9 @@ export class PetriNetsComponentFactory implements ICanvasElementFactory {
     getElement (object : SimObject): FunctionComponent<CanvasElementProps>  {
         switch(object.constructor) {
             case Place:
-                return PlaceSVGComponent;
+                return PlaceSVG;
             case Transition:
-                return  TransitionSVGComponent;
+                return  TransitionSVG;
             default:
                 throw new Error("Tempory error");
         }

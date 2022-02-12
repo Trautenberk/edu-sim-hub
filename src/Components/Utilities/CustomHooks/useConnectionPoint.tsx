@@ -1,6 +1,7 @@
-import { Coordinates } from "Components/Utilities/UtilMethodsAndTypes";
+
 import { useMemo, useRef } from "react"
 import uniqid from "uniqid"
+import { Coordinates } from "../UtilClasses/Coordinates";
 
 
 export const pointMovedEventName = "point-moved-event";

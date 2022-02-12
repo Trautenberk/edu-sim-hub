@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Boundaries, Coordinates } from "Components/Utilities/UtilMethodsAndTypes";
+import { Coordinates, ICoordinates } from "Components/Utilities/UtilClasses/Coordinates";
+import { Boundaries } from "Components/Utilities/UtilMethodsAndTypes";
 import { RootState } from "Store/Store";
 
 const INIT_POS_OFFSET_X = 50;
@@ -7,12 +8,12 @@ const INIT_POS_OFFSET_Y = 50
 
 type CanvasContextState = {
     canvasBoundaries : Boundaries,
-    initPos : Coordinates,
+    initPos : ICoordinates,
 }
 
 const initialState : CanvasContextState = {
     canvasBoundaries : { left : 0, top: 0 },
-    initPos : { posX : INIT_POS_OFFSET_X, posY : INIT_POS_OFFSET_Y },
+    initPos : { x : INIT_POS_OFFSET_X, y : INIT_POS_OFFSET_Y },
 }
 
 const canvasContextSlice = createSlice({

@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Coordinates, NULL_COOORDS, PointBriefDesc } from "Components/Utilities/UtilMethodsAndTypes";
+import { Coordinates } from "Components/Utilities/UtilClasses/Coordinates";
+import { PointBriefDesc } from "Components/Utilities/UtilMethodsAndTypes";
 import { RootState } from "Store/Store";
 
 
@@ -102,7 +103,7 @@ export const selectHintStartCoords = (state : RootState) => {   // počáteční
         return state.pointConnectionAndSelection.points[state.pointConnectionAndSelection.selectedEndPoint]
     } else {
         // console.error("NULL_CORDS returned from selector") // TODO taky vyresit lepe
-        return NULL_COOORDS;
+        return new Coordinates();
     } 
 }
 

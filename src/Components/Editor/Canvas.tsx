@@ -3,9 +3,10 @@ import {useDragableSVGComponent } from "../Utilities/CustomHooks/useDraggableSVG
 import styles from "Styles/Editor/CanvasStyle.module.scss";
 import {useAppDispatch, useAppSelector} from "Store/Hooks"
 import {zoom, selelctCurrentZoom } from "Feature/ZoomSlice";
-import {Boundaries, calcCoordinatesFromMouseEvent, convertMatrixToString, Coordinates, TransormMatrix } from "Components/Utilities/UtilMethodsAndTypes";
+import {Boundaries, calcCoordinatesFromMouseEvent, convertMatrixToString, TransormMatrix } from "Components/Utilities/UtilMethodsAndTypes";
 import {selectCanvasBoundaries, updateCanvasBoundaries} from "Feature/CanvasContextSlice"
 import {gridClicked, selectHint, selectHintStartCoords} from "Feature/PointConnectionAndSelectionSlice"
+import { Coordinates } from "Components/Utilities/UtilClasses/Coordinates";
 
 export type CanvasElementProps = {
     id : string;
@@ -31,9 +32,9 @@ export const Canvas : FC = ({children}) => {
     const [svgSize, setSvgSize] = useState({width : 0, height: 0})
     const canvasBoundingElementRef = useRef<HTMLDivElement>(null);
 
-    const {coordinates : translate, onMouseDownHandler, onMouseUpHandler} = useDragableSVGComponent<SVGGElement>({posX: 30, posY: 30});
+    const {coordinates : translate, onMouseDownHandler, onMouseUpHandler} = useDragableSVGComponent<SVGGElement>(new Coordinates({x: 30, y: 30}));
     
-    const mainGroupTransformMatrix : TransormMatrix = ( { scaleX: scale, skewY : 0 , skewX : 0, scaleY : scale, translateX : translate.posX, transalteY : translate.posY } )
+    const mainGroupTransformMatrix : TransormMatrix = ( { scaleX: scale, skewY : 0 , skewX : 0, scaleY : scale, translateX : translate.x, transalteY : translate.y } )
 
     const zoomHandler  = ( evt : WheelEvent ) => {
         if ( evt.ctrlKey !== true ) {
@@ -66,7 +67,7 @@ export const Canvas : FC = ({children}) => {
                         </pattern>
                     </defs>
                     <g transform={convertMatrixToString(mainGroupTransformMatrix)} onMouseDown={onMouseDownHandler} onMouseUp={onMouseUpHandler} >   
-                            <GridSVGElement size={svgSize} hint={hint} hintStartCoords={hintStartCoords} />
+                            <GridSVG size={svgSize} hint={hint} hintStartCoords={hintStartCoords} />
                             {children}
                     </g>
                 </svg>
@@ -81,7 +82,7 @@ type GridSVGElementProps = {
     hintStartCoords : Coordinates
 }
 
-const GridSVGElement : FC<GridSVGElementProps> = (props) => {
+const GridSVG : FC<GridSVGElementProps> = (props) => {
     const gridRef = useRef<SVGRectElement>(null);
     const dispatch = useAppDispatch();
     const useSelector = useAppSelector;
@@ -91,13 +92,13 @@ const GridSVGElement : FC<GridSVGElementProps> = (props) => {
     const zoom = useSelector(selelctCurrentZoom);
 
     const onClickHandler : MouseEventHandler<SVGElement> = (e) => {
-        dispatch(gridClicked({posX: e.clientX, posY: e.clientY})); 
+        // dispatch(gridClicked(new Coordinates({x: e.clientX, y: e.clientY}))); 
     }
 
     const hintMouseMoveHandler : MouseEventHandler =  useCallback(
         (e) => {
             if(props.hint === true){
-                console.log(JSON.stringify({posX : e.pageX, posY: e.pageY}))
+                console.log(JSON.stringify({x : e.pageX, y: e.pageY}))
 
                 setHintEndCoords(calcCoordinatesFromMouseEvent(e, canvasBoundaries, zoom));
             }

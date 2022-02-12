@@ -6,7 +6,7 @@ import {convertToVisibility} from "Components/Utilities/UtilMethodsAndTypes";
 import { useAppDispatch, useAppSelector } from "Store/Hooks";
 import { CanvasElementProps } from "Components/Editor/Canvas";
 
-export const TransitionSVGComponent : FunctionComponent<CanvasElementProps> = (props) => {
+export const TransitionSVG : FunctionComponent<CanvasElementProps> = (props) => {
     const dispatch = useAppDispatch()
     const useSelector = useAppSelector;
 

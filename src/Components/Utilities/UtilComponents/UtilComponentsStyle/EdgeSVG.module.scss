@@ -1,0 +1,11 @@
+
+.edge {
+    stroke: black;
+    stroke-width: 3px;
+    stroke-miterlimit: 10;
+}
+
+.edge_point {
+    stroke: none;
+    fill: rgba($color: #077bff, $alpha: 1.0);
+}

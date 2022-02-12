@@ -1,4 +1,5 @@
 import React from "react";
+import { Coordinates } from "./UtilClasses/Coordinates";
 
 export type Visibility = "visible" | "hidden";
 
@@ -12,15 +13,7 @@ export enum Direction {
 export function convertToVisibility(value : boolean) : Visibility {
     return value ? "visible" : "hidden";
 }
-export type Coordinates = {
-    posX : number,
-    posY : number
-}
 
-export const NULL_COOORDS : Coordinates = {
-                    posX : 0,
-                    posY : 0
-                }
 export type Boundaries = {
     left : number,
     top : number
@@ -45,7 +38,7 @@ export function  convertMatrixToString (matrix : TransormMatrix) : string {
 }
 
 export const calcCoordinates = (coords : Coordinates, boundaries: Boundaries) : Coordinates => {
-    return {posX : coords.posX - boundaries.left, posY : coords.posY - boundaries.top}
+    return new Coordinates({x : coords.x - boundaries.left, y : coords.y - boundaries.top})
 }
 
 export function calcCoordinatesFromMouseEvent (evt : MouseEvent | React.MouseEvent, boundaries : Boundaries) : Coordinates;
@@ -54,9 +47,9 @@ export function calcCoordinatesFromMouseEvent (evt : any, boundaries : Boundarie
     if(zoomScale != null){
         return calcCoordinatesWithZoomScale(calcCoordinatesFromMouseEvent(evt, boundaries), zoomScale);
     }    
-    return calcCoordinates({posX: evt.pageX, posY: evt.pageY}, boundaries);
+    return calcCoordinates(new Coordinates({x: evt.pageX, y: evt.pageY}), boundaries);
 }
 
 export function calcCoordinatesWithZoomScale (coords : Coordinates, zoomScale : number) : Coordinates {
-    return {posX: coords.posX / zoomScale, posY :  coords.posY / zoomScale}
+    return new Coordinates({x: coords.x / zoomScale, y :  coords.y / zoomScale})
 }
