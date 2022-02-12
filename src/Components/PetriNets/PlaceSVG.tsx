@@ -20,7 +20,9 @@ export const PlaceSVG : FunctionComponent<CanvasElementProps> = (props) => {
 
     return(
         <>
-            <circle className={styles.spot} filter={""} onClick={onClickHandler}  r="30"/>
+            <g>
+                <circle className={styles.spot} filter={""} onClick={onClickHandler} onMouseDown={props.onMouseDownHandler} onMouseUp={props.onMouseUpHandler}  r="30"/>
+            </g>
             <circle visibility={visible} className={styles.spot_selected} filter={""}  r="30"/>
             <EndPoint coords={new Coordinates({x : 30, y: 0})} arrowDirection={Direction.Right} parentElementID={props.id} ID={`${props.id}_1`}/>
             <EndPoint coords={new Coordinates({x : -30, y: 0})} arrowDirection={Direction.Left} parentElementID={props.id} ID={`${props.id}_2`}/>

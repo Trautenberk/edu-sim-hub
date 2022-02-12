@@ -5,6 +5,9 @@ import { RootState } from "Store/Store";
 export const MAX_SCALE : number = 5;
 export const MIN_SCALE : number = 0.15; 
 
+export type zoomPayload = {
+    deltaY : number
+}
 type ZoomState = {
     currentZoomScale : number
 }
@@ -17,7 +20,7 @@ const zoomSlice = createSlice({
     name : "Zoom",
     initialState,
     reducers : {
-        zoom(state, action : PayloadAction<WheelEvent>){
+        zoom(state, action : PayloadAction<zoomPayload>){
             const currentScale = state.currentZoomScale;
             let scaleStep = action.payload.deltaY < 0 ? 1.25 : 0.8;
     

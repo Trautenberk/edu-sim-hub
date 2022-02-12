@@ -14,7 +14,6 @@ import { useCanvasElementManagement } from 'Components/Utilities/CustomHooks/use
 import { NotImplementedException } from 'Components/Utilities/Errors';
 import { DraggableGroupSVG } from 'Components/Utilities/UtilComponents/DraggableGroupSVG';
 import { EdgeSVG } from 'Components/Utilities/UtilComponents/EdgeSVG';
-import { Coordinates } from 'Components/Utilities/UtilClasses/Coordinates';
 
 /**
  * @author Jaromír Březina

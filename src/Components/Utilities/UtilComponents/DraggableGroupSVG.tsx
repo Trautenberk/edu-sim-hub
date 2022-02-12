@@ -17,15 +17,17 @@ export const DraggableGroupSVG : FC<DraggableGroupSVGProps> = (props) => {
         coordinates,
         onMouseDownHandler,
         onMouseUpHandler
-    } = useDragableSVGComponent<SVGGElement>(new Coordinates(props.coords));
+    } = useDragableSVGComponent(new Coordinates(props.coords));
 
     const mapCanvasElementProps = () : CanvasElementProps => ({
        id : props.id,
-       coordinates
+       coordinates,
+       onMouseDownHandler,
+       onMouseUpHandler
     })
 
     return(
-        <g onMouseDown={onMouseDownHandler} onMouseUp={onMouseUpHandler} transform={`translate(${coordinates.x},${coordinates.y})`}>
+        <g transform={`translate(${coordinates.x},${coordinates.y})`}>
             {props.canvasElement(mapCanvasElementProps())}
             {props.children}
         </g>

@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Coordinates } from "Components/Utilities/UtilClasses/Coordinates";
+import { Coordinates, ICoordinates } from "Components/Utilities/UtilClasses/Coordinates";
 import { PointBriefDesc } from "Components/Utilities/UtilMethodsAndTypes";
 import { RootState } from "Store/Store";
 
@@ -14,7 +14,7 @@ type PointConnectionState = {
     connectingState :  ConnectionState,   // stav aparátu spojování
     hint : boolean,
     endPoints :  string[],  // identifikatory koncovych bodu 
-    points : {[id : string] : Coordinates} // vsechny body
+    points : {[id : string] : ICoordinates} // vsechny body
     connections : {[id : string] : undefined[]},   // TODO
     selectedConnection : string | null,
     selectedElementID: string | null,
@@ -72,7 +72,7 @@ const pointConnectionSlice = createSlice({
             }
         },
         // kliknuto na plochu 
-        gridClicked(state, action : PayloadAction<Coordinates>){
+        gridClicked(state, action : PayloadAction<ICoordinates>){
             if(state.selectedElementID != null && state.selectedEndPoint == null){
                 state.selectedElementID = null;
                 return;

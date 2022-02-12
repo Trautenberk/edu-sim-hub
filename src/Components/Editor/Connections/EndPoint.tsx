@@ -41,7 +41,7 @@ export const EndPoint : FC<EndPointProps> = (props) => {
 
     return(
         <>
-            <circle onClick={clickedHandler} visibility={visible} className={style} cx={props.coords.x} cy={props.coords.y}  r={5}/>
+            <circle onClick={clickedHandler} visibility={visible} className={style} cx={props.coords.x} cy={props.coords.y} r={5}/>
             <ArrowSVG  visible={visible} direction={props.arrowDirection}  coordinates={props.coords} scale={1} />
         </>
         )   

@@ -11,9 +11,9 @@ import { Coordinates } from "Components/Utilities/UtilClasses/Coordinates";
 export type CanvasElementProps = {
     id : string;
     coordinates : Coordinates
+    onMouseDownHandler : (e : any) => void;
+    onMouseUpHandler : (e : any) => void;
 }
-
-
 
 
 export type CanvasMouseMoveEventDetail = {
@@ -32,7 +32,7 @@ export const Canvas : FC = ({children}) => {
     const [svgSize, setSvgSize] = useState({width : 0, height: 0})
     const canvasBoundingElementRef = useRef<HTMLDivElement>(null);
 
-    const {coordinates : translate, onMouseDownHandler, onMouseUpHandler} = useDragableSVGComponent<SVGGElement>(new Coordinates({x: 30, y: 30}));
+    const {coordinates : translate, onMouseDownHandler, onMouseUpHandler} = useDragableSVGComponent(new Coordinates({x: 30, y: 30}));
     
     const mainGroupTransformMatrix : TransormMatrix = ( { scaleX: scale, skewY : 0 , skewX : 0, scaleY : scale, translateX : translate.x, transalteY : translate.y } )
 
@@ -42,7 +42,7 @@ export const Canvas : FC = ({children}) => {
         }
 
         evt.preventDefault();
-        dispatch(zoom(evt));
+        dispatch(zoom({deltaY: evt.deltaY}));
     }
 
     useEffect(() => {
@@ -67,7 +67,7 @@ export const Canvas : FC = ({children}) => {
                         </pattern>
                     </defs>
                     <g transform={convertMatrixToString(mainGroupTransformMatrix)} onMouseDown={onMouseDownHandler} onMouseUp={onMouseUpHandler} >   
-                            <GridSVG size={svgSize} hint={hint} hintStartCoords={hintStartCoords} />
+                            <GridSVG size={svgSize} />
                             {children}
                     </g>
                 </svg>
@@ -78,8 +78,6 @@ export const Canvas : FC = ({children}) => {
 
 type GridSVGElementProps = {
     size : {width: number, height : number},
-    hint : boolean,
-    hintStartCoords : Coordinates
 }
 
 const GridSVG : FC<GridSVGElementProps> = (props) => {
@@ -91,7 +89,7 @@ const GridSVG : FC<GridSVGElementProps> = (props) => {
     const zoom = useSelector(selelctCurrentZoom);
 
     const onClickHandler : MouseEventHandler<SVGElement> = (e) => {
-        // dispatch(gridClicked(new Coordinates({x: e.clientX, y: e.clientY}))); 
+         dispatch(gridClicked({x: e.clientX, y: e.clientY})); 
     }
 
 
