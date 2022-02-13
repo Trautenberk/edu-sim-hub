@@ -25,8 +25,6 @@ export const Canvas : FC = ({children}) => {
     const dispatch = useAppDispatch();
     const useSelector = useAppSelector;
 
-    const hint : boolean = useSelector(state => selectHint(state));
-    const hintStartCoords = useSelector(state => selectHintStartCoords(state));
     const scale = useSelector(selelctCurrentZoom); 
 
     const [svgSize, setSvgSize] = useState({width : 0, height: 0})

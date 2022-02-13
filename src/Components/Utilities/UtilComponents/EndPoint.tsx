@@ -4,7 +4,7 @@ import {convertToVisibility, Direction} from "Components/Utilities/UtilMethodsAn
 import {useAppSelector, useAppDispatch} from "Store/Hooks"
 import { endPointClicked, selectedEndPoint, selectedElementID} from "Feature/PointConnectionAndSelectionSlice"
 import { ArrowSVG } from "Components/Utilities/UtilComponents/ArrowSVG"
-import { Coordinates } from "Components/Utilities/UtilClasses/Coordinates"
+import { Coordinates, ICoordinates } from "Components/Utilities/UtilClasses/Coordinates"
 import { Point } from "../UtilClasses/Point"
 export type EndPointProps = {
     parentElementID : string,
@@ -17,7 +17,6 @@ export const EndPoint : FC<EndPointProps> = (props) => {
     const useSelector = useAppSelector;
     const dispatch = useAppDispatch();
 
-    // const [connections, setConnections] = useState({})
 
     const clickedEndPontHandler : MouseEventHandler<SVGCircleElement> = (e) => {
         e.stopPropagation();
