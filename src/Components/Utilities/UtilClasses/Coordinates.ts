@@ -36,6 +36,6 @@ export class Coordinates implements ICoordinates {
         this.div({x: value, y: value});
     }
     public toString = () => {
-        return ""
+        return `${this.x} ${this.y}`
     }
 }
