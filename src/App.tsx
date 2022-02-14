@@ -101,9 +101,7 @@ export const App : FC = () => {
     return (
       <div className={styles.main_page}>
         <Menu clasName={TopMenuStyle.top_menu}>
-            {
-                topMenuActions.map(item => <MenuItemButton buttonText={item.name} onItemSelected={item.actionMethod}/>)
-            }
+            {topMenuActions.map(item => <MenuItemButton buttonText={item.name} onItemSelected={item.actionMethod}/>)}
         </Menu>
         <Menu clasName={editorStyles.editor_menu} >
                 {

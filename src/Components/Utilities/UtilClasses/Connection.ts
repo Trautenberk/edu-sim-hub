@@ -1,4 +1,4 @@
-import { Coordinates, ICoordinates } from "./Coordinates";
+import { Coordinates } from "./Coordinates";
 import { Point } from "./Point";
 
 

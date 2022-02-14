@@ -9,6 +9,8 @@ export enum Direction {
     Left
 }
 
+export const ALL_DIRECTIONS = [Direction.Right, Direction.Left, Direction.Down, Direction.Top];
+
 export function convertToVisibility(value : boolean) : Visibility {
     return value ? "visible" : "hidden";
 }

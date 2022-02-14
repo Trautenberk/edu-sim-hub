@@ -24,7 +24,7 @@ export const DraggableGroupSVG : FC<DraggableGroupSVGProps> = (props) => {
 
     const mapCanvasElementProps = () : CanvasElementProps => ({
        id : props.id,
-       coordinates,
+       groupAbsoluteCoordinates : coordinates,
        onMouseDownHandler,
        onMouseUpHandler,
        addConnection: props.addConnection,

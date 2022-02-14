@@ -1,5 +1,4 @@
 import { FunctionComponent,  MouseEventHandler } from "react";
-import { EndPoint } from "Components/Utilities/UtilComponents/EndPoint";
 import styles from "Styles/PetriNets/TransitionStyle.module.scss"
 import {elementClicked, selectedElementID} from "Feature/PointConnectionAndSelectionSlice"
 import {convertToVisibility} from "Components/Utilities/UtilMethodsAndTypes";

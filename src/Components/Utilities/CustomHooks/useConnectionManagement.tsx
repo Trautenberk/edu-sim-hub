@@ -1,9 +1,7 @@
 import { Dictionary } from "@reduxjs/toolkit";
-import { clear } from "console";
 import { useRef, useState, useCallback, useMemo } from "react";
 import { NotImplementedException } from "../Errors";
 import { Connection } from "../UtilClasses/Connection";
-import { Coordinates } from "../UtilClasses/Coordinates";
 import { Point } from "../UtilClasses/Point";
 
 type ConnectionDict = {[key : string ] : Connection}

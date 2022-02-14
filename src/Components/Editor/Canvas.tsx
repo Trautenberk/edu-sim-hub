@@ -11,7 +11,7 @@ import { Point } from "Components/Utilities/UtilClasses/Point";
 
 export type CanvasElementProps = {
     id : string;
-    coordinates : Coordinates
+    groupAbsoluteCoordinates : Coordinates
     onMouseDownHandler : (e : any) => void;
     onMouseUpHandler : (e : any) => void;
     addConnection : (points: Point[]) => void;

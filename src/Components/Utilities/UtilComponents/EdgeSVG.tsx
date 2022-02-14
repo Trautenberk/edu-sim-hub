@@ -1,8 +1,6 @@
-import {FC, useCallback, useEffect, useMemo, useState} from "react"
-import uniqid from "uniqid"
+import { FC, useEffect } from "react"
 import { useDragableSVGComponent } from "../CustomHooks/useDraggableSVG"
 import { Connection } from "../UtilClasses/Connection"
-import { Coordinates, ICoordinates } from "../UtilClasses/Coordinates"
 import { Point } from "../UtilClasses/Point"
 import style from "./UtilComponentsStyle/EdgeSVG.module.scss"
 
@@ -10,8 +8,6 @@ type EdgeSVGComponentProps = {
     connection : Connection,
     onChildPointsCoordsChange : (point : Point) => void;
  }
-
-
 
 export const EdgeSVG : FC<EdgeSVGComponentProps> = (props) => {
 
@@ -24,12 +20,10 @@ export const EdgeSVG : FC<EdgeSVGComponentProps> = (props) => {
     )
 }
 
-
 type EdgePointSVGProps = {
     point : Point
     onCoordsChange : (point : Point) => void;
 }
-
 
 const EdgePointsSVG : FC<EdgePointSVGProps> = (props) => {
     const {coordinates, onMouseDownHandler, onMouseUpHandler} = useDragableSVGComponent(props.point.coords);
