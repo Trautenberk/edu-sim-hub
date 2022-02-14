@@ -16,24 +16,28 @@ export class Coordinates implements ICoordinates {
     public add (obj : ICoordinates) {
         this.x += obj.x;
         this.y += obj.y;
+        return this;
     }
-
     public sub (obj : ICoordinates) {
         this.x -= obj.x;
         this.y -= obj.y;
+        return this;
     }
 
     public mul (obj : ICoordinates) {
         this.x *= obj.x;
         this.y *= obj.y;
+        return this;
     }
     public div (obj : ICoordinates) {
         this.x /= obj.x;
         this.y /= obj.y;
+        return this.add;
     }
 
     public scale (value : number) {
         this.div({x: value, y: value});
+        return this;
     }
     public toString = () => {
         return `${this.x} ${this.y}`

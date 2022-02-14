@@ -3,11 +3,14 @@ import { FC, FunctionComponent } from "react"
 import { useDragableSVGComponent } from "../CustomHooks/useDraggableSVG"
 import { CanvasElementProps } from "../../Editor/Canvas";
 import { Coordinates, ICoordinates } from "../UtilClasses/Coordinates";
+import { Point } from "../UtilClasses/Point";
 
 
 type DraggableGroupSVGProps = {
     coords : ICoordinates,
     id : string,
+    addConnection : (points : Point[]) => void,
+    onPointCoordsChange: (point : Point) => void;
     canvasElement : FunctionComponent<CanvasElementProps>;
 }
 
@@ -23,7 +26,9 @@ export const DraggableGroupSVG : FC<DraggableGroupSVGProps> = (props) => {
        id : props.id,
        coordinates,
        onMouseDownHandler,
-       onMouseUpHandler
+       onMouseUpHandler,
+       addConnection: props.addConnection,
+       onPointCoordsChange: props.onPointCoordsChange
     })
 
     return(

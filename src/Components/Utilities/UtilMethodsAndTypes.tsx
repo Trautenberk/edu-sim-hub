@@ -13,7 +13,10 @@ export function convertToVisibility(value : boolean) : Visibility {
     return value ? "visible" : "hidden";
 }
 
-export type Boundaries = {
+export type Dictionary<T> = {   // TODO zjistit proč nejde použít v custom hooks, z nějakýho důvodu to při Object.values.map tvrdí že item může být udenfined
+    [Key: string]: T;
+}
+export interface Boundaries  {
     left : number,
     top : number
 }

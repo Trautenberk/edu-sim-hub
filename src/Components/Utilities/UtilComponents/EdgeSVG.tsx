@@ -1,42 +1,25 @@
 import {FC, useCallback, useEffect, useMemo, useState} from "react"
 import uniqid from "uniqid"
 import { useDragableSVGComponent } from "../CustomHooks/useDraggableSVG"
+import { Connection } from "../UtilClasses/Connection"
 import { Coordinates, ICoordinates } from "../UtilClasses/Coordinates"
 import { Point } from "../UtilClasses/Point"
 import style from "./UtilComponentsStyle/EdgeSVG.module.scss"
 
 type EdgeSVGComponentProps = {
-    points : ICoordinates[]
+    connection : Connection,
+    onChildPointsCoordsChange : (point : Point) => void;
  }
 
 
 
 export const EdgeSVG : FC<EdgeSVGComponentProps> = (props) => {
-    const [points,setPoints] = useState<Point[]>(props.points.map(item => new Point(uniqid(), item)));
-    const pathDescription : string[] = [`M ${points[0].coords.toString()}`];
 
-    const onChildPointMove = useCallback(
-        (point : Point) => {
-            setPoints(prevPoints => {
-                for(const item of prevPoints) {
-                    if(item.id === point.id) {
-                        item.coords = point.coords;
-                        return ([...prevPoints]);
-                    } 
-                }
-                console.error("Faillllll")
-                return([...prevPoints]);
-            })
-    },[],);
-
-    for(const item of (points.slice(1, points.length))) {
-        pathDescription.push(`L ${item.coords.toString()}`)
-    }
-    
+    const edgePoints = (props.connection.points.slice(1, props.connection.points.length));
     return (
         <g>
-            <path className={style.edge} d={`${pathDescription.join(" ")}`}/>
-            {points.map(item => <EdgePointsSVG point={item} onCoordsChange={onChildPointMove}/>)}
+            <path className={style.edge} d={props.connection.getPathDescription()}/>
+            {edgePoints.map(item => <EdgePointsSVG point={item} key={item.id} onCoordsChange={props.onChildPointsCoordsChange}/>)}
         </g>
     )
 }
@@ -61,27 +44,4 @@ const EdgePointsSVG : FC<EdgePointSVGProps> = (props) => {
     )
 }
 
-
-
-const useChildPointsManagement = (pointsFromProps : Coordinates[]) => {
-    const [points, setPoints] = useState<Coordinates[]>(pointsFromProps);
-    const onChildMouseDown = () => {
-
-    }
-
-    const onChildMouseUp = () => {
-
-    }
-
-    const onChildMouseMove = () => {
-
-    }
-
-    const values = useMemo(() => ({
-        points, 
-        setPoints,
-        onChildMouseDown,
-        onChildMouseUp
-    }),[])
-}
 

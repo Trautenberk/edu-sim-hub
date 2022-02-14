@@ -14,6 +14,7 @@ import { useCanvasElementManagement } from 'Components/Utilities/CustomHooks/use
 import { NotImplementedException } from 'Components/Utilities/Errors';
 import { DraggableGroupSVG } from 'Components/Utilities/UtilComponents/DraggableGroupSVG';
 import { EdgeSVG } from 'Components/Utilities/UtilComponents/EdgeSVG';
+import { useConnectionManagement } from 'Components/Utilities/CustomHooks/useConnectionManagement';
 
 /**
  * @author Jaromír Březina
@@ -39,11 +40,17 @@ export const App : FC = () => {
      setShowMenu(true)
    }, [])
 
-   const {elements, addElement, removeAllElements} = useCanvasElementManagement();
+  const {elements, addElement, removeAllElements} = useCanvasElementManagement();
+  const {connections, onPointCoordsChange, addConnection, addPoint, removeConnection, removePoint, clearAllConnections } = useConnectionManagement();
 
+  const clearAllAction = useCallback(()=> {
+    removeAllElements();
+    clearAllConnections();
+  },[])
+  
   const [topMenuActions, setTopMenuActions] = useState<Action[]>([
     {name : "Do hlavního menu", actionMethod : showMainMenu},
-    {name : "Smazat vše", actionMethod : removeAllElements },
+    {name : "Smazat vše", actionMethod : clearAllAction },
     {name : "Uložit", actionMethod : () => {throw new NotImplementedException()}},
     {name : "Nahrát", actionMethod: () => {throw new NotImplementedException()}}
   ]) 
@@ -78,9 +85,6 @@ export const App : FC = () => {
     {name: "Spojitá bloková schémata", initFunction: initializeContBlocks}
   ];
 
-
-
-
   const [canvasElementTypes, setCanvasElementTypes] = useState<CanvasElementType[]>(petriNetsCanvasElementsTypes)
 
   if(showMenu){
@@ -88,18 +92,13 @@ export const App : FC = () => {
       <div className={styles.main_page}>
         <Menu clasName={styles.main_menu} >
           {
-            mainComponents.map(item => (
-            <MenuItemButton buttonText={item.name}
-                            onItemSelected={item.initFunction}
-                            />
-            ))
+            mainComponents.map(item => (<MenuItemButton buttonText={item.name} onItemSelected={item.initFunction}/>))
           }
         </Menu> 
       </div>  
     )
-  }
-  else{
-    return(
+  } else {
+    return (
       <div className={styles.main_page}>
         <Menu clasName={TopMenuStyle.top_menu}>
             {
@@ -110,7 +109,7 @@ export const App : FC = () => {
                 {
                   canvasElementTypes.map(item => 
                     (<MenuItemButton buttonText={item.name} iconPath={item.icon} onItemSelected={item.onClick}>
-                       <img src={item.icon}/>
+                       <img src={item.icon} alt={""}/>
                      </MenuItemButton>)
                   )
                 }
@@ -119,11 +118,13 @@ export const App : FC = () => {
                     {Object.values(elements).map(item => <DraggableGroupSVG
                       key={item.id}
                       coords={{x: 30, y: 30}}
-                      id={item.id} 
+                      id={item.id}
+                      addConnection={addConnection}
+                      onPointCoordsChange={onPointCoordsChange} 
                       canvasElement={canvasElementFactory.getElement(item)}                   
                        />)
                     }
-                    <EdgeSVG points={[{x:50, y: 50}, {x: 80, y: 80}]}/>
+                    {Object.values(connections).map(item => <EdgeSVG connection={item} onChildPointsCoordsChange={onPointCoordsChange}/>)}
                 </Canvas>
         <Loader visibile={false} >Jupiiiiiii </Loader>
       </div>

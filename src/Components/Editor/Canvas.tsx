@@ -7,12 +7,15 @@ import {Boundaries, convertMatrixToString, TransormMatrix } from "Components/Uti
 import {selectCanvasBoundaries, updateCanvasBoundaries} from "Feature/CanvasContextSlice"
 import {gridClicked, selectHint, selectHintStartCoords} from "Feature/PointConnectionAndSelectionSlice"
 import { Coordinates } from "Components/Utilities/UtilClasses/Coordinates";
+import { Point } from "Components/Utilities/UtilClasses/Point";
 
 export type CanvasElementProps = {
     id : string;
     coordinates : Coordinates
     onMouseDownHandler : (e : any) => void;
     onMouseUpHandler : (e : any) => void;
+    addConnection : (points: Point[]) => void;
+    onPointCoordsChange : (e : any) => void;
 }
 
 
@@ -81,10 +84,6 @@ type GridSVGElementProps = {
 const GridSVG : FC<GridSVGElementProps> = (props) => {
     const gridRef = useRef<SVGRectElement>(null);
     const dispatch = useAppDispatch();
-    const useSelector = useAppSelector;
-    const canvasBoundaries : Boundaries = useSelector(selectCanvasBoundaries);
-
-    const zoom = useSelector(selelctCurrentZoom);
 
     const onClickHandler : MouseEventHandler<SVGElement> = (e) => {
          dispatch(gridClicked({x: e.clientX, y: e.clientY})); 

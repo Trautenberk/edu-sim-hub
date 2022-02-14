@@ -1,13 +1,14 @@
 import {FC} from "react"
-import { Coordinates } from "../UtilClasses/Coordinates"
+import { Coordinates, ICoordinates } from "../UtilClasses/Coordinates"
+import { Point } from "../UtilClasses/Point"
 import { Direction, Visibility } from "../UtilMethodsAndTypes"
 import styles from "./UtilComponentsStyle/ArrowSVG.module.scss"
 
 export type ArrowSVGComponentProps = {
     direction : Direction 
-    coordinates : Coordinates
+    coordinates : ICoordinates
     visible : Visibility
-    onClick? : () => any
+    onClick : () => void
     scale? : number
 }
 
@@ -24,6 +25,7 @@ export const ArrowSVG : FC<ArrowSVGComponentProps> = (props) => {
                 return "180 0 0"
         }
     }
+
 
     return (
         <g visibility={props.visible} onClick={props.onClick} transform={`translate(${props.coordinates.x} ${props.coordinates.y}) scale(${(props.scale ?? 1) * 0.7} ${(props.scale ?? 1)* 0.7}) rotate(${directionConvertor()})`}>
