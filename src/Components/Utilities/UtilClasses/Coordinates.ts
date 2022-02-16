@@ -32,11 +32,11 @@ export class Coordinates implements ICoordinates {
     public div (obj : ICoordinates) {
         this.x /= obj.x;
         this.y /= obj.y;
-        return this.add;
+        return this;
     }
 
     public scale (value : number) {
-        this.div({x: value, y: value});
+        this.mul({x: value, y: value});
         return this;
     }
     public toString = () => {

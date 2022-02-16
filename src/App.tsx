@@ -123,7 +123,11 @@ export const App : FC = () => {
                       canvasElement={canvasElementFactory.getElement(item)}                   
                        />)
                     }
-                    {Object.values(connections).map(item => <EdgeSVG connection={item} onChildPointsCoordsChange={onCoordsChange}/>)}
+                    {Object.values(connections).map(item => <EdgeSVG 
+                    connection={item} 
+                    onChildPointsCoordsChange={onCoordsChange}
+                    addPoint={addPoint}
+                    />)}
                 </Canvas>
         <Loader visibile={false} >Jupiiiiiii </Loader>
       </div>
