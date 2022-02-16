@@ -14,7 +14,7 @@ import { useCanvasElementManagement } from 'Components/Utilities/CustomHooks/use
 import { NotImplementedException } from 'Components/Utilities/Errors';
 import { DraggableGroupSVG } from 'Components/Utilities/UtilComponents/DraggableGroupSVG';
 import { EdgeSVG } from 'Components/Utilities/UtilComponents/EdgeSVG';
-import { useConnectionManagement } from 'Components/Utilities/CustomHooks/useConnectionManagement';
+import { PointManagement, useConnectionManagement } from 'Components/Utilities/CustomHooks/useConnectionManagement';
 
 /**
  * @author Jaromír Březina
@@ -41,7 +41,9 @@ export const App : FC = () => {
    }, [])
 
   const {elements, addElement, removeAllElements} = useCanvasElementManagement();
-  const {connections, onPointCoordsChange, addConnection, addPoint, removeConnection, removePoint, clearAllConnections } = useConnectionManagement();
+  const {connections, onCoordsChange, addConnection, addPoint, removeConnection, removePoint, clearAllConnections } = useConnectionManagement();
+
+  const PointManagementMethods : PointManagement = {addConnection, addPoint, onCoordsChange, removePoint, removeConnection}
 
   const clearAllAction = useCallback(()=> {
     removeAllElements();
@@ -117,12 +119,11 @@ export const App : FC = () => {
                       key={item.id}
                       coords={{x: 30, y: 30}}
                       id={item.id}
-                      addConnection={addConnection}
-                      onPointCoordsChange={onPointCoordsChange} 
+                      {...PointManagementMethods}
                       canvasElement={canvasElementFactory.getElement(item)}                   
                        />)
                     }
-                    {Object.values(connections).map(item => <EdgeSVG connection={item} onChildPointsCoordsChange={onPointCoordsChange}/>)}
+                    {Object.values(connections).map(item => <EdgeSVG connection={item} onChildPointsCoordsChange={onCoordsChange}/>)}
                 </Canvas>
         <Loader visibile={false} >Jupiiiiiii </Loader>
       </div>

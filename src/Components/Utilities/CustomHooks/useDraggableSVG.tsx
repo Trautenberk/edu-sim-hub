@@ -1,9 +1,15 @@
-import {useState, useMemo, useCallback, MouseEventHandler, useRef} from "react"
+import React, {useState, useMemo, useCallback, useRef} from "react"
 import {selelctCurrentZoom} from "Feature/ZoomSlice";
 import {useAppSelector} from "Store/Hooks";
 import {selectCanvasBoundaries} from "Feature/CanvasContextSlice"
 import { Coordinates } from "../UtilClasses/Coordinates";
-export const useDragableSVGComponent = <T extends SVGElement>(coords : Coordinates) => {
+
+
+export type DraggableHandlers = {
+    onMouseDownDragHandler : (e : React.MouseEvent) => void
+    onMouseUpDragHandler : (e : React.MouseEvent) => void
+}
+export const useDragableSVGComponent = (coords : Coordinates) => {
     const [coordinates, setCoordinates] = useState<Coordinates>(coords);
     const initMousePos = useRef<Coordinates>(new Coordinates());
     const initElementPos = useRef<Coordinates>(new Coordinates());
@@ -26,7 +32,7 @@ export const useDragableSVGComponent = <T extends SVGElement>(coords : Coordinat
     )
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    const onMouseDownHandler : MouseEventHandler<T> = (e) => {
+    const onMouseDownHandler = (e : React.MouseEvent) => {
             e.stopPropagation();
             (initMousePos.current = new Coordinates({x: e.clientX, y: e.clientY})).sub({x: canvasBoundaries.left, y: canvasBoundaries.top});  // pozice odkud se za4alo táhnout
             initElementPos.current = new Coordinates(coordinates); // původní pozice elementu
@@ -34,7 +40,7 @@ export const useDragableSVGComponent = <T extends SVGElement>(coords : Coordinat
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    const onMouseUpHandler : MouseEventHandler<T> = (e) => {
+    const onMouseUpHandler = (e : React.MouseEvent) => {
         e.stopPropagation();
         initMousePos.current = new Coordinates();  
         initElementPos.current = new Coordinates();

@@ -4,6 +4,15 @@ import { NotImplementedException } from "../Errors";
 import { Connection } from "../UtilClasses/Connection";
 import { Point } from "../UtilClasses/Point";
 
+
+export type PointManagement = {
+    onCoordsChange : (point : Point) => void
+    addPoint : (connectionID : string, point: Point) => void
+    addConnection : (points : Point[]) => void
+    removePoint : (point : Point) => void
+    removeConnection : (id : string) => void
+}
+
 type ConnectionDict = {[key : string ] : Connection}
 
 export const useConnectionManagement = () => {
@@ -11,7 +20,7 @@ export const useConnectionManagement = () => {
     const [connections, setConnections] = useState<ConnectionDict>({});
     const [pointInConections, setPointInConnections] = useState<Dictionary<string[]>>({});
 
-    const onPointCoordsChange = useCallback((point : Point) => {
+    const onCoordsChange = useCallback((point : Point) => {
         const allConnectionThatIncludesPoint = pointInConections[point.id];
 
         if(allConnectionThatIncludesPoint != null) {
@@ -54,11 +63,11 @@ export const useConnectionManagement = () => {
        })
     },[])
 
-    const removePoint = useCallback((point : Point) => {
+    const removePoint = useCallback((point : Point) : void => {
         throw new NotImplementedException();
     },[])
 
-    const removeConnection = useCallback((id : string) => {
+    const removeConnection = useCallback((id : string) : void => {
         throw new NotImplementedException();
     },[])
 
@@ -69,13 +78,13 @@ export const useConnectionManagement = () => {
 
     const values = useMemo(() => ({
         connections,
-        onPointCoordsChange,
+        onCoordsChange,
         addConnection,
         addPoint,
         removePoint,
         removeConnection,
         clearAllConnections,
-    }),[addConnection, connections, onPointCoordsChange, removeConnection, removePoint, clearAllConnections])
+    }),[addConnection, connections, onCoordsChange, removeConnection, removePoint, clearAllConnections])
 
     return values;
 }

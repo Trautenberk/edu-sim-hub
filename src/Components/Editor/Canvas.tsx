@@ -1,21 +1,18 @@
-import {MouseEventHandler, useRef, useEffect,  useState, FC } from "react"; 
-import {useDragableSVGComponent } from "../Utilities/CustomHooks/useDraggableSVG";
+import React, {MouseEventHandler, useRef, useEffect,  useState, FC, MouseEvent } from "react"; 
+import {DraggableHandlers, useDragableSVGComponent } from "../Utilities/CustomHooks/useDraggableSVG";
 import styles from "Styles/Editor/CanvasStyle.module.scss";
 import {useAppDispatch, useAppSelector} from "Store/Hooks"
 import {zoom, selelctCurrentZoom } from "Feature/ZoomSlice";
-import {Boundaries, convertMatrixToString, TransormMatrix } from "Components/Utilities/UtilMethodsAndTypes";
-import {selectCanvasBoundaries, updateCanvasBoundaries} from "Feature/CanvasContextSlice"
+import { convertMatrixToString, TransormMatrix } from "Components/Utilities/UtilMethodsAndTypes";
+import { updateCanvasBoundaries} from "Feature/CanvasContextSlice"
 import {gridClicked } from "Feature/PointConnectionAndSelectionSlice"
 import { Coordinates } from "Components/Utilities/UtilClasses/Coordinates";
 import { Point } from "Components/Utilities/UtilClasses/Point";
+import { PointManagement } from "Components/Utilities/CustomHooks/useConnectionManagement";
 
-export type CanvasElementProps = {
+export type CanvasElementProps = DraggableHandlers & PointManagement & {
     id : string;
-    groupAbsoluteCoordinates : Coordinates
-    onMouseDownHandler : (e : any) => void;
-    onMouseUpHandler : (e : any) => void;
-    addConnection : (points: Point[]) => void;
-    onPointCoordsChange : (e : any) => void;
+    groupAbsoluteCoordinates : Coordinates  // absolutní souřadnice skupiny ve které se element nachází
 }
 
 export const Canvas : FC = ({children}) => {
@@ -40,7 +37,7 @@ export const Canvas : FC = ({children}) => {
         dispatch(zoom({deltaY: evt.deltaY}));
     }
 
-    const onGridClickHandler : MouseEventHandler<SVGElement> = (e) => {
+    const onGridClickHandler  = (e : React.MouseEvent) => {
         dispatch(gridClicked({x: e.clientX, y: e.clientY})); 
     }
 

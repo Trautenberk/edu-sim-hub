@@ -41,3 +41,7 @@ export type PointBriefDesc = {
 export function  convertMatrixToString (matrix : TransormMatrix) : string {
     return `matrix(${matrix.scaleX}, ${matrix.skewY}, ${matrix.skewX}, ${matrix.scaleY}, ${matrix.translateX}, ${matrix.transalteY})`
 }
+
+export function logNotImplemented(name : string) {
+    console.error(`Error: method call but not implemented ${name}`)
+}
