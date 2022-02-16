@@ -5,7 +5,7 @@ import {useAppDispatch, useAppSelector} from "Store/Hooks"
 import {zoom, selelctCurrentZoom } from "Feature/ZoomSlice";
 import {Boundaries, convertMatrixToString, TransormMatrix } from "Components/Utilities/UtilMethodsAndTypes";
 import {selectCanvasBoundaries, updateCanvasBoundaries} from "Feature/CanvasContextSlice"
-import {gridClicked, selectHint, selectHintStartCoords} from "Feature/PointConnectionAndSelectionSlice"
+import {gridClicked } from "Feature/PointConnectionAndSelectionSlice"
 import { Coordinates } from "Components/Utilities/UtilClasses/Coordinates";
 import { Point } from "Components/Utilities/UtilClasses/Point";
 
@@ -16,12 +16,6 @@ export type CanvasElementProps = {
     onMouseUpHandler : (e : any) => void;
     addConnection : (points: Point[]) => void;
     onPointCoordsChange : (e : any) => void;
-}
-
-
-export type CanvasMouseMoveEventDetail = {
-    xCoord : number,
-    yCoord : number
 }
 
 export const Canvas : FC = ({children}) => {
@@ -46,6 +40,10 @@ export const Canvas : FC = ({children}) => {
         dispatch(zoom({deltaY: evt.deltaY}));
     }
 
+    const onGridClickHandler : MouseEventHandler<SVGElement> = (e) => {
+        dispatch(gridClicked({x: e.clientX, y: e.clientY})); 
+    }
+
     useEffect(() => {
             if(canvasBoundingElementRef.current != null ){
                 const boundElement = canvasBoundingElementRef.current;
@@ -68,44 +66,11 @@ export const Canvas : FC = ({children}) => {
                         </pattern>
                     </defs>
                     <g transform={convertMatrixToString(mainGroupTransformMatrix)} onMouseDown={onMouseDownHandler} onMouseUp={onMouseUpHandler} >   
-                            <GridSVG size={svgSize} />
+                        <rect width={1201} height={1201} onClick={onGridClickHandler} className={styles.canvas_svg__grid} fill="url(#grid)" />  {/* Grid element*/}
                             {children}
                     </g>
                 </svg>
         </div>
-    )
-}
-
-
-type GridSVGElementProps = {
-    size : {width: number, height : number},
-}
-
-const GridSVG : FC<GridSVGElementProps> = (props) => {
-    const gridRef = useRef<SVGRectElement>(null);
-    const dispatch = useAppDispatch();
-
-    const onClickHandler : MouseEventHandler<SVGElement> = (e) => {
-         dispatch(gridClicked({x: e.clientX, y: e.clientY})); 
-    }
-
-
-    return(
-        <g>
-           <defs>
-            <pattern id="smallGrid" width="8" height="8" patternUnits="userSpaceOnUse">
-                <path d="M 8 0 L 0 0 0 8" fill="white" stroke="black" strokeWidth="0.5"/>
-            </pattern>
-            <pattern id="grid" width="80" height="80" patternUnits="userSpaceOnUse">
-                <rect width="80" height="80" fill="url(#smallGrid)"/>
-                <path d="M 80 0 L 0 0 0 80" fill="white" stroke="black" strokeWidth="1"/>
-            </pattern>
-            <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="0" refY="3.5" orient="auto">
-                <polygon points="0 0, 10 3.5, 0 7" />
-            </marker>
-            </defs>
-            <rect width={1201} height={1201} ref={gridRef} onClick={onClickHandler} className={styles.canvas_svg__grid} fill="url(#grid)" /> 
-        </g>
     )
 }
 
