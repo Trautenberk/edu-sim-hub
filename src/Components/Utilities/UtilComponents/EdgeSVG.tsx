@@ -14,7 +14,7 @@ export const EdgeSVG : FC<EdgeSVGComponentProps> = (props) => {
     const edgePoints = (props.connection.points.slice(1, props.connection.points.length));
     return (
         <g>
-            <path className={style.edge} d={props.connection.getPathDescription()}/>
+            <path className={style.edge} markerEnd={"url(#arrow)"} d={props.connection.getPathDescription()}/>
             {edgePoints.map(item => <EdgePointsSVG point={item} key={item.id} onCoordsChange={props.onChildPointsCoordsChange}/>)}
         </g>
     )
