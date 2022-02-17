@@ -33,7 +33,7 @@ export const PlaceSVG : FunctionComponent<CanvasElementProps> = (props) => {
         <>
             <circle className={styles.spot} onClick={onClickHandler} onMouseDown={props.onMouseDownDragHandler} onMouseUp={props.onMouseUpDragHandler}  r="30"/>
             <circle visibility={visible} className={styles.spot_selected} r="30"/>
-            {endPoints.map((item, index) => <EndPoint parentElementID={props.id} point={item} arrowDirection={ALL_DIRECTIONS[index]} addConnection={props.addConnection} onEndPointCoordsChange={props.onCoordsChange} /> )}
+            {endPoints.map((item, index) => <EndPoint key={item.id} parentElementID={props.id} point={item} arrowDirection={ALL_DIRECTIONS[index]} addConnection={props.addConnection} onEndPointCoordsChange={props.onCoordsChange} /> )}
         </>
     )
 }

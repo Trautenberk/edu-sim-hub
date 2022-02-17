@@ -94,7 +94,7 @@ export const App : FC = () => {
       <div className={styles.main_page}>
         <Menu clasName={styles.main_menu} >
           {
-            mainComponents.map(item => (<MenuItemButton buttonText={item.name} onItemSelected={item.initFunction}/>))
+            mainComponents.map(item => (<MenuItemButton key={item.name} buttonText={item.name} onItemSelected={item.initFunction}/>))
           }
         </Menu> 
       </div>  
@@ -103,12 +103,12 @@ export const App : FC = () => {
     return (
       <div className={styles.main_page}>
         <Menu clasName={TopMenuStyle.top_menu}>
-            {topMenuActions.map(item => <MenuItemButton buttonText={item.name} onItemSelected={item.actionMethod}/>)}
+            {topMenuActions.map(item => <MenuItemButton key={item.name} buttonText={item.name} onItemSelected={item.actionMethod}/>)}
         </Menu>
         <Menu clasName={editorStyles.editor_menu} >
                 {
                   canvasElementTypes.map(item => 
-                    (<MenuItemButton buttonText={item.name} iconPath={item.icon} onItemSelected={item.onClick}>
+                    (<MenuItemButton  key={item.name} buttonText={item.name} iconPath={item.icon} onItemSelected={item.onClick}>
                        <img src={item.icon} alt={""}/>
                      </MenuItemButton>)
                   )
@@ -123,7 +123,8 @@ export const App : FC = () => {
                       canvasElement={canvasElementFactory.getElement(item)}                   
                        />)
                     }
-                    {Object.values(connections).map(item => <EdgeSVG 
+                    {Object.values(connections).map(item => <EdgeSVG
+                    key={item.id} 
                     connection={item} 
                     onChildPointsCoordsChange={onCoordsChange}
                     addPoint={addPoint}
