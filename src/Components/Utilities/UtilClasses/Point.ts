@@ -4,6 +4,12 @@ export class Point  {
     public id : string  // identifikátor
     public coords : Coordinates    // absolutní souřadnice
 
+    private static _cnt : number = 0;
+
+    public static get cnt() {
+        return Point._cnt++;
+    }
+
     constructor(id : string, coords : ICoordinates)
     constructor(id: string, coords? : ICoordinates){
         this.id = id;

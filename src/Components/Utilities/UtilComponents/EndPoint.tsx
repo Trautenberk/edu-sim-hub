@@ -1,11 +1,12 @@
 import { FC, MouseEventHandler, useCallback, useEffect } from "react"
 import styles from "Styles/Editor//EndPoint.module.css"
-import { convertToVisibility, Direction } from "Components/Utilities/UtilMethodsAndTypes"
+import { convertDirectionToOffset, convertToVisibility, Direction } from "Components/Utilities/UtilMethodsAndTypes"
 import { useAppSelector, useAppDispatch } from "Store/Hooks"
 import { endPointClicked, selectedEndPoint, selectedElementID } from "Feature/PointConnectionAndSelectionSlice"
 import { ArrowSVG } from "Components/Utilities/UtilComponents/ArrowSVG"
 import { GroupPoint, Point } from "../UtilClasses/Point"
 import uniqid from "uniqid"
+import { Coordinates } from "../UtilClasses/Coordinates"
 export type EndPointProps = {
     parentElementID : string,
     point : GroupPoint,
@@ -32,7 +33,7 @@ export const EndPoint : FC<EndPointProps> = (props) => {
     const visible = convertToVisibility(useSelector(state => selectedElementID(state) === props.parentElementID || selectedEndPoint(state) === props.point.id));
 
     const onArrowClick = useCallback(() => {
-        props.addConnection([props.point, new Point(uniqid(), {x : 50, y : 100})]);
+        props.addConnection([props.point, new Point(`Point_${Point.cnt}`, new Coordinates(convertDirectionToOffset(props.arrowDirection)).add(props.point.coords))]);
     },[props])
 
     return(

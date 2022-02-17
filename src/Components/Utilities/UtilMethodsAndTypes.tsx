@@ -1,4 +1,4 @@
-import { Coordinates } from "./UtilClasses/Coordinates";
+import { Coordinates, ICoordinates } from "./UtilClasses/Coordinates";
 
 export type Visibility = "visible" | "hidden";
 
@@ -40,6 +40,20 @@ export type PointBriefDesc = {
 
 export function  convertMatrixToString (matrix : TransormMatrix) : string {
     return `matrix(${matrix.scaleX}, ${matrix.skewY}, ${matrix.skewX}, ${matrix.scaleY}, ${matrix.translateX}, ${matrix.transalteY})`
+}
+
+const directionOffset = 50
+export function convertDirectionToOffset (direction : Direction) : ICoordinates {
+    switch (direction) {
+        case Direction.Right:
+            return { x: directionOffset, y: 0 };
+        case Direction.Down:
+            return { x: 0, y: directionOffset };
+        case Direction.Left:
+            return { x: -directionOffset, y: 0 };
+        case Direction.Top:
+            return { x: 0, y : -directionOffset };
+    }
 }
 
 export function logNotImplemented(name : string) {
