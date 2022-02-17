@@ -27,7 +27,7 @@ export const EdgeSVG : FC<EdgeSVGComponentProps> = (props) => {
         <g>
             <path className={style.edge} markerEnd={"url(#arrow)"} d={props.connection.getPathDescription()}/>
             {edgePoints.map(item => <EdgePointsSVG point={item} key={item.id} onCoordsChange={props.onChildPointsCoordsChange}/>)}
-            {addPoints.map(item => <AddPointSVG point={item} connectionId={props.connection.id} key={item.id} addPoint={props.addPoint}/>)}
+            {addPoints.map((item,index) => <AddPointSVG point={item} pointIndex={++index} connectionId={props.connection.id} key={item.id} addPoint={props.addPoint}/>)}
         </g>
     )
 }
@@ -53,17 +53,17 @@ const EdgePointsSVG : FC<EdgePointSVGProps> = (props) => {
 
 type AddPointSVGProps = Pick<PointManagement, "addPoint"> & {
     point : Point
-    connectionId : string,
+    pointIndex : number
+    connectionId : string
 }
 
 const AddPointSVG : FC<AddPointSVGProps> = (props) => {
 
     const onClickHandler = () => {
-        console.log("addPoint");
-        // props.addPoint(props.connectionId, props.point)
+        props.addPoint(props.connectionId, props.point, props.pointIndex)
     }
     return (
-        <circle className={style.edge_point} fill={"red"} cx={props.point.coords.x} cy={props.point.coords.y} r={5} onClick={onClickHandler} />
+        <circle className={style.add_point} cx={props.point.coords.x} cy={props.point.coords.y} r={5} onClick={onClickHandler} />
     )
 }
 

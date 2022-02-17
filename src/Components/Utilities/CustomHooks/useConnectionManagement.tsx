@@ -5,9 +5,9 @@ import { Connection } from "../UtilClasses/Connection";
 import { Point } from "../UtilClasses/Point";
 
 
-export type PointManagement = {
+export type PointManagement =  {
     onCoordsChange : (point : Point) => void
-    addPoint : (connectionID : string, point: Point) => void
+    addPoint : (connectionID : string, point: Point, index : number) => void
     addConnection : (points : Point[]) => void
     removePoint : (point : Point) => void
     removeConnection : (id : string) => void
@@ -35,8 +35,19 @@ export const useConnectionManagement = () => {
         }
     }, [connections, pointInConections])
 
-    const addPoint = useCallback((connectionID : string, point: Point) => {
-        throw new NotImplementedException();
+    const addPoint = useCallback((connectionID : string, point: Point, index : number) => {
+        const points = connections[connectionID].points;
+        if (points != null) {
+            const pointsBeforeIndex = points.slice(0, index);
+            const pointsAfterIndex = points.slice(index, points.length);
+            const newPoint = new Point(`Point_${Point.cnt}`,point.coords)
+            setPointInConnections(prevPointsInConnection => {
+                prevPointsInConnection[newPoint.id] = [connectionID];
+                return {...prevPointsInConnection};
+            })
+            connections[connectionID].points = [...pointsBeforeIndex, newPoint, ...pointsAfterIndex]
+        }
+        setConnections({...connections})
     },[])
 
     const addConnection = useCallback((points : Point[]) => {

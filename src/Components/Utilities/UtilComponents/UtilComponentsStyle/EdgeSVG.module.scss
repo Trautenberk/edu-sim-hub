@@ -3,9 +3,19 @@
     stroke: black;
     stroke-width: 3px;
     stroke-miterlimit: 10;
+    fill: none;
 }
 
 .edge_point {
     stroke: none;
     fill: rgba($color: #077bff, $alpha: 1.0);
+}
+
+.add_point {
+    fill: rgba($color: #07e2ff, $alpha: 0.7)
+}
+
+.add_point:hover {
+    fill: rgba($color: #08fc00, $alpha: 0.9);
+    cursor: pointer;
 }

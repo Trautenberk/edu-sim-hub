@@ -5,8 +5,8 @@ import { useAppSelector, useAppDispatch } from "Store/Hooks"
 import { endPointClicked, selectedEndPoint, selectedElementID } from "Feature/PointConnectionAndSelectionSlice"
 import { ArrowSVG } from "Components/Utilities/UtilComponents/ArrowSVG"
 import { GroupPoint, Point } from "../UtilClasses/Point"
-import uniqid from "uniqid"
 import { Coordinates } from "../UtilClasses/Coordinates"
+
 export type EndPointProps = {
     parentElementID : string,
     point : GroupPoint,
