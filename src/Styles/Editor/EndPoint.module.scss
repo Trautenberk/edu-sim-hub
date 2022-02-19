@@ -1,6 +1,6 @@
 
 
-.EndPoint {
+.end_point {
     stroke-width: 1px;
     stroke:#00d7ff;
     fill: #00d7ff;
@@ -10,7 +10,7 @@
     height: 10px;
 }
 
-.EndPointSelected {
+.end_point_selected {
     stroke-width: 1px;
     stroke:#00d7ff;
     fill: #F5A65B;
@@ -18,4 +18,11 @@
     pointer-events: visible;
     width: 10px;
     height: 10px;
+}
+
+.helper_circle {
+    stroke-width: 1px;
+    fill: #29e005;
+    opacity: 0.5;
+    pointer-events: all;
 }
