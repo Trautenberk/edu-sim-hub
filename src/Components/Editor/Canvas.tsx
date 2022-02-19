@@ -67,7 +67,7 @@ export const Canvas : FC<CanvasProps> = (props) => {
                             <path d="M 80 0 L 0 0 0 80" fill="none" stroke="gray" strokeWidth="1"/>
                         </pattern>
                         <marker id="arrow" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-                            <path d="M 0 0 L 10 5 L 0 10 z" />
+                            <path d="M 0 0 L 8 5 L 0 10 z" />
                         </marker>
                     </defs>
                     <g transform={convertMatrixToString(mainGroupTransformMatrix)} onMouseDown={onMouseDownHandler} onMouseUp={onMouseUpHandler} >   
