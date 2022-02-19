@@ -89,7 +89,7 @@ export const useConnectionManagement = () => {
         } else {
             console.error(`Trying to remove connection that is not present: ${id}`)
         }
-    },[])
+    },[connections])
 
     const clearAllConnections = useCallback(() => {
         setConnections({});
