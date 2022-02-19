@@ -7,9 +7,9 @@ import { convertMatrixToString, TransormMatrix } from "Components/Utilities/Util
 import { updateCanvasBoundaries} from "Feature/CanvasContextSlice"
 import {gridClicked } from "Feature/PointConnectionAndSelectionSlice"
 import { Coordinates } from "Components/Utilities/UtilClasses/Coordinates";
-import { PointManagement } from "Components/Utilities/CustomHooks/useConnectionManagement";
+import { EndPointManagement, PointManagement } from "Components/Utilities/CustomHooks/useConnectionManagement";
 
-export type CanvasElementProps = DraggableHandlers & PointManagement &  {
+export type CanvasElementProps = DraggableHandlers & PointManagement & EndPointManagement & {
     id : string;
     groupAbsoluteCoordinates : Coordinates  // absolutní souřadnice skupiny ve které se element nachází
 }

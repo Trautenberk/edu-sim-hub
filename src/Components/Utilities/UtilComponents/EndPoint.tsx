@@ -6,13 +6,12 @@ import { endPointClicked, selectedEndPoint, selectedElementID } from "Feature/Po
 import { ArrowSVG } from "Components/Utilities/UtilComponents/ArrowSVG"
 import { GroupPoint, Point } from "../UtilClasses/Point"
 import { Coordinates, ICoordinates } from "../UtilClasses/Coordinates"
+import { EndPointManagement, PointManagement } from "../CustomHooks/useConnectionManagement"
 
-export type EndPointProps = {
+export type EndPointProps =  EndPointManagement & Pick<PointManagement, "addConnection" | "onCoordsChange"> & {
     parentElementID : string,
     point : GroupPoint,
     arrowDirection : Direction,
-    addConnection : (points : Point[]) => void;
-    onEndPointCoordsChange : (point: Point) => void;
 }
 
 export const EndPoint : FC<EndPointProps> = (props) => {
@@ -25,9 +24,15 @@ export const EndPoint : FC<EndPointProps> = (props) => {
     }
 
     useEffect(() => {
-        props.onEndPointCoordsChange(props.point)
+        props.onCoordsChange(props.point)
     // eslint-disable-next-line react-hooks/exhaustive-deps
     },[props.point])
+
+    useEffect(() => {
+        props.registerEndPoint(props.point);
+        return (() => {props.unregisterEndPoint(props.point.id)})
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    },[])
   
     const style =  useSelector(state => selectedEndPoint(state)) === props.point.id ? styles.end_point_selected : styles.end_point 
     const visible = convertToVisibility(useSelector(state => selectedElementID(state) === props.parentElementID || selectedEndPoint(state) === props.point.id));

@@ -14,7 +14,7 @@ import { useCanvasElementManagement } from 'Components/Utilities/CustomHooks/use
 import { NotImplementedException } from 'Components/Utilities/Errors';
 import { DraggableGroupSVG } from 'Components/Utilities/UtilComponents/DraggableGroupSVG';
 import { EdgeSVG } from 'Components/Utilities/UtilComponents/EdgeSVG';
-import { PointManagement, useConnectionManagement } from 'Components/Utilities/CustomHooks/useConnectionManagement';
+import { EndPointManagement, PointManagement, useConnectionManagement } from 'Components/Utilities/CustomHooks/useConnectionManagement';
 import { useAppDispatch, useAppSelector } from 'Store/Hooks';
 import { gridClicked, selectedElementID } from 'Feature/PointConnectionAndSelectionSlice';
 
@@ -46,9 +46,13 @@ export const App : FC = () => {
    }, [])
 
   const {elements, addElement, removeElement, removeAllElements} = useCanvasElementManagement();
-  const {connections, onCoordsChange, addConnection, addPoint, removeConnection, removePoint, clearAllConnections, selectConnection, selectedConnection, unselectConnections } = useConnectionManagement();
+  const { connections, onCoordsChange, addConnection, addPoint,
+          removeConnection, removePoint, clearAllConnections,
+          selectConnection, selectedConnection, unselectConnections,
+          registerEndPoint, unregisterEndPoint } = useConnectionManagement();
 
-  const PointManagementMethods : PointManagement = {addConnection, addPoint, onCoordsChange, removePoint, removeConnection, selectConnection}
+  const pointManagementMethods : PointManagement = {addConnection, addPoint, onCoordsChange, removePoint, removeConnection, selectConnection}
+  const endPointManagementMethods : EndPointManagement = {registerEndPoint, unregisterEndPoint}
 
   const clearAllAction = useCallback(()=> {
     removeAllElements();
@@ -161,7 +165,8 @@ export const App : FC = () => {
                       key={item.id}
                       coords={{x: 30, y: 30}}
                       id={item.id}
-                      {...PointManagementMethods}
+                      {...pointManagementMethods}
+                      {...endPointManagementMethods}
                       canvasElement={canvasElementFactory.getElement(item)}                   
                        />)
                     }

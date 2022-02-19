@@ -14,16 +14,23 @@ export type PointManagement =  {
     selectConnection : (id : string) => void
 }
 
+export type EndPointManagement = {
+    registerEndPoint : (point : Point) => void
+    unregisterEndPoint : (id : string) => void
+}
+
 type ConnectionDict = {[key : string ] : Connection}
+type EndPointDict = {[key : string ] : Point}
 
 export const useConnectionManagement = () => {
     const connectionCounter = useRef(0);
     const [connections, setConnections] = useState<ConnectionDict>({});
-    const [pointInConections, setPointInConnections] = useState<Dictionary<string[]>>({});
+    const [pointsInConnections, setPointsInConnections] = useState<Dictionary<string[]>>({});
     const [selectedConnection, setSelectedConnection] = useState<string | null>(null);
+    const [endPoints, setEndPoints] = useState<EndPointDict>({});
 
     const onCoordsChange = useCallback((point : Point) => {
-        const allConnectionThatIncludesPoint = pointInConections[point.id];
+        const allConnectionThatIncludesPoint = pointsInConnections[point.id];
 
         if(allConnectionThatIncludesPoint != null) {
             for (const connectionID of allConnectionThatIncludesPoint) {
@@ -34,7 +41,12 @@ export const useConnectionManagement = () => {
             }
             setConnections({...connections});
         }
-    }, [connections, pointInConections])
+
+        if (endPoints[point.id] != null) {
+            endPoints[point.id] = point;
+            setEndPoints({...endPoints});
+        }
+    }, [connections, endPoints, pointsInConnections])
 
     const addPoint = useCallback((connectionID : string, point: Point, index : number) => {
         const points = connections[connectionID].points;
@@ -42,7 +54,7 @@ export const useConnectionManagement = () => {
             const pointsBeforeIndex = points.slice(0, index);
             const pointsAfterIndex = points.slice(index, points.length);
             const newPoint = new Point(`Point_${Point.cnt}`,point.coords)
-            setPointInConnections(prevPointsInConnection => {
+            setPointsInConnections(prevPointsInConnection => {
                 prevPointsInConnection[newPoint.id] = [connectionID];
                 return {...prevPointsInConnection};
             })
@@ -65,14 +77,14 @@ export const useConnectionManagement = () => {
         setSelectedConnection(newConnection.id);
         
         for (const point of newConnection.points) {
-            if (pointInConections[point.id] != null) {
-                pointInConections[point.id]?.push(newConnection.id);
+            if (pointsInConnections[point.id] != null) {
+                pointsInConnections[point.id]?.push(newConnection.id);
             } else {
-                pointInConections[point.id] = [newConnection.id];
+                pointsInConnections[point.id] = [newConnection.id];
             }
         }
-        setPointInConnections({...pointInConections});
-    },[pointInConections])
+        setPointsInConnections({...pointsInConnections});
+    },[pointsInConnections])
 
     const removePoint = useCallback((point : Point) : void => {
         throw new NotImplementedException();
@@ -90,7 +102,7 @@ export const useConnectionManagement = () => {
 
     const clearAllConnections = useCallback(() => {
         setConnections({});
-        setPointInConnections({});
+        setPointsInConnections({});
     },[])
 
     const selectConnection = useCallback((id : string) => {
@@ -100,6 +112,24 @@ export const useConnectionManagement = () => {
     const unselectConnections = useCallback(() => {
         setSelectedConnection(null);
     }, [])
+
+    const registerEndPoint = useCallback((endPoint : Point) => {
+        if (endPoints[endPoint.id] == null) {
+            endPoints[endPoint.id] = endPoint;
+            setEndPoints({...endPoints});
+        } else {
+            console.error(`EndPoint is already registered: ${endPoint.id}`)
+        }
+    },[endPoints])
+
+    const unregisterEndPoint = useCallback((id : string) => {
+        if (endPoints[id] != null) {
+            delete endPoints[id];
+            setEndPoints({...endPoints});
+        } else {
+            console.error(`Failed to unregister endpoit: ${id}`)
+        }
+    },[endPoints])
 
     const values = useMemo(() => ({
         connections,
@@ -111,8 +141,10 @@ export const useConnectionManagement = () => {
         clearAllConnections,
         selectedConnection,
         selectConnection,
-        unselectConnections
-    }),[connections, onCoordsChange, addConnection, addPoint, removePoint, removeConnection, clearAllConnections, selectedConnection, selectConnection, unselectConnections])
+        unselectConnections,
+        registerEndPoint,
+        unregisterEndPoint
+    }),[connections, onCoordsChange, addConnection, addPoint, removePoint, removeConnection, clearAllConnections, selectedConnection, selectConnection, unselectConnections, registerEndPoint, unregisterEndPoint])
 
     return values;
 }
