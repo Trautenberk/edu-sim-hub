@@ -6,8 +6,13 @@
     fill: none;
 }
 
+.edge:hover {
+    cursor: pointer;
+}
+
 .edge_point {
     stroke: none;
+    cursor: move;
     fill: rgba($color: #077bff, $alpha: 1.0);
 }
 

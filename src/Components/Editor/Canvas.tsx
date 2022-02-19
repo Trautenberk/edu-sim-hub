@@ -1,4 +1,4 @@
-import React, {MouseEventHandler, useRef, useEffect,  useState, FC, MouseEvent } from "react"; 
+import React, { useRef, useEffect,  useState, FC } from "react"; 
 import {DraggableHandlers, useDragableSVGComponent } from "../Utilities/CustomHooks/useDraggableSVG";
 import styles from "Styles/Editor/CanvasStyle.module.scss";
 import {useAppDispatch, useAppSelector} from "Store/Hooks"
@@ -7,7 +7,6 @@ import { convertMatrixToString, TransormMatrix } from "Components/Utilities/Util
 import { updateCanvasBoundaries} from "Feature/CanvasContextSlice"
 import {gridClicked } from "Feature/PointConnectionAndSelectionSlice"
 import { Coordinates } from "Components/Utilities/UtilClasses/Coordinates";
-import { Point } from "Components/Utilities/UtilClasses/Point";
 import { PointManagement } from "Components/Utilities/CustomHooks/useConnectionManagement";
 
 export type CanvasElementProps = DraggableHandlers & PointManagement &  {
@@ -15,7 +14,12 @@ export type CanvasElementProps = DraggableHandlers & PointManagement &  {
     groupAbsoluteCoordinates : Coordinates  // absolutní souřadnice skupiny ve které se element nachází
 }
 
-export const Canvas : FC = ({children}) => {
+
+type CanvasProps = {
+    onGridClick: () => void
+}
+
+export const Canvas : FC<CanvasProps> = (props) => {
     const dispatch = useAppDispatch();
     const useSelector = useAppSelector;
 
@@ -39,6 +43,7 @@ export const Canvas : FC = ({children}) => {
 
     const onGridClickHandler  = (e : React.MouseEvent) => {
         dispatch(gridClicked({x: e.clientX, y: e.clientY})); 
+        props.onGridClick();
     }
 
     useEffect(() => {
@@ -67,7 +72,7 @@ export const Canvas : FC = ({children}) => {
                     </defs>
                     <g transform={convertMatrixToString(mainGroupTransformMatrix)} onMouseDown={onMouseDownHandler} onMouseUp={onMouseUpHandler} >   
                         <rect width={1201} height={1201} onClick={onGridClickHandler} className={styles.canvas_svg__grid} fill="url(#grid)" />  {/* Grid element*/}
-                            {children}
+                            {props.children}
                     </g>
                 </svg>
         </div>

@@ -11,6 +11,7 @@ export type PointManagement =  {
     addConnection : (points : Point[]) => void
     removePoint : (point : Point) => void
     removeConnection : (id : string) => void
+    selectConnection : (id : string) => void
 }
 
 type ConnectionDict = {[key : string ] : Connection}
@@ -19,6 +20,7 @@ export const useConnectionManagement = () => {
     const connectionCounter = useRef(0);
     const [connections, setConnections] = useState<ConnectionDict>({});
     const [pointInConections, setPointInConnections] = useState<Dictionary<string[]>>({});
+    const [selectedConnection, setSelectedConnection] = useState<string | null>(null);
 
     const onCoordsChange = useCallback((point : Point) => {
         const allConnectionThatIncludesPoint = pointInConections[point.id];
@@ -48,7 +50,7 @@ export const useConnectionManagement = () => {
             connections[connectionID].points = [...pointsBeforeIndex, newPoint, ...pointsAfterIndex]
         }
         setConnections({...connections})
-    },[])
+    },[connections])
 
     const addConnection = useCallback((points : Point[]) => {
         if (points.length < 2) {
@@ -61,16 +63,17 @@ export const useConnectionManagement = () => {
             prevConnections[newConnection.id] = newConnection;
             return {...prevConnections}
         })
+        setSelectedConnection(newConnection.id);
 
-       setPointInConnections(prevPointInConnections => {
-        for (const point of newConnection.points) {
-            if (prevPointInConnections[point.id] != null) {
-                prevPointInConnections[point.id]?.push(newConnection.id);
-            } else {
-                prevPointInConnections[point.id] = [newConnection.id];
+        setPointInConnections(prevPointInConnections => {
+            for (const point of newConnection.points) {
+                if (prevPointInConnections[point.id] != null) {
+                    prevPointInConnections[point.id]?.push(newConnection.id);
+                } else {
+                    prevPointInConnections[point.id] = [newConnection.id];
+                }
             }
-        }
-        return({...prevPointInConnections})
+            return({...prevPointInConnections})
        })
     },[])
 
@@ -79,13 +82,27 @@ export const useConnectionManagement = () => {
     },[])
 
     const removeConnection = useCallback((id : string) : void => {
-        throw new NotImplementedException();
+        const connectionToBeRemoved = connections[id];
+        if (connectionToBeRemoved != null) {
+            delete connections[id];
+            setConnections({...connections})
+        } else {
+            console.error(`Trying to remove connection that is not present: ${id}`)
+        }
     },[])
 
     const clearAllConnections = useCallback(() => {
         setConnections({});
         setPointInConnections({});
     },[])
+
+    const selectConnection = useCallback((id : string) => {
+        setSelectedConnection(id);
+    },[])
+
+    const unselectConnections = useCallback(() => {
+        setSelectedConnection(null);
+    }, [])
 
     const values = useMemo(() => ({
         connections,
@@ -95,7 +112,10 @@ export const useConnectionManagement = () => {
         removePoint,
         removeConnection,
         clearAllConnections,
-    }),[addConnection, connections, onCoordsChange, removeConnection, removePoint, clearAllConnections])
+        selectedConnection,
+        selectConnection,
+        unselectConnections
+    }),[connections, onCoordsChange, addConnection, addPoint, removePoint, removeConnection, clearAllConnections, selectedConnection, selectConnection, unselectConnections])
 
     return values;
 }

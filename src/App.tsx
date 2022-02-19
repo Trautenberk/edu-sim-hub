@@ -15,8 +15,8 @@ import { NotImplementedException } from 'Components/Utilities/Errors';
 import { DraggableGroupSVG } from 'Components/Utilities/UtilComponents/DraggableGroupSVG';
 import { EdgeSVG } from 'Components/Utilities/UtilComponents/EdgeSVG';
 import { PointManagement, useConnectionManagement } from 'Components/Utilities/CustomHooks/useConnectionManagement';
-import { useAppSelector } from 'Store/Hooks';
-import { selectedElementID } from 'Feature/PointConnectionAndSelectionSlice';
+import { useAppDispatch, useAppSelector } from 'Store/Hooks';
+import { gridClicked, selectedElementID } from 'Feature/PointConnectionAndSelectionSlice';
 
 /**
  * @author Jaromír Březina
@@ -37,6 +37,7 @@ export type Action = {
  */
 export const App : FC = () => {
   const useSelector = useAppSelector;
+  const dispatch = useAppDispatch();
 
   const [showMenu, setShowMenu] = useState(true);
   const showMainMenu = useCallback<()=>void>(
@@ -45,9 +46,9 @@ export const App : FC = () => {
    }, [])
 
   const {elements, addElement, removeElement, removeAllElements} = useCanvasElementManagement();
-  const {connections, onCoordsChange, addConnection, addPoint, removeConnection, removePoint, clearAllConnections } = useConnectionManagement();
+  const {connections, onCoordsChange, addConnection, addPoint, removeConnection, removePoint, clearAllConnections, selectConnection, selectedConnection, unselectConnections } = useConnectionManagement();
 
-  const PointManagementMethods : PointManagement = {addConnection, addPoint, onCoordsChange, removePoint, removeConnection}
+  const PointManagementMethods : PointManagement = {addConnection, addPoint, onCoordsChange, removePoint, removeConnection, selectConnection}
 
   const clearAllAction = useCallback(()=> {
     removeAllElements();
@@ -99,8 +100,13 @@ export const App : FC = () => {
     if (selectedId != null) {
       console.log(`delete element with id ${selectedId}`)
       removeElement(selectedId);
+      // TODO element po odebrani je furt selected
     }
-  },[removeElement, selectedId])
+    if (selectedConnection != null) {
+      removeConnection(selectedConnection);
+    }
+    
+  },[removeConnection, removeElement, selectedConnection, selectedId])
 
   const onKeyDownHandler =  useCallback(
     (e : KeyboardEvent) : void => {
@@ -111,6 +117,12 @@ export const App : FC = () => {
         return handleDeleteKeyPressed();
     }
   },[handleDeleteKeyPressed])
+
+  const onGridClick = useCallback(
+    () => {
+      unselectConnections();
+    }, [unselectConnections]
+  ) 
 
   useEffect(
     () => {
@@ -144,7 +156,7 @@ export const App : FC = () => {
                   )
                 }
          </Menu>
-                <Canvas>
+                <Canvas onGridClick={onGridClick}>
                     {Object.values(elements).map(item => <DraggableGroupSVG
                       key={item.id}
                       coords={{x: 30, y: 30}}
@@ -155,6 +167,8 @@ export const App : FC = () => {
                     }
                     {Object.values(connections).map(item => <EdgeSVG
                     key={item.id} 
+                    selected={item.id === selectedConnection}
+                    selectConnection={selectConnection}
                     connection={item} 
                     onChildPointsCoordsChange={onCoordsChange}
                     addPoint={addPoint}
