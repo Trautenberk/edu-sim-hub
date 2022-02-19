@@ -1,12 +1,12 @@
-import {FC, useCallback, useState} from 'react';
+import React, {FC, useCallback, useEffect, useState} from 'react';
 import {Menu, MenuItemButton} from "./Components/Utilities/UtilComponents/Menu"
 import styles from "AppStyle.module.scss"
 import editorStyles from "Styles/Editor/EditorStyle.module.scss"
 import TopMenuStyle from "Styles/TopMenuStyle.module.scss";
 import { Loader } from 'Components/Utilities/UtilComponents/Loader';
 import { Place } from 'Model/PetriNets/Place';
-import {Transition} from "Model/PetriNets/Transition"
-import {MenuIcons} from "Components/Icons"
+import { Transition } from "Model/PetriNets/Transition"
+import { MenuIcons } from "Components/Icons"
 import { Canvas } from 'Components/Editor/Canvas';
 import { PetriNetsComponentFactory } from 'Components/PetriNets/PetriNetsComponentFactory';
 import { ICanvasElementFactory } from 'Components/CanvasComponentFactory';
@@ -15,6 +15,8 @@ import { NotImplementedException } from 'Components/Utilities/Errors';
 import { DraggableGroupSVG } from 'Components/Utilities/UtilComponents/DraggableGroupSVG';
 import { EdgeSVG } from 'Components/Utilities/UtilComponents/EdgeSVG';
 import { PointManagement, useConnectionManagement } from 'Components/Utilities/CustomHooks/useConnectionManagement';
+import { useAppSelector } from 'Store/Hooks';
+import { selectedElementID } from 'Feature/PointConnectionAndSelectionSlice';
 
 /**
  * @author Jaromír Březina
@@ -34,13 +36,15 @@ export type Action = {
  * 
  */
 export const App : FC = () => {
+  const useSelector = useAppSelector;
+
   const [showMenu, setShowMenu] = useState(true);
   const showMainMenu = useCallback<()=>void>(
     () => {
      setShowMenu(true)
    }, [])
 
-  const {elements, addElement, removeAllElements} = useCanvasElementManagement();
+  const {elements, addElement, removeElement, removeAllElements} = useCanvasElementManagement();
   const {connections, onCoordsChange, addConnection, addPoint, removeConnection, removePoint, clearAllConnections } = useConnectionManagement();
 
   const PointManagementMethods : PointManagement = {addConnection, addPoint, onCoordsChange, removePoint, removeConnection}
@@ -88,6 +92,32 @@ export const App : FC = () => {
   ];
 
   const [canvasElementTypes, setCanvasElementTypes] = useState<CanvasElementType[]>(petriNetsCanvasElementsTypes)
+
+  const selectedId = useSelector(state => selectedElementID(state));
+
+  const handleDeleteKeyPressed = useCallback(() : void => {
+    if (selectedId != null) {
+      console.log(`delete element with id ${selectedId}`)
+      removeElement(selectedId);
+    }
+  },[removeElement, selectedId])
+
+  const onKeyDownHandler =  useCallback(
+    (e : KeyboardEvent) : void => {
+    console.log(`Key pressed ${e.key}`);
+
+    switch (e.key) {
+      case "Delete":
+        return handleDeleteKeyPressed();
+    }
+  },[handleDeleteKeyPressed])
+
+  useEffect(
+    () => {
+      document.addEventListener("keydown", onKeyDownHandler)
+      return(() => document.removeEventListener("keydown", onKeyDownHandler))
+    },[onKeyDownHandler]
+  )
 
   if(showMenu){
     return(

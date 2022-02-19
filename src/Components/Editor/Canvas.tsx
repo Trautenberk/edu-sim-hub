@@ -10,7 +10,7 @@ import { Coordinates } from "Components/Utilities/UtilClasses/Coordinates";
 import { Point } from "Components/Utilities/UtilClasses/Point";
 import { PointManagement } from "Components/Utilities/CustomHooks/useConnectionManagement";
 
-export type CanvasElementProps = DraggableHandlers & PointManagement & {
+export type CanvasElementProps = DraggableHandlers & PointManagement &  {
     id : string;
     groupAbsoluteCoordinates : Coordinates  // absolutní souřadnice skupiny ve které se element nachází
 }
