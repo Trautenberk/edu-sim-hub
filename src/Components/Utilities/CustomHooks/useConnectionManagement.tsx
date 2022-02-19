@@ -30,10 +30,9 @@ export const useConnectionManagement = () => {
                 const connection = connections[connectionID];
                 if (connection != null) {
                     connection.update(point);
-                    setConnections({...connections});
-                    return;
                 } 
             }
+            setConnections({...connections});
         }
     }, [connections, pointInConections])
 
@@ -64,18 +63,16 @@ export const useConnectionManagement = () => {
             return {...prevConnections}
         })
         setSelectedConnection(newConnection.id);
-
-        setPointInConnections(prevPointInConnections => {
-            for (const point of newConnection.points) {
-                if (prevPointInConnections[point.id] != null) {
-                    prevPointInConnections[point.id]?.push(newConnection.id);
-                } else {
-                    prevPointInConnections[point.id] = [newConnection.id];
-                }
+        
+        for (const point of newConnection.points) {
+            if (pointInConections[point.id] != null) {
+                pointInConections[point.id]?.push(newConnection.id);
+            } else {
+                pointInConections[point.id] = [newConnection.id];
             }
-            return({...prevPointInConnections})
-       })
-    },[])
+        }
+        setPointInConnections({...pointInConections});
+    },[pointInConections])
 
     const removePoint = useCallback((point : Point) : void => {
         throw new NotImplementedException();
