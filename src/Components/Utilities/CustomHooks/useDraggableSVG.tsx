@@ -20,10 +20,10 @@ export const useDragableSVGComponent = (coords : Coordinates) => {
 
     const mouseMoveEventHandler = useCallback(
         (e : MouseEvent) => {
-            const scaledMoveVector = new Coordinates({x: e.clientX, y: e.clientY}); // souřadnice eventu v celem viewportu
+            const scaledMoveVector = new Coordinates({x: e.pageX, y: e.pageY}); // souřadnice eventu v celem viewportu
             scaledMoveVector.sub({x: canvasBoundaries.left, y: canvasBoundaries.top}); // je potřeba odečíst okraje canvas divu
             scaledMoveVector.sub(initMousePos.current); // odečíst původní souřadnice
-            scaledMoveVector.scale(zoom); // vyškálování vektoru současným přiblížením
+            scaledMoveVector.scale(1/zoom); // vyškálování vektoru současným přiblížením
             
             const newElementCoords = new Coordinates(initElementPos.current); // původní souřadnice
             newElementCoords.add(scaledMoveVector); // přičtení vektoru o který se má element posunout
