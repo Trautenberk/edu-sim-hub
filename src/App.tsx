@@ -49,10 +49,10 @@ export const App : FC = () => {
   const { connections, onCoordsChange, addConnection, addPoint,
           removeConnection, removePoint, clearAllConnections,
           selectConnection, selectedConnection, unselectConnections,
-          registerEndPoint, unregisterEndPoint,toggleIsLastPointMoving } = useConnectionManagement();
+          registerEndPoint, unregisterEndPoint,toggleIsLastPointMoving, highlightedEndPoint } = useConnectionManagement();
 
   const pointManagementMethods : PointManagement = {addConnection, addPoint, onCoordsChange, removePoint, removeConnection, selectConnection, toggleIsLastPointMoving}
-  const endPointManagementMethods : EndPointManagement = {registerEndPoint, unregisterEndPoint}
+  const endPointManagementMethods : EndPointManagement = {registerEndPoint, unregisterEndPoint, highlightedEndPoint}
 
   const clearAllAction = useCallback(()=> {
     removeAllElements();

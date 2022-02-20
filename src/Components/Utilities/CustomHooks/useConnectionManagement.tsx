@@ -19,6 +19,7 @@ export type PointManagement =  {
 export type EndPointManagement = {
     registerEndPoint : (point : Point) => void
     unregisterEndPoint : (id : string) => void
+    highlightedEndPoint : Point | null
 }
 
 type ConnectionDict = {[key : string ] : Connection}
@@ -32,6 +33,7 @@ export const useConnectionManagement = () => {
     const [selectedConnection, setSelectedConnection] = useState<string | null>(null);
     const [endPoints, setEndPoints] = useState<EndPointDict>({});
     const [isLastPointMoving, setIsLastPointMoving] = useState<boolean>(false);
+    const [highlightedEndPoint, setHighLightedEndPoint] = useState<Point | null>(null);
 
     const getEndPointInDistance = useCallback(
         (point : Point) : Point | null =>  {
@@ -50,8 +52,15 @@ export const useConnectionManagement = () => {
             const endPointUnderThreshold = getEndPointInDistance(point);
             if (endPointUnderThreshold != null) {
                 console.log(`Got endPoint under threshold ${endPointUnderThreshold.id}`)
+                if (point.id !== highlightedEndPoint?.id) { // TODO podivat se jestli tady ty "optimalizacni ify" jsou vubec k necemu
+                    setHighLightedEndPoint(endPointUnderThreshold);                    
+                } 
+            } else {
+                if (highlightedEndPoint != null) {  // pokud je nějaký endPoint zvyraznen je potreba ho vynulovat (predejit zbytecnym renderum)
+                    setHighLightedEndPoint(null);
+                }
             }
-        },[getEndPointInDistance]
+        },[getEndPointInDistance, highlightedEndPoint]
     )
 
 
@@ -77,7 +86,7 @@ export const useConnectionManagement = () => {
             endPoints[point.id] = point;
             setEndPoints({...endPoints});
         }
-    }, [connections, endPoints, isLastPointMoving, pointsInConnections])
+    }, [connections, endPoints, handleEndPointHint, isLastPointMoving, pointsInConnections])
 
     const addPoint = useCallback((connectionID : string, point: Point, index : number) => {
         const points = connections[connectionID].points;
@@ -164,6 +173,9 @@ export const useConnectionManagement = () => {
 
     const toggleIsLastPointMoving = useCallback(
         () => {
+            if (isLastPointMoving) {
+                setHighLightedEndPoint(null)
+            }
             setIsLastPointMoving(!isLastPointMoving);
         },[isLastPointMoving]
     )
@@ -182,8 +194,9 @@ export const useConnectionManagement = () => {
         unselectConnections,
         registerEndPoint,
         unregisterEndPoint,
-        toggleIsLastPointMoving
-    }),[connections, onCoordsChange, addConnection, addPoint, removePoint, removeConnection, clearAllConnections, selectedConnection, selectConnection, unselectConnections, registerEndPoint, unregisterEndPoint, toggleIsLastPointMoving])
+        toggleIsLastPointMoving,
+        highlightedEndPoint
+    }),[connections, onCoordsChange, addConnection, addPoint, removePoint, removeConnection, clearAllConnections, selectedConnection, selectConnection, unselectConnections, registerEndPoint, unregisterEndPoint, toggleIsLastPointMoving, highlightedEndPoint])
 
     return values;
 }

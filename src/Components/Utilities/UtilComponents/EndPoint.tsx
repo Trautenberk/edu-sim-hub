@@ -36,7 +36,11 @@ export const EndPoint : FC<EndPointProps> = (props) => {
   
     const style =  useSelector(state => selectedEndPoint(state)) === props.point.id ? styles.end_point_selected : styles.end_point 
     const visible = convertToVisibility(useSelector(state => selectedElementID(state) === props.parentElementID || selectedEndPoint(state) === props.point.id));
-
+    const higlihghtVisible = convertToVisibility(props.highlightedEndPoint?.id === props.point.id);
+    if (props.highlightedEndPoint != null) {
+        console.log(`test ${props.highlightedEndPoint.id}`)
+    }
+    
     const onArrowClick = useCallback(() => {
         props.addConnection([props.point, new Point(`Point_${Point.cnt}`, new Coordinates(convertDirectionToOffset(props.arrowDirection)).add(props.point.coords))]);
     },[props])
@@ -44,31 +48,8 @@ export const EndPoint : FC<EndPointProps> = (props) => {
     return(
         <>
             <circle onClick={clickedEndPontHandler} visibility={visible} className={style} cx={props.point.groupCoords.x} cy={props.point.groupCoords.y} r={5}/>
-            <HelperCircleSVG coords={props.point.groupCoords}/>
+            <circle visibility={higlihghtVisible} className={styles.helper_circle} cx={props.point.groupCoords.x} cy={props.point.groupCoords.y} r={15}/>
             <ArrowSVG onClick={onArrowClick}  visible={visible} direction={props.arrowDirection}  coordinates={props.point.groupCoords} scale={1} />
         </>
     )   
-}
-
-
-type HelperCircleProps = {
-    coords : ICoordinates
-}
-
-const HelperCircleSVG : FC<HelperCircleProps> = (props) => {
-    const [visibility, setVisibility] = useState<Visibility>("hidden");
-
-    const onMouseEnterHandler = useCallback(
-    () => {
-        setVisibility("visible");
-    },[])
-
-    const onMouseLeaveHandler = useCallback(
-    () => {
-        setVisibility("hidden");
-    },[])
-
-    return (
-        <circle onMouseEnter={onMouseEnterHandler} onMouseLeave={onMouseLeaveHandler} visibility={visibility} className={styles.helper_circle} cx={props.coords.x} cy={props.coords.y} r={15}/>
-    )
 }
