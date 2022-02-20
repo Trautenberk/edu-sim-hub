@@ -30,7 +30,7 @@ export const useConnectionManagement = () => {
     const connectionCounter = useRef(0);
     const [connections, setConnections] = useState<ConnectionDict>({});
     const [pointsInConnections, setPointsInConnections] = useState<Dictionary<string[]>>({});
-    const [selectedConnection, setSelectedConnection] = useState<string | null>(null);
+    const [selectedConnectionId, setselectedConnectionId] = useState<string | null>(null);
     const [endPoints, setEndPoints] = useState<EndPointDict>({});
     const [isLastPointMoving, setIsLastPointMoving] = useState<boolean>(false);
     const [highlightedEndPoint, setHighLightedEndPoint] = useState<Point | null>(null);
@@ -51,7 +51,6 @@ export const useConnectionManagement = () => {
         async (point : Point) => {
             const endPointUnderThreshold = getEndPointInDistance(point);
             if (endPointUnderThreshold != null) {
-                console.log(`Got endPoint under threshold ${endPointUnderThreshold.id}`)
                 if (point.id !== highlightedEndPoint?.id) { // TODO podivat se jestli tady ty "optimalizacni ify" jsou vubec k necemu
                     setHighLightedEndPoint(endPointUnderThreshold);                    
                 } 
@@ -93,7 +92,9 @@ export const useConnectionManagement = () => {
         if (points != null) {
             const pointsBeforeIndex = points.slice(0, index);
             const pointsAfterIndex = points.slice(index, points.length);
-            const newPoint = new Point(`Point_${Point.cnt}`,point.coords)
+            const newPoint = new Point(`Point_${Point.cnt}`,point.coords);
+
+
             setPointsInConnections(prevPointsInConnection => {
                 prevPointsInConnection[newPoint.id] = [connectionID];
                 return {...prevPointsInConnection};
@@ -114,7 +115,7 @@ export const useConnectionManagement = () => {
             prevConnections[newConnection.id] = newConnection;
             return {...prevConnections}
         })
-        setSelectedConnection(newConnection.id);
+        setselectedConnectionId(newConnection.id);
         
         for (const point of newConnection.points) {
             if (pointsInConnections[point.id] != null) {
@@ -146,11 +147,11 @@ export const useConnectionManagement = () => {
     },[])
 
     const selectConnection = useCallback((id : string) => {
-        setSelectedConnection(id);
+        setselectedConnectionId(id);
     },[])
 
     const unselectConnections = useCallback(() => {
-        setSelectedConnection(null);
+        setselectedConnectionId(null);
     }, [])
 
     const registerEndPoint = useCallback((endPoint : Point) => {
@@ -173,11 +174,16 @@ export const useConnectionManagement = () => {
 
     const toggleIsLastPointMoving = useCallback(
         () => {
-            if (isLastPointMoving) {
-                setHighLightedEndPoint(null)
+            if (isLastPointMoving && highlightedEndPoint != null && selectedConnectionId != null) {
+                const selectedConnection = connections[selectedConnectionId];
+                selectedConnection.connectToEndPoint(highlightedEndPoint);
+                setConnections({...connections});
+                pointsInConnections[highlightedEndPoint.id] = [selectedConnection.id];
+                setPointsInConnections({...pointsInConnections});
+                setHighLightedEndPoint(null);
             }
             setIsLastPointMoving(!isLastPointMoving);
-        },[isLastPointMoving]
+        },[connections, highlightedEndPoint, isLastPointMoving, selectedConnectionId]
     )
 
 
@@ -189,14 +195,14 @@ export const useConnectionManagement = () => {
         removePoint,
         removeConnection,
         clearAllConnections,
-        selectedConnection,
+        selectedConnectionId,
         selectConnection,
         unselectConnections,
         registerEndPoint,
         unregisterEndPoint,
         toggleIsLastPointMoving,
         highlightedEndPoint
-    }),[connections, onCoordsChange, addConnection, addPoint, removePoint, removeConnection, clearAllConnections, selectedConnection, selectConnection, unselectConnections, registerEndPoint, unregisterEndPoint, toggleIsLastPointMoving, highlightedEndPoint])
+    }),[connections, onCoordsChange, addConnection, addPoint, removePoint, removeConnection, clearAllConnections, selectedConnectionId, selectConnection, unselectConnections, registerEndPoint, unregisterEndPoint, toggleIsLastPointMoving, highlightedEndPoint])
 
     return values;
 }

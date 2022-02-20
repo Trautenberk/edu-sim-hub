@@ -31,7 +31,12 @@ export class Connection {
     }
 
     public remove (point : Point) : void {
-        this._points.filter(item => item.id !== point.id);
+        this._points = this._points.filter(item => item.id !== point.id);
+    }
+
+    public connectToEndPoint (endPoint : Point) {
+        this._points.pop();         // smaže poslední
+        this._points.push(endPoint); // nastaví endPoint Jako Poslední
     }
 
     public update (point : Point) : void {

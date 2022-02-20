@@ -48,7 +48,7 @@ export const App : FC = () => {
   const {elements, addElement, removeElement, removeAllElements} = useCanvasElementManagement();
   const { connections, onCoordsChange, addConnection, addPoint,
           removeConnection, removePoint, clearAllConnections,
-          selectConnection, selectedConnection, unselectConnections,
+          selectConnection, selectedConnectionId, unselectConnections,
           registerEndPoint, unregisterEndPoint,toggleIsLastPointMoving, highlightedEndPoint } = useConnectionManagement();
 
   const pointManagementMethods : PointManagement = {addConnection, addPoint, onCoordsChange, removePoint, removeConnection, selectConnection, toggleIsLastPointMoving}
@@ -106,11 +106,11 @@ export const App : FC = () => {
       removeElement(selectedId);
       // TODO element po odebrani je furt selected
     }
-    if (selectedConnection != null) {
-      removeConnection(selectedConnection);
+    if (selectedConnectionId != null) {
+      removeConnection(selectedConnectionId);
     }
     
-  },[removeConnection, removeElement, selectedConnection, selectedId])
+  },[removeConnection, removeElement, selectedConnectionId, selectedId])
 
   const onKeyDownHandler =  useCallback(
     (e : KeyboardEvent) : void => {
@@ -172,7 +172,7 @@ export const App : FC = () => {
                     }
                     {Object.values(connections).map(item => <EdgeSVG
                     key={item.id} 
-                    selected={item.id === selectedConnection}
+                    selected={item.id === selectedConnectionId}
                     connection={item}
                     {...pointManagementMethods}
                     />)}

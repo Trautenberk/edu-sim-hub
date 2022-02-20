@@ -1,4 +1,4 @@
-import { FunctionComponent,  MouseEventHandler, useMemo} from "react";
+import { FunctionComponent,  MouseEventHandler, useEffect, useMemo, useState} from "react";
 import { EndPoint } from "../Utilities/UtilComponents/EndPoint";
 import styles from "Styles/PetriNets/SpotStyle.module.scss"
 import {useAppDispatch, useAppSelector} from "Store/Hooks"
@@ -25,6 +25,18 @@ export const PlaceSVG : FunctionComponent<CanvasElementProps> = (props) => {
         {x : 0, y: 30},
         {x : 0, y: -30},
     ]), [])
+
+
+    // TODO vyřešit aby to šlo takhle 
+    // const [endPoints, setEndPoints] = useState<GroupPoint[]>(endPointsInGroupCoords.map((item, index) => new GroupPoint(`${props.id}_${index}`, props.groupAbsoluteCoordinates, item)))
+
+    // useEffect(
+    //     () => {
+    //         endPoints.forEach(item => item.coords = props.groupAbsoluteCoordinates)
+    //         setEndPoints([...endPoints])
+    //     }
+    //     ,[props.groupAbsoluteCoordinates] 
+    // )
 
 
     const endPoints : GroupPoint[] =  useMemo (
