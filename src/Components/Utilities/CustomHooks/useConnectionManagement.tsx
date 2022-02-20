@@ -2,6 +2,7 @@ import { Dictionary } from "@reduxjs/toolkit";
 import { useRef, useState, useCallback, useMemo } from "react";
 import { NotImplementedException } from "../Errors";
 import { Connection } from "../UtilClasses/Connection";
+import { Coordinates } from "../UtilClasses/Coordinates";
 import { Point } from "../UtilClasses/Point";
 
 
@@ -11,7 +12,8 @@ export type PointManagement =  {
     addConnection : (points : Point[]) => void
     removePoint : (point : Point) => void
     removeConnection : (id : string) => void
-    selectConnection : (id : string) => void
+    selectConnection : (id : string) => void,
+    toggleIsLastPointMoving : () => void 
 }
 
 export type EndPointManagement = {
@@ -22,15 +24,44 @@ export type EndPointManagement = {
 type ConnectionDict = {[key : string ] : Connection}
 type EndPointDict = {[key : string ] : Point}
 
+export const THRESHOLD_DISTANCE = 30
 export const useConnectionManagement = () => {
     const connectionCounter = useRef(0);
     const [connections, setConnections] = useState<ConnectionDict>({});
     const [pointsInConnections, setPointsInConnections] = useState<Dictionary<string[]>>({});
     const [selectedConnection, setSelectedConnection] = useState<string | null>(null);
     const [endPoints, setEndPoints] = useState<EndPointDict>({});
+    const [isLastPointMoving, setIsLastPointMoving] = useState<boolean>(false);
+
+    const getEndPointInDistance = useCallback(
+        (point : Point) : Point | null =>  {
+            for (const endPoint of Object.values(endPoints)) {
+                const distance = Coordinates.getDistance(point.coords, endPoint.coords);
+                if (distance < THRESHOLD_DISTANCE) {
+                    return endPoint;
+                } 
+            }
+            return null;
+        }, [endPoints]
+    )
+
+    const handleEndPointHint = useCallback( 
+        async (point : Point) => {
+            const endPointUnderThreshold = getEndPointInDistance(point);
+            if (endPointUnderThreshold != null) {
+                console.log(`Got endPoint under threshold ${endPointUnderThreshold.id}`)
+            }
+        },[getEndPointInDistance]
+    )
+
 
     const onCoordsChange = useCallback((point : Point) => {
         const allConnectionThatIncludesPoint = pointsInConnections[point.id];
+        
+        if (isLastPointMoving) {
+            // console.log(`Moving last point in connection ${isLastPointMoving}`)
+            handleEndPointHint(point);
+        }
 
         if(allConnectionThatIncludesPoint != null) {
             for (const connectionID of allConnectionThatIncludesPoint) {
@@ -46,7 +77,7 @@ export const useConnectionManagement = () => {
             endPoints[point.id] = point;
             setEndPoints({...endPoints});
         }
-    }, [connections, endPoints, pointsInConnections])
+    }, [connections, endPoints, isLastPointMoving, pointsInConnections])
 
     const addPoint = useCallback((connectionID : string, point: Point, index : number) => {
         const points = connections[connectionID].points;
@@ -131,6 +162,13 @@ export const useConnectionManagement = () => {
         }
     },[endPoints])
 
+    const toggleIsLastPointMoving = useCallback(
+        () => {
+            setIsLastPointMoving(!isLastPointMoving);
+        },[isLastPointMoving]
+    )
+
+
     const values = useMemo(() => ({
         connections,
         onCoordsChange,
@@ -143,8 +181,9 @@ export const useConnectionManagement = () => {
         selectConnection,
         unselectConnections,
         registerEndPoint,
-        unregisterEndPoint
-    }),[connections, onCoordsChange, addConnection, addPoint, removePoint, removeConnection, clearAllConnections, selectedConnection, selectConnection, unselectConnections, registerEndPoint, unregisterEndPoint])
+        unregisterEndPoint,
+        toggleIsLastPointMoving
+    }),[connections, onCoordsChange, addConnection, addPoint, removePoint, removeConnection, clearAllConnections, selectedConnection, selectConnection, unselectConnections, registerEndPoint, unregisterEndPoint, toggleIsLastPointMoving])
 
     return values;
 }

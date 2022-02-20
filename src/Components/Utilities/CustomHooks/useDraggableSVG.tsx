@@ -9,7 +9,7 @@ export type DraggableHandlers = {
     onMouseDownDragHandler : (e : React.MouseEvent) => void
     onMouseUpDragHandler : (e : React.MouseEvent) => void
 }
-export const useDragableSVGComponent = (coords : Coordinates) => {
+export const useDragableSVGComponent = (coords : Coordinates, onMouseDown? : (e : React.MouseEvent) => void, onMouseUp? : (e: React.MouseEvent) => void) => {
     const [coordinates, setCoordinates] = useState<Coordinates>(coords);
     const initMousePos = useRef<Coordinates>(new Coordinates());
     const initElementPos = useRef<Coordinates>(new Coordinates());
@@ -34,6 +34,10 @@ export const useDragableSVGComponent = (coords : Coordinates) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     const onMouseDownHandler = (e : React.MouseEvent) => {
             e.stopPropagation();
+            if (onMouseDown) {
+                onMouseDown(e)
+            }
+
             (initMousePos.current = new Coordinates({x: e.clientX, y: e.clientY})).sub({x: canvasBoundaries.left, y: canvasBoundaries.top});  // pozice odkud se za4alo táhnout
             initElementPos.current = new Coordinates(coordinates); // původní pozice elementu
             document.addEventListener("mousemove", mouseMoveEventHandler)            
@@ -42,6 +46,9 @@ export const useDragableSVGComponent = (coords : Coordinates) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     const onMouseUpHandler = (e : React.MouseEvent) => {
         e.stopPropagation();
+        if (onMouseUp) {
+            onMouseUp(e);
+        }
         initMousePos.current = new Coordinates();  
         initElementPos.current = new Coordinates();
         document.removeEventListener("mousemove", mouseMoveEventHandler);   

@@ -9,7 +9,7 @@ export class Point  {
     public static get cnt() {
         return Point._cnt++;
     }
-
+    
     constructor(id : string, coords : ICoordinates)
     constructor(id: string, coords? : ICoordinates){
         this.id = id;

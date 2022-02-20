@@ -39,6 +39,19 @@ export class Coordinates implements ICoordinates {
         this.mul({x: value, y: value});
         return this;
     }
+
+    public power (value : number) {
+        this.x =  Math.pow(this.x, value);
+        this.y = Math.pow(this.y, value);
+    }
+
+    public static getDistance (begin : ICoordinates, end : ICoordinates) {
+        const result = new Coordinates(end)
+        result.sub(begin);
+        result.power(2);
+        return Math.sqrt(result.x + result.y);
+    }
+
     public toString = () => {
         return `${this.x} ${this.y}`
     }

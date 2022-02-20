@@ -49,9 +49,9 @@ export const App : FC = () => {
   const { connections, onCoordsChange, addConnection, addPoint,
           removeConnection, removePoint, clearAllConnections,
           selectConnection, selectedConnection, unselectConnections,
-          registerEndPoint, unregisterEndPoint } = useConnectionManagement();
+          registerEndPoint, unregisterEndPoint,toggleIsLastPointMoving } = useConnectionManagement();
 
-  const pointManagementMethods : PointManagement = {addConnection, addPoint, onCoordsChange, removePoint, removeConnection, selectConnection}
+  const pointManagementMethods : PointManagement = {addConnection, addPoint, onCoordsChange, removePoint, removeConnection, selectConnection, toggleIsLastPointMoving}
   const endPointManagementMethods : EndPointManagement = {registerEndPoint, unregisterEndPoint}
 
   const clearAllAction = useCallback(()=> {
@@ -173,10 +173,8 @@ export const App : FC = () => {
                     {Object.values(connections).map(item => <EdgeSVG
                     key={item.id} 
                     selected={item.id === selectedConnection}
-                    selectConnection={selectConnection}
-                    connection={item} 
-                    onChildPointsCoordsChange={onCoordsChange}
-                    addPoint={addPoint}
+                    connection={item}
+                    {...pointManagementMethods}
                     />)}
                 </Canvas>
         <Loader visibile={false} >Jupiiiiiii </Loader>
