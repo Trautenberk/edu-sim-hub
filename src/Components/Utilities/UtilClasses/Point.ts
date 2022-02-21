@@ -1,14 +1,20 @@
 import { Coordinates, ICoordinates } from "./Coordinates";
 
-export class Point  {
+export interface IPoint {
+    id : string
+    coords : ICoordinates
+    connectionsId : string[]  
+}
+
+export interface IGroupPoint extends IPoint {
+    groupCoords : ICoordinates;
+}
+
+export class Point implements IPoint {
     public id : string  // identifikátor
     public coords : Coordinates    // absolutní souřadnice
 
-    private _connectionsId : string[] = []; // pole id connections ve kterych je bod obsazen  
-
-    public get ConnectionsId () : string[] {
-        return this._connectionsId;
-    }
+    public connectionsId : string[] = []; // pole id connections ve kterych je bod obsazen  
 
     private static _cnt : number = 0;
 
@@ -16,27 +22,19 @@ export class Point  {
         return Point._cnt++;
     }
     
-    constructor(id : string, coords : ICoordinates)
-    constructor(id: string, coords? : ICoordinates){
-        this.id = id;
-        this.coords = coords != null ? new Coordinates(coords) : new Coordinates();
-    }
-
-    public addConnectionId (id : string) {
-        this._connectionsId.push(id);
-    }
-
-    public removeConnectionId (id : string) {
-        this._connectionsId = this._connectionsId.filter(item => item !== id)
+    constructor (value : IPoint) {
+        this.id = value.id;
+        this.connectionsId = value.connectionsId;
+        this.coords = new Coordinates(value.coords);
     }
 }
 
 
-export class GroupPoint extends Point {
+export class GroupPoint extends Point implements IGroupPoint {
     public groupCoords : Coordinates;   // ouřadnice v groupě
 
-    constructor(id : string, groupAbsoluteCoords : ICoordinates, insideGroupCoords : ICoordinates) {   // id, absolutní souřadnice celé groupy, souřadnice elementu v groupě
-        super(id, new Coordinates(groupAbsoluteCoords).add(insideGroupCoords));   // absolutní souřadnice bodu se vypočítají jako souřadnice celé groupu + souřadnice elementu v groupě
-        this.groupCoords = new Coordinates(insideGroupCoords);
+    constructor(value : IGroupPoint) {   // id, absolutní souřadnice celé groupy, souřadnice elementu v groupě
+        super({...value});   // absolutní souřadnice bodu se vypočítají jako souřadnice celé groupu + souřadnice elementu v groupě
+        this.groupCoords = new Coordinates(value.groupCoords);
     }
 }

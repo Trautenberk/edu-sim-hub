@@ -15,7 +15,7 @@ export const DraggableGroupSVG : FC<DraggableGroupSVGProps> = (props) => {
         coordinates,
         onMouseDownHandler,
         onMouseUpHandler
-    } = useDragableSVGComponent(new Coordinates(props.coords));
+    } = useDragableSVGComponent(props.coords);
 
     const mapCanvasElementProps = () : CanvasElementProps => ({
        groupAbsoluteCoordinates : coordinates,

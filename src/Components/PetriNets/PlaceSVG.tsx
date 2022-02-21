@@ -5,8 +5,8 @@ import {useAppDispatch, useAppSelector} from "Store/Hooks"
 import {ALL_DIRECTIONS, convertToVisibility} from "Components/Utilities/UtilMethodsAndTypes"
 import {elementClicked, selectedElementID} from "Feature/PointConnectionAndSelectionSlice"
 import { CanvasElementProps } from "Components/Editor/Canvas";
-import { GroupPoint } from "Components/Utilities/UtilClasses/Point";
-import { ICoordinates } from "Components/Utilities/UtilClasses/Coordinates";
+import { GroupPoint, IGroupPoint } from "Components/Utilities/UtilClasses/Point";
+import { Coordinates, ICoordinates } from "Components/Utilities/UtilClasses/Coordinates";
 
 
 export const PlaceSVG : FunctionComponent<CanvasElementProps> = (props) => {
@@ -38,16 +38,17 @@ export const PlaceSVG : FunctionComponent<CanvasElementProps> = (props) => {
     //     ,[props.groupAbsoluteCoordinates] 
     // )
 
-
-    const endPoints : GroupPoint[] =  useMemo (
-        () => (endPointsInGroupCoords.map((item, index) => new GroupPoint(`${props.id}_${index}`, props.groupAbsoluteCoordinates, item))), 
+    const absoluteCoords = props.groupAbsoluteCoordinates;
+    const endPoints = useMemo (
+        () => (endPointsInGroupCoords.map((item, index) => new GroupPoint({id : `${props.id}_${index}`, groupCoords:  item, coords: new Coordinates(item).add(absoluteCoords), connectionsId : []}))), 
         [props.groupAbsoluteCoordinates]); 
+    
 
     return(
         <>
             <circle className={styles.spot} onClick={onClickHandler} onMouseDown={props.onMouseDownDragHandler} onMouseUp={props.onMouseUpDragHandler}  r="30"/>
             <circle visibility={visible} className={styles.spot_selected} r="30"/>
-            {endPoints.map((item, index) => <EndPoint key={item.id} parentElementID={props.id} point={item} arrowDirection={ALL_DIRECTIONS[index]} {...props} /> )}
+            {endPoints.map((item, index) => <EndPoint key={item.id}  parentElementID={props.id} point={item} arrowDirection={ALL_DIRECTIONS[index]} {...props} /> )}
         </>
     )
 }

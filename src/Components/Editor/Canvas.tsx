@@ -6,12 +6,12 @@ import {zoom, selelctCurrentZoom } from "Feature/ZoomSlice";
 import { convertMatrixToString, TransormMatrix } from "Components/Utilities/UtilMethodsAndTypes";
 import { updateCanvasBoundaries} from "Feature/CanvasContextSlice"
 import {gridClicked } from "Feature/PointConnectionAndSelectionSlice"
-import { Coordinates } from "Components/Utilities/UtilClasses/Coordinates";
+import { Coordinates, ICoordinates } from "Components/Utilities/UtilClasses/Coordinates";
 import { EndPointManagement, PointManagement } from "Components/Utilities/CustomHooks/useConnectionManagement";
 
 export type CanvasElementProps = DraggableHandlers & PointManagement & EndPointManagement & {
     id : string;
-    groupAbsoluteCoordinates : Coordinates  // absolutní souřadnice skupiny ve které se element nachází
+    groupAbsoluteCoordinates : ICoordinates  // absolutní souřadnice skupiny ve které se element nachází
 }
 
 
@@ -28,7 +28,7 @@ export const Canvas : FC<CanvasProps> = (props) => {
     const [svgSize, setSvgSize] = useState({width : 0, height: 0})
     const canvasBoundingElementRef = useRef<HTMLDivElement>(null);
 
-    const {coordinates : translate, onMouseDownHandler, onMouseUpHandler} = useDragableSVGComponent(new Coordinates({x: 30, y: 30}));
+    const {coordinates : translate, onMouseDownHandler, onMouseUpHandler} = useDragableSVGComponent({x: 30, y: 30});
     
     const mainGroupTransformMatrix : TransormMatrix = ( { scaleX: scale, skewY : 0 , skewX : 0, scaleY : scale, translateX : translate.x, transalteY : translate.y } )
 

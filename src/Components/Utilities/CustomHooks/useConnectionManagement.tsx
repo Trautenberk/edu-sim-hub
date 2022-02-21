@@ -1,54 +1,60 @@
 import { Dictionary } from "@reduxjs/toolkit";
 import { useRef, useState, useCallback, useMemo } from "react";
 import { NotImplementedException } from "../Errors";
-import { Connection } from "../UtilClasses/Connection";
+import { Connection, IConnection } from "../UtilClasses/Connection";
 import { Coordinates } from "../UtilClasses/Coordinates";
-import { Point } from "../UtilClasses/Point";
+import { IPoint, Point } from "../UtilClasses/Point";
 
 
 export type PointManagement =  {
-    onCoordsChange : (point : Point) => void
-    addPoint : (connectionID : string, point: Point, index : number) => void
-    addConnection : (points : Point[]) => void
-    removePoint : (point : Point) => void
+    onCoordsChange : (point : IPoint) => void
+    addPoint : (connectionID : string, point: IPoint, index : number) => void
+    addConnection : (points : IPoint[]) => void
+    removePoint : (point : IPoint) => void
     removeConnection : (id : string) => void
     selectConnection : (id : string) => void,
     toggleIsLastPointMoving : () => void 
 }
 
 export type EndPointManagement = {
-    registerEndPoint : (point : Point) => void
+    registerEndPoint : (endPoint : IPoint) => void
     unregisterEndPoint : (id : string) => void
-    highlightedEndPoint : Point | null
+    highlightedEndPoint : IPoint | null
 }
 
-type ConnectionDict = {[key : string ] : Connection}
-type EndPointDict = {[key : string ] : Point}
+type ConnectionDict = {[key : string ] : IConnection}
+type PointDict = {[key : string ] : IPoint}
+
 
 export const THRESHOLD_DISTANCE = 30
 export const useConnectionManagement = () => {
     const connectionCounter = useRef(0);
-    const [connections, setConnections] = useState<ConnectionDict>({});
-    const [pointsInConnections, setPointsInConnections] = useState<Dictionary<string[]>>({});
+    const [connections, setConnections] = useState<ConnectionDict>({}); // slovnik se vsemi connectionami
+    const [points, setPoints] = useState<PointDict>({});  // slovnik se vsemi body
+    const [endPoints, setEndPoints] = useState<string[]>([]); // pole s id vsech endPointu
     const [selectedConnectionId, setselectedConnectionId] = useState<string | null>(null);
-    const [endPoints, setEndPoints] = useState<EndPointDict>({});
     const [isLastPointMoving, setIsLastPointMoving] = useState<boolean>(false);
-    const [highlightedEndPoint, setHighLightedEndPoint] = useState<Point | null>(null);
+    const [highlightedEndPoint, setHighLightedEndPoint] = useState<IPoint | null>(null);
 
     const getEndPointInDistance = useCallback(
-        (point : Point) : Point | null =>  {
-            for (const endPoint of Object.values(endPoints)) {
-                const distance = Coordinates.getDistance(point.coords, endPoint.coords);
-                if (distance < THRESHOLD_DISTANCE) {
-                    return endPoint;
-                } 
+        (point : IPoint) : IPoint | null =>  {
+            for (const id of endPoints) {
+                const endPoint = points[id];
+                if (endPoint != null) {
+                    const distance = Coordinates.getDistance(point.coords, endPoint.coords);
+                    if (distance < THRESHOLD_DISTANCE) {
+                        return endPoint;
+                    }     
+                } else {
+                    console.error(`Couldnt find EndPoint ${id} in points`);
+                }
             }
             return null;
-        }, [endPoints]
+        }, [endPoints, points]
     )
 
     const handleEndPointHint = useCallback( 
-        async (point : Point) => {
+        async (point : IPoint) => {
             const endPointUnderThreshold = getEndPointInDistance(point);
             if (endPointUnderThreshold != null) {
                 if (point.id !== highlightedEndPoint?.id) { // TODO podivat se jestli tady ty "optimalizacni ify" jsou vubec k necemu
@@ -63,54 +69,58 @@ export const useConnectionManagement = () => {
     )
 
 
-    const onCoordsChange = useCallback((point : Point) => {
-        const allConnectionThatIncludesPoint = pointsInConnections[point.id];
-        
+    const onCoordsChange = useCallback((point : IPoint) => {
         if (isLastPointMoving) {
-            // console.log(`Moving last point in connection ${isLastPointMoving}`)
             handleEndPointHint(point);
         }
-
-        if(allConnectionThatIncludesPoint != null) {
-            for (const connectionID of allConnectionThatIncludesPoint) {
-                const connection = connections[connectionID];
+        const pointFromState = points[point.id]; // TODO protoze do pointu z komponenty se nepropisuji zmeny z Points, vyresit
+        if (pointFromState != null) {
+            for (const connectionId of pointFromState.connectionsId) {
+                const connection = new Connection(connections[connectionId]);
                 if (connection != null) {
-                    connection.update(point);
+                    point.connectionsId = points[point.id].connectionsId;
+                    connection.update(new Point(point));
+                    setConnections(prevConnections => {
+                        prevConnections[connectionId] = connection;
+                        return({...prevConnections})
+                    })
                 } 
             }
-            setConnections({...connections});
         }
+        
+        setPoints(prevPoints => {
+            prevPoints[point.id] = point;
+            return{...prevPoints};
+        })
 
-        if (endPoints[point.id] != null) {
-            endPoints[point.id] = point;
-            setEndPoints({...endPoints});
-        }
-    }, [connections, endPoints, handleEndPointHint, isLastPointMoving, pointsInConnections])
+    }, [connections, handleEndPointHint, isLastPointMoving, points])
 
-    const addPoint = useCallback((connectionID : string, point: Point, index : number) => {
-        const points = connections[connectionID].points;
+    const addPoint = useCallback((connectionId : string, point: IPoint, index : number) => {
+        const points = connections[connectionId].points;
         if (points != null) {
             const pointsBeforeIndex = points.slice(0, index);
             const pointsAfterIndex = points.slice(index, points.length);
-            const newPoint = new Point(`Point_${Point.cnt}`,point.coords);
-
-
-            setPointsInConnections(prevPointsInConnection => {
-                prevPointsInConnection[newPoint.id] = [connectionID];
-                return {...prevPointsInConnection};
+            const newPoint : IPoint = new Point({id: `Point_${Point.cnt}`, coords: point.coords, connectionsId: [connectionId]});  // TODO : tady vyresit connectionID
+            
+            setPoints(prevPoints => {
+                prevPoints[newPoint.id] = newPoint;
+                return {...prevPoints};
             })
-            connections[connectionID].points = [...pointsBeforeIndex, newPoint, ...pointsAfterIndex]
+            setConnections(prevConnections => {
+                prevConnections[connectionId].points = [...pointsBeforeIndex, newPoint, ...pointsAfterIndex]
+                return({...prevConnections})
+            })
         }
-        setConnections({...connections})
+        
     },[connections])
 
-    const addConnection = useCallback((points : Point[]) => {
-        if (points.length < 2) {
+    const addConnection = useCallback((pointsInConnection : IPoint[]) => {
+        if (pointsInConnection.length < 2) {
             console.error("Cant make connection from one point");
             return;
         }
 
-        const newConnection = new Connection(`Conection_${connectionCounter.current++}`, points)
+        const newConnection : IConnection = {id : `Conection_${connectionCounter.current++}` , points : pointsInConnection}
         setConnections(prevConnections => {
             prevConnections[newConnection.id] = newConnection;
             return {...prevConnections}
@@ -118,16 +128,23 @@ export const useConnectionManagement = () => {
         setselectedConnectionId(newConnection.id);
         
         for (const point of newConnection.points) {
-            if (pointsInConnections[point.id] != null) {
-                pointsInConnections[point.id]?.push(newConnection.id);
+            if (points[point.id] != null) {
+                point.connectionsId = [newConnection.id,...points[point.id].connectionsId]
+                setPoints(prevPoints => {
+                    prevPoints[point.id] = point
+                    return({...prevPoints})
+                })
             } else {
-                pointsInConnections[point.id] = [newConnection.id];
+                point.connectionsId.push(newConnection.id)
+                setPoints(prevPoints => {
+                    prevPoints[point.id] = point;
+                    return {...prevPoints}
+                })
             }
         }
-        setPointsInConnections({...pointsInConnections});
-    },[pointsInConnections])
+    },[points])
 
-    const removePoint = useCallback((point : Point) : void => {
+    const removePoint = useCallback((point : IPoint) : void => {
         throw new NotImplementedException();
     },[])
 
@@ -143,7 +160,8 @@ export const useConnectionManagement = () => {
 
     const clearAllConnections = useCallback(() => {
         setConnections({});
-        setPointsInConnections({});
+        setPoints({});
+        setEndPoints([])
     },[])
 
     const selectConnection = useCallback((id : string) => {
@@ -154,19 +172,25 @@ export const useConnectionManagement = () => {
         setselectedConnectionId(null);
     }, [])
 
-    const registerEndPoint = useCallback((endPoint : Point) => {
-        if (endPoints[endPoint.id] == null) {
-            endPoints[endPoint.id] = endPoint;
-            setEndPoints({...endPoints});
+    const registerEndPoint = useCallback((endPoint : IPoint) => {
+        if (!endPoints.includes(endPoint.id)) {
+            setPoints(prevPoints => {
+                prevPoints[endPoint.id] = endPoint;
+                return({...prevPoints})
+            })
+            setEndPoints([...endPoints, endPoint.id]);
         } else {
             console.error(`EndPoint is already registered: ${endPoint.id}`)
         }
     },[endPoints])
 
     const unregisterEndPoint = useCallback((id : string) => {
-        if (endPoints[id] != null) {
-            delete endPoints[id];
-            setEndPoints({...endPoints});
+        if (endPoints.includes(id) != null) {
+            setEndPoints(prevEndPoints => {
+                const index = prevEndPoints.indexOf(id);
+                prevEndPoints.splice(index,1);
+                return([...prevEndPoints]);
+            })
         } else {
             console.error(`Failed to unregister endpoit: ${id}`)
         }
@@ -175,12 +199,23 @@ export const useConnectionManagement = () => {
     const toggleIsLastPointMoving = useCallback(
         () => {
             if (isLastPointMoving && highlightedEndPoint != null && selectedConnectionId != null) {
-                const selectedConnection = connections[selectedConnectionId];
-                selectedConnection.connectToEndPoint(highlightedEndPoint);
-                setConnections({...connections});
-                pointsInConnections[highlightedEndPoint.id] = [selectedConnection.id];
-                setPointsInConnections({...pointsInConnections});
-                setHighLightedEndPoint(null);
+                if (connections[selectedConnectionId] != null) {
+                    console.log("Connect")
+                    const updatedConnection = new Connection(connections[selectedConnectionId]);
+                    updatedConnection.connectToEndPoint(new Point(highlightedEndPoint));
+                    
+                    setConnections(prevConnections => {
+                        prevConnections[selectedConnectionId] = updatedConnection; 
+                        return {...prevConnections};
+                    })
+
+                    setPoints(prevPoints => {
+                        prevPoints[highlightedEndPoint.id].connectionsId.push(selectedConnectionId);
+                        return({...prevPoints});
+                    })
+                    setHighLightedEndPoint(null);
+                }
+                
             }
             setIsLastPointMoving(!isLastPointMoving);
         },[connections, highlightedEndPoint, isLastPointMoving, selectedConnectionId]

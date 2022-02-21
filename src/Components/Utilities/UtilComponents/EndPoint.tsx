@@ -4,14 +4,15 @@ import { convertDirectionToOffset, convertToVisibility, Direction, Visibility } 
 import { useAppSelector, useAppDispatch } from "Store/Hooks"
 import { endPointClicked, selectedEndPoint, selectedElementID } from "Feature/PointConnectionAndSelectionSlice"
 import { ArrowSVG } from "Components/Utilities/UtilComponents/ArrowSVG"
-import { GroupPoint, Point } from "../UtilClasses/Point"
+import { GroupPoint, IGroupPoint, IPoint, Point } from "../UtilClasses/Point"
 import { Coordinates, ICoordinates } from "../UtilClasses/Coordinates"
 import { EndPointManagement, PointManagement } from "../CustomHooks/useConnectionManagement"
 
 export type EndPointProps =  EndPointManagement & Pick<PointManagement, "addConnection" | "onCoordsChange"> & {
     parentElementID : string,
-    point : GroupPoint,
+    point : IGroupPoint,
     arrowDirection : Direction,
+
 }
 
 export const EndPoint : FC<EndPointProps> = (props) => {
@@ -38,11 +39,12 @@ export const EndPoint : FC<EndPointProps> = (props) => {
     const visible = convertToVisibility(useSelector(state => selectedElementID(state) === props.parentElementID || selectedEndPoint(state) === props.point.id));
     const higlihghtVisible = convertToVisibility(props.highlightedEndPoint?.id === props.point.id);
     if (props.highlightedEndPoint != null) {
-        console.log(`test ${props.highlightedEndPoint.id}`)
+        // console.log(`test ${props.highlightedEndPoint.id}`)
     }
     
     const onArrowClick = useCallback(() => {
-        props.addConnection([props.point, new Point(`Point_${Point.cnt}`, new Coordinates(convertDirectionToOffset(props.arrowDirection)).add(props.point.coords))]);
+        const secondPointCoords : ICoordinates =  new Coordinates(convertDirectionToOffset(props.arrowDirection)).add(props.point.coords)
+        props.addConnection([props.point, new Point({id : `Point_${Point.cnt}`, coords : secondPointCoords, connectionsId: []})])
     },[props])
 
     return(

@@ -2,15 +2,15 @@ import React, {useState, useMemo, useCallback, useRef} from "react"
 import {selelctCurrentZoom} from "Feature/ZoomSlice";
 import {useAppSelector} from "Store/Hooks";
 import {selectCanvasBoundaries} from "Feature/CanvasContextSlice"
-import { Coordinates } from "../UtilClasses/Coordinates";
+import { Coordinates, ICoordinates } from "../UtilClasses/Coordinates";
 
 
 export type DraggableHandlers = {
     onMouseDownDragHandler : (e : React.MouseEvent) => void
     onMouseUpDragHandler : (e : React.MouseEvent) => void
 }
-export const useDragableSVGComponent = (coords : Coordinates, onMouseDown? : (e : React.MouseEvent) => void, onMouseUp? : (e: React.MouseEvent) => void) => {
-    const [coordinates, setCoordinates] = useState<Coordinates>(coords);
+export const useDragableSVGComponent = (coords : ICoordinates, onMouseDown? : (e : React.MouseEvent) => void, onMouseUp? : (e: React.MouseEvent) => void) => {
+    const [coordinates, setCoordinates] = useState<ICoordinates>(coords);
     const initMousePos = useRef<Coordinates>(new Coordinates());
     const initElementPos = useRef<Coordinates>(new Coordinates());
     const useSelector = useAppSelector;

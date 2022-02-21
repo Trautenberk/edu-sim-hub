@@ -1,22 +1,19 @@
 import { Coordinates } from "./Coordinates";
-import { Point } from "./Point";
+import { IPoint, Point } from "./Point";
 
+export interface IConnection {
+    id : string
+    points : IPoint[]
 
-export class Connection {
+}
+
+export class Connection implements IConnection {
     public id : string;
     private _points : Point[] = [];
 
-    public constructor(id : string, points : Point[]);
-    public constructor(id : string, value? : Point[] | Connection) {
-        this.id = id;
-
-        if(value != null) {
-            if (value instanceof Connection ){
-                this._points = [...value._points];
-            } else {
-                this._points = value;
-            }
-        }
+    public constructor(value :  IConnection) {
+      this.id = value.id;
+      this._points = value.points.map(item => new Point(item))
     }
     public get points() : Point[] { 
         return this._points;
@@ -42,7 +39,8 @@ export class Connection {
     public update (point : Point) : void {
         for (const item of this._points) {
             if (item.id === point.id) {
-                item.coords = new Coordinates(point.coords);
+                item.coords = point.coords;
+                item.connectionsId = point.connectionsId
             }
         }
     }
