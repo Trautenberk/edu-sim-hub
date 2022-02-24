@@ -1,4 +1,4 @@
-import { addPoint, getConnection, selectConnection, selectCoordinates, selectedConnection, selectPointsFromConnection, toggleIsLastPointMoving, updatePointCoords } from "Feature/PointConnectionAndSelectionSlice"
+import { addPoint, getConnection, selectConnection, selectedConnection, selectPointsFromConnection, toggleIsLastPointMoving, updatePointCoords } from "Feature/PointConnectionAndSelectionSlice"
 import React, { FC, useCallback, useEffect, useState } from "react"
 import { useAppDispatch, useAppSelector } from "Store/Hooks"
 import { useDragable } from "../CustomHooks/useDraggable"

@@ -62,10 +62,10 @@ const pointConnectionSlice = createSlice({
         },
         // aktualizace souřadnic endPointu
         updatePointCoords(state, action : PayloadAction<{id : string, newCoords : ICoordinates}>){
-            if(state.endPoints.includes(action.payload.id)){   // pokud slovnik obsahuje endPoint s přijatým id
+            if(Object.keys(state.points).includes(action.payload.id)){   // pokud slovnik obsahuje endPoint s přijatým id
                 state.points[action.payload.id].coords = action.payload.newCoords;  // provede update
             } else {
-                // console.error(`update of nonexisting point ${action.payload.id}`); // TODO vyřešit logovani jinak
+                console.error(`update of nonexisting point ${action.payload.id}`); // TODO vyřešit logovani jinak
             }
         },
         // kliknuto na plochu 
@@ -92,6 +92,7 @@ const pointConnectionSlice = createSlice({
         },
         addPoint (state, action : PayloadAction<{connectionId : string, point : IPoint, index : number}>) {
             const { connectionId, point, index } = action.payload
+            point.id = `Point_${Point.cnt}`;
             state.connections[connectionId].pointsId.splice(index,0,point.id); // pridani do connectiony na index
             state.points[point.id] = point;  // pridani bodu ko kolekce bodu
         },
@@ -119,7 +120,6 @@ const pointConnectionSlice = createSlice({
 
 export const getConnection = (state: RootState, id : string) : IConnection => state.pointConnectionAndSelection.connections[id];
 export const selectPointsFromConnection = (state: RootState, ids : string[]) : IPoint[] => ids.map(item => state.pointConnectionAndSelection.points[item]);
-export const selectCoordinates = (state : RootState, ids: string[]) : ICoordinates[] => ids.map(item => state.pointConnectionAndSelection.points[item].coords);
 export const selectedConnection = (state : RootState) => state.pointConnectionAndSelection.selectedConnection;
 export const selectedElementID = (state : RootState) => state.pointConnectionAndSelection.selectedElementID;
 export const selectedEndPoint = (state : RootState) => state.pointConnectionAndSelection.selectedEndPoint;

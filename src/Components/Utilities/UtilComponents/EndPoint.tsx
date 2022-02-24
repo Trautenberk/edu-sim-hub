@@ -21,6 +21,12 @@ export const EndPoint : FC<EndPointProps> = (props) => {
         e.stopPropagation();
         // dispatch(endPointClicked(props.point.id));
     }
+    
+    useEffect(() => {
+        dispatch(registerEndPoint(props.point.toSerializableObj()));
+        return (() => {dispatch(unregisterEndPoint(props.point.id))})
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    },[])
 
     useEffect(
         () => {
@@ -28,12 +34,6 @@ export const EndPoint : FC<EndPointProps> = (props) => {
         },[dispatch, props.point.coords, props.point.coords.x, props.point.coords.y, props.point.groupCoords, props.point.id]
     )
 
-    useEffect(() => {
-        dispatch(registerEndPoint(props.point.toSerializableObj()));
-        return (() => {dispatch(unregisterEndPoint(props.point.id))})
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    },[])
-  
     const style =  useSelector(state => selectedEndPoint(state)) === props.point.id ? styles.end_point_selected : styles.end_point 
     const visible = convertToVisibility(useSelector(state => selectedElementID(state) === props.parentElementID || selectedEndPoint(state) === props.point.id));
    
