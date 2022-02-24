@@ -1,19 +1,22 @@
-import { Coordinates } from "./Coordinates";
+import { Coordinates, IToSerializable } from "./Coordinates";
 import { IPoint, Point } from "./Point";
 
 export interface IConnection {
     id : string
-    points : IPoint[]
+    pointsId : string[]
 
 }
 
-export class Connection implements IConnection {
+export class Connection implements IConnection, IToSerializable<IConnection> {
     public id : string;
     private _points : Point[] = [];
 
-    public constructor(value :  IConnection) {
-      this.id = value.id;
-      this._points = value.points.map(item => new Point(item))
+    public pointsId : string[] = []
+
+    public constructor(value :  IConnection, points : IPoint[]) {
+        this.id = value.id;
+        this.pointsId = value.pointsId; 
+        this._points = points.map(item => new Point(item))
     }
     public get points() : Point[] { 
         return this._points;
@@ -40,7 +43,6 @@ export class Connection implements IConnection {
         for (const item of this._points) {
             if (item.id === point.id) {
                 item.coords = point.coords;
-                item.connectionsId = point.connectionsId
             }
         }
     }
@@ -53,5 +55,9 @@ export class Connection implements IConnection {
         }
 
         return description.join(" ");
+    }
+
+    public toSerializableObj() : IConnection {
+        return {id: this.id, pointsId : this.pointsId};
     }
 }

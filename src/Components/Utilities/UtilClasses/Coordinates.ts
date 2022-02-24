@@ -1,10 +1,14 @@
+export interface IToSerializable<T> {
+    toSerializableObj () : T;
+}
+
 export interface ICoordinates {
     x : number
     y: number
 }
 
-export class Coordinates implements ICoordinates {
-    public constructor();
+export class Coordinates implements ICoordinates, IToSerializable<ICoordinates> {
+
     public constructor(obj : ICoordinates);
     public constructor(obj?: ICoordinates) {
         this.x = obj?.x ?? 0;
@@ -51,8 +55,12 @@ export class Coordinates implements ICoordinates {
         result.power(2);
         return Math.sqrt(result.x + result.y);
     }
+    
+    toSerializableObj(): ICoordinates {
+        return {x: this.x, y: this.y}
+    }
 
-    public toString = () => {
+    public toString () {
         return `${this.x} ${this.y}`
     }
 }

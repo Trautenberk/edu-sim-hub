@@ -1,4 +1,4 @@
-import { FunctionComponent,  MouseEventHandler, useEffect, useMemo, useState} from "react";
+import React, { FunctionComponent,  MouseEventHandler, useEffect, useMemo, useState} from "react";
 import { EndPoint } from "../Utilities/UtilComponents/EndPoint";
 import styles from "Styles/PetriNets/SpotStyle.module.scss"
 import {useAppDispatch, useAppSelector} from "Store/Hooks"
@@ -40,13 +40,13 @@ export const PlaceSVG : FunctionComponent<CanvasElementProps> = (props) => {
 
     const absoluteCoords = props.groupAbsoluteCoordinates;
     const endPoints = useMemo (
-        () => (endPointsInGroupCoords.map((item, index) => new GroupPoint({id : `${props.id}_${index}`, groupCoords:  item, coords: new Coordinates(item).add(absoluteCoords), connectionsId : []}))), 
+        () => (endPointsInGroupCoords.map((item, index) => new GroupPoint({id : `${props.id}_${index}`, groupCoords:  item, coords: new Coordinates(item).add(absoluteCoords)}))), 
         [props.groupAbsoluteCoordinates]); 
     
 
     return(
         <>
-            <circle className={styles.spot} onClick={onClickHandler} onMouseDown={props.onMouseDownDragHandler} onMouseUp={props.onMouseUpDragHandler}  r="30"/>
+            <circle className={styles.spot} onClick={onClickHandler} onMouseDown={props.onMouseDownDragHandler} onMouseUp={props.onMouseUpDragHandler}   r="30"/>
             <circle visibility={visible} className={styles.spot_selected} r="30"/>
             {endPoints.map((item, index) => <EndPoint key={item.id}  parentElementID={props.id} point={item} arrowDirection={ALL_DIRECTIONS[index]} {...props} /> )}
         </>

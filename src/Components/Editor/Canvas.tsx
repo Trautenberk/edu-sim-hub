@@ -1,5 +1,5 @@
 import React, { useRef, useEffect,  useState, FC } from "react"; 
-import {DraggableHandlers, useDragableSVGComponent } from "../Utilities/CustomHooks/useDraggableSVG";
+import {DraggableHandlers, useDragable } from "../Utilities/CustomHooks/useDraggable";
 import styles from "Styles/Editor/CanvasStyle.module.scss";
 import {useAppDispatch, useAppSelector} from "Store/Hooks"
 import {zoom, selelctCurrentZoom } from "Feature/ZoomSlice";
@@ -7,13 +7,11 @@ import { convertMatrixToString, TransormMatrix } from "Components/Utilities/Util
 import { updateCanvasBoundaries} from "Feature/CanvasContextSlice"
 import {gridClicked } from "Feature/PointConnectionAndSelectionSlice"
 import { Coordinates, ICoordinates } from "Components/Utilities/UtilClasses/Coordinates";
-import { EndPointManagement, PointManagement } from "Components/Utilities/CustomHooks/useConnectionManagement";
 
-export type CanvasElementProps = DraggableHandlers & PointManagement & EndPointManagement & {
+export type CanvasElementProps = DraggableHandlers & {
     id : string;
     groupAbsoluteCoordinates : ICoordinates  // absolutní souřadnice skupiny ve které se element nachází
 }
-
 
 type CanvasProps = {
     onGridClick: () => void
@@ -27,10 +25,14 @@ export const Canvas : FC<CanvasProps> = (props) => {
 
     const [svgSize, setSvgSize] = useState({width : 0, height: 0})
     const canvasBoundingElementRef = useRef<HTMLDivElement>(null);
-
-    const {coordinates : translate, onMouseDownHandler, onMouseUpHandler} = useDragableSVGComponent({x: 30, y: 30});
+    const [coordinates, setCoordinates] = useState<ICoordinates>({x: 30, y: 30});
     
-    const mainGroupTransformMatrix : TransormMatrix = ( { scaleX: scale, skewY : 0 , skewX : 0, scaleY : scale, translateX : translate.x, transalteY : translate.y } )
+    const onCoordsChange = (newCoords : Coordinates) => {
+        setCoordinates(newCoords.toSerializableObj())
+    }
+    const { onMouseDownHandler, onMouseUpHandler } = useDragable({ coordinates, onCoordsChange });
+    
+    const mainGroupTransformMatrix : TransormMatrix = ( { scaleX: scale, skewY : 0 , skewX : 0, scaleY : scale, translateX : coordinates.x, transalteY : coordinates.y } )
 
     const zoomHandler  = ( evt : WheelEvent ) => {
         if ( evt.ctrlKey !== true ) {
@@ -70,7 +72,7 @@ export const Canvas : FC<CanvasProps> = (props) => {
                             <path d="M 0 0 L 8 5 L 0 10 z" />
                         </marker>
                     </defs>
-                    <g transform={convertMatrixToString(mainGroupTransformMatrix)} onMouseDown={onMouseDownHandler} onMouseUp={onMouseUpHandler} >   
+                    <g transform={convertMatrixToString(mainGroupTransformMatrix)}  > {/*onMouseDown={onMouseDownHandler} onMouseUp={onMouseUpHandler}*/}   
                         <rect width={1201} height={1201} onClick={onGridClickHandler} className={styles.canvas_svg__grid} fill="url(#grid)" />  {/* Grid element*/}
                             {props.children}
                     </g>

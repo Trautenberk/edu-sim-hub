@@ -1,104 +1,123 @@
-import React, { FC, useCallback, useEffect } from "react"
-import { EndPointManagement, PointManagement } from "../CustomHooks/useConnectionManagement"
-import { useDragableSVGComponent } from "../CustomHooks/useDraggableSVG"
+import { addPoint, getConnection, selectConnection, selectCoordinates, selectedConnection, selectPointsFromConnection, toggleIsLastPointMoving, updatePointCoords } from "Feature/PointConnectionAndSelectionSlice"
+import React, { FC, useCallback, useEffect, useState } from "react"
+import { useAppDispatch, useAppSelector } from "Store/Hooks"
+import { useDragable } from "../CustomHooks/useDraggable"
 import { Connection, IConnection } from "../UtilClasses/Connection"
 import { Coordinates, ICoordinates } from "../UtilClasses/Coordinates"
 import { IPoint, Point } from "../UtilClasses/Point"
 import style from "./UtilComponentsStyle/EdgeSVG.module.scss"
 
-type EdgeSVGComponentProps = Pick<PointManagement, "addPoint" | "selectConnection" | "toggleIsLastPointMoving" | "onCoordsChange"> & {
-    connection : IConnection,
-    selected : boolean
+type EdgeSVGComponentProps = {
+    connectionId : string
  }
 
 export const EdgeSVG : FC<EdgeSVGComponentProps> = (props) => {
-    const points = props.connection.points;
-    const connection = new Connection(props.connection)
-    
-    if (props.selected) {
-        const edgePoints = (props.connection.points.slice(1, points.length - 1));
+    const dispatch = useAppDispatch();
+    const useSelector = useAppSelector;
+
+    const connection = useSelector(state => getConnection(state, props.connectionId));
+    const points = useSelector(state => selectPointsFromConnection(state, connection.pointsId));
+    const connectionInstance = new Connection(connection, points); 
+    const selected = connection.id === useSelector(selectedConnection);
+
+    if (selected) {
+        const edgePoints = (points.slice(1, points.length - 1)).map(item => new Point(item));
         const addPoints : Point[] = [];
     
         for (var i = 0; i <  points.length - 1; i++) {
             const beginCoords = new Coordinates(points[i].coords);
             const vector = new Coordinates(points[i+1].coords).sub(beginCoords).scale(1/2) // vektor mezi dvěma body vydělený dvěma
-            const halfWayPoint = new Point({ id : `addPoint_${i}`, coords : beginCoords.add(vector), connectionsId : []});
+            const halfWayPoint = new Point({ id : `addPoint_${i}`, coords : beginCoords.add(vector)});
             addPoints.push(halfWayPoint);
         }
-        const lastPoint = points[points.length - 1];
+        const lastPoint = new Point(points[points.length - 1]);
 
 
     
         return (
             <g>
-                <path className={style.edge}  markerEnd={"url(#arrow)"} d={connection.getPathDescription()}/>
-                {edgePoints.map(item => <EdgePointsSVG point={item} key={item.id} onCoordsChange={props.onCoordsChange}/>)}
-                {addPoints.map((item,index) => <AddPointSVG point={item} pointIndex={++index} connectionId={props.connection.id} key={item.id} addPoint={props.addPoint}/>)}
+                <path className={style.edge}  markerEnd={"url(#arrow)"} d={connectionInstance.getPathDescription()}/>
+                {edgePoints.map(item => <EdgePointsSVG point={item} key={item.id} {...props}/>)}
+                {addPoints.map((item,index) => <AddPointSVG point={item} pointIndex={++index} connectionId={connection.id} key={item.id} />)}
                 <LastEdgePointSVG point={lastPoint} {...props}/>
             </g>
         )
     } else {
+
         const onClickHandler = () => {
-            props.selectConnection(props.connection.id);
+            dispatch(selectConnection(connection.id));
         }
 
         return (
             <g>
-                <path className={style.edge} onClick={onClickHandler}  markerEnd={"url(#arrow)"} d={connection.getPathDescription()}/>
+                <path className={style.edge} onClick={onClickHandler}  markerEnd={"url(#arrow)"} d={connectionInstance.getPathDescription()}/>
             </g>
         )
     }
 }
 
 type EdgePointSVGProps = {
-    point : IPoint
-    onCoordsChange : (point : IPoint) => void;
+    point : Point
 }
 
 const EdgePointsSVG : FC<EdgePointSVGProps> = (props) => {
-    const {coordinates, onMouseDownHandler, onMouseUpHandler} = useDragableSVGComponent(props.point.coords);
-    
-    useEffect(()=> {
-        props.point.coords = coordinates;
-        props.onCoordsChange(props.point);
-    },[coordinates])
+    const dispatch = useAppDispatch();
+    const point = props.point
+    const [coordinates, setCoordinates] = useState<ICoordinates>(props.point.coords);
 
+    const onCoordsChange = useCallback((newCoords : ICoordinates) => {
+        setCoordinates(newCoords);
+        dispatch(updatePointCoords({id: props.point.id, newCoords : {x: newCoords.x, y: newCoords.y}}));
+
+    },[dispatch, props.point.id])
+
+    const {onMouseDownHandler, onMouseUpHandler} = useDragable({coordinates: point.coords, onCoordsChange});
+    
     return (
         <circle className={style.edge_point} cx={coordinates.x} cy={coordinates.y} r={5} onMouseDown={onMouseDownHandler} onMouseUp={onMouseUpHandler} />    
     )
 }
 
 
-type AddPointSVGProps = Pick<PointManagement, "addPoint"> & {
-    point : IPoint
+type AddPointSVGProps = {
+    point : Point
     pointIndex : number
     connectionId : string
 }
 
 const AddPointSVG : FC<AddPointSVGProps> = (props) => {
+    const dispatch = useAppDispatch();
 
     const onClickHandler = () => {
-        props.addPoint(props.connectionId, props.point, props.pointIndex)
+        dispatch(addPoint({connectionId: props.connectionId, point: props.point.toSerializableObj(), index: props.pointIndex}));
     }
+
     return (
         <circle className={style.add_point} cx={props.point.coords.x} cy={props.point.coords.y} r={5} onClick={onClickHandler} />
     )
 }
 
 
-type LastEdgePointSVGProps = Pick<PointManagement, "toggleIsLastPointMoving"> & {
-    point : IPoint
-    onCoordsChange : (point : IPoint) => void;
+type LastEdgePointSVGProps = {
+    point : Point
 }
 
 const LastEdgePointSVG : FC<LastEdgePointSVGProps> = (props) => {
-    const {coordinates, onMouseDownHandler, onMouseUpHandler} = useDragableSVGComponent(props.point.coords, props.toggleIsLastPointMoving, props.toggleIsLastPointMoving);
-    
-    useEffect(()=> {
-        props.point.coords = coordinates;
-        props.onCoordsChange(props.point);
-    },[coordinates])
+    const dispatch = useAppDispatch();
+    const [coordinates, setCoordinates] = useState<ICoordinates>(props.point.coords.toSerializableObj());
 
+    const point = props.point
+
+    const onCoordsChange = useCallback((newCoords : Coordinates) => {
+        setCoordinates(newCoords.toSerializableObj());
+        dispatch(updatePointCoords({id : props.point.id, newCoords : newCoords.toSerializableObj()}));
+    },[dispatch, props.point.id])
+
+    const onMouseDownAndUpHandler = useCallback(() => {
+        dispatch(toggleIsLastPointMoving);
+    },[dispatch])
+
+    const {onMouseDownHandler, onMouseUpHandler} = useDragable({coordinates : point.coords, onCoordsChange, onMouseDown : onMouseDownAndUpHandler, onMouseUp : onMouseDownAndUpHandler});
 
     return (
         <circle className={style.edge_point} cx={coordinates.x} cy={coordinates.y} r={5} onMouseDown={onMouseDownHandler} onMouseUp={onMouseUpHandler} />    

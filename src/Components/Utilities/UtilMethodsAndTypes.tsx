@@ -33,11 +33,6 @@ export type TransormMatrix = {
 }
 
 
-export type PointBriefDesc = {
-    id : string,
-    coords : Coordinates
-}
-
 export function  convertMatrixToString (matrix : TransormMatrix) : string {
     return `matrix(${matrix.scaleX}, ${matrix.skewY}, ${matrix.skewX}, ${matrix.scaleY}, ${matrix.translateX}, ${matrix.transalteY})`
 }

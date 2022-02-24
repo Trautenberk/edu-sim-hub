@@ -14,9 +14,8 @@ import { useCanvasElementManagement } from 'Components/Utilities/CustomHooks/use
 import { NotImplementedException } from 'Components/Utilities/Errors';
 import { DraggableGroupSVG } from 'Components/Utilities/UtilComponents/DraggableGroupSVG';
 import { EdgeSVG } from 'Components/Utilities/UtilComponents/EdgeSVG';
-import { EndPointManagement, PointManagement, useConnectionManagement } from 'Components/Utilities/CustomHooks/useConnectionManagement';
 import { useAppDispatch, useAppSelector } from 'Store/Hooks';
-import { gridClicked, selectedElementID } from 'Feature/PointConnectionAndSelectionSlice';
+import { clearAllConnections, gridClicked, removeConnection, selectedConnection, selectedElementID, unselectConnection } from 'Feature/PointConnectionAndSelectionSlice';
 
 /**
  * @author Jaromír Březina
@@ -46,18 +45,19 @@ export const App : FC = () => {
    }, [])
 
   const {elements, addElement, removeElement, removeAllElements} = useCanvasElementManagement();
-  const { connections, onCoordsChange, addConnection, addPoint,
-          removeConnection, removePoint, clearAllConnections,
-          selectConnection, selectedConnectionId, unselectConnections,
-          registerEndPoint, unregisterEndPoint,toggleIsLastPointMoving, highlightedEndPoint } = useConnectionManagement();
+  // const { connections, onCoordsChange, addConnection, addPoint,
+  //         removeConnection, removePoint, clearAllConnections,
+  //         selectConnection, selectedConnectionId, unselectConnections,
+  //         registerEndPoint, unregisterEndPoint,toggleIsLastPointMoving, highlightedEndPoint } = useConnectionManagement();
 
-  const pointManagementMethods : PointManagement = {addConnection, addPoint, onCoordsChange, removePoint, removeConnection, selectConnection, toggleIsLastPointMoving}
-  const endPointManagementMethods : EndPointManagement = {registerEndPoint, unregisterEndPoint, highlightedEndPoint}
+  // const pointManagementMethods : PointManagement = {addConnection, addPoint, onCoordsChange, removePoint, removeConnection, selectConnection, toggleIsLastPointMoving}
+  // const endPointManagementMethods : EndPointManagement = {registerEndPoint, unregisterEndPoint, highlightedEndPoint}
 
   const clearAllAction = useCallback(()=> {
     removeAllElements();
-    clearAllConnections();
-  },[])
+    // clearAllConnections();
+    dispatch(clearAllConnections);
+  },[dispatch, removeAllElements])
   
   const [topMenuActions, setTopMenuActions] = useState<Action[]>([
     {name : "Do hlavního menu", actionMethod : showMainMenu},
@@ -66,6 +66,7 @@ export const App : FC = () => {
     {name : "Nahrát", actionMethod: () => {throw new NotImplementedException()}}
   ]) 
   const [canvasElementFactory, setCanvasElementFactory] = useState<ICanvasElementFactory>(new PetriNetsComponentFactory())
+  const connections = useSelector(state => state.pointConnectionAndSelection.connections);
 
   type CanvasElementType = {
     name: string,
@@ -99,6 +100,7 @@ export const App : FC = () => {
   const [canvasElementTypes, setCanvasElementTypes] = useState<CanvasElementType[]>(petriNetsCanvasElementsTypes)
 
   const selectedId = useSelector(state => selectedElementID(state));
+  const selectedConnectionId = useSelector(selectedConnection);
 
   const handleDeleteKeyPressed = useCallback(() : void => {
     if (selectedId != null) {
@@ -107,10 +109,10 @@ export const App : FC = () => {
       // TODO element po odebrani je furt selected
     }
     if (selectedConnectionId != null) {
-      removeConnection(selectedConnectionId);
+      dispatch(removeConnection(selectedConnectionId));
     }
     
-  },[removeConnection, removeElement, selectedConnectionId, selectedId])
+  },[dispatch, removeElement, selectedConnectionId, selectedId])
 
   const onKeyDownHandler =  useCallback(
     (e : KeyboardEvent) : void => {
@@ -124,8 +126,9 @@ export const App : FC = () => {
 
   const onGridClick = useCallback(
     () => {
-      unselectConnections();
-    }, [unselectConnections]
+      dispatch(unselectConnection);
+      // unselectConnections();
+    }, []
   ) 
 
   useEffect(
@@ -165,16 +168,12 @@ export const App : FC = () => {
                       key={item.id}
                       coords={{x: 30, y: 30}}
                       id={item.id}
-                      {...pointManagementMethods}
-                      {...endPointManagementMethods}
                       canvasElement={canvasElementFactory.getElement(item)}                   
                        />)
                     }
                     {Object.values(connections).map(item => <EdgeSVG
                     key={item.id} 
-                    selected={item.id === selectedConnectionId}
-                    connection={item}
-                    {...pointManagementMethods}
+                    connectionId={item.id}
                     />)}
                 </Canvas>
         <Loader visibile={false} >Jupiiiiiii </Loader>
