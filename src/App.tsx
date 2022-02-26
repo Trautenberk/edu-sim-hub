@@ -1,4 +1,4 @@
-import React, {FC, useCallback, useEffect, useState} from 'react';
+import {FC, useCallback, useEffect, useState} from 'react';
 import {Menu, MenuItemButton} from "./Components/Utilities/UtilComponents/Menu"
 import styles from "AppStyle.module.scss"
 import editorStyles from "Styles/Editor/EditorStyle.module.scss"
@@ -15,7 +15,7 @@ import { NotImplementedException } from 'Components/Utilities/Errors';
 import { DraggableGroupSVG } from 'Components/Utilities/UtilComponents/DraggableGroupSVG';
 import { EdgeSVG } from 'Components/Utilities/UtilComponents/EdgeSVG';
 import { useAppDispatch, useAppSelector } from 'Store/Hooks';
-import { clearAllConnections, gridClicked, removeEdge, selectEdge, selectedElementID, unselectEdge, selectedEdge } from 'Feature/PointConnectionAndSelectionSlice';
+import { clearAllEdges, removeEdge, selectedElementID, unselectEdge, selectedEdge } from 'Feature/PointEdgeSelectionSlice';
 
 /**
  * @author Jaromír Březina
@@ -46,7 +46,7 @@ export const App : FC = () => {
 
   const {elements, addElement, removeElement, removeAllElements} = useCanvasElementManagement();
   // const { connections, onCoordsChange, addConnection, addPoint,
-  //         removeConnection, removePoint, clearAllConnections,
+  //         removeConnection, removePoint, clearAllEdges,
   //         selectConnection, selectedConnectionId, unselectConnections,
   //         registerEndPoint, unregisterEndPoint,toggleIsLastPointMoving, highlightedEndPoint } = useConnectionManagement();
 
@@ -55,8 +55,7 @@ export const App : FC = () => {
 
   const clearAllAction = useCallback(()=> {
     removeAllElements();
-    // clearAllConnections();
-    dispatch(clearAllConnections);
+    dispatch(clearAllEdges);
   },[dispatch, removeAllElements])
   
   const [topMenuActions, setTopMenuActions] = useState<Action[]>([
@@ -66,7 +65,7 @@ export const App : FC = () => {
     {name : "Nahrát", actionMethod: () => {throw new NotImplementedException()}}
   ]) 
   const [canvasElementFactory, setCanvasElementFactory] = useState<ICanvasElementFactory>(new PetriNetsComponentFactory())
-  const connections = useSelector(state => state.pointConnectionAndSelection.edges);
+  const connections = useSelector(state => state.pointEdgeSelection.edges);
 
   type CanvasElementType = {
     name: string,
