@@ -15,7 +15,7 @@ import { NotImplementedException } from 'Components/Utilities/Errors';
 import { DraggableGroupSVG } from 'Components/Utilities/UtilComponents/DraggableGroupSVG';
 import { EdgeSVG } from 'Components/Utilities/UtilComponents/EdgeSVG';
 import { useAppDispatch, useAppSelector } from 'Store/Hooks';
-import { clearAllConnections, gridClicked, removeConnection, selectedConnection, selectedElementID, unselectConnection } from 'Feature/PointConnectionAndSelectionSlice';
+import { clearAllConnections, gridClicked, removeEdge, selectEdge, selectedElementID, unselectEdge, selectedEdge } from 'Feature/PointConnectionAndSelectionSlice';
 
 /**
  * @author Jaromír Březina
@@ -66,7 +66,7 @@ export const App : FC = () => {
     {name : "Nahrát", actionMethod: () => {throw new NotImplementedException()}}
   ]) 
   const [canvasElementFactory, setCanvasElementFactory] = useState<ICanvasElementFactory>(new PetriNetsComponentFactory())
-  const connections = useSelector(state => state.pointConnectionAndSelection.connections);
+  const connections = useSelector(state => state.pointConnectionAndSelection.edges);
 
   type CanvasElementType = {
     name: string,
@@ -100,7 +100,7 @@ export const App : FC = () => {
   const [canvasElementTypes, setCanvasElementTypes] = useState<CanvasElementType[]>(petriNetsCanvasElementsTypes)
 
   const selectedId = useSelector(state => selectedElementID(state));
-  const selectedConnectionId = useSelector(selectedConnection);
+  const selectedEdgeId = useSelector(selectedEdge);
 
   const handleDeleteKeyPressed = useCallback(() : void => {
     if (selectedId != null) {
@@ -108,11 +108,11 @@ export const App : FC = () => {
       removeElement(selectedId);
       // TODO element po odebrani je furt selected
     }
-    if (selectedConnectionId != null) {
-      dispatch(removeConnection(selectedConnectionId));
+    if (selectedEdgeId != null) {
+      dispatch(removeEdge(selectedEdgeId));
     }
     
-  },[dispatch, removeElement, selectedConnectionId, selectedId])
+  },[selectedId, selectedEdgeId, removeElement, dispatch])
 
   const onKeyDownHandler =  useCallback(
     (e : KeyboardEvent) : void => {
@@ -126,9 +126,9 @@ export const App : FC = () => {
 
   const onGridClick = useCallback(
     () => {
-      dispatch(unselectConnection);
+      dispatch(unselectEdge);
       // unselectConnections();
-    }, []
+    }, [dispatch]
   ) 
 
   useEffect(

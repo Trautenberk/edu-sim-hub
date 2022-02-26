@@ -1,8 +1,8 @@
-import { addPoint, getConnection, selectConnection, selectedConnection, selectPointsFromConnection, toggleIsLastPointMoving, updatePointCoords } from "Feature/PointConnectionAndSelectionSlice"
+import { addPoint, getEdge, selectEdge, selectedEdge, selectPointsFromEdge, toggleIsLastPointMoving, updatePointCoords } from "Feature/PointConnectionAndSelectionSlice"
 import React, { FC, useCallback, useEffect, useState } from "react"
 import { useAppDispatch, useAppSelector } from "Store/Hooks"
 import { useDragable } from "../CustomHooks/useDraggable"
-import { Connection, IConnection } from "../UtilClasses/Connection"
+import { Edge } from "../UtilClasses/Edge"
 import { Coordinates, ICoordinates } from "../UtilClasses/Coordinates"
 import { IPoint, Point } from "../UtilClasses/Point"
 import style from "./UtilComponentsStyle/EdgeSVG.module.scss"
@@ -15,10 +15,9 @@ export const EdgeSVG : FC<EdgeSVGComponentProps> = (props) => {
     const dispatch = useAppDispatch();
     const useSelector = useAppSelector;
 
-    const connection = useSelector(state => getConnection(state, props.connectionId));
-    const points = useSelector(state => selectPointsFromConnection(state, connection.pointsId));
-    const connectionInstance = new Connection(connection, points); 
-    const selected = connection.id === useSelector(selectedConnection);
+    const edge = useSelector(state => getEdge(state, props.connectionId));
+    const points = useSelector(state => selectPointsFromEdge(state, edge.pointsId));
+    const selected = edge.id === useSelector(selectedEdge);
 
     if (selected) {
         const edgePoints = (points.slice(1, points.length - 1)).map(item => new Point(item));
@@ -36,21 +35,21 @@ export const EdgeSVG : FC<EdgeSVGComponentProps> = (props) => {
     
         return (
             <g>
-                <path className={style.edge}  markerEnd={"url(#arrow)"} d={connectionInstance.getPathDescription()}/>
+                <path className={style.edge}  markerEnd={"url(#arrow)"} d={Edge.getPathDescription(points)}/>
                 {edgePoints.map(item => <EdgePointsSVG point={item} key={item.id} {...props}/>)}
-                {addPoints.map((item,index) => <AddPointSVG point={item} pointIndex={++index} connectionId={connection.id} key={item.id} />)}
-                <LastEdgePointSVG point={lastPoint} {...props}/>
+                {addPoints.map((item,index) => <AddPointSVG point={item} pointIndex={++index} connectionId={edge.id} key={item.id} />)}
+                <LastEdgePointSVG point={lastPoint} isConnectionComplete={edge.isComplete} {...props}/>
             </g>
         )
     } else {
 
         const onClickHandler = () => {
-            dispatch(selectConnection(connection.id));
+            dispatch(selectEdge(edge.id));
         }
 
         return (
             <g>
-                <path className={style.edge} onClick={onClickHandler}  markerEnd={"url(#arrow)"} d={connectionInstance.getPathDescription()}/>
+                <path className={style.edge} onClick={onClickHandler}  markerEnd={"url(#arrow)"} d={Edge.getPathDescription(points)}/>
             </g>
         )
     }
@@ -100,6 +99,7 @@ const AddPointSVG : FC<AddPointSVGProps> = (props) => {
 
 type LastEdgePointSVGProps = {
     point : Point
+    isConnectionComplete : boolean
 }
 
 const LastEdgePointSVG : FC<LastEdgePointSVGProps> = (props) => {
@@ -114,7 +114,7 @@ const LastEdgePointSVG : FC<LastEdgePointSVGProps> = (props) => {
     },[dispatch, props.point.id])
 
     const onMouseDownAndUpHandler = useCallback(() => {
-        dispatch(toggleIsLastPointMoving);
+        dispatch(toggleIsLastPointMoving());
     },[dispatch])
 
     const {onMouseDownHandler, onMouseUpHandler} = useDragable({coordinates : point.coords, onCoordsChange, onMouseDown : onMouseDownAndUpHandler, onMouseUp : onMouseDownAndUpHandler});

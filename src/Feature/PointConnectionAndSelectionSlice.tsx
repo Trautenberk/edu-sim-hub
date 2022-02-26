@@ -1,47 +1,50 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { NotImplementedException } from "Components/Utilities/Errors";
-import { Connection, IConnection } from "Components/Utilities/UtilClasses/Connection";
+import { IEdge } from "Components/Utilities/UtilClasses/Edge";
 import { Coordinates, ICoordinates } from "Components/Utilities/UtilClasses/Coordinates";
 import { IPoint, Point } from "Components/Utilities/UtilClasses/Point";
 import { RootState } from "Store/Store";
 
 
 type PointConnectionState = {
-    endPoints :  string[],  // identifikatory koncovych bodu 
+    endPoints :  string[]  // identifikatory koncovych bodu 
     points : {[id : string] : IPoint} // vsechny body
-    connections : {[id : string] : IConnection},   // TODO
-    connectionCounter : number,
-    selectedConnection : string | null,
-    selectedElementID: string | null,
-    selectedEndPoint : string | null,
-    isLastPointMoving : boolean  
+    edges : {[id : string] : IEdge}   // TODO
+    connectionCounter : number
+    selectedEdge : string | null
+    selectedElementId: string | null
+    selectedEndPoint : string | null
+    isLastPointMoving : boolean
+    highlightedEndPoint : null | string
+    distanceThreshold : number
 }
 
-
 const initialState : PointConnectionState = {
-    connections: {},
+    edges: {},
     connectionCounter: 0,
-    selectedConnection: null,
-    selectedElementID: null,
+    selectedEdge: null,
+    selectedElementId: null,
     selectedEndPoint: null,
     endPoints: [],
     points: {},
-    isLastPointMoving : false
+    isLastPointMoving : false,
+    highlightedEndPoint : null,
+    distanceThreshold : 30,
 }
 
 const pointConnectionSlice = createSlice({
     name : "PointConnectionAndSelection",
     initialState,
     reducers: {
-        elementClicked(state, action : PayloadAction<string>) {
-            state.selectedElementID = action.payload;
-            state.selectedConnection = null;
+        elementClicked (state, action : PayloadAction<string>) {
+            state.selectedElementId = action.payload;
+            state.selectedEdge = null;
         },
-        endPointClicked(state, action : PayloadAction<string>){
+        endPointClicked (state, action : PayloadAction<string>){
             // state.selectedEndPoint = action.payload;  // TODO jestli se pro tohle nenajde use-case tak vyhodit
         },
         // registrace endPointu
-        registerEndPoint(state, action : PayloadAction<IPoint>){
+        registerEndPoint (state, action : PayloadAction<IPoint>){
             const endPoint = action.payload;
             if (Object.keys(state.points).includes(endPoint.id)) {
                 throw new Error(`Registering already registered endpoitn ${endPoint.id} `)
@@ -51,7 +54,7 @@ const pointConnectionSlice = createSlice({
             }
         },
         // odregistrování endPointu
-        unregisterEndPoint(state, action : PayloadAction<string>){
+        unregisterEndPoint (state, action : PayloadAction<string>){
             if(Object.keys(state.points).includes(action.payload)){
                 delete state.points[action.payload];
                 state.endPoints.splice(state.endPoints.indexOf(action.payload))  // TODO oveřit že se to nezmersi tu array
@@ -61,31 +64,47 @@ const pointConnectionSlice = createSlice({
             }
         },
         // aktualizace souřadnic endPointu
-        updatePointCoords(state, action : PayloadAction<{id : string, newCoords : ICoordinates}>){
-            if(Object.keys(state.points).includes(action.payload.id)){   // pokud slovnik obsahuje endPoint s přijatým id
-                state.points[action.payload.id].coords = action.payload.newCoords;  // provede update
+        updatePointCoords (state, action : PayloadAction<{id : string, newCoords : ICoordinates}>){
+            const { id , newCoords } = action.payload;
+            if(Object.keys(state.points).includes(id)){   // pokud slovnik obsahuje Point s přijatým id
+                state.points[id].coords = newCoords;  // provede update
+            
+                if (state.isLastPointMoving) {
+                    const lastPoint = state.points[id];
+                    for (const endPoint of state.endPoints.map(id => state.points[id])) {
+                        if (Coordinates.getDistance(lastPoint.coords, endPoint.coords) < state.distanceThreshold) {
+                            state.highlightedEndPoint = endPoint.id;
+                            return;
+                        }
+                    }
+                    state.highlightedEndPoint = null;
+                }
             } else {
-                console.error(`update of nonexisting point ${action.payload.id}`); // TODO vyřešit logovani jinak
+                console.error(`update of nonexisting point ${id}`); // TODO vyřešit logovani jinak
+                return;
             }
+           
         },
         // kliknuto na plochu 
-        gridClicked(state, action : PayloadAction<ICoordinates>){
-            state.selectedConnection = null;
-            state.selectedElementID = null;
+        gridClicked (state, action : PayloadAction<ICoordinates>){
+            state.selectedEdge = null;
+            state.selectedElementId = null;
             state.selectedEndPoint = null;
         },
-        addConnection (state, action : PayloadAction<IPoint[]>) {
+        addEdge (state, action : PayloadAction<IPoint[]>) {
             const points = action.payload;
-            const newConnection : IConnection = {id : `Connection_${state.connectionCounter++}`, pointsId : points.map(item => item.id)};
-            state.connections[newConnection.id] = newConnection;
+            const newEdge : IEdge = {id : `Connection_${state.connectionCounter++}`, pointsId : points.map(item => item.id), isComplete: false};
+            state.edges[newEdge.id] = newEdge;
             points.forEach(item => {
                 state.points[item.id] = item;
             })
+            state.selectedElementId = null;
+            state.selectedEdge = newEdge.id;
         },
-        removeConnection (state, action : PayloadAction<string>) {
+        removeEdge (state, action : PayloadAction<string>) {
             const connectionId = action.payload;
-            if (state.connections[connectionId] != null) {
-                delete state.connections[connectionId]
+            if (state.edges[connectionId] != null) {
+                delete state.edges[connectionId]
             } else {
                 console.log("Trying to remove connection that is not in state")
             }
@@ -93,35 +112,69 @@ const pointConnectionSlice = createSlice({
         addPoint (state, action : PayloadAction<{connectionId : string, point : IPoint, index : number}>) {
             const { connectionId, point, index } = action.payload
             point.id = `Point_${Point.cnt}`;
-            state.connections[connectionId].pointsId.splice(index,0,point.id); // pridani do connectiony na index
+            state.edges[connectionId].pointsId.splice(index,0,point.id); // pridani do connectiony na index
             state.points[point.id] = point;  // pridani bodu ko kolekce bodu
         },
         removePoint (state, action : PayloadAction<string>) {
             throw new NotImplementedException();  // TODO vyresit jak se odebere z connectiony
         },
-        clearAllConnections(state) {
-            state.connections = {};
+        clearAllConnections (state) {
+            state.edges = {};
         },
-        unselectConnection(state) {
-            state.selectedConnection = null;
+        unselectEdge (state) {
+            state.selectedEdge = null;
         },
-        toggleIsLastPointMoving(state) {
+        toggleIsLastPointMoving (state) {
+            if (state.selectedEdge != null) {
+                if (state.isLastPointMoving) {
+                    if (state.highlightedEndPoint != null) {
+                        const endPoint = state.points[state.highlightedEndPoint];
+                        const removedPointId = state.edges[state.selectedEdge].pointsId.pop();
+                        state.edges[state.selectedEdge].pointsId.push(endPoint.id);
+                        state.edges[state.selectedEdge].isComplete = true;
+    
+                        if (removedPointId != null) {
+                            delete state.points[removedPointId];
+                        }
+    
+                        state.highlightedEndPoint = null;
+                    }
+                } else {
+                    if (state.edges[state.selectedEdge].isComplete) {
+                        const connection = state.edges[state.selectedEdge]
+                        const lastPointId = connection.pointsId.pop();
+                        if (lastPointId != null) {
+                            const lastPoint = state.points[lastPointId];
+                            const newPoint = {id : Point.getId(), coords : lastPoint.coords};
+                            state.points[newPoint.id] = newPoint;
+                            connection.pointsId.push(newPoint.id);
+                        }
+                    }
+                }
+            }
+            
             state.isLastPointMoving  = !state.isLastPointMoving
         },
-        selectConnection(state, action : PayloadAction<string>) {
-            const connectionId = action.payload;
-            state.selectedConnection = connectionId;
-            state.selectedElementID = null;
+        selectEdge (state, action : PayloadAction<string>) {
+            const edgeId = action.payload;
+            state.selectedEdge = edgeId;
+            state.selectedElementId = null;
+        },
+        highlightEndPoint (state, action: PayloadAction<string | null>) {
+            state.highlightedEndPoint = action.payload;
+        },
+        setDistanceThreshold (state, action : PayloadAction<number>) {
+            state.distanceThreshold = action.payload;
         }
     },
 })
 
 
 
-export const getConnection = (state: RootState, id : string) : IConnection => state.pointConnectionAndSelection.connections[id];
-export const selectPointsFromConnection = (state: RootState, ids : string[]) : IPoint[] => ids.map(item => state.pointConnectionAndSelection.points[item]);
-export const selectedConnection = (state : RootState) => state.pointConnectionAndSelection.selectedConnection;
-export const selectedElementID = (state : RootState) => state.pointConnectionAndSelection.selectedElementID;
+export const getEdge = (state: RootState, id : string) : IEdge => state.pointConnectionAndSelection.edges[id];
+export const selectPointsFromEdge = (state: RootState, ids : string[]) : IPoint[] => ids.map(item => state.pointConnectionAndSelection.points[item]);
+export const selectedEdge = (state : RootState) => state.pointConnectionAndSelection.selectedEdge;
+export const selectedElementID = (state : RootState) => state.pointConnectionAndSelection.selectedElementId;
 export const selectedEndPoint = (state : RootState) => state.pointConnectionAndSelection.selectedEndPoint;
 
 
@@ -133,11 +186,11 @@ export const {
     updatePointCoords,
     elementClicked,
     addPoint,
-    addConnection,
+    addEdge,
     clearAllConnections,
-    removeConnection,
+    removeEdge,
     removePoint,
     toggleIsLastPointMoving,
-    unselectConnection,
-    selectConnection } = pointConnectionSlice.actions
+    unselectEdge,
+    selectEdge } = pointConnectionSlice.actions
 export default pointConnectionSlice.reducer;

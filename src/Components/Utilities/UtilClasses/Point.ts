@@ -18,6 +18,10 @@ export class Point implements IPoint, IToSerializable<IPoint> {
     public static get cnt() {
         return Point._cnt++;
     }
+
+    public static getId() {
+        return `Point_${Point.cnt}`
+    }
     
     constructor (value : IPoint) {
         this.id = value.id;
