@@ -1,4 +1,4 @@
-import { IToSerializable } from "./Coordinates";
+import { Coordinates, IToSerializable } from "./Coordinates";
 import { IPoint } from "./Point";
 
 export interface IEdge {
@@ -24,10 +24,10 @@ export class Edge implements IEdge, IToSerializable<IEdge> {
 
     
     public static getPathDescription (points: IPoint[]) : string {
-    const description = [`M ${points[0].coords.toString()}`];
+    const description = [`M ${new Coordinates(points[0].coords).toString()}`];
     
     for(const item of (points.slice(1, points.length))) {
-        description.push(`L ${item.coords.toString()}`)
+        description.push(`L ${new Coordinates(item.coords).toString()}`)
     }
 
     return description.join(" ");
