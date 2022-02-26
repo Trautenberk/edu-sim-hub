@@ -1,16 +1,15 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { NotImplementedException } from "Components/Utilities/Errors";
-import { IEdge } from "Components/Utilities/UtilClasses/Edge";
+import { Edge, IEdge } from "Components/Utilities/UtilClasses/Edge";
 import { Coordinates, ICoordinates } from "Components/Utilities/UtilClasses/Coordinates";
 import { IPoint, Point } from "Components/Utilities/UtilClasses/Point";
 import { RootState } from "Store/Store";
 
 
-type PointConnectionState = {
+type PointEdgeSelectionSliceState = {
     endPoints :  string[]  // identifikatory koncovych bodu 
     points : {[id : string] : IPoint} // vsechny body
     edges : {[id : string] : IEdge}   // TODO
-    connectionCounter : number
     selectedEdge : string | null
     selectedElementId: string | null
     selectedEndPoint : string | null
@@ -19,9 +18,8 @@ type PointConnectionState = {
     distanceThreshold : number
 }
 
-const initialState : PointConnectionState = {
+const initialState : PointEdgeSelectionSliceState = {
     edges: {},
-    connectionCounter: 0,
     selectedEdge: null,
     selectedElementId: null,
     selectedEndPoint: null,
@@ -32,7 +30,7 @@ const initialState : PointConnectionState = {
     distanceThreshold : 30,
 }
 
-const pointConnectionSlice = createSlice({
+const pointEdgeSelectionSlice = createSlice({
     name : "PointConnectionAndSelection",
     initialState,
     reducers: {
@@ -93,7 +91,7 @@ const pointConnectionSlice = createSlice({
         },
         addEdge (state, action : PayloadAction<IPoint[]>) {
             const points = action.payload;
-            const newEdge : IEdge = {id : `Connection_${state.connectionCounter++}`, pointsId : points.map(item => item.id), isComplete: false};
+            const newEdge : IEdge = {id : Edge.getId(), pointsId : points.map(item => item.id), isComplete: false};
             state.edges[newEdge.id] = newEdge;
             points.forEach(item => {
                 state.points[item.id] = item;
@@ -102,23 +100,23 @@ const pointConnectionSlice = createSlice({
             state.selectedEdge = newEdge.id;
         },
         removeEdge (state, action : PayloadAction<string>) {
-            const connectionId = action.payload;
-            if (state.edges[connectionId] != null) {
-                delete state.edges[connectionId]
+            const edgeId = action.payload;
+            if (state.edges[edgeId] != null) {
+                delete state.edges[edgeId]
             } else {
-                console.log("Trying to remove connection that is not in state")
+                console.log("Trying to remove edge that is not in state")
             }
         },
-        addPoint (state, action : PayloadAction<{connectionId : string, point : IPoint, index : number}>) {
-            const { connectionId, point, index } = action.payload
+        addPoint (state, action : PayloadAction<{edgeId : string, point : IPoint, index : number}>) {
+            const { edgeId, point, index } = action.payload
             point.id = `Point_${Point.cnt}`;
-            state.edges[connectionId].pointsId.splice(index,0,point.id); // pridani do connectiony na index
+            state.edges[edgeId].pointsId.splice(index,0,point.id); // pridani do edgey na index
             state.points[point.id] = point;  // pridani bodu ko kolekce bodu
         },
         removePoint (state, action : PayloadAction<string>) {
-            throw new NotImplementedException();  // TODO vyresit jak se odebere z connectiony
+            throw new NotImplementedException();  // TODO vyresit jak se odebere z edgey
         },
-        clearAllConnections (state) {
+        clearAllEdges (state) {
             state.edges = {};
         },
         unselectEdge (state) {
@@ -141,13 +139,13 @@ const pointConnectionSlice = createSlice({
                     }
                 } else {
                     if (state.edges[state.selectedEdge].isComplete) {
-                        const connection = state.edges[state.selectedEdge]
-                        const lastPointId = connection.pointsId.pop();
+                        const edge = state.edges[state.selectedEdge]
+                        const lastPointId = edge.pointsId.pop();
                         if (lastPointId != null) {
                             const lastPoint = state.points[lastPointId];
                             const newPoint = {id : Point.getId(), coords : lastPoint.coords};
                             state.points[newPoint.id] = newPoint;
-                            connection.pointsId.push(newPoint.id);
+                            edge.pointsId.push(newPoint.id);
                         }
                     }
                 }
@@ -171,11 +169,11 @@ const pointConnectionSlice = createSlice({
 
 
 
-export const getEdge = (state: RootState, id : string) : IEdge => state.pointConnectionAndSelection.edges[id];
-export const selectPointsFromEdge = (state: RootState, ids : string[]) : IPoint[] => ids.map(item => state.pointConnectionAndSelection.points[item]);
-export const selectedEdge = (state : RootState) => state.pointConnectionAndSelection.selectedEdge;
-export const selectedElementID = (state : RootState) => state.pointConnectionAndSelection.selectedElementId;
-export const selectedEndPoint = (state : RootState) => state.pointConnectionAndSelection.selectedEndPoint;
+export const getEdge = (state: RootState, id : string) : IEdge => state.pointEdgeSelection.edges[id];
+export const selectPointsFromEdge = (state: RootState, ids : string[]) : IPoint[] => ids.map(item => state.pointEdgeSelection.points[item]);
+export const selectedEdge = (state : RootState) => state.pointEdgeSelection.selectedEdge;
+export const selectedElementID = (state : RootState) => state.pointEdgeSelection.selectedElementId;
+export const selectedEndPoint = (state : RootState) => state.pointEdgeSelection.selectedEndPoint;
 
 
 export const {
@@ -187,10 +185,10 @@ export const {
     elementClicked,
     addPoint,
     addEdge,
-    clearAllConnections,
+    clearAllEdges,
     removeEdge,
     removePoint,
     toggleIsLastPointMoving,
     unselectEdge,
-    selectEdge } = pointConnectionSlice.actions
-export default pointConnectionSlice.reducer;
+    selectEdge } = pointEdgeSelectionSlice.actions
+export default pointEdgeSelectionSlice.reducer;

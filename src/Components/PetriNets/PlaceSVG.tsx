@@ -3,7 +3,7 @@ import { EndPoint } from "../Utilities/UtilComponents/EndPoint";
 import styles from "Styles/PetriNets/SpotStyle.module.scss"
 import {useAppDispatch, useAppSelector} from "Store/Hooks"
 import {ALL_DIRECTIONS, convertToVisibility} from "Components/Utilities/UtilMethodsAndTypes"
-import {elementClicked, selectedElementID} from "Feature/PointConnectionAndSelectionSlice"
+import {elementClicked, selectedElementID} from "Feature/PointEdgeSelectionSlice"
 import { CanvasElementProps } from "Components/Editor/Canvas";
 import { GroupPoint, IGroupPoint } from "Components/Utilities/UtilClasses/Point";
 import { Coordinates, ICoordinates } from "Components/Utilities/UtilClasses/Coordinates";

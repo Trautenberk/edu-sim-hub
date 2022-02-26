@@ -5,7 +5,7 @@ import {useAppDispatch, useAppSelector} from "Store/Hooks"
 import {zoom, selelctCurrentZoom } from "Feature/ZoomSlice";
 import { convertMatrixToString, TransormMatrix } from "Components/Utilities/UtilMethodsAndTypes";
 import { updateCanvasBoundaries} from "Feature/CanvasContextSlice"
-import {gridClicked } from "Feature/PointConnectionAndSelectionSlice"
+import {gridClicked } from "Feature/PointEdgeSelectionSlice"
 import { Coordinates, ICoordinates } from "Components/Utilities/UtilClasses/Coordinates";
 
 export type CanvasElementProps = DraggableHandlers & {

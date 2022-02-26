@@ -1,4 +1,4 @@
-import { addPoint, getEdge, selectEdge, selectedEdge, selectPointsFromEdge, toggleIsLastPointMoving, updatePointCoords } from "Feature/PointConnectionAndSelectionSlice"
+import { addPoint, getEdge, selectEdge, selectedEdge, selectPointsFromEdge, toggleIsLastPointMoving, updatePointCoords } from "Feature/PointEdgeSelectionSlice"
 import React, { FC, useCallback, useEffect, useState } from "react"
 import { useAppDispatch, useAppSelector } from "Store/Hooks"
 import { useDragable } from "../CustomHooks/useDraggable"
@@ -37,7 +37,7 @@ export const EdgeSVG : FC<EdgeSVGComponentProps> = (props) => {
             <g>
                 <path className={style.edge}  markerEnd={"url(#arrow)"} d={Edge.getPathDescription(points)}/>
                 {edgePoints.map(item => <EdgePointsSVG point={item} key={item.id} {...props}/>)}
-                {addPoints.map((item,index) => <AddPointSVG point={item} pointIndex={++index} connectionId={edge.id} key={item.id} />)}
+                {addPoints.map((item,index) => <AddPointSVG point={item} pointIndex={++index} edgeId={edge.id} key={item.id} />)}
                 <LastEdgePointSVG point={lastPoint} isConnectionComplete={edge.isComplete} {...props}/>
             </g>
         )
@@ -81,14 +81,14 @@ const EdgePointsSVG : FC<EdgePointSVGProps> = (props) => {
 type AddPointSVGProps = {
     point : Point
     pointIndex : number
-    connectionId : string
+    edgeId : string
 }
 
 const AddPointSVG : FC<AddPointSVGProps> = (props) => {
     const dispatch = useAppDispatch();
 
     const onClickHandler = () => {
-        dispatch(addPoint({connectionId: props.connectionId, point: props.point.toSerializableObj(), index: props.pointIndex}));
+        dispatch(addPoint({edgeId: props.edgeId, point: props.point.toSerializableObj(), index: props.pointIndex}));
     }
 
     return (

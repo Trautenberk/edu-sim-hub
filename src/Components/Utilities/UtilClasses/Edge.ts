@@ -12,6 +12,12 @@ export class Edge implements IEdge, IToSerializable<IEdge> {
     public  pointsId: string[] = [];
     public isComplete: boolean = false;
 
+    private static cnt = 0;
+
+    public static getId() {
+        return `Edge_${Edge.cnt}`;
+    }
+
     constructor(obj : IEdge) {
         this.id = obj.id;
         this.isComplete = obj.isComplete;

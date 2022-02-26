@@ -1,6 +1,6 @@
 import { FunctionComponent,  MouseEventHandler } from "react";
 import styles from "Styles/PetriNets/TransitionStyle.module.scss"
-import {elementClicked, selectedElementID} from "Feature/PointConnectionAndSelectionSlice"
+import {elementClicked, selectedElementID} from "Feature/PointEdgeSelectionSlice"
 import {convertToVisibility} from "Components/Utilities/UtilMethodsAndTypes";
 import { useAppDispatch, useAppSelector } from "Store/Hooks";
 import { CanvasElementProps } from "Components/Editor/Canvas";
