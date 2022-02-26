@@ -54,8 +54,8 @@ export const App : FC = () => {
   // const endPointManagementMethods : EndPointManagement = {registerEndPoint, unregisterEndPoint, highlightedEndPoint}
 
   const clearAllAction = useCallback(()=> {
-    removeAllElements();
     dispatch(clearAllEdges);
+    removeAllElements();
   },[dispatch, removeAllElements])
   
   const [topMenuActions, setTopMenuActions] = useState<Action[]>([
@@ -65,7 +65,7 @@ export const App : FC = () => {
     {name : "Nahrát", actionMethod: () => {throw new NotImplementedException()}}
   ]) 
   const [canvasElementFactory, setCanvasElementFactory] = useState<ICanvasElementFactory>(new PetriNetsComponentFactory())
-  const connections = useSelector(state => state.pointEdgeSelection.edges);
+  const edges = useSelector(state => state.pointEdgeSelection.edges);
 
   type CanvasElementType = {
     name: string,
@@ -170,9 +170,9 @@ export const App : FC = () => {
                       canvasElement={canvasElementFactory.getElement(item)}                   
                        />)
                     }
-                    {Object.values(connections).map(item => <EdgeSVG
+                    {Object.values(edges).map(item => <EdgeSVG
                     key={item.id} 
-                    connectionId={item.id}
+                    edgeId={item.id}
                     />)}
                 </Canvas>
         <Loader visibile={false} >Jupiiiiiii </Loader>

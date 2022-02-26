@@ -8,14 +8,14 @@ import { IPoint, Point } from "../UtilClasses/Point"
 import style from "./UtilComponentsStyle/EdgeSVG.module.scss"
 
 type EdgeSVGComponentProps = {
-    connectionId : string
+    edgeId : string
  }
 
 export const EdgeSVG : FC<EdgeSVGComponentProps> = (props) => {
     const dispatch = useAppDispatch();
     const useSelector = useAppSelector;
 
-    const edge = useSelector(state => getEdge(state, props.connectionId));
+    const edge = useSelector(state => getEdge(state, props.edgeId));
     const points = useSelector(state => selectPointsFromEdge(state, edge.pointsId));
     const selected = edge.id === useSelector(selectedEdge);
 

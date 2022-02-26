@@ -5,12 +5,12 @@ import { Coordinates, ICoordinates } from "Components/Utilities/UtilClasses/Coor
 import { IPoint, Point } from "Components/Utilities/UtilClasses/Point";
 import { RootState } from "Store/Store";
 
-
 type PointEdgeSelectionSliceState = {
     endPoints :  string[]  // identifikatory koncovych bodu 
     points : {[id : string] : IPoint} // vsechny body
     edges : {[id : string] : IEdge}   // TODO
     selectedEdge : string | null
+    endPointBindings : {[id : string] : string[]}
     selectedElementId: string | null
     selectedEndPoint : string | null
     isLastPointMoving : boolean
@@ -23,11 +23,27 @@ const initialState : PointEdgeSelectionSliceState = {
     selectedEdge: null,
     selectedElementId: null,
     selectedEndPoint: null,
+    endPointBindings : {},
     endPoints: [],
     points: {},
     isLastPointMoving : false,
     highlightedEndPoint : null,
     distanceThreshold : 30,
+}
+
+
+function removeEdgeFnc (state : PointEdgeSelectionSliceState, id : string) {
+    const edge =  state.edges[id];
+    if (edge != null) {
+        for (const point of edge.pointsId.map(id => state.points[id])){
+            if (!state.endPoints.includes(point.id)) {
+                delete state.points[point.id]
+            }
+        }
+        delete state.edges[edge.id]
+    } else {
+        console.log("Trying to remove edge that is not in state")
+    }
 }
 
 const pointEdgeSelectionSlice = createSlice({
@@ -49,13 +65,21 @@ const pointEdgeSelectionSlice = createSlice({
             } else {
                 state.points[endPoint.id] = endPoint;
                 state.endPoints.push(endPoint.id);
+                state.endPointBindings[endPoint.id] = [];
             }
         },
         // odregistrování endPointu
         unregisterEndPoint (state, action : PayloadAction<string>){
-            if(Object.keys(state.points).includes(action.payload)){
-                delete state.points[action.payload];
-                state.endPoints.splice(state.endPoints.indexOf(action.payload))  // TODO oveřit že se to nezmersi tu array
+            const id = action.payload;
+            if(Object.keys(state.points).includes(id)){
+                for (const edge of Object.values(state.edges)) {
+                    if (edge.from === id) { // smazat vsechny edge ktere vychazeli z tohoto ednpointu
+                       removeEdgeFnc(state, edge.id);
+                    }
+                }
+                delete state.points[id];
+                delete state.endPointBindings[id];
+                state.endPoints.splice(state.endPoints.indexOf(id))  // TODO oveřit že se to nezmersi tu array
             }
             else{
                 console.warn(`Couldnt find endPoint: ${action.payload} to unregister, endPoints: ${JSON.stringify(state.endPoints)}`)
@@ -64,8 +88,16 @@ const pointEdgeSelectionSlice = createSlice({
         // aktualizace souřadnic endPointu
         updatePointCoords (state, action : PayloadAction<{id : string, newCoords : ICoordinates}>){
             const { id , newCoords } = action.payload;
-            if(Object.keys(state.points).includes(id)){   // pokud slovnik obsahuje Point s přijatým id
+            if (Object.keys(state.points).includes(id)){   // pokud slovnik obsahuje Point s přijatým id
                 state.points[id].coords = newCoords;  // provede update
+
+                if (Object.keys(state.endPointBindings).includes(id) && state.endPointBindings[id].length) {
+                    for (const pointId of state.endPointBindings[id]) {
+                        if (Object.keys(state.points).includes(pointId)) {
+                            state.points[pointId].coords = newCoords;
+                        }
+                    }
+                }
             
                 if (state.isLastPointMoving) {
                     const lastPoint = state.points[id];
@@ -96,16 +128,13 @@ const pointEdgeSelectionSlice = createSlice({
             points.forEach(item => {
                 state.points[item.id] = item;
             })
+            newEdge.from = points[0].id;
             state.selectedElementId = null;
             state.selectedEdge = newEdge.id;
         },
         removeEdge (state, action : PayloadAction<string>) {
-            const edgeId = action.payload;
-            if (state.edges[edgeId] != null) {
-                delete state.edges[edgeId]
-            } else {
-                console.log("Trying to remove edge that is not in state")
-            }
+            const edgeId =  action.payload;
+            removeEdgeFnc(state, edgeId);
         },
         addPoint (state, action : PayloadAction<{edgeId : string, point : IPoint, index : number}>) {
             const { edgeId, point, index } = action.payload
@@ -117,7 +146,12 @@ const pointEdgeSelectionSlice = createSlice({
             throw new NotImplementedException();  // TODO vyresit jak se odebere z edgey
         },
         clearAllEdges (state) {
+            state.selectedEndPoint = null;
+            state.highlightedEndPoint = null;
+            state.selectedElementId = null;
             state.edges = {};
+            state.endPointBindings ={};
+            state.points = {};
         },
         unselectEdge (state) {
             state.selectedEdge = null;
@@ -127,26 +161,15 @@ const pointEdgeSelectionSlice = createSlice({
                 if (state.isLastPointMoving) {
                     if (state.highlightedEndPoint != null) {
                         const endPoint = state.points[state.highlightedEndPoint];
-                        const removedPointId = state.edges[state.selectedEdge].pointsId.pop();
-                        state.edges[state.selectedEdge].pointsId.push(endPoint.id);
-                        state.edges[state.selectedEdge].isComplete = true;
-    
-                        if (removedPointId != null) {
-                            delete state.points[removedPointId];
-                        }
-    
+                        const selectedEdge = state.edges[state.selectedEdge];
+                        selectedEdge.to = endPoint.id;
+                        const selectedEdgePoints = selectedEdge.pointsId;
+                        state.endPointBindings[endPoint.id].push(selectedEdgePoints[selectedEdgePoints.length - 1]);
                         state.highlightedEndPoint = null;
                     }
                 } else {
                     if (state.edges[state.selectedEdge].isComplete) {
-                        const edge = state.edges[state.selectedEdge]
-                        const lastPointId = edge.pointsId.pop();
-                        if (lastPointId != null) {
-                            const lastPoint = state.points[lastPointId];
-                            const newPoint = {id : Point.getId(), coords : lastPoint.coords};
-                            state.points[newPoint.id] = newPoint;
-                            edge.pointsId.push(newPoint.id);
-                        }
+
                     }
                 }
             }
