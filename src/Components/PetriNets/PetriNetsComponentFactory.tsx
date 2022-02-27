@@ -5,11 +5,14 @@ import { Place } from "../../Model/PetriNets/Place";
 import { Transition } from "../../Model/PetriNets/Transition";
 import { ISimObject } from "Model/SimObject";
 import { FunctionComponent } from "react";
-import { CanvasElementProps } from "Components/Editor/Canvas";
+import { ObjectSVGProps } from "Components/Editor/Canvas";
 
 
+type AAA = {
+
+}
 export class PetriNetsComponentFactory implements ICanvasElementFactory {
-    getElement (object : ISimObject): FunctionComponent<CanvasElementProps>  {
+    getElement (object : ISimObject): FunctionComponent<ObjectSVGProps>  {
         switch(object.typeName) {
             case Place.name:
                 return PlaceSVG;

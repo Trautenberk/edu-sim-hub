@@ -4,12 +4,12 @@ import styles from "Styles/PetriNets/SpotStyle.module.scss"
 import {useAppDispatch, useAppSelector} from "Store/Hooks"
 import {ALL_DIRECTIONS, convertToVisibility} from "Components/Utilities/UtilMethodsAndTypes"
 import {elementClicked, selectedElementID} from "Feature/PointEdgeSelectionSlice"
-import { CanvasElementProps } from "Components/Editor/Canvas";
+import { ObjectSVGProps } from "Components/Editor/Canvas";
 import { GroupPoint, IGroupPoint } from "Components/Utilities/UtilClasses/Point";
 import { Coordinates, ICoordinates } from "Components/Utilities/UtilClasses/Coordinates";
 
 
-export const PlaceSVG : FunctionComponent<CanvasElementProps> = (props) => {
+export const PlaceSVG : FunctionComponent<ObjectSVGProps> = (props) => {
     const dispatch = useAppDispatch();
     const useSelector = useAppSelector;
 
@@ -28,6 +28,8 @@ export const PlaceSVG : FunctionComponent<CanvasElementProps> = (props) => {
     ]), [])
 
 
+
+    // TODO refaktorovat pro optimalizaci
     const absoluteCoords = props.groupAbsoluteCoordinates;
     const endPoints = useMemo (
         () => (endPointsInGroupCoords.map((item, index) => new GroupPoint({id : `${props.id}_${index}`, groupCoords:  item, coords: new Coordinates(item).add(absoluteCoords)}))), 

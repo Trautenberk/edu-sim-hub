@@ -16,6 +16,7 @@ import { EdgeSVG } from 'Components/Utilities/UtilComponents/EdgeSVG';
 import { useAppDispatch, useAppSelector } from 'Store/Hooks';
 import { clearAllEdges, removeEdge, selectedElementID, unselectEdge, selectedEdge } from 'Feature/PointEdgeSelectionSlice';
 import { addObject, removeAllObjects, removeObject } from 'Feature/SimObjectManagementSlice';
+import { EditMenu } from 'Components/Editor/EditMenu';
 
 /**
  * @author Jaromír Březina
@@ -154,19 +155,20 @@ export const App : FC = () => {
                   )
                 }
          </Menu>
-                <Canvas onGridClick={onGridClick}>
-                    {Object.values(simObjects).map(item => <DraggableGroupSVG
-                      key={item.id}
-                      coords={{x: 30, y: 30}}
-                      id={item.id}
-                      canvasElement={canvasElementFactory.getElement(item)}                   
-                       />)
-                    }
-                    {Object.values(edges).map(item => <EdgeSVG
-                    key={item.id} 
-                    edgeId={item.id}
-                    />)}
-                </Canvas>
+          <Canvas onGridClick={onGridClick}>
+              {Object.values(simObjects).map(item => <DraggableGroupSVG
+                key={item.id}
+                coords={{x: 30, y: 30}}
+                id={item.id}
+                canvasElement={canvasElementFactory.getElement(item)}                   
+                  />)
+              }
+              {Object.values(edges).map(item => <EdgeSVG
+              key={item.id} 
+              edgeId={item.id}
+              />)}
+          </Canvas>
+          <EditMenu />
         <Loader visibile={false} >Jupiiiiiii </Loader>
       </div>
     )

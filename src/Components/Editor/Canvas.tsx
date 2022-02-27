@@ -8,7 +8,7 @@ import { updateCanvasBoundaries} from "Feature/CanvasContextSlice"
 import {gridClicked } from "Feature/PointEdgeSelectionSlice"
 import { Coordinates, ICoordinates } from "Components/Utilities/UtilClasses/Coordinates";
 
-export type CanvasElementProps = DraggableHandlers & {
+export type ObjectSVGProps = DraggableHandlers & {
     id : string;
     groupAbsoluteCoordinates : ICoordinates  // absolutní souřadnice skupiny ve které se element nachází
 }
@@ -31,7 +31,7 @@ export const Canvas : FC<CanvasProps> = (props) => {
         (newCoords : Coordinates) => {
         setCoordinates(newCoords.toSerializableObj())
     },[])
-    
+
     const { onMouseDownHandler, onMouseUpHandler } = useDragable({ coordinates, onCoordsChange });
     
     const mainGroupTransformMatrix : TransormMatrix = ( { scaleX: scale, skewY : 0 , skewX : 0, scaleY : scale, translateX : coordinates.x, transalteY : coordinates.y } )

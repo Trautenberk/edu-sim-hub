@@ -1,12 +1,12 @@
 
 import { FC, FunctionComponent, useCallback, useState } from "react"
 import { useDragable } from "../CustomHooks/useDraggable"
-import { CanvasElementProps } from "../../Editor/Canvas";
+import { ObjectSVGProps } from "../../Editor/Canvas";
 import { Coordinates, ICoordinates } from "../UtilClasses/Coordinates";
 
-export type DraggableGroupSVGProps = Pick<CanvasElementProps, "id"> & {
+export type DraggableGroupSVGProps = Pick<ObjectSVGProps, "id"> & {
     coords : ICoordinates,      // počáteční souřadnice
-    canvasElement : FunctionComponent<CanvasElementProps>;   // svg element který se má vykreslit
+    canvasElement : FunctionComponent<ObjectSVGProps>;   // svg element který se má vykreslit
 }
 
 export const DraggableGroupSVG : FC<DraggableGroupSVGProps> = (props) => {
@@ -18,7 +18,7 @@ export const DraggableGroupSVG : FC<DraggableGroupSVGProps> = (props) => {
 
     const { onMouseDownHandler, onMouseUpHandler} = useDragable({coordinates, onCoordsChange});
 
-    const mapCanvasElementProps = () : CanvasElementProps => ({
+    const mapCanvasElementProps = () : ObjectSVGProps => ({
        groupAbsoluteCoordinates : coordinates,
        onMouseDownDragHandler : onMouseDownHandler,
        onMouseUpDragHandler : onMouseUpHandler,

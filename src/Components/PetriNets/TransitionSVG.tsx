@@ -3,9 +3,9 @@ import styles from "Styles/PetriNets/TransitionStyle.module.scss"
 import {elementClicked, selectedElementID} from "Feature/PointEdgeSelectionSlice"
 import {convertToVisibility} from "Components/Utilities/UtilMethodsAndTypes";
 import { useAppDispatch, useAppSelector } from "Store/Hooks";
-import { CanvasElementProps } from "Components/Editor/Canvas";
+import { ObjectSVGProps } from "Components/Editor/Canvas";
 
-export const TransitionSVG : FunctionComponent<CanvasElementProps> = (props) => {
+export const TransitionSVG : FunctionComponent<ObjectSVGProps> = (props) => {
     const dispatch = useAppDispatch()
     const useSelector = useAppSelector;
 
