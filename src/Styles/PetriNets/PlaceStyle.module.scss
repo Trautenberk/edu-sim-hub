@@ -2,12 +2,16 @@
 @import  "../../Styles/Mixins.scss" ;
 
 
-.spot {
+.spot_foundation {
     stroke-width: 1px;
     fill: rgb(246, 246, 246);
     stroke: rgb(0, 0, 0);
+}
+
+.spot_roof {
     cursor: move;
     pointer-events: visible;
+    fill: none;
 }
 
 .spot_selected {

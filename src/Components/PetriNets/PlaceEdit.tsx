@@ -21,13 +21,13 @@ export const PlaceEdit : FC<ObjectEditProps>  = (props) => {
     }
 
     const incrementCallback = () => {
-        obj.processCount++;
+        obj.tokenCount++;
         dispatch(changeObject(obj))        
     }
 
     const decrementCallback = () => {
-        if (obj.processCount > 0) {
-            obj.processCount--;
+        if (obj.tokenCount > 0) {
+            obj.tokenCount--;
             dispatch(changeObject(obj))        
         }
     }
@@ -42,7 +42,7 @@ export const PlaceEdit : FC<ObjectEditProps>  = (props) => {
                 </div>
                 <div>
                     <label>Tokeny:</label>
-                    <input readOnly value={obj.processCount}></input>
+                    <input readOnly value={obj.tokenCount}></input>
                     <button onClick={incrementCallback} className={style.edit_button}>+</button>
                     <button onClick={decrementCallback} className={style.edit_button}>-</button> 
                 </div>

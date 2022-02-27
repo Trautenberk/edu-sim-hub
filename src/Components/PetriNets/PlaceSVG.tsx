@@ -40,10 +40,13 @@ export const PlaceSVG : FunctionComponent<ObjectSVGProps> = (props) => {
 
     return(
         <>
-            <text x="-50" y="-50">{obj.label}</text>
-            <circle className={styles.spot} onMouseDown={onMouseDown} onMouseUp={props.onMouseUpDragHandler}   r="30"/>
+            <circle className={styles.spot_foundation}  r="30"/>
             <circle visibility={visible} className={styles.spot_selected} r="30"/>
             {endPoints.map((item, index) => <EndPoint key={item.id}  parentElementID={props.id} point={item} arrowDirection={ALL_DIRECTIONS[index]} {...props} /> )}
+            <text x="-50" y="-50">{obj.label}</text>
+            <text x="-10" y="5">{obj.tokenCount > 0 ? `${obj.tokenCount} x` : ""}</text>
+            <circle className={styles.spot_roof} onMouseDown={onMouseDown}  onMouseUp={props.onMouseUpDragHandler}  r="30"></circle>    
+        
         </>
     )
 }

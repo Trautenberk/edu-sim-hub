@@ -4,7 +4,7 @@ import { ISimObject, SimObject } from "Model/SimObject";
 
 export interface IPlace extends ISimObject {
     label : string
-    processCount : number
+    tokenCount : number
 }
 
 export function isPlace(obj : ISimObject | IPlace) : obj is Place {
@@ -14,7 +14,7 @@ export function isPlace(obj : ISimObject | IPlace) : obj is Place {
 export class Place extends SimObject implements IPlace, IToSerializable<IPlace>{
     public static Name : string = "Místo"
 
-    public processCount : number = 0;
+    public tokenCount : number = 0;
     public label: string = "";
 
     constructor()
@@ -24,6 +24,6 @@ export class Place extends SimObject implements IPlace, IToSerializable<IPlace>{
 
     public toSerializableObj(): IPlace {
         const superObj = super.toSerializableObj();
-        return {...superObj, label : this.label, processCount : this.processCount}
+        return {...superObj, label : this.label, tokenCount : this.tokenCount}
     }
 }
