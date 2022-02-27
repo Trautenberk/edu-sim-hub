@@ -38,7 +38,7 @@ export const EdgeSVG : FC<EdgeSVGComponentProps> = (props) => {
                 <path className={style.edge}  markerEnd={"url(#arrow)"} d={Edge.getPathDescription(points)}/>
                 {edgePoints.map(item => <EdgePointsSVG point={item} key={item.id} {...props}/>)}
                 {addPoints.map((item,index) => <AddPointSVG point={item} pointIndex={++index} edgeId={edge.id} key={item.id} />)}
-                <LastEdgePointSVG point={lastPoint} isConnectionComplete={edge.isComplete} {...props}/>
+                <LastEdgePointSVG point={lastPoint} {...props}/>
             </g>
         )
     } else {
@@ -99,7 +99,6 @@ const AddPointSVG : FC<AddPointSVGProps> = (props) => {
 
 type LastEdgePointSVGProps = {
     point : Point
-    isConnectionComplete : boolean
 }
 
 const LastEdgePointSVG : FC<LastEdgePointSVGProps> = (props) => {

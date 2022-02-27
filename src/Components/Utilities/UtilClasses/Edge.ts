@@ -6,17 +6,14 @@ export interface IEdge {
     pointsId : string[]
     from? : string,
     to? : string,
-    isComplete : boolean
 }
 
 export class Edge implements IEdge, IToSerializable<IEdge> {
     public readonly id : string;
     public  pointsId : string[] = [];
-    public isComplete : boolean = false;
 
     public from? : string;
     public to? : string;
-
 
     private static cnt = 0;
 
@@ -26,14 +23,13 @@ export class Edge implements IEdge, IToSerializable<IEdge> {
 
     constructor(obj : IEdge) {
         this.id = obj.id;
-        this.isComplete = obj.isComplete;
         this.pointsId = obj.pointsId;
         this.from = obj.from;
         this.to = obj.to
     }
 
     toSerializableObj(): IEdge {
-        return { id : this.id, isComplete : this.isComplete, pointsId: this.pointsId, from: this.from, to: this.to }
+        return { id : this.id, pointsId: this.pointsId, from: this.from, to: this.to }
     }
 
     
