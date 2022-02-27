@@ -15,7 +15,7 @@ export const EditMenu : FC<EditMenuProps> = (props) => {
     const selectedObjectId = useSelector(state => state.pointEdgeSelection.selectedObjectId); 
     const object =  useSelector(state => state.simObjectManagement.objects[selectedObjectId ?? ""]) // TODO odstanit ten empty string
 
-    if (selectedObjectId != null) {
+    if (selectedObjectId != null && object != null) {
         const EditComponent = props.factory.getElement(object).EditComponent; 
         return(
 
