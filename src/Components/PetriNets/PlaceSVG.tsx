@@ -28,17 +28,6 @@ export const PlaceSVG : FunctionComponent<CanvasElementProps> = (props) => {
     ]), [])
 
 
-    // TODO vyřešit aby to šlo takhle 
-    // const [endPoints, setEndPoints] = useState<GroupPoint[]>(endPointsInGroupCoords.map((item, index) => new GroupPoint(`${props.id}_${index}`, props.groupAbsoluteCoordinates, item)))
-
-    // useEffect(
-    //     () => {
-    //         endPoints.forEach(item => item.coords = props.groupAbsoluteCoordinates)
-    //         setEndPoints([...endPoints])
-    //     }
-    //     ,[props.groupAbsoluteCoordinates] 
-    // )
-
     const absoluteCoords = props.groupAbsoluteCoordinates;
     const endPoints = useMemo (
         () => (endPointsInGroupCoords.map((item, index) => new GroupPoint({id : `${props.id}_${index}`, groupCoords:  item, coords: new Coordinates(item).add(absoluteCoords)}))), 
