@@ -1,6 +1,6 @@
 import React, { FunctionComponent,  MouseEventHandler, useCallback, useEffect, useMemo, useState} from "react";
 import { EndPoint } from "../Utilities/UtilComponents/EndPoint";
-import styles from "Styles/PetriNets/SpotStyle.module.scss"
+import styles from "Styles/PetriNets/PlaceStyle.module.scss"
 import {useAppDispatch, useAppSelector} from "Store/Hooks"
 import {ALL_DIRECTIONS, convertToVisibility} from "Components/Utilities/UtilMethodsAndTypes"
 import {elementClicked, selectedObjectId} from "Feature/PointEdgeSelectionSlice"

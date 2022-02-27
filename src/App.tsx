@@ -14,7 +14,7 @@ import { NotImplementedException } from 'Components/Utilities/Errors';
 import { DraggableGroupSVG } from 'Components/Utilities/UtilComponents/DraggableGroupSVG';
 import { EdgeSVG } from 'Components/Utilities/UtilComponents/EdgeSVG';
 import { useAppDispatch, useAppSelector } from 'Store/Hooks';
-import { clearAllEdges, removeEdge, selectedObjectId, unselectEdge, selectedEdge } from 'Feature/PointEdgeSelectionSlice';
+import { clearAllEdges, removeEdge, selectedObjectId, unselectEdge, selectedEdge, unselectObject } from 'Feature/PointEdgeSelectionSlice';
 import { addObject, removeAllObjects, removeObject } from 'Feature/SimObjectManagementSlice';
 import { EditMenu } from 'Components/Editor/EditMenu';
 
@@ -98,6 +98,7 @@ export const App : FC = () => {
   const handleDeleteKeyPressed = useCallback(() : void => {
     if (selectedId != null) {
       console.log(`delete element with id ${selectedId}`)
+      dispatch(unselectObject);
       dispatch(removeObject(selectedId))
       // TODO element po odebrani je furt selected
     }

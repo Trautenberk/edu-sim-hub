@@ -57,6 +57,9 @@ const pointEdgeSelectionSlice = createSlice({
             state.selectedObjectId = action.payload;
             state.selectedEdge = null;
         },
+        unselectObject(state) {
+            state.selectedObjectId = null;
+        },
         endPointClicked (state, action : PayloadAction<string>){
             // state.selectedEndPoint = action.payload;  // TODO jestli se pro tohle nenajde use-case tak vyhodit
         },
@@ -220,5 +223,7 @@ export const {
     removePoint,
     toggleIsLastPointMoving,
     unselectEdge,
-    selectEdge } = pointEdgeSelectionSlice.actions
+    selectEdge,
+    unselectObject
+ } = pointEdgeSelectionSlice.actions
 export default pointEdgeSelectionSlice.reducer;
