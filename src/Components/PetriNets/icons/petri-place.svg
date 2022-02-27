@@ -13,5 +13,5 @@
       <feComposite operator="over" in="shadow" in2="SourceGraphic"/>
     </filter>
   </defs>
-  <circle style="stroke-width: 3px; fill: rgb(246, 246, 246); stroke: rgb(0, 0, 0); filter: url(#inner-shadow-filter-0);" cx="249.146" cy="240.201" r="227.1"/>
+  <circle style="stroke-width: 3px; fill: rgb(246, 246, 246); stroke: rgb(0, 0, 0); stroke-width: 12px; filter: url(#inner-shadow-filter-0);" cx="249.146" cy="240.201" r="227.1"/>
 </svg>

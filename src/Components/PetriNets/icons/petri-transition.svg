@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <svg viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
-  <rect x="140.616" y="27.087" width="119.005" height="464.772" style="fill: rgba(0, 0, 0, 0.97); stroke-width: 0px; stroke-miterlimit: 10; filter: none;"/>
+  <rect x="140.616" y="27.087" width="119.005" height="464.772" style="fill: rgba(255, 255, 255, 1); stroke:rgb(0, 0, 0); stroke-width: 12px; stroke-miterlimit: 10; filter: none;"/>
 </svg>
