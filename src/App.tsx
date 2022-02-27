@@ -8,13 +8,13 @@ import { Place } from 'Model/PetriNets/Place';
 import { Transition } from "Model/PetriNets/Transition"
 import { MenuIcons } from "Components/Icons"
 import { Canvas } from 'Components/Editor/Canvas';
-import { PetriNetsComponentFactory } from 'Components/PetriNets/PetriNetsComponentFactory';
-import { ICanvasElementFactory } from 'Components/CanvasComponentFactory';
+import { PetriNetsGUIComponentFactory } from 'Components/PetriNets/PetriNetsComponentFactory';
+import { IObjectGUIComponentFactory } from 'Components/ObjectGUIComponentFactory';
 import { NotImplementedException } from 'Components/Utilities/Errors';
 import { DraggableGroupSVG } from 'Components/Utilities/UtilComponents/DraggableGroupSVG';
 import { EdgeSVG } from 'Components/Utilities/UtilComponents/EdgeSVG';
 import { useAppDispatch, useAppSelector } from 'Store/Hooks';
-import { clearAllEdges, removeEdge, selectedElementID, unselectEdge, selectedEdge } from 'Feature/PointEdgeSelectionSlice';
+import { clearAllEdges, removeEdge, selectedObjectId, unselectEdge, selectedEdge } from 'Feature/PointEdgeSelectionSlice';
 import { addObject, removeAllObjects, removeObject } from 'Feature/SimObjectManagementSlice';
 import { EditMenu } from 'Components/Editor/EditMenu';
 
@@ -58,7 +58,7 @@ export const App : FC = () => {
     {name : "Uložit", actionMethod : () => {throw new NotImplementedException()}},
     {name : "Nahrát", actionMethod: () => {throw new NotImplementedException()}}
   ]) 
-  const [canvasElementFactory, setCanvasElementFactory] = useState<ICanvasElementFactory>(new PetriNetsComponentFactory())
+  const [objectGUIComponentFactory, setobjectGUIComponentFactory] = useState<IObjectGUIComponentFactory>(new PetriNetsGUIComponentFactory())
   const edges = useSelector(state => state.pointEdgeSelection.edges);
 
   type CanvasElementType = {
@@ -76,7 +76,7 @@ export const App : FC = () => {
 
   const initializePetriNets = () => {
     setCanvasElementTypes(petriNetsCanvasElementsTypes);
-    setCanvasElementFactory(new PetriNetsComponentFactory());
+    setobjectGUIComponentFactory(new PetriNetsGUIComponentFactory());
     setShowMenu(false);
   }
 
@@ -92,7 +92,7 @@ export const App : FC = () => {
 
   const [canvasElementTypes, setCanvasElementTypes] = useState<CanvasElementType[]>(petriNetsCanvasElementsTypes)
 
-  const selectedId = useSelector(state => selectedElementID(state));
+  const selectedId = useSelector(state => selectedObjectId(state));
   const selectedEdgeId = useSelector(selectedEdge);
 
   const handleDeleteKeyPressed = useCallback(() : void => {
@@ -160,7 +160,7 @@ export const App : FC = () => {
                 key={item.id}
                 coords={{x: 30, y: 30}}
                 id={item.id}
-                canvasElement={canvasElementFactory.getElement(item)}                   
+                canvasElement={objectGUIComponentFactory.getElement(item).SVGComponent}                   
                   />)
               }
               {Object.values(edges).map(item => <EdgeSVG
@@ -168,7 +168,7 @@ export const App : FC = () => {
               edgeId={item.id}
               />)}
           </Canvas>
-          <EditMenu />
+          <EditMenu factory={objectGUIComponentFactory} />
         <Loader visibile={false} >Jupiiiiiii </Loader>
       </div>
     )

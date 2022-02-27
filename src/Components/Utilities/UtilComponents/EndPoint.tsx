@@ -2,7 +2,7 @@ import { FC, MouseEventHandler, useCallback, useEffect, useState } from "react"
 import styles from "Styles/Editor//EndPoint.module.scss"
 import { convertDirectionToOffset, convertToVisibility, Direction, Visibility } from "Components/Utilities/UtilMethodsAndTypes"
 import { useAppSelector, useAppDispatch } from "Store/Hooks"
-import { endPointClicked, selectedEndPoint, selectedElementID, registerEndPoint, unregisterEndPoint, addEdge, updatePointCoords } from "Feature/PointEdgeSelectionSlice"
+import { endPointClicked, selectedEndPoint, selectedObjectId, registerEndPoint, unregisterEndPoint, addEdge, updatePointCoords } from "Feature/PointEdgeSelectionSlice"
 import { ArrowSVG } from "Components/Utilities/UtilComponents/ArrowSVG"
 import { GroupPoint, IGroupPoint, IPoint, Point } from "../UtilClasses/Point"
 import { Coordinates, ICoordinates } from "../UtilClasses/Coordinates"
@@ -35,7 +35,7 @@ export const EndPoint : FC<EndPointProps> = (props) => {
     )
 
     const style =  useSelector(state => selectedEndPoint(state)) === props.point.id ? styles.end_point_selected : styles.end_point 
-    const visible = convertToVisibility(useSelector(state => selectedElementID(state) === props.parentElementID || selectedEndPoint(state) === props.point.id));
+    const visible = convertToVisibility(useSelector(state => selectedObjectId(state) === props.parentElementID || selectedEndPoint(state) === props.point.id));
    
     const higlihghtVisible = convertToVisibility(useSelector(state => state.pointEdgeSelection.highlightedEndPoint) === props.point.id); // TODO
 

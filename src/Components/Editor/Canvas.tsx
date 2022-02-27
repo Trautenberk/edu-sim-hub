@@ -13,6 +13,10 @@ export type ObjectSVGProps = DraggableHandlers & {
     groupAbsoluteCoordinates : ICoordinates  // absolutní souřadnice skupiny ve které se element nachází
 }
 
+export type ObjectEditProps = {
+    id : string
+}
+
 type CanvasProps = {
     onGridClick: () => void
 }

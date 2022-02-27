@@ -11,7 +11,7 @@ type PointEdgeSelectionSliceState = {
     edges : {[id : string] : IEdge}   // TODO
     selectedEdge : string | null
     endPointBindings : {[id : string] : string[]}
-    selectedElementId: string | null
+    selectedObjectId: string | null
     selectedEndPoint : string | null
     isLastPointMoving : boolean
     highlightedEndPoint : null | string
@@ -21,7 +21,7 @@ type PointEdgeSelectionSliceState = {
 const initialState : PointEdgeSelectionSliceState = {
     edges: {},
     selectedEdge: null,
-    selectedElementId: null,
+    selectedObjectId: null,
     selectedEndPoint: null,
     endPointBindings : {},
     endPoints: [],
@@ -54,7 +54,7 @@ const pointEdgeSelectionSlice = createSlice({
     initialState,
     reducers: {
         elementClicked (state, action : PayloadAction<string>) {
-            state.selectedElementId = action.payload;
+            state.selectedObjectId = action.payload;
             state.selectedEdge = null;
         },
         endPointClicked (state, action : PayloadAction<string>){
@@ -123,7 +123,7 @@ const pointEdgeSelectionSlice = createSlice({
         // kliknuto na plochu 
         gridClicked (state, action : PayloadAction<ICoordinates>){
             state.selectedEdge = null;
-            state.selectedElementId = null;
+            state.selectedObjectId = null;
             state.selectedEndPoint = null;
         },
         addEdge (state, action : PayloadAction<IPoint[]>) {
@@ -134,7 +134,7 @@ const pointEdgeSelectionSlice = createSlice({
                 state.points[item.id] = item;
             })
             newEdge.from = points[0].id;
-            state.selectedElementId = null;
+            state.selectedObjectId = null;
             state.selectedEdge = newEdge.id;
         },
         removeEdge (state, action : PayloadAction<string>) {
@@ -153,7 +153,7 @@ const pointEdgeSelectionSlice = createSlice({
         clearAllEdges (state) {
             state.selectedEndPoint = null;
             state.highlightedEndPoint = null;
-            state.selectedElementId = null;
+            state.selectedObjectId = null;
             state.edges = {};
             state.endPointBindings ={};
             state.points = {};
@@ -186,7 +186,7 @@ const pointEdgeSelectionSlice = createSlice({
         selectEdge (state, action : PayloadAction<string>) {
             const edgeId = action.payload;
             state.selectedEdge = edgeId;
-            state.selectedElementId = null;
+            state.selectedObjectId = null;
         },
         highlightEndPoint (state, action: PayloadAction<string | null>) {
             state.highlightedEndPoint = action.payload;
@@ -202,7 +202,7 @@ const pointEdgeSelectionSlice = createSlice({
 export const getEdge = (state: RootState, id : string) : IEdge => state.pointEdgeSelection.edges[id];
 export const selectPointsFromEdge = (state: RootState, ids : string[]) : IPoint[] => ids.map(item => state.pointEdgeSelection.points[item]);
 export const selectedEdge = (state : RootState) => state.pointEdgeSelection.selectedEdge;
-export const selectedElementID = (state : RootState) => state.pointEdgeSelection.selectedElementId;
+export const selectedObjectId = (state : RootState) => state.pointEdgeSelection.selectedObjectId;
 export const selectedEndPoint = (state : RootState) => state.pointEdgeSelection.selectedEndPoint;
 
 

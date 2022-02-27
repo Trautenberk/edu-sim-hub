@@ -1,6 +1,6 @@
 import { FunctionComponent,  MouseEventHandler } from "react";
 import styles from "Styles/PetriNets/TransitionStyle.module.scss"
-import {elementClicked, selectedElementID} from "Feature/PointEdgeSelectionSlice"
+import {elementClicked, selectedObjectId} from "Feature/PointEdgeSelectionSlice"
 import {convertToVisibility} from "Components/Utilities/UtilMethodsAndTypes";
 import { useAppDispatch, useAppSelector } from "Store/Hooks";
 import { ObjectSVGProps } from "Components/Editor/Canvas";
@@ -12,7 +12,7 @@ export const TransitionSVG : FunctionComponent<ObjectSVGProps> = (props) => {
     const width = 30;
     const height = 80;
 
-    const visible = convertToVisibility(useSelector(state => selectedElementID(state) === props.id))
+    const visible = convertToVisibility(useSelector(state => selectedObjectId(state) === props.id))
 
     const onClickHandler : MouseEventHandler<SVGRectElement> = (e) => {
         dispatch(elementClicked(props.id));

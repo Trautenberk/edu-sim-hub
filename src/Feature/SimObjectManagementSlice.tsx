@@ -34,10 +34,15 @@ const simObjectManagementSlice = createSlice({
         },
         removeAllObjects (state) {
             state.objects = {}
+        },
+        changeObject (state, action : PayloadAction<ISimObject>) {
+            const obj = action.payload;
+            state.objects[obj.id] = obj;
         }
+
     }
 })
 
 
-export const {addObject, removeAllObjects, removeObject} = simObjectManagementSlice.actions;
+export const {addObject, removeAllObjects, removeObject, changeObject} = simObjectManagementSlice.actions;
 export default simObjectManagementSlice.reducer;

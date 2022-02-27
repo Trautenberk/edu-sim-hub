@@ -1,23 +1,23 @@
 import { PlaceSVG } from "Components/PetriNets/PlaceSVG";
 import { TransitionSVG } from "Components/PetriNets/TransitionSVG";
-import { ICanvasElementFactory } from "Components/CanvasComponentFactory";
+import { GUIComponents, IObjectGUIComponentFactory } from "Components/ObjectGUIComponentFactory";
 import { Place } from "../../Model/PetriNets/Place";
 import { Transition } from "../../Model/PetriNets/Transition";
 import { ISimObject } from "Model/SimObject";
 import { FunctionComponent } from "react";
 import { ObjectSVGProps } from "Components/Editor/Canvas";
+import { PlaceEdit } from "./PlaceEdit";
+import { TransitionEdit } from "./TransitionEdit";
 
 
-type AAA = {
 
-}
-export class PetriNetsComponentFactory implements ICanvasElementFactory {
-    getElement (object : ISimObject): FunctionComponent<ObjectSVGProps>  {
+export class PetriNetsGUIComponentFactory implements IObjectGUIComponentFactory {
+    getElement (object : ISimObject): GUIComponents  {
         switch(object.typeName) {
             case Place.name:
-                return PlaceSVG;
+                return {SVGComponent : PlaceSVG, EditComponent : PlaceEdit};
             case Transition.name:
-                return  TransitionSVG;
+                return  {SVGComponent: TransitionSVG, EditComponent : TransitionEdit};
             default:
                 throw new Error("Tempory error");
         }
