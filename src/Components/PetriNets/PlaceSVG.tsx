@@ -46,7 +46,6 @@ export const PlaceSVG : FunctionComponent<ObjectSVGProps> = (props) => {
             <text x="-50" y="-50">{obj.label}</text>
             <text x="-10" y="5">{obj.tokenCount > 0 ? `${obj.tokenCount} x` : ""}</text>
             <circle className={styles.spot_roof} onMouseDown={onMouseDown}  onMouseUp={props.onMouseUpDragHandler}  r="30"></circle>    
-        
         </>
     )
 }

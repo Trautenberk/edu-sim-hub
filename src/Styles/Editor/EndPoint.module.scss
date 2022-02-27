@@ -4,8 +4,7 @@
     stroke-width: 1px;
     stroke:#00d7ff;
     fill: #00d7ff;
-    cursor: pointer;
-    pointer-events: visible;
+    pointer-events: none;
     width: 10px;
     height: 10px;
 }
@@ -14,8 +13,6 @@
     stroke-width: 1px;
     stroke:#00d7ff;
     fill: #F5A65B;
-    cursor: pointer;
-    pointer-events: visible;
     width: 10px;
     height: 10px;
 }
@@ -24,5 +21,5 @@
     stroke-width: 1px;
     fill: #29e005;
     opacity: 0.5;
-    pointer-events: all;
+    pointer-events: none;
 }
