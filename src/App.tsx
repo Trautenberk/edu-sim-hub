@@ -10,12 +10,12 @@ import { MenuIcons } from "Components/Icons"
 import { Canvas } from 'Components/Editor/Canvas';
 import { PetriNetsComponentFactory } from 'Components/PetriNets/PetriNetsComponentFactory';
 import { ICanvasElementFactory } from 'Components/CanvasComponentFactory';
-import { useCanvasElementManagement } from 'Components/Utilities/CustomHooks/useCanvasElementManagement';
 import { NotImplementedException } from 'Components/Utilities/Errors';
 import { DraggableGroupSVG } from 'Components/Utilities/UtilComponents/DraggableGroupSVG';
 import { EdgeSVG } from 'Components/Utilities/UtilComponents/EdgeSVG';
 import { useAppDispatch, useAppSelector } from 'Store/Hooks';
 import { clearAllEdges, removeEdge, selectedElementID, unselectEdge, selectedEdge } from 'Feature/PointEdgeSelectionSlice';
+import { addObject, removeAllObjects, removeObject } from 'Feature/SimObjectManagementSlice';
 
 /**
  * @author Jaromír Březina
@@ -44,19 +44,12 @@ export const App : FC = () => {
      setShowMenu(true)
    }, [])
 
-  const {elements, addElement, removeElement, removeAllElements} = useCanvasElementManagement();
-  // const { connections, onCoordsChange, addConnection, addPoint,
-  //         removeConnection, removePoint, clearAllEdges,
-  //         selectConnection, selectedConnectionId, unselectConnections,
-  //         registerEndPoint, unregisterEndPoint,toggleIsLastPointMoving, highlightedEndPoint } = useConnectionManagement();
-
-  // const pointManagementMethods : PointManagement = {addConnection, addPoint, onCoordsChange, removePoint, removeConnection, selectConnection, toggleIsLastPointMoving}
-  // const endPointManagementMethods : EndPointManagement = {registerEndPoint, unregisterEndPoint, highlightedEndPoint}
+  const simObjects = useSelector(state => state.simObjectManagement.objects);
 
   const clearAllAction = useCallback(()=> {
     dispatch(clearAllEdges);
-    removeAllElements();
-  },[dispatch, removeAllElements])
+    dispatch(removeAllObjects)
+  },[dispatch])
   
   const [topMenuActions, setTopMenuActions] = useState<Action[]>([
     {name : "Do hlavního menu", actionMethod : showMainMenu},
@@ -74,8 +67,8 @@ export const App : FC = () => {
   }
 
   const petriNetsCanvasElementsTypes : CanvasElementType[] = [
-    {name: Place.Name, icon : MenuIcons.place, onClick: () => {addElement(new Place())}},
-    {name: Transition.Name, icon : MenuIcons.transition, onClick: () => {addElement(new Transition())}}
+    {name: Place.Name, icon : MenuIcons.place, onClick: () => {dispatch(addObject(new Place().toSerializableObj()))}},
+    {name: Transition.Name, icon : MenuIcons.transition, onClick: () => {dispatch(addObject(new Transition().toSerializableObj()))}}
   ];
 
   const contBlocksCanvasElementsTypes : CanvasElementType[] = [];
@@ -104,14 +97,14 @@ export const App : FC = () => {
   const handleDeleteKeyPressed = useCallback(() : void => {
     if (selectedId != null) {
       console.log(`delete element with id ${selectedId}`)
-      removeElement(selectedId);
+      dispatch(removeObject(selectedId))
       // TODO element po odebrani je furt selected
     }
     if (selectedEdgeId != null) {
       dispatch(removeEdge(selectedEdgeId));
     }
     
-  },[selectedId, selectedEdgeId, removeElement, dispatch])
+  },[selectedId, selectedEdgeId, dispatch])
 
   const onKeyDownHandler =  useCallback(
     (e : KeyboardEvent) : void => {
@@ -126,7 +119,6 @@ export const App : FC = () => {
   const onGridClick = useCallback(
     () => {
       dispatch(unselectEdge);
-      // unselectConnections();
     }, [dispatch]
   ) 
 
@@ -163,7 +155,7 @@ export const App : FC = () => {
                 }
          </Menu>
                 <Canvas onGridClick={onGridClick}>
-                    {Object.values(elements).map(item => <DraggableGroupSVG
+                    {Object.values(simObjects).map(item => <DraggableGroupSVG
                       key={item.id}
                       coords={{x: 30, y: 30}}
                       id={item.id}
