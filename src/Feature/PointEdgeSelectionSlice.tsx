@@ -160,6 +160,7 @@ const pointEdgeSelectionSlice = createSlice({
             state.edges = {};
             state.endPointBindings ={};
             state.points = {};
+            state.endPoints = [];
         },
         unselectEdge (state) {
             state.selectedEdge = null;

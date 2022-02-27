@@ -48,8 +48,8 @@ export const App : FC = () => {
   const simObjects = useSelector(state => state.simObjectManagement.objects);
 
   const clearAllAction = useCallback(()=> {
-    dispatch(clearAllEdges);
-    dispatch(removeAllObjects)
+    dispatch(clearAllEdges());
+    dispatch(removeAllObjects())
   },[dispatch])
   
   const [topMenuActions, setTopMenuActions] = useState<Action[]>([
@@ -98,7 +98,7 @@ export const App : FC = () => {
   const handleDeleteKeyPressed = useCallback(() : void => {
     if (selectedId != null) {
       console.log(`delete element with id ${selectedId}`)
-      dispatch(unselectObject);
+      dispatch(unselectObject());
       dispatch(removeObject(selectedId))
       // TODO element po odebrani je furt selected
     }
