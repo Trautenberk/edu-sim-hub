@@ -16,6 +16,10 @@ export const TransitionEdit : FC<ObjectEditProps> = (props) => {
         dispatch(changeObject(obj))
     }
 
+    const onPriorityChange = (e : React.ChangeEvent<HTMLInputElement>) => {
+        obj.priority = parseInt(e.target.value);
+        dispatch(changeObject(obj))
+    }
     const incrementPriority = () => {
         obj.priority++;
         dispatch(changeObject(obj))        
@@ -26,6 +30,11 @@ export const TransitionEdit : FC<ObjectEditProps> = (props) => {
             obj.priority--;
             dispatch(changeObject(obj))        
         }
+    }
+
+    const onProbabilityChange = (e : React.ChangeEvent<HTMLInputElement>) => {
+        obj.probability = parseInt(e.target.value); //TODO pouzit něco jineho než parseInt
+        dispatch(changeObject(obj));
     }
 
     const incrementProbability = () => {
@@ -44,6 +53,11 @@ export const TransitionEdit : FC<ObjectEditProps> = (props) => {
 
     const onSelectChange = (e : React.ChangeEvent<HTMLSelectElement>) => {
         obj.type = e.target.value as TransitionType;
+        dispatch(changeObject(obj));
+    }
+
+    const onTimeValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        obj.timeValue = parseInt(e.target.value);
         dispatch(changeObject(obj));
     }
 
@@ -78,7 +92,7 @@ export const TransitionEdit : FC<ObjectEditProps> = (props) => {
                 {obj.type === TransitionType.Priority &&
                     <div>
                     <label>Priorita:</label> 
-                    <input readOnly value={obj.priority}></input>
+                    <input onChange={onPriorityChange} type="number" min="0" value={obj.priority}></input>
                     <button onClick={incrementPriority} className={style.edit_button}>+</button>
                     <button onClick={decrementPriority} className={style.edit_button}>-</button>
                 </div>}
@@ -86,7 +100,7 @@ export const TransitionEdit : FC<ObjectEditProps> = (props) => {
                 {obj.type === TransitionType.Probability &&
                 <div>
                     <label>Pravděpodobnost:</label>
-                    <input readOnly value={obj.probability}></input>
+                    <input onChange={onProbabilityChange} type="number" min="0" max="100" value={obj.probability}></input>
                     <button onClick={incrementProbability} className={style.edit_button}>+</button>
                     <button onClick={decrementProbability} className={style.edit_button}>-</button>
                 </div>}
@@ -97,7 +111,7 @@ export const TransitionEdit : FC<ObjectEditProps> = (props) => {
                     <select>
                     </select>
                     <label>Hodnota:</label>
-                    <input readOnly value={obj.priority}></input>
+                    <input onChange={onTimeValueChange} type="number" min="0" value={obj.timeValue}></input>
                     <button onClick={incrementTimeValue} className={style.edit_button}>+</button>
                     <button onClick={decrementTimeValue} className={style.edit_button}>-</button>
                 </div>}
