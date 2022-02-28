@@ -4,7 +4,7 @@ import {elementClicked, selectedObjectId} from "Feature/PointEdgeSelectionSlice"
 import {ALL_DIRECTIONS, convertToVisibility} from "Components/Utilities/UtilMethodsAndTypes";
 import { useAppDispatch, useAppSelector } from "Store/Hooks";
 import { ObjectSVGProps } from "Components/Editor/Canvas";
-import { ITransition } from "Model/PetriNets/Transition";
+import { ITransition, TransitionType } from "Model/PetriNets/Transition";
 import { Coordinates, ICoordinates } from "Components/Utilities/UtilClasses/Coordinates";
 import { GroupPoint } from "Components/Utilities/UtilClasses/Point";
 import { EndPoint } from "Components/Utilities/UtilComponents/EndPoint";
@@ -40,12 +40,15 @@ export const TransitionSVG : FunctionComponent<ObjectSVGProps> = (props) => {
         () => (endPointsInGroupCoords.map((item, index) => new GroupPoint({id : `${props.id}_${index}`, groupCoords:  item, coords: new Coordinates(item).add(absoluteCoords)}))), 
         [props.groupAbsoluteCoordinates]); 
     
-
     return(
         <>
             <rect className={styles.transition} onClick={onClickHandler} width={width} height={height} onMouseDown={onMouseDown}  onMouseUp={props.onMouseUpDragHandler}/>  
             <rect className={styles.transition_selected} visibility={visible} width={width} height={height}/> 
             {endPoints.map((item, index) => <EndPoint key={item.id}  parentElementID={props.id} point={item} arrowDirection={ALL_DIRECTIONS[index]} {...props} /> )}
+            <text x="-10" y="-10">{obj.label}</text>
+            {obj.type === TransitionType.Priority && <text x="0" y="100"> {obj.priority > 0 ? `p = ${obj.priority}` : ""} </text>  }
+            {obj.type === TransitionType.Probability && <text x="0" y="100"> { `${obj.probability}%`} </text>}
+            {obj.type === TransitionType.Timed && <text x="-15" y="100"> {`Time : ${obj.timeValue}`} </text>}
         </>
         )
 }
