@@ -1,0 +1,4 @@
+C:/Users/42077/Desktop/edu-sim-hub/wasm-build/CMakeFiles/WASM-Simulator.dir
+C:/Users/42077/Desktop/edu-sim-hub/wasm-build/CMakeFiles/ALL_BUILD.dir
+C:/Users/42077/Desktop/edu-sim-hub/wasm-build/CMakeFiles/ZERO_CHECK.dir
+C:/Users/42077/Desktop/edu-sim-hub/wasm-build/src/Simulator/CMakeFiles/Simulator_Lib.dir

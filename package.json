@@ -22,7 +22,9 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build:react": "react-scripts build",
+    "build:wasm": "cmake -S . -B ./wasm-build -D CMAKE_CXX_COMPILER=em++ || make",
+    "build": "npm run build:wasm && npm run build:react",
     "test": "react-scripts test",
     "eject": ""
   },
