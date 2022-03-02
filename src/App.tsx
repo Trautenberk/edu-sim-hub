@@ -131,6 +131,7 @@ export const App : FC = () => {
     },[onKeyDownHandler]
   )
 
+
   if(showMenu){
     return(
       <div className={styles.main_page}>

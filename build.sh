@@ -1,1 +1,1 @@
-cmake -S . -B build && emcmake cmake -S . -B build
+cd build && emmake make
