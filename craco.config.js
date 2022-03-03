@@ -6,6 +6,10 @@ module.exports = {
       const wasmExtensionRegExp = /\.wasm$/;
       webpackConfig.resolve.extensions.push('.wasm');
 
+      const mjsExtensionRegExp = /\/mjs$/;
+      webpackConfig.resolve.extensions.push('.mjs');
+      
+
       webpackConfig.module.rules.forEach((rule) => {
         (rule.oneOf || []).forEach((oneOf) => {
           if (oneOf.loader && oneOf.loader.indexOf('file-loader') >= 0) {
@@ -14,6 +18,11 @@ module.exports = {
         });
       });
 
+      const mjsLoader = {
+      test: /\.mjs$/,
+      include: /node_modules/,
+      type: "javascript/auto"}
+
       const wasmLoader = {
         test: /\.wasm$/,
         exclude: /node_modules/,
@@ -21,6 +30,7 @@ module.exports = {
       };
 
       addBeforeLoader(webpackConfig, loaderByName('file-loader'), wasmLoader);
+      addBeforeLoader(webpackConfig,loaderByName("file-loader"), mjsLoader);
 
       return webpackConfig;
     },

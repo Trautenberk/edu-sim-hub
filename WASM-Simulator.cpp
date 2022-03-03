@@ -1,10 +1,14 @@
 #include "iostream"
+#include <emscripten/bind.h>
 
-void say_hello(){
+
+using namespace emscripten;
+
+int test(){
     std::cout << "Hello, from WASM-Simulator!\n";
+    return 12;
 }
 
-
-int main(){
-    std::cout << "haloo" << std::endl;
+EMSCRIPTEN_BINDINGS(my_module) {
+    function("test", &test);
 }

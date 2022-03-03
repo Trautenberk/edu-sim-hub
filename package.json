@@ -6,6 +6,7 @@
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^12.8.3",
+    "@types/emscripten": "^1.39.6",
     "@types/jest": "^26.0.24",
     "@types/node": "^12.20.34",
     "@types/react": "^17.0.31",
@@ -64,5 +65,5 @@
     "typedoc": "^0.22.10",
     "typescript-plugin-css-modules": "^3.4.0"
   },
-  "cracoConfig" : "craco.config.js"
+  "cracoConfig": "craco.config.js"
 }

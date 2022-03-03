@@ -1,1 +1,1 @@
-emcmake cmake -S . -B build
+emcmake cmake -S . -B wasm-build
