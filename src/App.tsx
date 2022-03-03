@@ -17,6 +17,8 @@ import { useAppDispatch, useAppSelector } from 'Store/Hooks';
 import { clearAllEdges, removeEdge, selectedObjectId, unselectEdge, selectedEdge, unselectObject } from 'Feature/PointEdgeSelectionSlice';
 import { addObject, removeAllObjects, removeObject } from 'Feature/SimObjectManagementSlice';
 import { EditMenu } from 'Components/Editor/EditMenu';
+// import TestModule from "../wasm-build/Simulator";
+import test from "../pkg";
 
 /**
  * @author Jaromír Březina
@@ -29,6 +31,10 @@ export type Action = {
   params? : any[],
   actionMethod : (...params : any[]) => any
 }
+
+
+
+// const test = import("../wasm-build/Simulator").then(item => console.log("test"));
 
 /**
  *  Komponenta reprezentující aplikaci
