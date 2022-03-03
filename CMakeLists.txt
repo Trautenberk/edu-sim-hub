@@ -1,12 +1,12 @@
 cmake_minimum_required(VERSION 3.0.0)
-project(WASM-Simulator VERSION 0.1.0)
+project(Simulator VERSION 0.1.0)
 
 set(CMAKE_CXX_STANDARD 11)
 set(SIMULATOR_LIB_NAME Simulator_Lib)
+set(CMAKE_VERBOSE_MAKEFILE ON)
 
 
-add_subdirectory(src)
-add_executable(${PROJECT_NAME} WASM-Simulator.cpp)
+add_executable(${PROJECT_NAME} simulator.cpp)
 link_libraries(${PROJECT_NAME} ${SIMULATOR_LIB_NAME})
 
 
