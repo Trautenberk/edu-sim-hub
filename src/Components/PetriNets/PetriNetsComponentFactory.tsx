@@ -4,8 +4,6 @@ import { GUIComponents, IObjectGUIComponentFactory } from "Components/ObjectGUIC
 import { Place } from "../../Model/PetriNets/Place";
 import { Transition } from "../../Model/PetriNets/Transition";
 import { ISimObject } from "Model/SimObject";
-import { FunctionComponent } from "react";
-import { ObjectSVGProps } from "Components/Editor/Canvas";
 import { PlaceEdit } from "./PlaceEdit";
 import { TransitionEdit } from "./TransitionEdit";
 

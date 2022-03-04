@@ -1,5 +1,5 @@
 import { IObjectGUIComponentFactory } from "Components/ObjectGUIComponentFactory"
-import {FC} from "react"
+import React, {FC} from "react"
 import { useAppDispatch, useAppSelector } from "Store/Hooks"
 import style from "Styles/Editor/EditMenu.module.scss"
 
@@ -10,6 +10,7 @@ type EditMenuProps = {
 
 export const EditMenu : FC<EditMenuProps> = (props) => {
     const useSelector = useAppSelector;
+    // eslint-disable-next-line no-unused-vars
     const dispatch = useAppDispatch();
 
     const selectedObjectId = useSelector(state => state.pointEdgeSelection.selectedObjectId); 

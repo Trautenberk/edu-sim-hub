@@ -1,1 +1,1 @@
-cd wasm-build && rm -r -f *
+cd src/wasm-build && rm -r -f *

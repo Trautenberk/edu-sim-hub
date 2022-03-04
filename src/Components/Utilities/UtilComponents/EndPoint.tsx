@@ -1,11 +1,11 @@
-import { FC, MouseEventHandler, useCallback, useEffect, useState } from "react"
+import React, { FC, MouseEventHandler, useCallback, useEffect } from "react"
 import styles from "Styles/Editor//EndPoint.module.scss"
-import { convertDirectionToOffset, convertToVisibility, Direction, Visibility } from "Components/Utilities/UtilMethodsAndTypes"
+import { convertDirectionToOffset, convertToVisibility, Direction } from "Components/Utilities/UtilMethodsAndTypes"
 import { useAppSelector, useAppDispatch } from "Store/Hooks"
-import { endPointClicked, selectedEndPoint, selectedObjectId, registerEndPoint, unregisterEndPoint, addEdge, updatePointCoords } from "Feature/PointEdgeSelectionSlice"
+import { selectedEndPoint, selectedObjectId, registerEndPoint, unregisterEndPoint, addEdge, updatePointCoords } from "Feature/PointEdgeSelectionSlice"
 import { ArrowSVG } from "Components/Utilities/UtilComponents/ArrowSVG"
-import { GroupPoint, IGroupPoint, IPoint, Point } from "../UtilClasses/Point"
-import { Coordinates, ICoordinates } from "../UtilClasses/Coordinates"
+import { GroupPoint, Point } from "../UtilClasses/Point"
+import { Coordinates } from "../UtilClasses/Coordinates"
 
 export type EndPointProps = {
     parentElementID : string,

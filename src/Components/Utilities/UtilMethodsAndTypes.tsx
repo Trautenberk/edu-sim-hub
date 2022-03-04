@@ -1,5 +1,4 @@
-import { Coordinates, ICoordinates } from "./UtilClasses/Coordinates";
-import { IPoint } from "./UtilClasses/Point";
+import { ICoordinates } from "./UtilClasses/Coordinates";
 
 export type Visibility = "visible" | "hidden";
 

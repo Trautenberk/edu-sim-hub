@@ -1,4 +1,5 @@
-import {FC, useCallback, useEffect, useState} from 'react';
+/* eslint-disable jest/no-export */
+import React, {FC, useCallback, useEffect, useState} from 'react';
 import {Menu, MenuItemButton} from "./Components/Utilities/UtilComponents/Menu"
 import styles from "AppStyle.module.scss"
 import editorStyles from "Styles/Editor/EditorStyle.module.scss"
@@ -17,14 +18,12 @@ import { useAppDispatch, useAppSelector } from 'Store/Hooks';
 import { clearAllEdges, removeEdge, selectedObjectId, unselectEdge, selectedEdge, unselectObject } from 'Feature/PointEdgeSelectionSlice';
 import { addObject, removeAllObjects, removeObject } from 'Feature/SimObjectManagementSlice';
 import { EditMenu } from 'Components/Editor/EditMenu';
-// import TestModule from "../wasm-build/Simulator";
-import test from "../pkg";
+import TestModule from "wasm-build/Simulator.js";
 
 /**
  * @author Jaromír Březina
  * @abstract 
  */
-
 
 export type Action = {
   name : string,
@@ -34,14 +33,25 @@ export type Action = {
 
 
 
-// const test = import("../wasm-build/Simulator").then(item => console.log("test"));
-
 /**
  *  Komponenta reprezentující aplikaci
  * @component
  * 
  */
 export const App : FC = () => {
+
+  useEffect(
+    () => {
+      const test = async () => {
+        console.log("AppStart");
+        const myModule =  await TestModule();
+        console.log("module initialized");
+      }
+      test();
+    },
+    [])
+
+
   const useSelector = useAppSelector;
   const dispatch = useAppDispatch();
 
@@ -58,6 +68,8 @@ export const App : FC = () => {
     dispatch(removeAllObjects())
   },[dispatch])
   
+  
+  // eslint-disable-next-line no-unused-vars
   const [topMenuActions, setTopMenuActions] = useState<Action[]>([
     {name : "Do hlavního menu", actionMethod : showMainMenu},
     {name : "Smazat vše", actionMethod : clearAllAction },

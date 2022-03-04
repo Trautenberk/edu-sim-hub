@@ -1,1 +1,1 @@
-cd wasm-build && emmake make 
+cd src/wasm-build && emmake make 

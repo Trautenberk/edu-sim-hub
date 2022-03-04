@@ -27,6 +27,7 @@ export const Canvas : FC<CanvasProps> = (props) => {
 
     const scale = useSelector(selelctCurrentZoom); 
 
+
     const [svgSize, setSvgSize] = useState({width : 0, height: 0})
     const canvasBoundingElementRef = useRef<HTMLDivElement>(null);
     const [coordinates, setCoordinates] = useState<ICoordinates>({x: 30, y: 30});
