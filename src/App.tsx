@@ -1,23 +1,23 @@
 /* eslint-disable jest/no-export */
 import React, {FC, useCallback, useEffect, useState} from 'react';
-import {Menu, MenuItemButton} from "./Components/Utilities/UtilComponents/Menu"
+import {Menu, MenuItemButton} from "Editor/Components/Utilities/UtilComponents/Menu"
 import styles from "AppStyle.module.scss"
-import editorStyles from "Styles/Editor/EditorStyle.module.scss"
-import TopMenuStyle from "Styles/TopMenuStyle.module.scss";
-import { Loader } from 'Components/Utilities/UtilComponents/Loader';
-import { Place } from 'Model/PetriNets/Place';
-import { Transition } from "Model/PetriNets/Transition"
-import { MenuIcons } from "Components/Icons"
-import { Canvas } from 'Components/Editor/Canvas';
-import { PetriNetsGUIComponentFactory } from 'Components/PetriNets/PetriNetsComponentFactory';
-import { IObjectGUIComponentFactory } from 'Components/ObjectGUIComponentFactory';
-import { NotImplementedException } from 'Components/Utilities/Errors';
-import { DraggableGroupSVG } from 'Components/Utilities/UtilComponents/DraggableGroupSVG';
-import { EdgeSVG } from 'Components/Utilities/UtilComponents/EdgeSVG';
-import { useAppDispatch, useAppSelector } from 'Store/Hooks';
-import { clearAllEdges, removeEdge, selectedObjectId, unselectEdge, selectedEdge, unselectObject } from 'Feature/PointEdgeSelectionSlice';
-import { addObject, removeAllObjects, removeObject } from 'Feature/SimObjectManagementSlice';
-import { EditMenu } from 'Components/Editor/EditMenu';
+import editorStyles from "Editor/Styles/EditorStyle.module.scss"
+import TopMenuStyle from "Editor/Styles/TopMenuStyle.module.scss";
+import { Loader } from 'Editor/Components/Utilities/UtilComponents/Loader';
+import { Place } from 'Editor/Model/PetriNets/Place';
+import { Transition } from "Editor/Model/PetriNets/Transition"
+import { MenuIcons } from "Editor/Components/Icons"
+import { Canvas } from 'Editor/Components/Canvas';
+import { PetriNetsGUIComponentFactory } from 'Editor/Components/PetriNets/PetriNetsComponentFactory';
+import { IObjectGUIComponentFactory } from 'Editor/Components/ObjectGUIComponentFactory';
+import { NotImplementedException } from 'Editor/Components/Utilities/Errors';
+import { DraggableGroupSVG } from 'Editor/Components/Utilities/UtilComponents/DraggableGroupSVG';
+import { EdgeSVG } from 'Editor/Components/Utilities/UtilComponents/EdgeSVG';
+import { useAppDispatch, useAppSelector } from 'Editor/Store/Hooks';
+import { clearAllEdges, removeEdge, selectedObjectId, unselectEdge, selectedEdge, unselectObject } from 'Editor/Feature/PointEdgeSelectionSlice';
+import { addObject, removeAllObjects, removeObject } from 'Editor/Feature/SimObjectManagementSlice';
+import { EditMenu } from "Editor/Components/EditMenu";
 import TestModule from "wasm-build/Simulator.js";
 
 /**

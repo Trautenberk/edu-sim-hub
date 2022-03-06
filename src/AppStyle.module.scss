@@ -1,8 +1,8 @@
-@import "./Styles/Variables.scss";
-@import  "./Styles/Mixins.scss" ;
+@import "Editor/Styles/Variables.scss";
+@import  "Editor/Styles/Mixins.scss" ;
 body {
   background-color: white;
-  background-image: url("./Icons/Images/page-background.jpg");
+  background-image: url("Editor/Icons/Images/page-background.jpg");
   background-position: center;
   background-size: auto;
 }
