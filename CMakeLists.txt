@@ -5,9 +5,11 @@ set(CMAKE_CXX_STANDARD 11)
 set(SIMULATOR_LIB_NAME Simulator_Lib)
 set(CMAKE_VERBOSE_MAKEFILE ON)
 
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 
-add_executable(${PROJECT_NAME} simulator.cpp)
-link_libraries(${PROJECT_NAME} ${SIMULATOR_LIB_NAME})
+add_subdirectory(src/Simulator)
+
 
 if (${CMAKE_SYSTEM_NAME} MATCHES "Emscripten")
     set_target_properties(${PROJECT_NAME} PROPERTIES SUFFIX ".js")

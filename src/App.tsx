@@ -45,6 +45,7 @@ export const App : FC = () => {
       const test = async () => {
         console.log("AppStart");
         const myModule =  await TestModule();
+        myModule.test();
         console.log("module initialized");
       }
       test();
