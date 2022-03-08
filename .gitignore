@@ -12,6 +12,8 @@
 
 wasm-build
 
+/src/Simulator/build
+
 # production
 /build
 

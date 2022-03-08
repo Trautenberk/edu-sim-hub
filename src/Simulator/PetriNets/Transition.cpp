@@ -1,7 +1,9 @@
 #include "Transition.hpp"
 
-Transition::Transition() : SimObject()
+Transition::Transition(string label, vector<InputArch*> inputArches, vector<OutputArch*> outputArches) : SimObject()
 {
+    this->_label;
+    this->inputArches = inputArches;
 }
 
 Transition::~Transition()

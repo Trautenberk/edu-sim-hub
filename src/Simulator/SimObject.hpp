@@ -1,3 +1,6 @@
+#ifndef SIMOBJECT_H
+#define SIMOBJECT_H
+
 #include <string>
 
 using namespace std;
@@ -19,3 +22,5 @@ using namespace std;
 //     .property("id", &SimObject::id)
 //     .function("getObjType");
 // }
+
+#endif

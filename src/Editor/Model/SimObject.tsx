@@ -12,6 +12,7 @@ export abstract class SimObject implements ISimObject, IToSerializable<ISimObjec
     protected get idCount() : number {
         return SimObject._idCounter++;
     }
+    
     protected getElementId = (name : string) => {
         return name.toLowerCase().replaceAll(" ", "_") + this.idCount;
     }

@@ -2,9 +2,18 @@
 set(PETRI_NETS_LIB PetriNets_lib)
 set(DISCRETE_SIMULATION_LIB DiscreteSimulation_lib)
 
+if (NOT (${CMAKE_SYSTEM_NAME} MATCHES "Emscripten"))
+    set(CMAKE_CXX_STANDARD 17)
+    cmake_minimum_required(VERSION 3.0.0)
+    set(CMAKE_VERBOSE_MAKEFILE ON)    
+    project(Simulator)
+endif()
+
+
 add_subdirectory(PetriNets)
 add_subdirectory(DiscreteSimulation)
 
-add_executable(${PROJECT_NAME} simulator.cpp)
+add_executable(${PROJECT_NAME} Simulator.cpp)
+
 
 target_link_libraries(${PROJECT_NAME} ${PETRI_NETS_LIB})

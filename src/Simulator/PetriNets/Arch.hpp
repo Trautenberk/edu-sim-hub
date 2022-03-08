@@ -1,3 +1,7 @@
+#ifndef ARCH_H
+#define ARCH_H
+
+
 #include "../SimObject.hpp"
 #include "Place.hpp"
 
@@ -6,16 +10,27 @@ using namespace std;
 
 class Arch : SimObject {
     public:
-        enum ArchType { input, output };
-        Arch(ArchType archType, int weight, Place& targetPlace);
+        Arch(Place* targetPlace, int weight = 1);
         ~Arch();
         string getObjType();
-        int weight() const {return _weight;}; // váha přechodu
-        ArchType archType() const {return _archType;}; // typ přechodu
-        Place& targetPlace() const {return _targetPlace;}; 
-        void execute(); 
-    private:
+        int weight() const {return _weight;};
+        Place* targetPlace() const {return _targetPlace;}; 
+        virtual void execute(); 
+    protected:
         int _weight;
-        Arch::ArchType _archType;
-        Place& _targetPlace;
+        Place* _targetPlace;
 };
+
+
+class InputArch : Arch {
+    public:
+        void execute();
+        bool satisfied();
+};
+
+class OutputArch : Arch {
+    public:
+        void execute();
+};
+
+#endif

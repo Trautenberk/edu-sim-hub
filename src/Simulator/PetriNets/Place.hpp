@@ -1,3 +1,6 @@
+#ifndef PLACE_H
+#define PLACE_H
+
 #include <string>
 #include "../SimObject.hpp"
 
@@ -17,3 +20,4 @@ class Place : SimObject{
         int _tokens;
 };
 
+#endif

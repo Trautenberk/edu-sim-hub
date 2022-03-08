@@ -3,11 +3,10 @@
 
 using namespace std;
 
-Arch::Arch(ArchType archType, int weight, Place& targetPlace) : SimObject()
+Arch::Arch(Place* targetPlace, int weight) : SimObject()
 {
     this->_weight = weight;
     this->_targetPlace = targetPlace;
-    this->_archType = archType;
 }
 
 Arch::~Arch()
@@ -19,11 +18,17 @@ string Arch::getObjType()
     return "Arch";
 }
 
-void Arch::execute()
+void InputArch::execute()
 {
-    if (this->archType() == ArchType::input) {
-        this->_targetPlace.addTokens(this->_weight);
-    } else {
-        this->_targetPlace.removeTokens(this->_weight);
-    }
+    this->_targetPlace->removeTokens(this->_weight);    
+}
+
+bool InputArch::satisfied() 
+{
+    return this->_targetPlace->tokens() >= _weight;
+}
+
+void OutputArch::execute()
+{
+    this->_targetPlace->addTokens(this->_weight);
 }

@@ -1,3 +1,6 @@
+#ifndef CALENDAR_H
+#define CALENDAR_H
+
 #include "Event.hpp"
 #include <deque>
 
@@ -14,3 +17,5 @@ class Calendar {
     private:
         deque<Event> eventQueue = deque<Event>();
 };
+
+#endif
