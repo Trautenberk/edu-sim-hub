@@ -2,6 +2,7 @@
 #define SIMOBJECT_H
 
 #include <string>
+#include "DiscreteSimulation/Calendar.hpp"
 
 using namespace std;
 
@@ -13,6 +14,7 @@ using namespace std;
         string id;
         SimObject();
         virtual string getObjType();
+        virtual void initialize(Calendar* calendar);
 };
 
 

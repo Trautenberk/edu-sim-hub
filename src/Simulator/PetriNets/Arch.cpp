@@ -10,13 +10,25 @@ Arch::Arch(Place* targetPlace, int weight) : SimObject()
 }
 
 Arch::~Arch()
-{
-}
+{}
 
 string Arch::getObjType()
 {
     return "Arch";
 }
+
+void Arch::execute()
+{
+    return;
+}
+
+void Arch::initialize()
+{
+    return;
+}
+
+InputArch::InputArch(Place* targetPlace, int weight) : Arch(targetPlace, weight)
+{}
 
 void InputArch::execute()
 {
@@ -27,6 +39,9 @@ bool InputArch::satisfied()
 {
     return this->_targetPlace->tokens() >= _weight;
 }
+
+OutputArch::OutputArch(Place* targetPlace, int weight) : Arch(targetPlace, weight)
+{}
 
 void OutputArch::execute()
 {

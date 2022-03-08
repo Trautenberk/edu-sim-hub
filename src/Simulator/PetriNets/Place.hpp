@@ -6,7 +6,7 @@
 
 using namespace std;
 
-class Place : SimObject{
+class Place : public SimObject {
     public :
         string label() {return _label;};
         int tokens() {return _tokens;};

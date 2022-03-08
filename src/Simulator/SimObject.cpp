@@ -12,3 +12,8 @@ string SimObject::getObjType()
 {
     return "SimObject";
 }
+
+void SimObject::initialize(Calendar* calendar)
+{
+    return;    
+}

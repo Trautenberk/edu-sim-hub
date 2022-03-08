@@ -8,28 +8,31 @@
 using namespace std;
 
 
-class Arch : SimObject {
+class Arch : public SimObject {
     public:
         Arch(Place* targetPlace, int weight = 1);
         ~Arch();
         string getObjType();
         int weight() const {return _weight;};
         Place* targetPlace() const {return _targetPlace;}; 
-        virtual void execute(); 
+        virtual void execute();
+        void initialize(); 
     protected:
         int _weight;
         Place* _targetPlace;
 };
 
 
-class InputArch : Arch {
+class InputArch : public Arch {
     public:
+        InputArch(Place* targetPlace, int weight = 1);
         void execute();
         bool satisfied();
 };
 
-class OutputArch : Arch {
+class OutputArch : public Arch {
     public:
+        OutputArch(Place* targetPlace, int weight = 1);
         void execute();
 };
 

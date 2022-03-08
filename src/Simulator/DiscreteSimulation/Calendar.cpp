@@ -2,10 +2,6 @@
 
 
 
-Calendar::Calendar(deque<Event>& _events) : eventQueue(_events)
-{}
-
-
 bool Calendar::isEmpty()
 {
     return this->eventQueue.empty();

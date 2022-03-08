@@ -16,4 +16,4 @@ add_subdirectory(DiscreteSimulation)
 add_executable(${PROJECT_NAME} Simulator.cpp)
 
 
-target_link_libraries(${PROJECT_NAME} ${PETRI_NETS_LIB})
+target_link_libraries(${PROJECT_NAME} ${PETRI_NETS_LIB} ${DISCRETE_SIMULATION_LIB})

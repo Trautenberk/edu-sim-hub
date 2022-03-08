@@ -4,10 +4,11 @@
 #include "../SimObject.hpp"
 #include "Arch.hpp"
 #include <vector>
+#include <iostream>
 
 using namespace std;
 
-class Transition : SimObject
+class Transition : public SimObject
 {
     public:
         vector<InputArch*> inputArches;
@@ -16,10 +17,11 @@ class Transition : SimObject
         bool enabled() const { return _enabled;};
         bool checkIfEnabled();
         Transition(string label, vector<InputArch*> inputArches, vector<OutputArch*> outputArches);
+        Transition(string label, InputArch* inputArches, OutputArch* outputArches);
         ~Transition();
         string getObjType();
         void fire();
-    
+        void initialize();
     private:
         string _label;
         bool _enabled;

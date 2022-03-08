@@ -10,7 +10,6 @@ class Event {
         float time;
         function<void(void)> func;
         Event(float _time, function<void(void)> _func);
-        ~Event();
         void Cancel();
     private:
         bool _canceled = false;

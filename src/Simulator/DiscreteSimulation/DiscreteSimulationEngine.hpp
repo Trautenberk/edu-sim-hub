@@ -4,15 +4,16 @@
 #include "Calendar.hpp"
 #include "../SimObject.hpp"
 #include <vector>
+#include <iostream>
 
 using namespace std;
 
 class DiscreteSimulationEngine {
     public:
-        vector<SimObject> state = vector<SimObject>();
-        void init(float beginTime,float endTime);
+        void init(float beginTime,float endTime, vector<SimObject*> objects);
         void simulate();
-        DiscreteSimulationEngine();
+        Calendar* calendar = new Calendar();
+
     private:
         float _beginTime;
         float _endTime;
