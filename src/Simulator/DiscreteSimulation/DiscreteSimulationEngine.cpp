@@ -2,9 +2,8 @@
 
 
 
-void DiscreteSimulationEngine::init(float beginTime, float endTime, vector<SimObject*> &objects)
+void DiscreteSimulationEngine::init(float endTime, vector<SimObject*> &objects)
 {  
-    this->_beginTime = beginTime;
     this->_endTime = endTime;
 
     Global::calendar = this->calendar;
@@ -18,7 +17,7 @@ void DiscreteSimulationEngine::init(float beginTime, float endTime, vector<SimOb
 
 void DiscreteSimulationEngine::simulate()
 {
-    auto time = this->_beginTime;
+    auto time = 0;
 
     while(!calendar->isEmpty()){
         auto event = calendar->getNextEvent();
@@ -29,5 +28,5 @@ void DiscreteSimulationEngine::simulate()
         event.func();
     }
     
-    cout << "Simulation end at time: " << time << endl;      
-}void initialize();
+    cout << "Simulation finished at time: " << time << endl;      
+}

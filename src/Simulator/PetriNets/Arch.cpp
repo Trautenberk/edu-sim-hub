@@ -5,6 +5,11 @@ using namespace std;
 
 Arch::Arch(Place* targetPlace, int weight) : SimObject()
 {
+    if (weight < 1) {
+        cerr << "Error: cannot initialize arch with weight smaller than one" << endl;
+        throw new exception();
+    }
+
     this->_weight = weight;
     this->_targetPlace = targetPlace;
 }

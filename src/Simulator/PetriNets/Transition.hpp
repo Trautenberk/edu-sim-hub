@@ -5,6 +5,7 @@
 #include "Arch.hpp"
 #include <vector>
 #include <iostream>
+#include "../DiscreteSimulation/Global.hpp"
 
 using namespace std;
 
@@ -13,6 +14,7 @@ class Transition : public SimObject
     public:
         vector<InputArch*> inputArches;
         vector<OutputArch*> outputArches;
+        vector<Arch*> allArches;    // TODO dopsat kdyztak
         string label() const {return _label;};
         bool enabled() const { return _enabled;};
         bool checkIfEnabled();
@@ -20,8 +22,10 @@ class Transition : public SimObject
         Transition(string label, InputArch* inputArches, OutputArch* outputArches);
         ~Transition();
         string getObjType();
-        void fire();
         void initialize();
+        bool allInputArchSsatisfied();
+        void planTransitionFiringEvent();
+        void fire();
     private:
         string _label;
         bool _enabled;
