@@ -14,7 +14,7 @@ using namespace std;
         string id;
         SimObject();
         virtual string getObjType();
-        virtual void initialize(Calendar* calendar);
+        virtual void initialize();
 };
 
 

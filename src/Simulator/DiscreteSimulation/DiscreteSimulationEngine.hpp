@@ -5,18 +5,21 @@
 #include "../SimObject.hpp"
 #include <vector>
 #include <iostream>
+#include "Global.hpp"
+#include <memory>
 
 using namespace std;
 
 class DiscreteSimulationEngine {
     public:
-        void init(float beginTime,float endTime, vector<SimObject*> objects);
+        void init(float beginTime, float endTime, vector<SimObject*> &objects);
         void simulate();
-        Calendar* calendar = new Calendar();
+        shared_ptr<Calendar> calendar = shared_ptr<Calendar>(new Calendar());
 
     private:
         float _beginTime;
         float _endTime;
+        shared_ptr<vector<SimObject*>> _simObjects;
 };
 
 #endif

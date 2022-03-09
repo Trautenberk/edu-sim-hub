@@ -7,13 +7,14 @@ if (NOT (${CMAKE_SYSTEM_NAME} MATCHES "Emscripten"))
     cmake_minimum_required(VERSION 3.0.0)
     set(CMAKE_VERBOSE_MAKEFILE ON)    
     project(Simulator)
+    add_compile_options(-g)
 endif()
 
 
 add_subdirectory(PetriNets)
 add_subdirectory(DiscreteSimulation)
 
-add_executable(${PROJECT_NAME} Simulator.cpp)
+add_executable(${PROJECT_NAME} main.cpp)
 
 
 target_link_libraries(${PROJECT_NAME} ${PETRI_NETS_LIB} ${DISCRETE_SIMULATION_LIB})

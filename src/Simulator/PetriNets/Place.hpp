@@ -12,7 +12,7 @@ class Place : public SimObject {
         int tokens() {return _tokens;};
         void removeTokens(int cnt);
         void addTokens(int cnt);
-        Place(string label, int tokens);
+        Place(string label, int tokens = 0);
         ~Place();
         string getObjType();
     private:
