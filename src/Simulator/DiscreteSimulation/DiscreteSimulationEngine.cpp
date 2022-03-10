@@ -8,7 +8,8 @@ void DiscreteSimulationEngine::init(float endTime, vector<SimObject*> &objects)
 
     Global::calendar = this->calendar;
     Global::simObjects = make_shared<vector<SimObject*>>(objects);
-
+    Global::generator = shared_ptr<Generator>(new Generator());
+    
     for (auto& obj : objects)
     {
         obj->initialize();

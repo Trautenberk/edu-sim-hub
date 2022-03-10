@@ -7,6 +7,7 @@
 #include <iostream>
 #include "Global.hpp"
 #include <memory>
+#include "Generator.hpp"
 
 using namespace std;
 

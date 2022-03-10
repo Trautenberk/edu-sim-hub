@@ -7,6 +7,8 @@
 
 using namespace std;
 
+void printGeneratorOutput();
+
 int main()
 {
     cout << "Main begin..." << endl;
@@ -18,6 +20,9 @@ int main()
 
     vector<SimObject*> objects = {placeOne, placeTwo, inputArch, outputArch, transition};
     auto engine = DiscreteSimulationEngine();
+
+    printGeneratorOutput();
+
     cout << "Initializing..." << endl;
     engine.init(10, objects);
     cout << "Initialization completed..." << endl;
@@ -25,4 +30,36 @@ int main()
     engine.simulate();
     cout << "Simulation finished..." << endl;
     cout << "Main end..." << endl;
+}
+
+
+
+void printGeneratorOutput() {
+    cout << "Random number generation:" << endl;
+    auto generator = Global::generator;
+
+    for (int i = 0; i < 10; i++) {
+        cout << "Random: " << generator->Random(50) << endl;
+    }
+
+    for (int i = 0; i < 10; i++) {
+        cout << "Uniform: " << generator->Uniform() << endl;
+    }
+    
+    for (int i = 0; i < 10; i++) {
+        cout << "Uniform(10 - 20): " << generator->Uniform(10, 20) << endl;
+    }
+
+    for (int i = 0; i < 10; i++) {
+        cout << "Exponential(1): " << generator->Exponential(1) << endl;
+    }
+
+    for (int i = 0; i < 10; i++) {
+        cout << "Exponential(8): " << generator->Exponential(8) << endl;
+    }
+
+
+    for (int i = 0; i < 10; i++) {
+        cout << "Exponential(1/8): " << generator->Exponential(1/(float)8) << endl;
+    }
 }
