@@ -13,8 +13,10 @@ using namespace std;
 
 class DiscreteSimulationEngine {
     public:
-        void init(float endTime, vector<SimObject*> &objects);
+        void init(float endTime, vector<SimObject*> &objects, int maxIteration = 1000);
         void simulate();
+        int maxIteration;
+        int iteration;
         shared_ptr<Calendar> calendar = shared_ptr<Calendar>(new Calendar());
 
     private:
