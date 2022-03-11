@@ -11,6 +11,7 @@ class Calendar {
     public:
         Event& getNextEvent();
         void insertEvent(Event& event);
+        bool cancelEvent(int eventId);
         bool isEmpty();
     private:
         deque<Event> eventQueue = deque<Event>();

@@ -26,3 +26,18 @@ Event& Calendar::getNextEvent()
     this->eventQueue.pop_front();
     return event;
 }
+
+bool Calendar::cancelEvent(int id)
+{
+    deque<Event>::iterator iter;
+
+    for (iter = this->eventQueue.begin(); iter != this->eventQueue.end(); iter++)
+    {
+        if (iter->id == id)
+        {
+            this->eventQueue.erase(iter);
+            return true;
+        }
+    }
+    return false;
+}
