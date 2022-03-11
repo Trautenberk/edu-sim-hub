@@ -5,14 +5,15 @@ Transition::Transition(string label, vector<InputArch*> inputArches, vector<Outp
 {
     this->_label;
     this->inputArches = inputArches;
+
+    this->allArches.reserve(inputArches.size() + outputArches.size());
+
+    this->allArches.insert(this->allArches.end(), outputArches.begin(), outputArches.end());
+    this->allArches.insert(this->allArches.end(), inputArches.begin(), inputArches.end());
 }
 
-Transition::Transition(string label, InputArch* inputArch, OutputArch* outputArch) : SimObject()
-{
-    this->_label = label;
-    this->inputArches = {inputArch};
-    this->outputArches = {outputArch};
-}
+Transition::Transition(string label, InputArch* inputArch, OutputArch* outputArch) : Transition(label, vector<InputArch*>{inputArch}, vector<OutputArch*>{outputArch})
+{}
 
 Transition::~Transition()
 {
@@ -55,13 +56,8 @@ void Transition::planTransitionFiringEvent()
 
 void Transition::fire()
 {
-    for (auto& inputArch : this->inputArches)
+    for (auto& arch : this->allArches)
     {
-        inputArch->execute();
-    }
-
-    for (auto& outputArch : this->outputArches)
-    {
-        outputArch->execute();
+        arch->execute();
     }
 }
