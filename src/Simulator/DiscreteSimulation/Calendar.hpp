@@ -3,18 +3,19 @@
 
 #include "Event.hpp"
 #include <deque>
+#include <memory>
 
 using namespace std;
 
 class Calendar {
 
     public:
-        Event& getNextEvent();
-        void insertEvent(Event& event);
+        shared_ptr<Event> getNextEvent();
+        void insertEvent(shared_ptr<Event> event);
         bool cancelEvent(int eventId);
         bool isEmpty();
     private:
-        deque<Event> eventQueue = deque<Event>();
+        deque<shared_ptr<Event>> _eventQueue = deque<shared_ptr<Event>>();
 };
 
 #endif

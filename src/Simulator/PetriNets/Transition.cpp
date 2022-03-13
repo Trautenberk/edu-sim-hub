@@ -26,8 +26,6 @@ string Transition::getObjType()
 
 void Transition::initialize()
 {
-    auto& calendar = Global::calendar;
-
     if (this->allInputArchSsatisfied())
         this->planTransitionFiringEvent();
 
@@ -48,10 +46,11 @@ bool Transition::allInputArchSsatisfied()
 
 void Transition::planTransitionFiringEvent()
 {
-    auto& calendar = Global::calendar;
+    Calendar& calendar = Global::discreteSimEngine->calendar;
+    calendar.test += 5;
     auto func = [this]() {this->fire();};
     auto event = Event(0, func);
-    calendar->insertEvent(event);
+    calendar.insertEvent(make_shared<Event>(event));
 }
 
 void Transition::fire()

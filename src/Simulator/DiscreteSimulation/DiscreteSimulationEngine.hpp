@@ -13,15 +13,15 @@ using namespace std;
 
 class DiscreteSimulationEngine {
     public:
+        DiscreteSimulationEngine();
         void init(float endTime, vector<SimObject*> &objects, int maxIteration = 1000);
         void simulate();
         int maxIteration;
         int iteration;
-        shared_ptr<Calendar> calendar = shared_ptr<Calendar>(new Calendar());
-
-    private:
-        float _endTime;
-        shared_ptr<vector<SimObject*>> _simObjects;
+        Calendar calendar = Calendar();
+        Generator generator = Generator();
+        float endTime;
+        vector<SimObject*> simObjects;
 };
 
 #endif

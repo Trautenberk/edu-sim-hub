@@ -4,38 +4,38 @@
 
 bool Calendar::isEmpty()
 {
-    return this->eventQueue.empty();
+    return this->_eventQueue.empty();
 }
 
-void Calendar::insertEvent(Event& event)
+void Calendar::insertEvent(shared_ptr<Event> event)
 {
-    for (int i = 0; i < this->eventQueue.size(); i++)
+    for (int i = 0; i < this->_eventQueue.size(); i++)
     {
-        auto& calEvent = this->eventQueue.at(i);
-        if(calEvent.time > event.time) {
-            this->eventQueue.insert(this->eventQueue.begin() + i, event);
+        auto& calEvent = this->_eventQueue.at(i);
+        if(calEvent->time > event->time) {
+            this->_eventQueue.insert(this->_eventQueue.begin() + i, event);
             return;
         }
     }
-    this->eventQueue.push_back(event);
+    this->_eventQueue.push_back(event);
 }
 
-Event& Calendar::getNextEvent()
+shared_ptr<Event> Calendar::getNextEvent()
 {
-    auto& event = this->eventQueue.front();
-    this->eventQueue.pop_front();
+    auto& event = this->_eventQueue.front();
+    this->_eventQueue.pop_front();
     return event;
 }
 
 bool Calendar::cancelEvent(int id)
 {
-    deque<Event>::iterator iter;
+    deque<shared_ptr<Event>>::iterator iter;
 
-    for (iter = this->eventQueue.begin(); iter != this->eventQueue.end(); iter++)
+    for (iter = this->_eventQueue.begin(); iter != this->_eventQueue.end(); iter++)
     {
-        if (iter->id == id)
+        if (iter->get()->id == id)
         {
-            this->eventQueue.erase(iter);
+            this->_eventQueue.erase(iter);
             return true;
         }
     }

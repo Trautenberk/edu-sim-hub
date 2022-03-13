@@ -36,30 +36,30 @@ int main()
 
 void printGeneratorOutput() {
     cout << "Random number generation:" << endl;
-    auto generator = Global::generator;
+    auto& generator = Global::discreteSimEngine->generator;
 
     for (int i = 0; i < 10; i++) {
-        cout << "Random: " << generator->Random(50) << endl;
+        cout << "Random: " << generator.Random(50) << endl;
     }
 
     for (int i = 0; i < 10; i++) {
-        cout << "Uniform: " << generator->Uniform() << endl;
+        cout << "Uniform: " << generator.Uniform() << endl;
     }
     
     for (int i = 0; i < 10; i++) {
-        cout << "Uniform(10 - 20): " << generator->Uniform(10, 20) << endl;
+        cout << "Uniform(10 - 20): " << generator.Uniform(10, 20) << endl;
     }
 
     for (int i = 0; i < 10; i++) {
-        cout << "Exponential(1): " << generator->Exponential(1) << endl;
+        cout << "Exponential(1): " << generator.Exponential(1) << endl;
     }
 
     for (int i = 0; i < 10; i++) {
-        cout << "Exponential(8): " << generator->Exponential(8) << endl;
+        cout << "Exponential(8): " << generator.Exponential(8) << endl;
     }
 
 
     for (int i = 0; i < 10; i++) {
-        cout << "Exponential(1/8): " << generator->Exponential(1/(float)8) << endl;
+        cout << "Exponential(1/8): " << generator.Exponential(1/(float)8) << endl;
     }
 }
