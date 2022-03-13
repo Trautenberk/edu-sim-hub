@@ -21,7 +21,8 @@ class DiscreteSimulationEngine {
         Calendar calendar = Calendar();
         Generator generator = Generator();
         float endTime;
-        vector<shared_ptr<SimObject>> simObjects;
+        vector<shared_ptr<SimObject>> simObjects = {}; 
+        vector<shared_ptr<Transition>> allTransitions = {};
 };
 
 #endif

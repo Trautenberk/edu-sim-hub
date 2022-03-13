@@ -5,7 +5,18 @@ Transition::Transition(string label, vector<shared_ptr<InputArch>> inputArches, 
 {
     this->_label;
     this->inputArches = inputArches;
+
+    for (auto& arch : inputArches)
+    {
+        this->placeIdsOnInput.push_back(arch->targetPlace->id);
+    }
+
     this->outputArches = outputArches;
+
+    for (auto& arch : outputArches)
+    {
+        this->placeIdsOnOutput.push_back(arch->targetPlace->id);
+    }
 
     this->allArches.reserve(inputArches.size() + outputArches.size());
 
@@ -60,5 +71,24 @@ void Transition::fire()
     for (auto& arch : this->allArches)
     {
         arch->execute();
+    }
+
+    auto& engine = Global::discreteSimEngine;
+
+    for (auto& transition : engine->allTransitions)
+    {
+        if (transition->id != this->id)
+        {
+            // temhle prechodum jsem odebral na vstupu
+            if (transition->hasPlaceOnInput(this->placeIdsOnInput))
+            {
+
+            }
+            // temhle jsem pridal na vstupu 
+            else if (transition->hasPlaceOnInput(this->placeIdsOnOutput))
+            {
+
+            }
+        }
     }
 }

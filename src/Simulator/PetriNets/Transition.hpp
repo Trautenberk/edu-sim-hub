@@ -27,6 +27,9 @@ class Transition : public SimObject
         bool allInputArchSsatisfied();
         void planTransitionFiringEvent();
         void fire();
+        bool hasPlaceOnInput(vector<string> placeId);
+        vector<string> placeIdsOnInput = {};
+        vector<string> placeIdsOnOutput = {};
     private:
         string _label;
         bool _enabled;

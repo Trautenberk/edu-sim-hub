@@ -23,7 +23,7 @@ int main()
 
     vector<shared_ptr<SimObject>> objects = {placeOne, placeTwo, inputArch, outputArch, transition};
     auto engine = DiscreteSimulationEngine();
-
+    engine.allTransitions = {transition};
     // printGeneratorOutput();
     // testPriorityEvent();
 
