@@ -14,8 +14,6 @@ Arch::Arch(shared_ptr<Place> targetPlace, int weight) : SimObject()
     this->_weight = weight;
 }
 
-Arch::~Arch()
-{}
 
 string Arch::getObjType()
 {
@@ -31,7 +29,7 @@ void Arch::initialize()
 {
     return;
 }
-
+/// InputArch
 InputArch::InputArch(shared_ptr<Place> targetPlace, int weight) : Arch(targetPlace, weight)
 {}
 
@@ -45,6 +43,7 @@ bool InputArch::satisfied()
     return this->targetPlace->tokens() >= _weight;
 }
 
+/// OutpuArch
 OutputArch::OutputArch(shared_ptr<Place> targetPlace, int weight) : Arch(targetPlace, weight)
 {}
 

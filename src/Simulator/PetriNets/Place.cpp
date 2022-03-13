@@ -21,9 +21,6 @@ void Place::removeTokens(int cnt)
     }
 }
 
-Place::~Place()
-{}
-
 string Place::getObjType()
 {
     return "Place";

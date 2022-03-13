@@ -15,7 +15,6 @@ class Place : public SimObject {
         void removeTokens(int cnt);
         void addTokens(int cnt);
         Place(string label, int tokens = 0);
-        ~Place();
         string getObjType();
     private:
         string _label;

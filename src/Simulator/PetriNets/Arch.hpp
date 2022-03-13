@@ -11,12 +11,11 @@ using namespace std;
 class Arch : public SimObject {
     public:
         Arch(shared_ptr<Place> targetPlace, int weight = 1);
-        ~Arch();
         string getObjType();
         int weight() const {return _weight;};
-        shared_ptr<Place> targetPlace; 
+        shared_ptr<Place> targetPlace;
         virtual void execute();
-        void initialize(); 
+        void initialize();
     protected:
         int _weight;
 };
