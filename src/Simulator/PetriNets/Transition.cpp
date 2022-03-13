@@ -48,8 +48,9 @@ void Transition::planTransitionFiringEvent()
 {
     Calendar& calendar = Global::discreteSimEngine->calendar;
     auto func = [this]() {this->fire();};
-    auto event = Event(0, func);
-    calendar.insertEvent(make_shared<Event>(event));
+    auto event = shared_ptr<Event>(0, func);
+    calendar.insertEvent(event);
+    this->plannedEventsId.push_back(event->id);
 }
 
 void Transition::fire()

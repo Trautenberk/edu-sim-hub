@@ -15,7 +15,7 @@ class Transition : public SimObject
         vector<InputArch*> inputArches = {};
         vector<OutputArch*> outputArches = {};
         vector<Arch*> allArches = {};
-        vector<string> plannedEventsId = {};
+        deque<int> plannedEventsId = {};
         string label() const {return _label;};
         bool enabled() const { return _enabled;};
         bool checkIfEnabled();
