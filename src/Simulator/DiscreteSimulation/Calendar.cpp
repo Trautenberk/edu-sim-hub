@@ -10,7 +10,7 @@ void Calendar::insertEvent(shared_ptr<Event> event)
     for (int i = 0; i < this->_eventQueue.size(); i++)
     {
         auto& calEvent = this->_eventQueue.at(i);
-        if(calEvent->time > event->time || (calEvent->time == event->time && calEvent->priority > event->priority)) {
+        if(calEvent->time > event->time || (calEvent->time == event->time && calEvent->priority < event->priority)) {
             this->_eventQueue.insert(this->_eventQueue.begin() + i, event);
             return;
         }

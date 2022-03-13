@@ -4,10 +4,12 @@
 #include "PetriNets/Transition.hpp"
 #include "DiscreteSimulation/DiscreteSimulationEngine.hpp"
 #include <vector>
+#include "DiscreteSimulation/Calendar.hpp"
 
 using namespace std;
 
 void printGeneratorOutput();
+void testPriorityEvent();
 
 int main()
 {
@@ -21,7 +23,8 @@ int main()
     vector<SimObject*> objects = {placeOne, placeTwo, inputArch, outputArch, transition};
     auto engine = DiscreteSimulationEngine();
 
-    printGeneratorOutput();
+    // printGeneratorOutput();
+    testPriorityEvent();
 
     cout << "Initializing..." << endl;
     engine.init(10, objects);
@@ -31,7 +34,6 @@ int main()
     cout << "Simulation finished..." << endl;
     cout << "Main end..." << endl;
 }
-
 
 
 void printGeneratorOutput() {
@@ -62,4 +64,20 @@ void printGeneratorOutput() {
     for (int i = 0; i < 10; i++) {
         cout << "Exponential(1/8): " << generator.Exponential(1/(float)8) << endl;
     }
+}
+
+
+void testPriorityEvent()
+{
+    auto func = [](){return;};
+    auto calendar = Calendar();
+    auto eventOne = Event(0,func);
+    auto eventTwo = Event(0,func, 2);
+    auto eventThree = Event(0,func,1);
+
+
+    calendar.insertEvent(make_shared<Event>(eventOne));
+    calendar.insertEvent(make_shared<Event>(eventTwo));
+    calendar.insertEvent(make_shared<Event>(eventThree));
+
 }

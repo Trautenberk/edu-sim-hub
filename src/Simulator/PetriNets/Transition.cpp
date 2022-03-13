@@ -47,7 +47,6 @@ bool Transition::allInputArchSsatisfied()
 void Transition::planTransitionFiringEvent()
 {
     Calendar& calendar = Global::discreteSimEngine->calendar;
-    calendar.test += 5;
     auto func = [this]() {this->fire();};
     auto event = Event(0, func);
     calendar.insertEvent(make_shared<Event>(event));
