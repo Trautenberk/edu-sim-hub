@@ -14,17 +14,18 @@ void testPriorityEvent();
 int main()
 {
     cout << "Main begin..." << endl;
-    auto placeOne = new Place("Place 1", 1);
-    auto placeTwo = new Place("Place 2", 0);
-    auto inputArch = new InputArch(placeOne);
-    auto outputArch = new OutputArch(placeTwo);
-    auto transition = new Transition("trans", inputArch, outputArch);
+    auto placeOne = shared_ptr<Place>(new Place("Place 1", 1));
+    auto placeTwo = shared_ptr<Place>(new Place("Place 2", 0));
+    auto inputArch = shared_ptr<InputArch>(new InputArch(placeOne));
+    auto outputArch = shared_ptr<OutputArch>(new OutputArch(placeTwo));
 
-    vector<SimObject*> objects = {placeOne, placeTwo, inputArch, outputArch, transition};
+    auto transition = shared_ptr<Transition>(new Transition("Transition 1", inputArch, outputArch));
+
+    vector<shared_ptr<SimObject>> objects = {placeOne, placeTwo, inputArch, outputArch, transition};
     auto engine = DiscreteSimulationEngine();
 
     // printGeneratorOutput();
-    testPriorityEvent();
+    // testPriorityEvent();
 
     cout << "Initializing..." << endl;
     engine.init(10, objects);
@@ -76,8 +77,8 @@ void testPriorityEvent()
     auto eventThree = Event(0,func,1);
 
 
-    calendar.insertEvent(make_shared<Event>(eventOne));
-    calendar.insertEvent(make_shared<Event>(eventTwo));
-    calendar.insertEvent(make_shared<Event>(eventThree));
+    calendar.insertEvent(eventOne);
+    calendar.insertEvent(eventTwo);
+    calendar.insertEvent(eventThree);
 
 }

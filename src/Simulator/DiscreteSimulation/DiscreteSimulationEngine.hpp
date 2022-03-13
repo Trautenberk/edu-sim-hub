@@ -14,14 +14,14 @@ using namespace std;
 class DiscreteSimulationEngine {
     public:
         DiscreteSimulationEngine();
-        void init(float endTime, vector<SimObject*> &objects, int maxIteration = 1000);
+        void init(float endTime, vector<shared_ptr<SimObject>> &objects, int maxIteration = 1000);
         void simulate();
         int maxIteration;
         int iteration;
         Calendar calendar = Calendar();
         Generator generator = Generator();
         float endTime;
-        vector<SimObject*> simObjects;
+        vector<shared_ptr<SimObject>> simObjects;
 };
 
 #endif

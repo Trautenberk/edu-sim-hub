@@ -3,8 +3,10 @@
 
 #include <string>
 #include "../SimObject.hpp"
+#include <vector>
 
 using namespace std;
+
 
 class Place : public SimObject {
     public :

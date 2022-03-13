@@ -3,14 +3,14 @@
 DiscreteSimulationEngine::DiscreteSimulationEngine()
 {}
 
-void DiscreteSimulationEngine::init(float endTime, vector<SimObject*> &objects, int maxIteration)
+void DiscreteSimulationEngine::init(float endTime, vector<shared_ptr<SimObject>> &objects, int maxIteration)
 {  
     Global::discreteSimEngine = this;
 
     this->endTime = endTime;
     this->maxIteration = maxIteration;
     this->iteration = 0;
-    this->simObjects = vector<SimObject*>(objects);
+    this->simObjects = vector<shared_ptr<SimObject>>(objects);
     
     for (auto& obj : this->simObjects)
     {
@@ -24,11 +24,11 @@ void DiscreteSimulationEngine::simulate()
 
     while(!calendar.isEmpty() && this->iteration <= this->maxIteration){
         auto event = calendar.getNextEvent();
-        if(event->time > this->endTime){
+        if(event.time > this->endTime){
             break;
         }
-        time = event->time;
-        event->func();
+        time = event.time;
+        event.func();
         this->iteration++;
     }
     

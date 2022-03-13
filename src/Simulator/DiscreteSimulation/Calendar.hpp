@@ -10,12 +10,12 @@ using namespace std;
 class Calendar {
 
     public:
-        shared_ptr<Event> getNextEvent();
-        void insertEvent(shared_ptr<Event> event);
+        Event getNextEvent();
+        void insertEvent(Event event);
         bool cancelEvent(int eventId);
         bool isEmpty();
     private:
-        deque<shared_ptr<Event>> _eventQueue = deque<shared_ptr<Event>>();
+        deque<Event> _eventQueue = {};
 };
 
 #endif

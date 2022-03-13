@@ -12,15 +12,15 @@ using namespace std;
 class Transition : public SimObject
 {
     public:
-        vector<InputArch*> inputArches = {};
-        vector<OutputArch*> outputArches = {};
-        vector<Arch*> allArches = {};
+        vector<shared_ptr<InputArch>> inputArches = {};
+        vector<shared_ptr<OutputArch>> outputArches = {};
+        vector<shared_ptr<Arch>> allArches = {};
         deque<int> plannedEventsId = {};
         string label() const {return _label;};
         bool enabled() const { return _enabled;};
         bool checkIfEnabled();
-        Transition(string label, vector<InputArch*> inputArches, vector<OutputArch*> outputArches);
-        Transition(string label, InputArch* inputArches, OutputArch* outputArches);
+        Transition(string label, vector<shared_ptr<InputArch>> inputArches, vector<shared_ptr<OutputArch>> outputArches);
+        Transition(string label, shared_ptr<InputArch> inputArch, shared_ptr<OutputArch> outputArch);
         ~Transition();
         string getObjType();
         void initialize();

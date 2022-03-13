@@ -10,29 +10,28 @@ using namespace std;
 
 class Arch : public SimObject {
     public:
-        Arch(Place* targetPlace, int weight = 1);
+        Arch(shared_ptr<Place> targetPlace, int weight = 1);
         ~Arch();
         string getObjType();
         int weight() const {return _weight;};
-        Place* targetPlace() const {return _targetPlace;}; 
+        shared_ptr<Place> targetPlace; 
         virtual void execute();
         void initialize(); 
     protected:
         int _weight;
-        Place* _targetPlace;
 };
 
 
 class InputArch : public Arch {
     public:
-        InputArch(Place* targetPlace, int weight = 1);
+        InputArch(shared_ptr<Place> targetPlace, int weight = 1);
         void execute();
         bool satisfied();
 };
 
 class OutputArch : public Arch {
     public:
-        OutputArch(Place* targetPlace, int weight = 1);
+        OutputArch(shared_ptr<Place> targetPlace, int weight = 1);
         void execute();
 };
 

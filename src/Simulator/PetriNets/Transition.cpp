@@ -1,10 +1,11 @@
 #include "Transition.hpp"
 
 
-Transition::Transition(string label, vector<InputArch*> inputArches, vector<OutputArch*> outputArches) : SimObject()
+Transition::Transition(string label, vector<shared_ptr<InputArch>> inputArches, vector<shared_ptr<OutputArch>> outputArches) : SimObject()
 {
     this->_label;
     this->inputArches = inputArches;
+    this->outputArches = outputArches;
 
     this->allArches.reserve(inputArches.size() + outputArches.size());
 
@@ -12,7 +13,8 @@ Transition::Transition(string label, vector<InputArch*> inputArches, vector<Outp
     this->allArches.insert(this->allArches.end(), inputArches.begin(), inputArches.end());
 }
 
-Transition::Transition(string label, InputArch* inputArch, OutputArch* outputArch) : Transition(label, vector<InputArch*>{inputArch}, vector<OutputArch*>{outputArch})
+Transition::Transition(string label, shared_ptr<InputArch> inputArch, shared_ptr<OutputArch> outputArch) 
+: Transition(label, vector<shared_ptr<InputArch>>({inputArch}), vector<shared_ptr<OutputArch>>({outputArch}))
 {}
 
 Transition::~Transition()
@@ -48,9 +50,9 @@ void Transition::planTransitionFiringEvent()
 {
     Calendar& calendar = Global::discreteSimEngine->calendar;
     auto func = [this]() {this->fire();};
-    auto event = shared_ptr<Event>(0, func);
+    auto event = Event(0, func);
     calendar.insertEvent(event);
-    this->plannedEventsId.push_back(event->id);
+    this->plannedEventsId.push_back(event.id);
 }
 
 void Transition::fire()
