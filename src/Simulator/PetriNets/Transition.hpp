@@ -14,7 +14,7 @@ class Transition : public SimObject
     public:
         vector<InputArch*> inputArches = {};
         vector<OutputArch*> outputArches = {};
-        vector<Arch*> allArches = {};    // TODO dopsat kdyztak
+        vector<Arch*> allArches = {};
         vector<string> plannedEventsId = {};
         string label() const {return _label;};
         bool enabled() const { return _enabled;};
