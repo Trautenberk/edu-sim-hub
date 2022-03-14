@@ -19,6 +19,7 @@ void Place::removeTokens(int cnt)
         cerr << "Cannot remove more tokens then there is present, Place Id: " << this->id << endl;
         throw new exception();
     }
+    this->_tokens -= cnt;
 }
 
 string Place::getObjType()

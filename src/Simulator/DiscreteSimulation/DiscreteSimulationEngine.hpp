@@ -8,8 +8,11 @@
 #include "Global.hpp"
 #include <memory>
 #include "Generator.hpp"
+#include "../PetriNets/Transition.hpp"
 
 using namespace std;
+class Transition;
+
 
 class DiscreteSimulationEngine {
     public:
@@ -21,6 +24,7 @@ class DiscreteSimulationEngine {
         Calendar calendar = Calendar();
         Generator generator = Generator();
         float endTime;
+        float time = 0;
         vector<shared_ptr<SimObject>> simObjects = {}; 
         vector<shared_ptr<Transition>> allTransitions = {};
 };

@@ -25,7 +25,7 @@ class InputArch : public Arch {
     public:
         InputArch(shared_ptr<Place> targetPlace, int weight = 1);
         void execute();
-        bool satisfied();
+        int satisfied();
 };
 
 class OutputArch : public Arch {

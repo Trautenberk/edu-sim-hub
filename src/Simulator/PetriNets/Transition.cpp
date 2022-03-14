@@ -1,9 +1,9 @@
 #include "Transition.hpp"
 
-
+// Transition
 Transition::Transition(string label, vector<shared_ptr<InputArch>> inputArches, vector<shared_ptr<OutputArch>> outputArches) : SimObject()
 {
-    this->_label;
+    this->label = label;
     this->inputArches = inputArches;
 
     for (auto& arch : inputArches)
@@ -28,67 +28,164 @@ Transition::Transition(string label, shared_ptr<InputArch> inputArch, shared_ptr
 : Transition(label, vector<shared_ptr<InputArch>>({inputArch}), vector<shared_ptr<OutputArch>>({outputArch}))
 {}
 
-Transition::~Transition()
-{
-}
-
-string Transition::getObjType()
-{
-    return "Transition";
-}
-
 void Transition::initialize()
 {
-    if (this->allInputArchSsatisfied())
+    for (int i = 0; i < this->allInputArchSsatisfied(); i++)
         this->planTransitionFiringEvent();
 
     cout << "Initialize transition" << endl;
     return;
 }
 
-
-bool Transition::allInputArchSsatisfied()
+// kolikrat je přechod uspokojen
+int Transition::allInputArchSsatisfied()
 {
+    int timesSatisfied = INT_MAX;
     for (auto& inputArch : this->inputArches)
     {
-        if (!inputArch->satisfied())
-            return false;
+        if (inputArch->satisfied() == 0)
+            return 0;
+        else
+            timesSatisfied = min(inputArch->satisfied(), timesSatisfied);
     }
-    return true;
+    return timesSatisfied;
 }
 
-void Transition::planTransitionFiringEvent()
+void Transition::removeTransitionFiringEvent()
 {
-    Calendar& calendar = Global::discreteSimEngine->calendar;
-    auto func = [this]() {this->fire();};
-    auto event = Event(0, func);
-    calendar.insertEvent(event);
-    this->plannedEventsId.push_back(event.id);
+    auto& calendar = Global::discreteSimEngine->calendar;
+    auto eventIdToCancel = plannedEventsId.front();
+    plannedEventsId.pop_front();
+    calendar.cancelEvent(eventIdToCancel);
 }
 
-void Transition::fire()
+void Transition::fire(int eventId)
 {
-    for (auto& arch : this->allArches)
+    auto& engine = Global::discreteSimEngine;
+
+    for (auto i = 0; i < plannedEventsId.size(); i++)
+    {
+        if (plannedEventsId[i] == eventId)
+            this->plannedEventsId.erase(plannedEventsId.begin() + 0);
+    }
+
+    // odebrani
+    for (auto& arch : this->inputArches)
     {
         arch->execute();
     }
 
-    auto& engine = Global::discreteSimEngine;
+    for (auto& transition : engine->allTransitions)
+    {
+        if (transition->id != this->id && transition->hasPlaceOnInput(this->placeIdsOnInput))
+        {
+            // temhle prechodum jsem odebral na vstupu
+            transition->rePlanTransition();
+        }
+    }
+
+    // pridani tokenu
+    for (auto& arch : this->outputArches)
+    {
+        arch->execute();
+    }
 
     for (auto& transition : engine->allTransitions)
     {
-        if (transition->id != this->id)
+        if (transition->hasPlaceOnInput(this->placeIdsOnOutput))
         {
-            // temhle prechodum jsem odebral na vstupu
-            if (transition->hasPlaceOnInput(this->placeIdsOnInput))
-            {
-
-            }
-            // temhle jsem pridal na vstupu 
-            else if (transition->hasPlaceOnInput(this->placeIdsOnOutput))
-            {
-
-            }
+            // temhle jsem pridal na vstupu
+            transition->rePlanTransition();
         }
     }
+}
+
+bool Transition::hasPlaceOnInput(vector<string> &placeIds)
+{
+    for (auto& arch : this->inputArches)
+    {
+        if (find(placeIds.begin(), placeIds.end(), arch->targetPlace->id) != placeIds.end())
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
+void Transition::rePlanTransition()
+{
+    // musim preplanovat
+    if (this->allInputArchSsatisfied() < this->plannedEventsId.size())
+    {
+        // odplanovat
+        while(plannedEventsId.size() != this->allInputArchSsatisfied())
+        {
+            this->removeTransitionFiringEvent();
+        }
+
+    } else {
+        // pridat do planu
+        while(plannedEventsId.size() != this->allInputArchSsatisfied())
+        {
+            this->planTransitionFiringEvent();
+        }
+    }
+}
+
+
+// ImmediateTransition
+
+ImmediateTransition::ImmediateTransition(string label, vector<shared_ptr<InputArch>> inputArches, vector<shared_ptr<OutputArch>> outputArches, int priority)
+: Transition(label, inputArches, outputArches)
+{
+    this->priority = priority;
+}
+
+ImmediateTransition::ImmediateTransition(string label, shared_ptr<InputArch> inputArch, shared_ptr<OutputArch> outputArch, int priority)
+: Transition(label, inputArch, outputArch)
+{
+    this->priority = priority;
+}
+
+string ImmediateTransition::getObjType()
+{
+    return "ImmediateTransition";
+}
+
+void ImmediateTransition::planTransitionFiringEvent()
+{
+    auto& engine = Global::discreteSimEngine;
+    auto func = [this](int evenetId) {this->fire(evenetId);};
+    auto event = Event(engine->time, func, this->priority);
+    engine->calendar.insertEvent(event);
+    this->plannedEventsId.push_back(event.id);    
+}
+
+
+// TimedTransition
+
+TimedTransition::TimedTransition(string label, vector<shared_ptr<InputArch>> inputArches, vector<shared_ptr<OutputArch>> outputArches, int delay)
+: Transition(label, inputArches, outputArches)
+{
+    this->delay = delay;
+}
+
+TimedTransition::TimedTransition(string label, shared_ptr<InputArch> inputArch, shared_ptr<OutputArch> outputArch, int delay)
+: Transition(label, inputArch, outputArch)
+{
+    this->delay = delay;
+}
+
+string TimedTransition::getObjType()
+{
+    return "TimedTransition";
+}
+
+void TimedTransition::planTransitionFiringEvent()
+{
+    auto& engine = Global::discreteSimEngine;
+    auto func = [this](int evenetId) {this->fire(evenetId);};
+    auto event = Event(engine->time + this->delay, func);
+    engine->calendar.insertEvent(event);
+    this->plannedEventsId.push_back(event.id);    
 }

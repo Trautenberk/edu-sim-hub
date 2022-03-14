@@ -38,9 +38,10 @@ void InputArch::execute()
     this->targetPlace->removeTokens(this->_weight);    
 }
 
-bool InputArch::satisfied() 
+// kolikrat je prechod uspokojen
+int InputArch::satisfied() 
 {
-    return this->targetPlace->tokens() >= _weight;
+    return this->targetPlace->tokens() / _weight;
 }
 
 /// OutpuArch

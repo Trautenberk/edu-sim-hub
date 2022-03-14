@@ -20,15 +20,15 @@ void DiscreteSimulationEngine::init(float endTime, vector<shared_ptr<SimObject>>
 
 void DiscreteSimulationEngine::simulate()
 {
-    auto time = 0;
+    this->time = 0;
 
     while(!calendar.isEmpty() && this->iteration <= this->maxIteration){
         auto event = calendar.getNextEvent();
         if(event.time > this->endTime){
             break;
         }
-        time = event.time;
-        event.func();
+        this->time = event.time;
+        event.func(event.id);
         this->iteration++;
     }
     
