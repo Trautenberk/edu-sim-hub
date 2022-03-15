@@ -8,6 +8,7 @@ if (NOT (${CMAKE_SYSTEM_NAME} MATCHES "Emscripten"))
     set(CMAKE_VERBOSE_MAKEFILE ON)    
     project(Simulator)
     add_compile_options(-g)
+    add_subdirectory(test)
 endif()
 
 
