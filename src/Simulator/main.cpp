@@ -7,6 +7,9 @@
 #include "DiscreteSimulation/Calendar.hpp"
 
 using namespace std;
+template <typename T> using SP = std::shared_ptr<T>;
+template <typename T> using vec = std::vector<T>;
+
 
 void printGeneratorOutput();
 void testPriorityEvent();

@@ -17,7 +17,7 @@ void Place::removeTokens(int cnt)
     if (this->_tokens - cnt < 0)
     {
         cerr << "Cannot remove more tokens then there is present, Place Id: " << this->id << endl;
-        throw new exception();
+        throw "Cannot remove more tokens then there is present";
     }
     this->_tokens -= cnt;
 }
