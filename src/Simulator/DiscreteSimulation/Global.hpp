@@ -6,14 +6,14 @@
 #include "Calendar.hpp"
 #include "../SimObject.hpp"
 #include "Generator.hpp"
-#include "DiscreteSimulationEngine.hpp"
+#include "DiscreteEngine.hpp"
 
 using namespace std;
-class DiscreteSimulationEngine;
+class DiscreteEngine;
 
 class Global {
     public:
-        static DiscreteSimulationEngine* discreteSimEngine;
+        static DiscreteEngine* discreteSimEngine;
 };
 
 #endif

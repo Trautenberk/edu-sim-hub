@@ -1,5 +1,5 @@
-#ifndef DISCRETESIMULATIONENGINE_H
-#define DISCRETESIMULATIONENGINE_H
+#ifndef DiscreteEngine_H
+#define DiscreteEngine_H
 
 #include "Calendar.hpp"
 #include "../SimObject.hpp"
@@ -14,9 +14,9 @@ using namespace std;
 class Transition;
 
 
-class DiscreteSimulationEngine {
+class DiscreteEngine {
     public:
-        DiscreteSimulationEngine();
+        DiscreteEngine();
         void init(float endTime, vector<shared_ptr<SimObject>> &objects, int maxIteration = 1000);
         void simulate();
         int maxIteration;

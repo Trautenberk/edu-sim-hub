@@ -1,9 +1,9 @@
-#include "DiscreteSimulationEngine.hpp"
+#include "DiscreteEngine.hpp"
 
-DiscreteSimulationEngine::DiscreteSimulationEngine()
+DiscreteEngine::DiscreteEngine()
 {}
 
-void DiscreteSimulationEngine::init(float endTime, vector<shared_ptr<SimObject>> &objects, int maxIteration)
+void DiscreteEngine::init(float endTime, vector<shared_ptr<SimObject>> &objects, int maxIteration)
 {  
     Global::discreteSimEngine = this;
 
@@ -18,7 +18,7 @@ void DiscreteSimulationEngine::init(float endTime, vector<shared_ptr<SimObject>>
     }
 }
 
-void DiscreteSimulationEngine::simulate()
+void DiscreteEngine::simulate()
 {
     this->time = 0;
 

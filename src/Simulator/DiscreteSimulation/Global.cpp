@@ -1,3 +1,3 @@
 #include "Global.hpp"
 
-DiscreteSimulationEngine* Global::discreteSimEngine = nullptr;
+DiscreteEngine* Global::discreteSimEngine = nullptr;

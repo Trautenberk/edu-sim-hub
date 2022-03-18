@@ -2,7 +2,7 @@
 #include "PetriNets/Arch.hpp"
 #include "PetriNets/Place.hpp"
 #include "PetriNets/Transition.hpp"
-#include "DiscreteSimulation/DiscreteSimulationEngine.hpp"
+#include "DiscreteSimulation/DiscreteEngine.hpp"
 #include <vector>
 #include "DiscreteSimulation/Calendar.hpp"
 
@@ -95,7 +95,7 @@ void testImmediateTransition()
     auto transition = shared_ptr<Transition>(new ImmediateTransition("Transition 1", inputArch, outputArch));
 
     vector<shared_ptr<SimObject>> objects = {placeOne, placeTwo, inputArch, outputArch, transition};
-    auto engine = DiscreteSimulationEngine();
+    auto engine = DiscreteEngine();
     engine.allTransitions = {transition};
 
     cout << "Initializing..." << endl;
@@ -115,7 +115,7 @@ void testTimedTransition()
     auto transition = shared_ptr<Transition>(new TimedTransition("Transition 1", inputArch, outputArch, 5));
 
     vector<shared_ptr<SimObject>> objects = {placeOne, placeTwo, inputArch, outputArch, transition};
-    auto engine = DiscreteSimulationEngine();
+    auto engine = DiscreteEngine();
     engine.allTransitions = {transition};
 
     cout << "Initializing..." << endl;
@@ -139,7 +139,7 @@ void testGenerator()
     auto transition = shared_ptr<Transition>(new TimedTransition("Transition 1", inputArches, outputArches, 5));
 
     vector<shared_ptr<SimObject>> objects = {placeOne, placeTwo, inputArch, outputArch, rekurseArch, transition};
-    auto engine = DiscreteSimulationEngine();
+    auto engine = DiscreteEngine();
     engine.allTransitions = {transition};
 
     cout << "Initializing..." << endl;
@@ -159,7 +159,7 @@ void testInputWeightArch()
     auto transition = shared_ptr<Transition>(new TimedTransition("Transition 1", inputArch, outputArch, 5));
 
     vector<shared_ptr<SimObject>> objects = {placeOne, placeTwo, inputArch, outputArch, transition};
-    auto engine = DiscreteSimulationEngine();
+    auto engine = DiscreteEngine();
     engine.allTransitions = {transition};
 
     cout << "Initializing..." << endl;
@@ -180,7 +180,7 @@ void testOutputWeightArch()
     auto transition = shared_ptr<Transition>(new TimedTransition("Transition 1", inputArch, outputArch, 5));
 
     vector<shared_ptr<SimObject>> objects = {placeOne, placeTwo, inputArch, outputArch, transition};
-    auto engine = DiscreteSimulationEngine();
+    auto engine = DiscreteEngine();
     engine.allTransitions = {transition};
 
     cout << "Initializing..." << endl;
@@ -207,7 +207,7 @@ void testImmediateAndTimedTransition()
 
 
     vector<shared_ptr<SimObject>> objects = {immediate, timed};
-    auto engine = DiscreteSimulationEngine();
+    auto engine = DiscreteEngine();
     engine.allTransitions = {immediate, timed};
 
     cout << "Initializing..." << endl;
@@ -239,7 +239,7 @@ void testImmediateAndTimedTransitionTwo()
 
 
     vector<shared_ptr<SimObject>> objects = {immediate, timed};
-    auto engine = DiscreteSimulationEngine();
+    auto engine = DiscreteEngine();
     engine.allTransitions = {immediate, timed};
 
     cout << "Initializing..." << endl;
