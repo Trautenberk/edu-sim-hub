@@ -2,13 +2,13 @@
 #define PLACE_H
 
 #include <string>
-#include "../SimObject.hpp"
+#include "PetriNetsObject.hpp"
 #include <vector>
 
 using namespace std;
 
 
-class Place : public SimObject {
+class Place : public PetriNetsObject {
     public :
         string label() {return _label;};
         int tokens() {return _tokens;};
@@ -16,6 +16,7 @@ class Place : public SimObject {
         void addTokens(int cnt);
         Place(string label, int tokens = 0);
         string getObjType();
+        void initialize() {return;};
     private:
         string _label;
         int _tokens;

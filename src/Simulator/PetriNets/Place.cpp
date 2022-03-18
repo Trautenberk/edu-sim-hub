@@ -1,7 +1,7 @@
 #include "Place.hpp"
 #include <iostream>
 
-Place::Place(string label, int tokens) : SimObject()
+Place::Place(string label, int tokens) : PetriNetsObject()
 {
     this->_label = label;
     this->_tokens = tokens; 

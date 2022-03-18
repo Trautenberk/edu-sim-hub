@@ -1,17 +1,16 @@
 #ifndef TRANSITION_H
 #define TRANSITION_H
 
-#include "../SimObject.hpp"
+#include "PetriNetsObject.hpp"
 #include "Arch.hpp"
 #include <vector>
 #include <iostream>
-#include "../DiscreteSimulation/Global.hpp"
 #include <limits>
 #include <algorithm>
 
 using namespace std;
 
-class Transition : public SimObject
+class Transition : public PetriNetsObject
 {
     public:
         string label;

@@ -1,10 +1,12 @@
 #include "Transition.hpp"
 
 // Transition
-Transition::Transition(string label, vector<shared_ptr<InputArch>> inputArches, vector<shared_ptr<OutputArch>> outputArches) : SimObject()
+Transition::Transition(string label, vector<shared_ptr<InputArch>> inputArches, vector<shared_ptr<OutputArch>> outputArches) : PetriNetsObject()
 {
     this->label = label;
     this->inputArches = inputArches;
+
+    this->engine->allTransitions.push_back(this);
 
     for (auto& arch : inputArches)
     {
@@ -24,7 +26,7 @@ Transition::Transition(string label, vector<shared_ptr<InputArch>> inputArches, 
     this->allArches.insert(this->allArches.end(), inputArches.begin(), inputArches.end());
 }
 
-Transition::Transition(string label, shared_ptr<InputArch> inputArch, shared_ptr<OutputArch> outputArch) 
+Transition::Transition(string label, shared_ptr<InputArch> inputArch, shared_ptr<OutputArch> outputArch)
 : Transition(label, vector<shared_ptr<InputArch>>({inputArch}), vector<shared_ptr<OutputArch>>({outputArch}))
 {}
 
@@ -53,16 +55,13 @@ int Transition::allInputArchSsatisfied()
 
 void Transition::removeTransitionFiringEvent()
 {
-    auto& calendar = Global::discreteSimEngine->calendar;
     auto eventIdToCancel = plannedEventsId.front();
     plannedEventsId.pop_front();
-    calendar.cancelEvent(eventIdToCancel);
+    this->engine->calendar.cancelEvent(eventIdToCancel);
 }
 
 void Transition::fire(int eventId)
 {
-    auto& engine = Global::discreteSimEngine;
-
     for (auto i = 0; i < plannedEventsId.size(); i++)
     {
         if (plannedEventsId[i] == eventId)
@@ -75,7 +74,7 @@ void Transition::fire(int eventId)
         arch->execute();
     }
 
-    for (auto& transition : engine->allTransitions)
+    for (auto& transition : this->engine->allTransitions)
     {
         if (transition->id != this->id && transition->hasPlaceOnInput(this->placeIdsOnInput))
         {
@@ -90,7 +89,7 @@ void Transition::fire(int eventId)
         arch->execute();
     }
 
-    for (auto& transition : engine->allTransitions)
+    for (auto& transition : this->engine->allTransitions)
     {
         if (transition->hasPlaceOnInput(this->placeIdsOnOutput))
         {
@@ -154,10 +153,9 @@ string ImmediateTransition::getObjType()
 
 void ImmediateTransition::planTransitionFiringEvent()
 {
-    auto& engine = Global::discreteSimEngine;
     auto func = [this](int evenetId) {this->fire(evenetId);};
     auto event = Event(engine->time, func, this->priority);
-    engine->calendar.insertEvent(event);
+    this->engine->calendar.insertEvent(event);
     this->plannedEventsId.push_back(event.id);    
 }
 
@@ -183,9 +181,8 @@ string TimedTransition::getObjType()
 
 void TimedTransition::planTransitionFiringEvent()
 {
-    auto& engine = Global::discreteSimEngine;
     auto func = [this](int evenetId) {this->fire(evenetId);};
     auto event = Event(engine->time + this->delay, func);
-    engine->calendar.insertEvent(event);
+    this->engine->calendar.insertEvent(event);
     this->plannedEventsId.push_back(event.id);    
 }

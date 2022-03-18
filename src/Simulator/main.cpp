@@ -5,6 +5,7 @@
 #include "DiscreteSimulation/DiscreteEngine.hpp"
 #include <vector>
 #include "DiscreteSimulation/Calendar.hpp"
+#include "DiscreteSimulation/Generator.hpp"
 
 using namespace std;
 template <typename T> using SP = std::shared_ptr<T>;
@@ -42,7 +43,7 @@ int main()
 
 void printGeneratorOutput() {
     cout << "Random number generation:" << endl;
-    auto& generator = Global::discreteSimEngine->generator;
+    auto generator = Generator();
 
     for (int i = 0; i < 10; i++) {
         cout << "Random: " << generator.Random(50) << endl;
@@ -94,14 +95,14 @@ void testImmediateTransition()
 
     auto transition = shared_ptr<Transition>(new ImmediateTransition("Transition 1", inputArch, outputArch));
 
-    vector<shared_ptr<SimObject>> objects = {placeOne, placeTwo, inputArch, outputArch, transition};
-    auto engine = DiscreteEngine();
-    engine.allTransitions = {transition};
+    // vector<shared_ptr<SimObject>> objects = {placeOne, placeTwo, inputArch, outputArch, transition};
+    // auto engine = DiscreteEngine();
+    // engine.allTransitions = {transition};
 
-    cout << "Initializing..." << endl;
-    engine.init(10, objects);
-    cout << "Begin simulation..." << endl;
-    engine.simulate();
+    // cout << "Initializing..." << endl;
+    // engine.init(10, objects);
+    // cout << "Begin simulation..." << endl;
+    // engine.simulate();
     cout << "Simulation end..." << endl;
 }
 
@@ -114,15 +115,15 @@ void testTimedTransition()
 
     auto transition = shared_ptr<Transition>(new TimedTransition("Transition 1", inputArch, outputArch, 5));
 
-    vector<shared_ptr<SimObject>> objects = {placeOne, placeTwo, inputArch, outputArch, transition};
-    auto engine = DiscreteEngine();
-    engine.allTransitions = {transition};
+    // vector<shared_ptr<SimObject>> objects = {placeOne, placeTwo, inputArch, outputArch, transition};
+    // auto engine = DiscreteEngine();
+    // engine.allTransitions = {transition};
 
-    cout << "Initializing..." << endl;
-    engine.init(10, objects);
-    cout << "Begin simulation..." << endl;
-    engine.simulate();
-    cout << "Simulation end at "<< engine.time << "..." << endl;
+    // cout << "Initializing..." << endl;
+    // engine.init(10, objects);
+    // cout << "Begin simulation..." << endl;
+    // engine.simulate();
+    // cout << "Simulation end at "<< engine.time << "..." << endl;
 }
 
 void testGenerator()
@@ -138,15 +139,15 @@ void testGenerator()
     
     auto transition = shared_ptr<Transition>(new TimedTransition("Transition 1", inputArches, outputArches, 5));
 
-    vector<shared_ptr<SimObject>> objects = {placeOne, placeTwo, inputArch, outputArch, rekurseArch, transition};
-    auto engine = DiscreteEngine();
-    engine.allTransitions = {transition};
+    // vector<shared_ptr<SimObject>> objects = {placeOne, placeTwo, inputArch, outputArch, rekurseArch, transition};
+    // auto engine = DiscreteEngine();
+    // engine.allTransitions = {transition};
 
-    cout << "Initializing..." << endl;
-    engine.init(30, objects);
-    cout << "Begin simulation..." << endl;
-    engine.simulate();
-    cout << "Simulation end at "<< engine.time << "..." << endl;
+    // cout << "Initializing..." << endl;
+    // engine.init(30, objects);
+    // cout << "Begin simulation..." << endl;
+    // engine.simulate();
+    // cout << "Simulation end at "<< engine.time << "..." << endl;
 }
 
 void testInputWeightArch()
@@ -158,15 +159,15 @@ void testInputWeightArch()
 
     auto transition = shared_ptr<Transition>(new TimedTransition("Transition 1", inputArch, outputArch, 5));
 
-    vector<shared_ptr<SimObject>> objects = {placeOne, placeTwo, inputArch, outputArch, transition};
-    auto engine = DiscreteEngine();
-    engine.allTransitions = {transition};
+    // vector<shared_ptr<SimObject>> objects = {placeOne, placeTwo, inputArch, outputArch, transition};
+    // auto engine = DiscreteEngine();
+    // engine.allTransitions = {transition};
 
-    cout << "Initializing..." << endl;
-    engine.init(10, objects);
-    cout << "Begin simulation..." << endl;
-    engine.simulate();
-    cout << "Simulation end at "<< engine.time << "..." << endl;
+    // cout << "Initializing..." << endl;
+    // engine.init(10, objects);
+    // cout << "Begin simulation..." << endl;
+    // engine.simulate();
+    // cout << "Simulation end at "<< engine.time << "..." << endl;
 
 }
 
@@ -179,15 +180,15 @@ void testOutputWeightArch()
 
     auto transition = shared_ptr<Transition>(new TimedTransition("Transition 1", inputArch, outputArch, 5));
 
-    vector<shared_ptr<SimObject>> objects = {placeOne, placeTwo, inputArch, outputArch, transition};
-    auto engine = DiscreteEngine();
-    engine.allTransitions = {transition};
+    // vector<shared_ptr<SimObject>> objects = {placeOne, placeTwo, inputArch, outputArch, transition};
+    // auto engine = DiscreteEngine();
+    // engine.allTransitions = {transition};
 
-    cout << "Initializing..." << endl;
-    engine.init(10, objects);
-    cout << "Begin simulation..." << endl;
-    engine.simulate();
-    cout << "Simulation end at "<< engine.time << "..." << endl;
+    // cout << "Initializing..." << endl;
+    // engine.init(10, objects);
+    // cout << "Begin simulation..." << endl;
+    // engine.simulate();
+    // cout << "Simulation end at "<< engine.time << "..." << endl;
 }
 
 void testImmediateAndTimedTransition()
@@ -206,45 +207,45 @@ void testImmediateAndTimedTransition()
     auto timed = shared_ptr<Transition>(new TimedTransition("Timed 1", inputTimed, outputTimed, 5));
 
 
-    vector<shared_ptr<SimObject>> objects = {immediate, timed};
-    auto engine = DiscreteEngine();
-    engine.allTransitions = {immediate, timed};
+    // vector<shared_ptr<SimObject>> objects = {immediate, timed};
+    // auto engine = DiscreteEngine();
+    // engine.allTransitions = {immediate, timed};
 
-    cout << "Initializing..." << endl;
-    engine.init(10, objects);
-    cout << "Begin simulation..." << endl;
-    engine.simulate();
-    cout << "Simulation end at "<< engine.time << "..." << endl;
+    // cout << "Initializing..." << endl;
+    // engine.init(10, objects);
+    // cout << "Begin simulation..." << endl;
+    // engine.simulate();
+    // cout << "Simulation end at "<< engine.time << "..." << endl;
 }
 
 void testImmediateAndTimedTransitionTwo()
 {
-    auto placeOne = shared_ptr<Place>(new Place("Place 1", 5));
-    auto placeTwo = shared_ptr<Place>(new Place("Place 2", 2));
-    auto placeThree = shared_ptr<Place>(new Place("Place 3", 0));
-    auto placeFour = shared_ptr<Place>(new Place("Place 4", 0));
+    // auto placeOne = shared_ptr<Place>(new Place("Place 1", 5));
+    // auto placeTwo = shared_ptr<Place>(new Place("Place 2", 2));
+    // auto placeThree = shared_ptr<Place>(new Place("Place 3", 0));
+    // auto placeFour = shared_ptr<Place>(new Place("Place 4", 0));
 
-    auto inputImmediate = shared_ptr<InputArch>(new InputArch(placeOne));
-    auto inputImmediateTwo = shared_ptr<InputArch>(new InputArch(placeTwo));
-    auto outputImmediate = shared_ptr<OutputArch>(new OutputArch(placeThree));
+    // auto inputImmediate = shared_ptr<InputArch>(new InputArch(placeOne));
+    // auto inputImmediateTwo = shared_ptr<InputArch>(new InputArch(placeTwo));
+    // auto outputImmediate = shared_ptr<OutputArch>(new OutputArch(placeThree));
 
-    auto inputTimed = shared_ptr<InputArch>(new InputArch(placeOne));
-    auto outputTimed = shared_ptr<OutputArch>(new OutputArch(placeFour));
+    // auto inputTimed = shared_ptr<InputArch>(new InputArch(placeOne));
+    // auto outputTimed = shared_ptr<OutputArch>(new OutputArch(placeFour));
 
-    vector<shared_ptr<InputArch>> immediateInputs = {inputImmediate, inputImmediateTwo};
-    vector<shared_ptr<OutputArch>> immediateOutputs = {outputImmediate};
+    // vector<shared_ptr<InputArch>> immediateInputs = {inputImmediate, inputImmediateTwo};
+    // vector<shared_ptr<OutputArch>> immediateOutputs = {outputImmediate};
 
-    auto immediate = shared_ptr<Transition>(new ImmediateTransition("Immediate 1", immediateInputs, immediateOutputs));
-    auto timed = shared_ptr<Transition>(new TimedTransition("Timed 1", inputTimed, outputTimed, 5));
+    // auto immediate = shared_ptr<Transition>(new ImmediateTransition("Immediate 1", immediateInputs, immediateOutputs));
+    // auto timed = shared_ptr<Transition>(new TimedTransition("Timed 1", inputTimed, outputTimed, 5));
 
 
-    vector<shared_ptr<SimObject>> objects = {immediate, timed};
-    auto engine = DiscreteEngine();
-    engine.allTransitions = {immediate, timed};
+    // vector<shared_ptr<SimObject>> objects = {immediate, timed};
+    // auto engine = DiscreteEngine();
+    // engine.allTransitions = {immediate, timed};
 
-    cout << "Initializing..." << endl;
-    engine.init(10, objects);
-    cout << "Begin simulation..." << endl;
-    engine.simulate();
-    cout << "Simulation end at "<< engine.time << "..." << endl;
+    // cout << "Initializing..." << endl;
+    // engine.init(10, objects);
+    // cout << "Begin simulation..." << endl;
+    // engine.simulate();
+    // cout << "Simulation end at "<< engine.time << "..." << endl;
 }

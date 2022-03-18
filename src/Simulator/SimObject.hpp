@@ -13,8 +13,8 @@ using namespace std;
     public: 
         string id;
         SimObject();
-        virtual string getObjType();
-        virtual void initialize();
+        virtual string getObjType() = 0;
+        virtual void initialize() = 0;
 };
 
 

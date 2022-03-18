@@ -5,19 +5,20 @@
 #include "../SimObject.hpp"
 #include <vector>
 #include <iostream>
-#include "Global.hpp"
 #include <memory>
 #include "Generator.hpp"
-#include "../PetriNets/Transition.hpp"
 
 using namespace std;
-class Transition;
-
 
 class DiscreteEngine {
     public:
-        DiscreteEngine();
-        void init(float endTime, vector<shared_ptr<SimObject>> &objects, int maxIteration = 1000);
+        static DiscreteEngine& getInstance()
+        {
+            static DiscreteEngine instance;
+            return instance;
+        }
+
+        void init(float endTime, int maxIteration = 1000);
         void simulate();
         int maxIteration;
         int iteration;
@@ -25,8 +26,11 @@ class DiscreteEngine {
         Generator generator = Generator();
         float endTime;
         float time = 0;
-        vector<shared_ptr<SimObject>> simObjects = {}; 
-        vector<shared_ptr<Transition>> allTransitions = {};
+        vector<SimObject*> simObjects = {}; 
+    protected:
+        DiscreteEngine() = default;
+        DiscreteEngine(DiscreteEngine const&) = delete;
+        void operator=(DiscreteEngine const&) = delete;
 };
 
 #endif

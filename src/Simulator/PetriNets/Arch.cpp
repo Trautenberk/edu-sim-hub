@@ -1,9 +1,8 @@
 #include "Arch.hpp"
-#include <iostream>
 
 using namespace std;
 
-Arch::Arch(shared_ptr<Place> targetPlace, int weight) : SimObject()
+Arch::Arch(shared_ptr<Place> targetPlace, int weight) : PetriNetsObject()
 {
     if (weight < 1) {
         cerr << "Error: cannot initialize arch with weight smaller than one" << endl;
@@ -20,15 +19,6 @@ string Arch::getObjType()
     return "Arch";
 }
 
-void Arch::execute()
-{
-    return;
-}
-
-void Arch::initialize()
-{
-    return;
-}
 /// InputArch
 InputArch::InputArch(shared_ptr<Place> targetPlace, int weight) : Arch(targetPlace, weight)
 {}

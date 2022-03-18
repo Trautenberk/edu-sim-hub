@@ -3,6 +3,7 @@
 
 TEST(ImmediateTransitionFire, BasicAssertions) 
 {
+  auto engine = shared_ptr<PetriNetsEngine>(new PetriNetsEngine());
   auto inPlace = shared_ptr<Place>(new Place("Input Place", 1));
   auto outPlace = shared_ptr<Place>(new Place("Output Place", 0));
   auto inArch = shared_ptr<InputArch>(new InputArch(inPlace));
