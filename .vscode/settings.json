@@ -4,7 +4,14 @@
     "typescript.referencesCodeLens.enabled": true,
     "C_Cpp.errorSquiggles": "Enabled",
     "files.associations": {
-        "vector": "cpp"
+        "vector": "cpp",
+        "*.tcc": "cpp",
+        "unordered_map": "cpp",
+        "fstream": "cpp",
+        "istream": "cpp",
+        "numeric": "cpp",
+        "ostream": "cpp",
+        "sstream": "cpp"
     },
     "testMate.cpp.test.executables": "{src/Simulator/build,Build,BUILD,out,Out,OUT}/**/*{test,Test,TEST}*"
 }

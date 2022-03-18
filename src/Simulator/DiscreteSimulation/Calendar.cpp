@@ -39,3 +39,8 @@ bool Calendar::cancelEvent(int id)
     }
     return false;
 }
+
+void Calendar::clear()
+{
+    this->_eventQueue.clear();
+}

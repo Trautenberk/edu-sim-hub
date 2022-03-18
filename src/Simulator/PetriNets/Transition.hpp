@@ -18,9 +18,10 @@ class Transition : public PetriNetsObject
         vector<shared_ptr<OutputArch>> outputArches = {};
         vector<shared_ptr<Arch>> allArches = {};
         deque<int> plannedEventsId = {};
+        int firedCnt = 0;
 
-        Transition(string label, vector<shared_ptr<InputArch>> inputArches, vector<shared_ptr<OutputArch>> outputArches);
-        Transition(string label, shared_ptr<InputArch> inputArch, shared_ptr<OutputArch> outputArch);
+        Transition(shared_ptr<PetriNetsEngine> engine, string label, vector<shared_ptr<InputArch>> inputArches, vector<shared_ptr<OutputArch>> outputArches);
+        Transition(shared_ptr<PetriNetsEngine> engine, string label, shared_ptr<InputArch> inputArch, shared_ptr<OutputArch> outputArch);
 
         virtual string getObjType() = 0;
         void initialize();
@@ -39,8 +40,8 @@ class ImmediateTransition : public Transition {
     public:
         int priority;
         string getObjType();
-        ImmediateTransition(string label, vector<shared_ptr<InputArch>> inputArches, vector<shared_ptr<OutputArch>> outputArches, int priority = 0);
-        ImmediateTransition(string label, shared_ptr<InputArch> inputArch, shared_ptr<OutputArch> outputArch, int priority = 0);
+        ImmediateTransition(shared_ptr<PetriNetsEngine> engine, string label, vector<shared_ptr<InputArch>> inputArches, vector<shared_ptr<OutputArch>> outputArches, int priority = 0);
+        ImmediateTransition(shared_ptr<PetriNetsEngine> engine, string label, shared_ptr<InputArch> inputArch, shared_ptr<OutputArch> outputArch, int priority = 0);
         void planTransitionFiringEvent();
 };
 
@@ -49,8 +50,8 @@ class TimedTransition : public Transition {
     public:
         int delay;
         string getObjType();
-        TimedTransition(string label, vector<shared_ptr<InputArch>> inputArches, vector<shared_ptr<OutputArch>> outputArches, int delay);
-        TimedTransition(string label, shared_ptr<InputArch> inputArch, shared_ptr<OutputArch> outputArch, int delay);
+        TimedTransition(shared_ptr<PetriNetsEngine> engine, string label, vector<shared_ptr<InputArch>> inputArches, vector<shared_ptr<OutputArch>> outputArches, int delay);
+        TimedTransition(shared_ptr<PetriNetsEngine> engine, string label, shared_ptr<InputArch> inputArch, shared_ptr<OutputArch> outputArch, int delay);
         void planTransitionFiringEvent();
 };
 

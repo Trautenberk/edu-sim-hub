@@ -3,6 +3,7 @@
 void DiscreteEngine::init(float endTime, int maxIteration)
 {  
     this->endTime = endTime;
+    this->time = 0;
     this->maxIteration = maxIteration;
     this->iteration = 0;
     
@@ -26,5 +27,15 @@ void DiscreteEngine::simulate()
         this->iteration++;
     }
     
-    cout << "Simulation finished at time: " << time << endl;      
+    cout << "Simulation finished at time: " << time << endl;
+
+}
+
+void DiscreteEngine::clear()
+{
+    this->calendar.clear();
+    this->endTime = 0;
+    this->time = 0;
+    this->simObjects = {};
+    this->iteration = 0;
 }

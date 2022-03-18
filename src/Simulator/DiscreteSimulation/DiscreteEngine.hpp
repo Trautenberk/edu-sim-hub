@@ -20,6 +20,8 @@ class DiscreteEngine {
 
         void init(float endTime, int maxIteration = 1000);
         void simulate();
+        void clear();
+
         int maxIteration;
         int iteration;
         Calendar calendar = Calendar();

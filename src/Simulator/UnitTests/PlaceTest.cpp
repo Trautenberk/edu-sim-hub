@@ -1,10 +1,11 @@
 #include <gtest/gtest.h>
 #include "../PetriNets/Place.hpp"
-
+#include "../PetriNets/PetriNetsEngine.hpp"
 
 TEST(AddTokens, BasicAssertions)
 {
-    auto place = Place("Test", 0);
+    auto engine = shared_ptr<PetriNetsEngine> (new PetriNetsEngine());
+    auto place = Place(engine, "Test", 0);
     EXPECT_EQ(place.tokens(),0);
     place.addTokens(5);
     EXPECT_EQ(place.tokens(),5);
@@ -14,7 +15,8 @@ TEST(AddTokens, BasicAssertions)
 
 TEST(RemoveTokens, BasicAssertions) 
 {
-    auto place = Place("Test", 15);
+    auto engine = shared_ptr<PetriNetsEngine> (new PetriNetsEngine());
+    auto place = Place(engine, "Test", 15);
     EXPECT_EQ(place.tokens(),15);
     place.removeTokens(5);
     EXPECT_EQ(place.tokens(), 10);
@@ -26,7 +28,8 @@ TEST(RemoveTokensException, BasicAssertions)
 {
     try
     {
-        auto place = Place("Test", 3);
+        auto engine = shared_ptr<PetriNetsEngine> (new PetriNetsEngine());
+        auto place = Place(engine, "Test", 3);
         place.removeTokens(4);
         FAIL();
     }

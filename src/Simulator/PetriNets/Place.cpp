@@ -1,7 +1,7 @@
 #include "Place.hpp"
 #include <iostream>
 
-Place::Place(string label, int tokens) : PetriNetsObject()
+Place::Place(shared_ptr<PetriNetsEngine> engine, string label, int tokens) : PetriNetsObject(engine)
 {
     this->_label = label;
     this->_tokens = tokens; 

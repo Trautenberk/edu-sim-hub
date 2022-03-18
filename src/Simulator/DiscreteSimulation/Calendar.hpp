@@ -10,6 +10,7 @@ using namespace std;
 class Calendar {
 
     public:
+        void clear();
         Event getNextEvent();
         void insertEvent(Event event);
         bool cancelEvent(int eventId);

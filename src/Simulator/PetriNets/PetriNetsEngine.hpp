@@ -7,11 +7,6 @@ class Transition;
 
 class PetriNetsEngine : public DiscreteEngine {
     public:
-        static PetriNetsEngine& getInstance()
-        {
-            static PetriNetsEngine instance;
-            return instance;
-        }
         vector<Transition*> allTransitions = {};
 };
 

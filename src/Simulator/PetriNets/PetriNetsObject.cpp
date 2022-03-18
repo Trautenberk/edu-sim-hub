@@ -1,7 +1,7 @@
 #include "PetriNetsObject.hpp"
 
-PetriNetsObject::PetriNetsObject() : SimObject()
+PetriNetsObject::PetriNetsObject(shared_ptr<PetriNetsEngine> engine) : SimObject()
 {
-    this->engine = &PetriNetsEngine::getInstance();
+    this->engine = engine;
     this->engine->simObjects.push_back(this);
 }

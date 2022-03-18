@@ -8,8 +8,8 @@ class PetriNetsEngine;
 
 class PetriNetsObject : public SimObject {
     public:
-        PetriNetsObject();
-        PetriNetsEngine* engine;
+        PetriNetsObject(shared_ptr<PetriNetsEngine> engine);
+        shared_ptr<PetriNetsEngine> engine;
         virtual string getObjType() = 0;
         virtual void initialize() = 0;
 };

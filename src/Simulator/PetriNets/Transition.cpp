@@ -1,7 +1,8 @@
 #include "Transition.hpp"
 
 // Transition
-Transition::Transition(string label, vector<shared_ptr<InputArch>> inputArches, vector<shared_ptr<OutputArch>> outputArches) : PetriNetsObject()
+Transition::Transition(shared_ptr<PetriNetsEngine> engine, string label, vector<shared_ptr<InputArch>> inputArches, vector<shared_ptr<OutputArch>> outputArches) 
+: PetriNetsObject(engine)
 {
     this->label = label;
     this->inputArches = inputArches;
@@ -26,8 +27,8 @@ Transition::Transition(string label, vector<shared_ptr<InputArch>> inputArches, 
     this->allArches.insert(this->allArches.end(), inputArches.begin(), inputArches.end());
 }
 
-Transition::Transition(string label, shared_ptr<InputArch> inputArch, shared_ptr<OutputArch> outputArch)
-: Transition(label, vector<shared_ptr<InputArch>>({inputArch}), vector<shared_ptr<OutputArch>>({outputArch}))
+Transition::Transition(shared_ptr<PetriNetsEngine> engine, string label, shared_ptr<InputArch> inputArch, shared_ptr<OutputArch> outputArch)
+: Transition(engine, label, vector<shared_ptr<InputArch>>({inputArch}), vector<shared_ptr<OutputArch>>({outputArch}))
 {}
 
 void Transition::initialize()
@@ -97,6 +98,7 @@ void Transition::fire(int eventId)
             transition->rePlanTransition();
         }
     }
+    this->firedCnt++;
 }
 
 bool Transition::hasPlaceOnInput(vector<string> &placeIds)
@@ -134,14 +136,14 @@ void Transition::rePlanTransition()
 
 // ImmediateTransition
 
-ImmediateTransition::ImmediateTransition(string label, vector<shared_ptr<InputArch>> inputArches, vector<shared_ptr<OutputArch>> outputArches, int priority)
-: Transition(label, inputArches, outputArches)
+ImmediateTransition::ImmediateTransition(shared_ptr<PetriNetsEngine> engine, string label, vector<shared_ptr<InputArch>> inputArches, vector<shared_ptr<OutputArch>> outputArches, int priority)
+: Transition(engine, label, inputArches, outputArches)
 {
     this->priority = priority;
 }
 
-ImmediateTransition::ImmediateTransition(string label, shared_ptr<InputArch> inputArch, shared_ptr<OutputArch> outputArch, int priority)
-: Transition(label, inputArch, outputArch)
+ImmediateTransition::ImmediateTransition(shared_ptr<PetriNetsEngine> engine, string label, shared_ptr<InputArch> inputArch, shared_ptr<OutputArch> outputArch, int priority)
+: Transition(engine, label, inputArch, outputArch)
 {
     this->priority = priority;
 }
@@ -162,14 +164,14 @@ void ImmediateTransition::planTransitionFiringEvent()
 
 // TimedTransition
 
-TimedTransition::TimedTransition(string label, vector<shared_ptr<InputArch>> inputArches, vector<shared_ptr<OutputArch>> outputArches, int delay)
-: Transition(label, inputArches, outputArches)
+TimedTransition::TimedTransition(shared_ptr<PetriNetsEngine> engine, string label, vector<shared_ptr<InputArch>> inputArches, vector<shared_ptr<OutputArch>> outputArches, int delay)
+: Transition(engine, label, inputArches, outputArches)
 {
     this->delay = delay;
 }
 
-TimedTransition::TimedTransition(string label, shared_ptr<InputArch> inputArch, shared_ptr<OutputArch> outputArch, int delay)
-: Transition(label, inputArch, outputArch)
+TimedTransition::TimedTransition(shared_ptr<PetriNetsEngine> engine, string label, shared_ptr<InputArch> inputArch, shared_ptr<OutputArch> outputArch, int delay)
+: Transition(engine, label, inputArch, outputArch)
 {
     this->delay = delay;
 }
