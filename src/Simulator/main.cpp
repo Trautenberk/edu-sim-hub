@@ -5,7 +5,7 @@
 #include "DiscreteSimulation/DiscreteEngine.hpp"
 #include <vector>
 #include "DiscreteSimulation/Calendar.hpp"
-#include "DiscreteSimulation/Generator.hpp"
+#include "Generator/Generator.hpp"
 
 using namespace std;
 template <typename T> using SP = std::shared_ptr<T>;

@@ -6,7 +6,7 @@
 #include <vector>
 #include <iostream>
 #include <memory>
-#include "Generator.hpp"
+#include "../Generator/Generator.hpp"
 
 using namespace std;
 
