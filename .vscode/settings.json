@@ -13,5 +13,11 @@
         "ostream": "cpp",
         "sstream": "cpp"
     },
-    "testMate.cpp.test.executables": "{src/Simulator/build,Build,BUILD,out,Out,OUT}/**/*{test,Test,TEST}*"
+    "testMate.cpp.test.executables": "{src/Simulator/build,Build,BUILD,out,Out,OUT}/**/*{test,Test,TEST}*",
+    "CppHelper.SourcePattern": [
+        "{FILE}.cpp",
+        "{FILE}.c",
+        "{FILE}.inl",
+        "/src/{FILE}.cpp"
+    ]
 }

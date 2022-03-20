@@ -14,7 +14,6 @@ using namespace std;
         string id;
         SimObject();
         virtual string getObjType() = 0;
-        virtual void initialize() = 0;
 };
 
 

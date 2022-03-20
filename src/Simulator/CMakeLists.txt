@@ -1,7 +1,9 @@
 
+set(GENERATOR_LIB Generator_lib)
 set(PETRI_NETS_LIB PetriNets_lib)
 set(DISCRETE_SIMULATION_LIB DiscreteSimulation_lib)
-set(GENERATOR_LIB Generator_lib)
+set(CONTINOUS_SIMULATION_LIB ContinousSimulation_lib)
+set(CONTINOUS_BLOCK_LIB ContinousBlock_lib)
 
 if (NOT (${CMAKE_SYSTEM_NAME} MATCHES "Emscripten"))
     set(CMAKE_CXX_STANDARD 17)
@@ -12,10 +14,11 @@ if (NOT (${CMAKE_SYSTEM_NAME} MATCHES "Emscripten"))
     add_subdirectory(UnitTests)
 endif()
 
-
+add_subdirectory(Generator)
 add_subdirectory(PetriNets)
 add_subdirectory(DiscreteSimulation)
-add_subdirectory(Generator)
+add_subdirectory(ContinousSimulation)
+add_subdirectory(ContinousBlocks)
 
 add_executable(${PROJECT_NAME} main.cpp)
 

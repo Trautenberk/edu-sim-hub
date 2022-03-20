@@ -2,7 +2,7 @@
 #define DiscreteEngine_H
 
 #include "Calendar.hpp"
-#include "../SimObject.hpp"
+#include "DiscreteSimObject.hpp"
 #include <vector>
 #include <iostream>
 #include <memory>
@@ -12,12 +12,6 @@ using namespace std;
 
 class DiscreteEngine {
     public:
-        static DiscreteEngine& getInstance()
-        {
-            static DiscreteEngine instance;
-            return instance;
-        }
-
         void init(float endTime, int maxIteration = 1000);
         void simulate();
         void clear();
@@ -28,11 +22,7 @@ class DiscreteEngine {
         Generator generator = Generator();
         float endTime;
         float time = 0;
-        vector<SimObject*> simObjects = {}; 
-    protected:
-        DiscreteEngine() = default;
-        DiscreteEngine(DiscreteEngine const&) = delete;
-        void operator=(DiscreteEngine const&) = delete;
+        vector<DiscreteSimObject*> simObjects = {}; 
 };
 
 #endif
