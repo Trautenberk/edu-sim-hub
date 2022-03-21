@@ -8,4 +8,6 @@ void Gain::eval()
 {}
 
 double Gain::value()
-{}
+{
+    return input->value() * gain;
+}

@@ -7,4 +7,6 @@ void Mul::eval()
 {}
 
 double Mul::value()
-{}
+{
+    return inputFirst->value() * inputSecond->value();
+}

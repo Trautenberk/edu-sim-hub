@@ -7,4 +7,6 @@ void Sub::eval()
 {}
 
 double Sub::value()
-{}
+{
+    return inputFirst->value() - inputSecond->value();
+}

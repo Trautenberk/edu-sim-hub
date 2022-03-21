@@ -7,4 +7,6 @@ void Add::eval()
 {}
 
 double Add::value()
-{}
+{
+    return inputFirst->value() + inputSecond->value();
+}

@@ -7,4 +7,13 @@ void Sum::eval()
 {}
 
 double Sum::value()
-{}
+{
+    double result = 0;
+
+    for(auto& input : inputs)
+    {
+        result += input->value();
+    }
+    
+    return result;
+}

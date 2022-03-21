@@ -10,8 +10,8 @@ class Constant : public ContBlock
 {
     public:
         Constant(double value);
-        void eval() {/*Prazdny TODO*/};
-        double value() {return this->_value;};
+        void eval();
+        double value();
         string objTypeName() {return "ConstantBlock";};
     private: 
         double _value;

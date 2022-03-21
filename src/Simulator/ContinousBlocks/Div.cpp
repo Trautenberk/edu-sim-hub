@@ -7,4 +7,6 @@ void Div::eval()
 {}
 
 double Div::value()
-{}
+{
+    return inputFirst->value() / inputSecond->value();
+}
