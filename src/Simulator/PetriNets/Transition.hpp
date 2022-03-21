@@ -23,23 +23,22 @@ class Transition : public PetriNetsObject
         Transition(shared_ptr<PetriNetsEngine> engine, string label, vector<shared_ptr<InputArch>> inputArches, vector<shared_ptr<OutputArch>> outputArches);
         Transition(shared_ptr<PetriNetsEngine> engine, string label, shared_ptr<InputArch> inputArch, shared_ptr<OutputArch> outputArch);
 
-        virtual string getObjType() = 0;
         void initialize();
         int allInputArchSsatisfied();
         virtual void planTransitionFiringEvent() = 0;
         void removeTransitionFiringEvent();
         void rePlanTransition();
         void fire(int eventId);
-        bool hasPlaceOnInput(vector<string> &placeId);
-        vector<string> placeIdsOnInput = {};
-        vector<string> placeIdsOnOutput = {};
+        bool hasPlaceOnInput(vector<int> &placeId);
+        vector<int> placeIdsOnInput = {};
+        vector<int> placeIdsOnOutput = {};
 };
 
 
 class ImmediateTransition : public Transition {
     public:
         int priority;
-        string getObjType();
+        string objTypeName() {return "ImmediateTransition";};
         ImmediateTransition(shared_ptr<PetriNetsEngine> engine, string label, vector<shared_ptr<InputArch>> inputArches, vector<shared_ptr<OutputArch>> outputArches, int priority = 0);
         ImmediateTransition(shared_ptr<PetriNetsEngine> engine, string label, shared_ptr<InputArch> inputArch, shared_ptr<OutputArch> outputArch, int priority = 0);
         void planTransitionFiringEvent();
@@ -49,7 +48,7 @@ class ImmediateTransition : public Transition {
 class TimedTransition : public Transition {
     public:
         int delay;
-        string getObjType();
+        string objTypeName() {return "TimedTransition";};
         TimedTransition(shared_ptr<PetriNetsEngine> engine, string label, vector<shared_ptr<InputArch>> inputArches, vector<shared_ptr<OutputArch>> outputArches, int delay);
         TimedTransition(shared_ptr<PetriNetsEngine> engine, string label, shared_ptr<InputArch> inputArch, shared_ptr<OutputArch> outputArch, int delay);
         void planTransitionFiringEvent();

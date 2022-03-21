@@ -13,12 +13,6 @@ Arch::Arch(shared_ptr<PetriNetsEngine> engine, shared_ptr<Place> targetPlace, in
     this->_weight = weight;
 }
 
-
-string Arch::getObjType()
-{
-    return "Arch";
-}
-
 /// InputArch
 InputArch::InputArch(shared_ptr<PetriNetsEngine> engine, shared_ptr<Place> targetPlace, int weight) : Arch(engine, targetPlace, weight)
 {}

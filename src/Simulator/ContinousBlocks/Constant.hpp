@@ -12,7 +12,7 @@ class Constant : public ContBlock
         Constant(double value);
         void eval() {/*Prazdny TODO*/};
         double value() {return this->_value;};
-        string getObjType() {return "ConstantContBlock";};
+        string objTypeName() {return "ConstantBlock";};
     private: 
         double _value;
 };

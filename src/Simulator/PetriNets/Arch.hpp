@@ -12,7 +12,7 @@ using namespace std;
 class Arch : public PetriNetsObject {
     public:
         Arch(shared_ptr<PetriNetsEngine> engine, shared_ptr<Place> targetPlace, int weight = 1);
-        string getObjType();
+        virtual string objTypeName() = 0;
         int weight() const {return _weight;};
         shared_ptr<Place> targetPlace;
         virtual void execute() = 0;
@@ -25,6 +25,7 @@ class Arch : public PetriNetsObject {
 class InputArch : public Arch {
     public:
         InputArch(shared_ptr<PetriNetsEngine> engine, shared_ptr<Place> targetPlace, int weight = 1);
+        string objTypeName() {return "InputArch";};
         void execute();
         int satisfied();
 };
@@ -32,6 +33,7 @@ class InputArch : public Arch {
 class OutputArch : public Arch {
     public:
         OutputArch(shared_ptr<PetriNetsEngine> engine, shared_ptr<Place> targetPlace, int weight = 1);
+        string objTypeName() {return "OutputArch";};
         void execute();
 };
 

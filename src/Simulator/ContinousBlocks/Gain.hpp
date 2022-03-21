@@ -10,6 +10,9 @@ class Gain : public ContBlockSingle {
     public:
         Gain(double gain, shared_ptr<ContBlock> input);
         double gain = 0;
+        string objTypeName() {return "GainBlock";};
+        void eval();
+        double value();
 };
 
 #endif // __GAIN_H__

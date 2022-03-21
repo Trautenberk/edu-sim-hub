@@ -11,6 +11,9 @@ class Sum : public ContBlockMulti
 {
     public:
         Sum(vector<shared_ptr<ContBlock>> &inputs);
+        string objTypeName() {return "SumBlock";};
+        void eval();
+        double value();
 };
 
 #endif // __SUM_H__

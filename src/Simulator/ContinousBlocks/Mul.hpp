@@ -6,5 +6,8 @@
 class Mul : public ContBlockDouble {
     public:
         Mul(shared_ptr<ContBlock> inputFirst, shared_ptr<ContBlock> inputSecond);
+        string objTypeName() {return "MulBlock";};
+        void eval();
+        double value();
 };
 #endif // __MUL_H__

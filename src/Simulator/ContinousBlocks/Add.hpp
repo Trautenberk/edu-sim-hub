@@ -6,6 +6,9 @@
 class Add : public ContBlockDouble {
     public:
         Add(shared_ptr<ContBlock> inputFirst, shared_ptr<ContBlock> inputSecond);
+        void eval();
+        double value();
+        string objTypeName() {return "AddBlock";};
 
 };
 

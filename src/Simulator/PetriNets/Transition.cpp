@@ -11,14 +11,14 @@ Transition::Transition(shared_ptr<PetriNetsEngine> engine, string label, vector<
 
     for (auto& arch : inputArches)
     {
-        this->placeIdsOnInput.push_back(arch->targetPlace->id);
+        this->placeIdsOnInput.push_back(arch->targetPlace->id());
     }
 
     this->outputArches = outputArches;
 
     for (auto& arch : outputArches)
     {
-        this->placeIdsOnOutput.push_back(arch->targetPlace->id);
+        this->placeIdsOnOutput.push_back(arch->targetPlace->id());
     }
 
     this->allArches.reserve(inputArches.size() + outputArches.size());
@@ -77,7 +77,7 @@ void Transition::fire(int eventId)
 
     for (auto& transition : this->engine->allTransitions)
     {
-        if (transition->id != this->id && transition->hasPlaceOnInput(this->placeIdsOnInput))
+        if (transition->id() != this->id() && transition->hasPlaceOnInput(this->placeIdsOnInput))
         {
             // temhle prechodum jsem odebral na vstupu
             transition->rePlanTransition();
@@ -101,11 +101,11 @@ void Transition::fire(int eventId)
     this->firedCnt++;
 }
 
-bool Transition::hasPlaceOnInput(vector<string> &placeIds)
+bool Transition::hasPlaceOnInput(vector<int> &placeIds)
 {
     for (auto& arch : this->inputArches)
     {
-        if (find(placeIds.begin(), placeIds.end(), arch->targetPlace->id) != placeIds.end())
+        if (find(placeIds.begin(), placeIds.end(), arch->targetPlace->id()) != placeIds.end())
         {
             return true;
         }
@@ -148,11 +148,6 @@ ImmediateTransition::ImmediateTransition(shared_ptr<PetriNetsEngine> engine, str
     this->priority = priority;
 }
 
-string ImmediateTransition::getObjType()
-{
-    return "ImmediateTransition";
-}
-
 void ImmediateTransition::planTransitionFiringEvent()
 {
     auto func = [this](int evenetId) {this->fire(evenetId);};
@@ -174,11 +169,6 @@ TimedTransition::TimedTransition(shared_ptr<PetriNetsEngine> engine, string labe
 : Transition(engine, label, inputArch, outputArch)
 {
     this->delay = delay;
-}
-
-string TimedTransition::getObjType()
-{
-    return "TimedTransition";
 }
 
 void TimedTransition::planTransitionFiringEvent()

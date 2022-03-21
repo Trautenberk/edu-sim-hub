@@ -6,6 +6,16 @@
 #include <vector>
 #include "DiscreteSimulation/Calendar.hpp"
 #include "Generator/Generator.hpp"
+#include "ContinousBlocks/Add.hpp"
+#include "ContinousBlocks/Constant.hpp"
+#include "ContinousBlocks/Div.hpp"
+#include "ContinousBlocks/Gain.hpp"
+#include "ContinousBlocks/Mul.hpp"
+#include "ContinousBlocks/Integrator.hpp"
+#include "ContinousBlocks/Sub.hpp"
+#include "ContinousBlocks/Sum.hpp"
+
+
 
 using namespace std;
 template <typename T> using SP = std::shared_ptr<T>;
@@ -15,13 +25,13 @@ template <typename T> using vec = std::vector<T>;
 void printGeneratorOutput();
 void testGenerator();
 void testPriorityEvent();
-
+void contBlocksSandBox();
 
 
 int main()
 {
     cout << "Main begin..." << endl;
-
+    contBlocksSandBox();
     cout << "Main end..." << endl;
 }
 
@@ -95,4 +105,21 @@ void testGenerator()
     // cout << "Begin simulation..." << endl;
     // engine.simulate();
     // cout << "Simulation end at "<< engine.time << "..." << endl;
+}
+
+void contBlocksSandBox()
+{
+    auto constantOne = make_shared<Constant>(1.0);
+    auto constantTwo = make_shared<Constant>(2.0);
+    vector<shared_ptr<ContBlock>> inputs = {constantOne, constantTwo};
+
+    auto add = Add(constantOne, constantTwo);
+    auto sub = Sub(constantOne, constantTwo);
+    auto div = Div(constantOne, constantTwo);
+    auto mul = Mul(constantOne, constantTwo);
+    auto gain = Gain(1, constantOne);
+    auto integrator = Integrator();
+    auto sum = Sum(inputs);
+
+
 }

@@ -12,6 +12,9 @@ class Integrator : ContBlock {
         void updateState();
         double initialValue;
         double prevStateValue;
+        string objTypeName() {return "IntegratorBlock";};
+        void eval();
+        double value();
         // TODO
 };
 #endif // __INTEGRATOR_H__

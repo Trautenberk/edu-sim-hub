@@ -15,7 +15,7 @@ class Place : public PetriNetsObject {
         void removeTokens(int cnt);
         void addTokens(int cnt);
         Place(shared_ptr<PetriNetsEngine> engine, string label, int tokens = 0);
-        string getObjType();
+        string objTypeName() {return "Place";};
         void initialize() {return;};
     private:
         string _label;

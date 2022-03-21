@@ -10,7 +10,6 @@ class PetriNetsObject : public DiscreteSimObject {
     public:
         PetriNetsObject(shared_ptr<PetriNetsEngine> engine);
         shared_ptr<PetriNetsEngine> engine;
-        virtual string getObjType() = 0;
         virtual void initialize() = 0;
 };
 

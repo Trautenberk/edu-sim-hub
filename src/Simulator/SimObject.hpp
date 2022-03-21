@@ -11,9 +11,12 @@ using namespace std;
     private:
         static int _objCounter;
     public: 
-        string id;
+        string name() {return objTypeName() + "_" + to_string(_id);}
+        const int id() const {return _id;};
+        virtual string objTypeName() = 0;
         SimObject();
-        virtual string getObjType() = 0;
+    private:
+        int _id = 0;
 };
 
 

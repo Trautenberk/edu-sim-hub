@@ -23,4 +23,4 @@ add_subdirectory(ContinousBlocks)
 add_executable(${PROJECT_NAME} main.cpp)
 
 
-target_link_libraries(${PROJECT_NAME} ${PETRI_NETS_LIB} ${DISCRETE_SIMULATION_LIB}) 
+target_link_libraries(${PROJECT_NAME} ${PETRI_NETS_LIB} ${DISCRETE_SIMULATION_LIB} ${CONTINOUS_SIMULATION_LIB} ${CONTINOUS_BLOCK_LIB})  

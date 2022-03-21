@@ -1,14 +1,11 @@
 #include "SimObject.hpp"
 
-
 int SimObject::_objCounter = 0;
 
-string SimObject::getObjType()
+SimObject::SimObject() : _id(_objCounter++)
+{}
+
+string SimObject::objTypeName()
 {
     return "SimObject";
-}
-
-SimObject::SimObject()
-{   
-    this->id = this->getObjType() + "_" + to_string(_objCounter++);
 }
