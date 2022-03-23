@@ -6,11 +6,11 @@ import { ContBlockDouble } from "./ContBlocks"
 const middleX = 35
 const middleY = 35
 
-export const MulSVG : FC<ObjectSVGProps> = () => {
+export const MulSVG : FC<ObjectSVGProps> = (props) => {
 
     return (
         <>
-            <ContBlockDouble/>
+            <ContBlockDouble {...props}/>
             <text x={20} y={70} fontSize={"70px"}>*</text>
         </>
     )

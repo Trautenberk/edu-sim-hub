@@ -1,14 +1,11 @@
 import React, {FC, useCallback, useEffect, useState} from 'react';
-import {Menu, MenuItemButton} from "Editor/Components/Utilities/UtilComponents/Menu"
+import {Menu, MenuItemButton, Loader, DraggableGroupSVG, EdgeSVG} from "Editor/Components/Utilities/UtilComponents"
 import styles from "AppStyle.module.scss"
 import editorStyles from "Editor/Styles/EditorStyle.module.scss"
 import TopMenuStyle from "Editor/Styles/TopMenuStyle.module.scss";
-import { Loader } from 'Editor/Components/Utilities/UtilComponents/Loader';
 import { Place, Transition } from "Editor/Model/PetriNets" 
 import { MenuIcons } from "Editor/Components/Icons"
-import { NotImplementedException } from 'Editor/Components/Utilities/Errors';
-import { DraggableGroupSVG } from 'Editor/Components/Utilities/UtilComponents/DraggableGroupSVG';
-import { EdgeSVG } from 'Editor/Components/Utilities/UtilComponents/EdgeSVG';
+import { NotImplementedException } from 'Editor/Components/Utilities';
 import { useAppDispatch, useAppSelector } from 'Editor/Store/Hooks';
 import { clearAllEdges, removeEdge, selectedObjectId, unselectEdge, selectedEdge, unselectObject } from 'Editor/Feature/PointEdgeSelectionSlice';
 import { addObject, removeAllObjects, removeObject } from 'Editor/Feature/SimObjectManagementSlice';

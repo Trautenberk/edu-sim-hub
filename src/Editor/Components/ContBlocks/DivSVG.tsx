@@ -7,13 +7,13 @@ const circleDiameter = 5
 const middleX = 35
 const middleY = 35
 
-export const DivSVG : FC<ObjectSVGProps> = () => {
+export const DivSVG : FC<ObjectSVGProps> = (props) => {
     const dispatch = useAppDispatch();
     const useSelector = useAppSelector;
 
     return (
         <g>
-            <ContBlockDouble/>
+            <ContBlockDouble {...props}/>
             <circle
                 fill="#000000" fillOpacity="1" stroke="#000000" strokeWidth="0.199671" strokeMiterlimit="4" strokeDasharray="none" strokeOpacity="1"
                 r={circleDiameter}
