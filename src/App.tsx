@@ -1,24 +1,21 @@
-/* eslint-disable jest/no-export */
 import React, {FC, useCallback, useEffect, useState} from 'react';
 import {Menu, MenuItemButton} from "Editor/Components/Utilities/UtilComponents/Menu"
 import styles from "AppStyle.module.scss"
 import editorStyles from "Editor/Styles/EditorStyle.module.scss"
 import TopMenuStyle from "Editor/Styles/TopMenuStyle.module.scss";
 import { Loader } from 'Editor/Components/Utilities/UtilComponents/Loader';
-import { Place } from 'Editor/Model/PetriNets/Place';
-import { Transition } from "Editor/Model/PetriNets/Transition"
+import { Place, Transition } from "Editor/Model/PetriNets" 
 import { MenuIcons } from "Editor/Components/Icons"
-import { Canvas } from 'Editor/Components/Canvas';
-import { PetriNetsGUIComponentFactory } from 'Editor/Components/PetriNets/PetriNetsComponentFactory';
-import { IObjectGUIComponentFactory } from 'Editor/Components/ObjectGUIComponentFactory';
 import { NotImplementedException } from 'Editor/Components/Utilities/Errors';
 import { DraggableGroupSVG } from 'Editor/Components/Utilities/UtilComponents/DraggableGroupSVG';
 import { EdgeSVG } from 'Editor/Components/Utilities/UtilComponents/EdgeSVG';
 import { useAppDispatch, useAppSelector } from 'Editor/Store/Hooks';
 import { clearAllEdges, removeEdge, selectedObjectId, unselectEdge, selectedEdge, unselectObject } from 'Editor/Feature/PointEdgeSelectionSlice';
 import { addObject, removeAllObjects, removeObject } from 'Editor/Feature/SimObjectManagementSlice';
-import { EditMenu } from "Editor/Components/EditMenu";
-import TestModule from "wasm-build/Simulator.js";
+import { EditMenu, Canvas, IObjectGUIComponentFactory, ContBlocksGUIComponentFactory, PetriNetsGUIComponentFactory } from "Editor/Components"
+import {Add, Div} from "Editor/Model/ContBlocks"
+
+// import TestModule from "wasm-build/Simulator.js";
 
 /**
  * @author Jaromír Březina
@@ -44,8 +41,8 @@ export const App : FC = () => {
     () => {
       const test = async () => {
         console.log("AppStart");
-        const myModule =  await TestModule();
-        myModule.test();
+        // const myModule =  await TestModule();
+        // myModule.test();
         console.log("module initialized");
       }
       test();
@@ -87,11 +84,14 @@ export const App : FC = () => {
   }
 
   const petriNetsCanvasElementsTypes : CanvasElementType[] = [
-    {name: Place.Name, icon : MenuIcons.place, onClick: () => {dispatch(addObject(new Place().toSerializableObj()))}},
-    {name: Transition.Name, icon : MenuIcons.transition, onClick: () => {dispatch(addObject(new Transition().toSerializableObj()))}}
+    {name: Place.MenuName, icon : MenuIcons.place, onClick: () => {dispatch(addObject(new Place().toSerializableObj()))}},
+    {name: Transition.MenuName, icon : MenuIcons.transition, onClick: () => {dispatch(addObject(new Transition().toSerializableObj()))}}
   ];
 
-  const contBlocksCanvasElementsTypes : CanvasElementType[] = [];
+  const contBlocksCanvasElementsTypes : CanvasElementType[] = [
+    {name: Div.MenuName, icon: MenuIcons.div, onClick: () => {dispatch(addObject(new Div().toSerializableObj()))}},
+    {name: Add.MenuName, icon: MenuIcons.div, onClick: () => {dispatch(addObject(new Add().toSerializableObj()))}}
+  ];
 
   const initializePetriNets = () => {
     setCanvasElementTypes(petriNetsCanvasElementsTypes);
@@ -101,6 +101,7 @@ export const App : FC = () => {
 
   const initializeContBlocks = () => {
     setCanvasElementTypes(contBlocksCanvasElementsTypes)
+    setobjectGUIComponentFactory(new ContBlocksGUIComponentFactory());
     setShowMenu(false);
   }
 
@@ -182,7 +183,7 @@ export const App : FC = () => {
                 coords={{x: 30, y: 30}}
                 id={item.id}
                 canvasElement={objectGUIComponentFactory.getElement(item).SVGComponent}                   
-                  />)
+                />)
               }
               {Object.values(edges).map(item => <EdgeSVG
               key={item.id} 

@@ -2,19 +2,24 @@
 #define __INTEGRATOR_H__
 
 #include "ContBlock.hpp"
+#include "Constant.hpp"
 #include <memory>
 
 using namespace std;
 
-class Integrator : ContBlock {
+class Integrator : ContBlockDouble {
     public:
-        Integrator();
-        void updateState();
-        double initialValue;
-        double prevStateValue;
+        Integrator(shared_ptr<ContBlock> input, double initialValue);
+        Integrator(shared_ptr<ContBlock> input, shared_ptr<Constant> initialValueConst);
         string objTypeName() {return "IntegratorBlock";};
+        void updateState();
+        double prevStateValue;
+
         void eval();
         double value();
+    private:
+        double _initialValue;
+
         // TODO
 };
 #endif // __INTEGRATOR_H__

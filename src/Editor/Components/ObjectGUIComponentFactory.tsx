@@ -1,8 +1,6 @@
 import { FunctionComponent } from "react";
-import { ISimObject } from "../Model/SimObject";
+import { IEditorObject } from "../Model/EditorObject";
 import { ObjectEditProps, ObjectSVGProps } from "Editor/Components/Canvas";
-
-
 
 export type GUIComponents = {
     SVGComponent : FunctionComponent<ObjectSVGProps>
@@ -10,5 +8,5 @@ export type GUIComponents = {
 }
 
 export interface IObjectGUIComponentFactory {
-    getElement (object : ISimObject) : GUIComponents;
+    getElement (object : IEditorObject) : GUIComponents;
 }

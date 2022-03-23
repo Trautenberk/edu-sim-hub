@@ -1,5 +1,5 @@
 import { IToSerializable } from "Editor/Components/Utilities/UtilClasses/Coordinates";
-import { ISimObject, SimObject } from "Editor/Model/SimObject";
+import { IEditorObject, EditorObject } from "Editor/Model/EditorObject";
 
 export enum TransitionType {
     Priority = "Prioritní",
@@ -7,7 +7,7 @@ export enum TransitionType {
     Probability = "Pravděpodobnostní"
 }
 
-export interface ITransition  extends ISimObject{
+export interface ITransition  extends IEditorObject{
     label : string
     type : TransitionType
     priority : number
@@ -15,8 +15,8 @@ export interface ITransition  extends ISimObject{
     probability : number
 }
 
-export class Transition extends SimObject implements ITransition, IToSerializable<ITransition>{
-    public static Name : string = "Přechod";
+export class Transition extends EditorObject implements ITransition, IToSerializable<ITransition>{
+    public static MenuName : string = "Přechod";
     public priority : number = 0; 
     public label: string = "";
     public type: TransitionType = TransitionType.Priority;

@@ -1,16 +1,15 @@
 import { IToSerializable } from "Editor/Components/Utilities/UtilClasses/Coordinates";
 
 
-export interface ISimObject {
+export interface IEditorObject {
     id : string,
     typeName : string,
 }
 
-export abstract class SimObject implements ISimObject, IToSerializable<ISimObject> {
-    public static Name: string;
+export abstract class EditorObject implements IEditorObject, IToSerializable<IEditorObject> {
     protected static _idCounter : number = 0;
     protected get idCount() : number {
-        return SimObject._idCounter++;
+        return EditorObject._idCounter++;
     }
     
     protected getElementId = (name : string) => {
@@ -27,7 +26,7 @@ export abstract class SimObject implements ISimObject, IToSerializable<ISimObjec
         this.typeName = typeName;
     }
 
-    public toSerializableObj() : ISimObject {
+    public toSerializableObj() : IEditorObject {
         return {id : this.id, typeName : this.typeName}
     }
     

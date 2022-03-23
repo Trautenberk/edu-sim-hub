@@ -1,9 +1,9 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { ISimObject } from "Editor/Model/SimObject";
+import { IEditorObject } from "Editor/Model/EditorObject";
 
 
 type SimObjectManagementState = {
-    objects : {[id : string] : ISimObject}
+    objects : {[id : string] : IEditorObject}
 }
 
 const initialState : SimObjectManagementState = {
@@ -15,7 +15,7 @@ const simObjectManagementSlice = createSlice({
     name : "SimObjectManagement",
     initialState,
     reducers: {
-        addObject (state, action : PayloadAction<ISimObject>) {
+        addObject (state, action : PayloadAction<IEditorObject>) {
             const object = action.payload;
             if (!Object.keys(state.objects).includes(object.id)) {
                 state.objects[object.id] = object
@@ -35,7 +35,7 @@ const simObjectManagementSlice = createSlice({
         removeAllObjects (state) {
             state.objects = {}
         },
-        changeObject (state, action : PayloadAction<ISimObject>) {
+        changeObject (state, action : PayloadAction<IEditorObject>) {
             const obj = action.payload;
             state.objects[obj.id] = obj;
         }
