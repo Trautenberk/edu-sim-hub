@@ -1,6 +1,6 @@
 import { FunctionComponent,  MouseEventHandler, useCallback, useMemo } from "react";
 import styles from "Editor/Styles/PetriNets/TransitionStyle.module.scss"
-import {elementClicked, selectedObjectId} from "Editor/Feature/PointEdgeSelectionSlice"
+import { selectedObjectId } from "Editor/Feature/PointEdgeSelectionSlice"
 import {ALL_DIRECTIONS, convertToVisibility} from "Editor/Components/Utilities/UtilMethodsAndTypes";
 import { useAppDispatch, useAppSelector } from "Editor/Store/Hooks";
 import { ObjectSVGProps } from "Editor/Components/Canvas";
@@ -20,11 +20,8 @@ export const TransitionSVG : FunctionComponent<ObjectSVGProps> = (props) => {
     const visible = convertToVisibility(useSelector(state => selectedObjectId(state) === props.id));
     const obj = useSelector(state => state.simObjectManagement.objects[props.id]) as ITransition;    // TODO tady to pretzpovani vyresit
 
-    const onClickHandler : MouseEventHandler<SVGRectElement> = (e) => {
-        dispatch(elementClicked(props.id));
-    }
-
     const {onMouseDown} = useSelectable(props.id, props.onMouseDownDragHandler)
+
 
     const endPointsInGroupCoords : ICoordinates[] = useMemo(() => ([
         {x : width, y: height / 2},
@@ -40,7 +37,7 @@ export const TransitionSVG : FunctionComponent<ObjectSVGProps> = (props) => {
     
     return(
         <>
-            <rect className={styles.transition} onClick={onClickHandler} width={width} height={height} onMouseDown={onMouseDown}  onMouseUp={props.onMouseUpDragHandler}/>  
+            <rect className={styles.transition} width={width} height={height} onMouseDown={onMouseDown}  onMouseUp={props.onMouseUpDragHandler}/>  
             <rect className={styles.transition_selected} visibility={visible} width={width} height={height}/> 
             {endPoints.map((item, index) => <EndPoint key={item.id}  parentElementID={props.id} point={item} arrowDirection={ALL_DIRECTIONS[index]} {...props} /> )}
             <text x="-10" y="-10">{obj.label}</text>
