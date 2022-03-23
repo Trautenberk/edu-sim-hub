@@ -8,6 +8,7 @@ import { ObjectSVGProps } from "Editor/Components/Canvas";
 import { GroupPoint, IGroupPoint } from "Editor/Components/Utilities/UtilClasses/Point";
 import { Coordinates, ICoordinates } from "Editor/Components/Utilities/UtilClasses/Coordinates";
 import { IPlace } from "Editor/Model/PetriNets/Place";
+import { useSelectable } from "../Utilities";
 
 
 export const PlaceSVG : FunctionComponent<ObjectSVGProps> = (props) => {
@@ -17,11 +18,8 @@ export const PlaceSVG : FunctionComponent<ObjectSVGProps> = (props) => {
     const visible = convertToVisibility(useSelector(state => selectedObjectId(state) === props.id));
     const obj = useSelector(state => state.simObjectManagement.objects[props.id]) as IPlace;    // TODO tady to pretzpovani vyresit
 
-    const onMouseDown =  useCallback((e : React.MouseEvent) => {
-        props.onMouseDownDragHandler(e);
-        dispatch(elementClicked(props.id));
-    },[dispatch, props])
-    
+    const {onMouseDown} = useSelectable(props.id, props.onMouseDownDragHandler)
+
     const endPointsInGroupCoords : ICoordinates[] = useMemo(() => ([
         {x : 30, y: 0},
         {x : -30, y: 0},

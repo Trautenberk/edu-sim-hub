@@ -35,7 +35,7 @@ export class Point implements IPoint, IToSerializable<IPoint> {
 
 
 export class GroupPoint extends Point implements IGroupPoint, IToSerializable<IGroupPoint> {
-    public groupCoords : Coordinates;   // ouřadnice v groupě
+    public groupCoords : Coordinates;   // souřadnice v groupě
 
     constructor(value : IGroupPoint) {   // id, absolutní souřadnice celé groupy, souřadnice elementu v groupě
         super({...value});   // absolutní souřadnice bodu se vypočítají jako souřadnice celé groupu + souřadnice elementu v groupě

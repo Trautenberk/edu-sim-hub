@@ -8,6 +8,7 @@ import { ITransition, TransitionType } from "Editor/Model/PetriNets/Transition";
 import { Coordinates, ICoordinates } from "Editor/Components/Utilities/UtilClasses/Coordinates";
 import { GroupPoint } from "Editor/Components/Utilities/UtilClasses/Point";
 import { EndPoint } from "Editor/Components/Utilities/UtilComponents/EndPoint";
+import { useSelectable } from "../Utilities";
 
 export const TransitionSVG : FunctionComponent<ObjectSVGProps> = (props) => {
     const dispatch = useAppDispatch()
@@ -23,10 +24,7 @@ export const TransitionSVG : FunctionComponent<ObjectSVGProps> = (props) => {
         dispatch(elementClicked(props.id));
     }
 
-    const onMouseDown =  useCallback((e : React.MouseEvent) => {    // TODO co se opakuje tak asi do customHooku
-        props.onMouseDownDragHandler(e);
-        dispatch(elementClicked(props.id));
-    },[dispatch, props])
+    const {onMouseDown} = useSelectable(props.id, props.onMouseDownDragHandler)
 
     const endPointsInGroupCoords : ICoordinates[] = useMemo(() => ([
         {x : width, y: height / 2},
