@@ -13,7 +13,7 @@ import { useAppDispatch, useAppSelector } from 'Editor/Store/Hooks';
 import { clearAllEdges, removeEdge, selectedObjectId, unselectEdge, selectedEdge, unselectObject } from 'Editor/Feature/PointEdgeSelectionSlice';
 import { addObject, removeAllObjects, removeObject } from 'Editor/Feature/SimObjectManagementSlice';
 import { EditMenu, Canvas, IObjectGUIComponentFactory, ContBlocksGUIComponentFactory, PetriNetsGUIComponentFactory } from "Editor/Components"
-import {Add, Div} from "Editor/Model/ContBlocks"
+import {Add, Div, Sub, Mul, Constant, Gain} from "Editor/Model/ContBlocks"
 
 // import TestModule from "wasm-build/Simulator.js";
 
@@ -90,7 +90,12 @@ export const App : FC = () => {
 
   const contBlocksCanvasElementsTypes : CanvasElementType[] = [
     {name: Div.MenuName, icon: MenuIcons.div, onClick: () => {dispatch(addObject(new Div().toSerializableObj()))}},
-    {name: Add.MenuName, icon: MenuIcons.div, onClick: () => {dispatch(addObject(new Add().toSerializableObj()))}}
+    {name: Add.MenuName, icon: MenuIcons.div, onClick: () => {dispatch(addObject(new Add().toSerializableObj()))}},
+    {name: Sub.MenuName, icon: MenuIcons.div, onClick: () => {dispatch(addObject(new Sub().toSerializableObj()))}},
+    {name: Mul.MenuName, icon: MenuIcons.div, onClick: () => {dispatch(addObject(new Mul().toSerializableObj()))}},
+    {name: Constant.MenuName, icon: MenuIcons.div, onClick: () => {dispatch(addObject(new Constant().toSerializableObj()))}},
+    {name: Gain.MenuName, icon: MenuIcons.div, onClick: () => {dispatch(addObject(new Gain().toSerializableObj()))}},
+
   ];
 
   const initializePetriNets = () => {
