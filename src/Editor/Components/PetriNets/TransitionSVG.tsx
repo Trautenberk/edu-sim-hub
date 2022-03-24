@@ -7,7 +7,7 @@ import { ObjectSVGProps } from "Editor/Components/Canvas";
 import { ITransition, TransitionType } from "Editor/Model/PetriNets/Transition";
 import { Coordinates, ICoordinates } from "Editor/Components/Utilities/UtilClasses/Coordinates";
 import { GroupPoint } from "Editor/Components/Utilities/UtilClasses/Point";
-import { EndPoint } from "Editor/Components/Utilities/UtilComponents/EndPoint";
+import { EndPointSVG } from "Editor/Components/Utilities/UtilComponents";
 import { useSelectable } from "../Utilities";
 
 export const TransitionSVG : FunctionComponent<ObjectSVGProps> = (props) => {
@@ -39,7 +39,7 @@ export const TransitionSVG : FunctionComponent<ObjectSVGProps> = (props) => {
         <>
             <rect className={styles.transition} width={width} height={height} onMouseDown={onMouseDown}  onMouseUp={props.onMouseUpDragHandler}/>  
             <rect className={styles.transition_selected} visibility={visible} width={width} height={height}/> 
-            {endPoints.map((item, index) => <EndPoint key={item.id}  parentElementID={props.id} point={item} arrowDirection={ALL_DIRECTIONS[index]} {...props} /> )}
+            {endPoints.map((item, index) => <EndPointSVG key={item.id}  parentElementID={props.id} point={item} arrowDirection={ALL_DIRECTIONS[index]} {...props} /> )}
             <text x="-10" y="-10">{obj.label}</text>
             {obj.type === TransitionType.Priority && <text x="0" y="100"> {obj.priority > 0 ? `p = ${obj.priority}` : ""} </text>  }
             {obj.type === TransitionType.Probability && <text x="0" y="100"> { `${obj.probability}%`} </text>}

@@ -96,12 +96,14 @@ export const App : FC = () => {
   ];
 
   const initializePetriNets = () => {
+    dispatch(removeAllObjects())
     setCanvasElementTypes(petriNetsCanvasElementsTypes);
     setobjectGUIComponentFactory(new PetriNetsGUIComponentFactory());
     setShowMenu(false);
   }
 
   const initializeContBlocks = () => {
+    dispatch(removeAllObjects())
     setCanvasElementTypes(contBlocksCanvasElementsTypes)
     setobjectGUIComponentFactory(new ContBlocksGUIComponentFactory());
     setShowMenu(false);

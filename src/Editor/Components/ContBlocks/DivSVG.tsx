@@ -1,7 +1,7 @@
 import { useAppDispatch, useAppSelector } from "Editor/Store/Hooks";
 import { FC } from "react"
 import { ObjectSVGProps } from "../Canvas"
-import { ContBlockDouble } from "./ContBlocks"
+import { ContBlockDoubleSVG } from "./ContBlocksSVG"
 
 const circleDiameter = 5
 const middleX = 35
@@ -13,7 +13,7 @@ export const DivSVG : FC<ObjectSVGProps> = (props) => {
 
     return (
         <g>
-            <ContBlockDouble {...props}/>
+            <ContBlockDoubleSVG {...props}/>
             <circle
                 fill="#000000" fillOpacity="1" stroke="#000000" strokeWidth="0.199671" strokeMiterlimit="4" strokeDasharray="none" strokeOpacity="1"
                 r={circleDiameter}

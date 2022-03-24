@@ -24,9 +24,9 @@
   },
   "scripts": {
     "start": "DISABLE_ESLINT_PLUGIN=true craco start",
-    "build:react": "DISABLE_ESLINT_PLUGIN=true craco build",
-    "build:wasm": "sh configure.sh && sh build.sh",
-    "build": "DISABLE_ESLINT_PLUGIN=true npm run build:wasm && npm run build:react",
+    "build:editor": "DISABLE_ESLINT_PLUGIN=true craco build",
+    "build:simulator": "sh configure.sh && sh build.sh",
+    "build": "DISABLE_ESLINT_PLUGIN=true npm run build:simulator && npm run build:editor",
     "test": "DISABLE_ESLINT_PLUGIN=true craco test",
     "eject": ""
   },

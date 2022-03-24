@@ -13,7 +13,7 @@ export type EndPointProps = {
     arrowDirection : Direction,
 }
 
-export const EndPoint : FC<EndPointProps> = (props) => {
+export const EndPointSVG : FC<EndPointProps> = (props) => {
     const useSelector = useAppSelector;
     const dispatch = useAppDispatch();
 

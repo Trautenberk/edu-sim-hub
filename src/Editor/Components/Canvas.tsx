@@ -8,9 +8,13 @@ import { updateCanvasBoundaries} from "../Feature/CanvasContextSlice"
 import {gridClicked } from "../Feature/PointEdgeSelectionSlice"
 import { Coordinates, ICoordinates } from "./Utilities/UtilClasses/Coordinates";
 
-export type ObjectSVGProps = DraggableHandlers & {
-    id : string;
+
+export type GroupAbsoluteCoords = {
     groupAbsoluteCoordinates : ICoordinates  // absolutní souřadnice skupiny ve které se element nachází
+}
+
+export type ObjectSVGProps = DraggableHandlers & GroupAbsoluteCoords & {
+    id : string;
 }
 
 export type ObjectEditProps = {

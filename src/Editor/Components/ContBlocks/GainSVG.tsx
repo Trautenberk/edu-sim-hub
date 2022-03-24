@@ -1,6 +1,6 @@
 import { FC } from "react"
 import { ObjectSVGProps } from "../Canvas"
-import { ContBlockSingle } from "./ContBlocks"
+import { ContBlockSingleSVG } from "./ContBlocksSVG"
 
 const middleX = 35
 const middleY = 35
@@ -10,7 +10,7 @@ export const GainSVG : FC<ObjectSVGProps> = (props) => {
 
     return (
         <>
-            <ContBlockSingle {...props}/>
+            <ContBlockSingleSVG {...props}/>
             <text fontSize={20} x={middleX} y={middleY}>{value}</text>
         </>
     )

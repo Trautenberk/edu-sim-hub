@@ -3,8 +3,8 @@ import { Coordinates, ICoordinates } from "Editor/Components/Utilities/UtilClass
 import { Boundaries } from "Editor/Components/Utilities/UtilMethodsAndTypes";
 import { RootState } from "Editor/Store/Store";
 
-const INIT_POS_OFFSET_X = 50;
-const INIT_POS_OFFSET_Y = 50 
+const INIT_POS_OFFSET_X = 200;
+const INIT_POS_OFFSET_Y = 200; 
 
 type CanvasContextState = {
     canvasBoundaries : Boundaries,
