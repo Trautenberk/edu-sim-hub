@@ -8,11 +8,11 @@ export const useSelectable = (id : string, onMouseDownHandler? : (e : React.Mous
         const onMouseDown =  useCallback((e : React.MouseEvent) => {
             onMouseDownHandler && onMouseDownHandler(e);
             dispatch(elementClicked(id));
-        },[dispatch])
+        },[dispatch, onMouseDownHandler ])
     
         const value = useMemo(
             () => ({onMouseDown})
-        ,[])
+        ,[onMouseDown])
 
         return value;
 }
