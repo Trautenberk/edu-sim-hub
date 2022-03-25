@@ -25,7 +25,11 @@ export type Action = {
   actionMethod : (...params : any[]) => any
 }
 
-
+type CanvasElementType = {
+  name: string,
+  icon: string,
+  onClick: () => void
+}
 
 /**
  *  Komponenta reprezentující aplikaci
@@ -33,36 +37,22 @@ export type Action = {
  * 
  */
 export const App : FC = () => {
-
-  useEffect(
-    () => {
-      const test = async () => {
-        console.log("AppStart");
-        // const myModule =  await TestModule();
-        // myModule.test();
-        console.log("module initialized");
-      }
-      test();
-    },
-    [])
-
-
   const useSelector = useAppSelector;
   const dispatch = useAppDispatch();
 
   const [showMenu, setShowMenu] = useState(true);
-  const showMainMenu = useCallback<()=>void>(
-    () => {
-     setShowMenu(true)
-   }, [])
-
+  const [objectGUIComponentFactory, setobjectGUIComponentFactory] = useState<IObjectGUIComponentFactory>(new PetriNetsGUIComponentFactory())
   const simObjects = useSelector(state => state.simObjectManagement.objects);
+  const edges = useSelector(state => state.pointEdgeSelection.edges);
+  const selectedId = useSelector(state => selectedObjectId(state));
+  const selectedEdgeId = useSelector(selectedEdge);
+  
+  const showMainMenu = useCallback<()=>void>(() => {setShowMenu(true)}, [])
 
   const clearAllAction = useCallback(()=> {
     dispatch(clearAllEdges());
-    dispatch(removeAllObjects())
+    dispatch(removeAllObjects());
   },[dispatch])
-  
   
   // eslint-disable-next-line no-unused-vars
   const [topMenuActions, setTopMenuActions] = useState<Action[]>([
@@ -71,20 +61,17 @@ export const App : FC = () => {
     {name : "Uložit", actionMethod : () => {throw new NotImplementedException()}},
     {name : "Nahrát", actionMethod: () => {throw new NotImplementedException()}}
   ]) 
-  const [objectGUIComponentFactory, setobjectGUIComponentFactory] = useState<IObjectGUIComponentFactory>(new PetriNetsGUIComponentFactory())
-  const edges = useSelector(state => state.pointEdgeSelection.edges);
 
-  type CanvasElementType = {
-    name: string,
-    icon: string,
-    onClick: () => void
-  }
+////////////////////////////////////////////////////////////////
+/// Objekty Petriho sítě
 
   const petriNetsCanvasElementsTypes : CanvasElementType[] = [
     {name: Place.MenuName, icon : MenuIcons.place, onClick: () => {dispatch(addObject(new Place().toSerializableObj()))}},
     {name: Transition.MenuName, icon : MenuIcons.transition, onClick: () => {dispatch(addObject(new Transition().toSerializableObj()))}}
   ];
 
+  ////////////////////////////////////////////////////////////////
+  /// Objekty Spojitých Bloků
   const contBlocksCanvasElementsTypes : CanvasElementType[] = [
     {name: Div.MenuName, icon: MenuIcons.div, onClick: () => {dispatch(addObject(new Div().toSerializableObj()))}},
     {name: Add.MenuName, icon: MenuIcons.div, onClick: () => {dispatch(addObject(new Add().toSerializableObj()))}},
@@ -92,9 +79,13 @@ export const App : FC = () => {
     {name: Mul.MenuName, icon: MenuIcons.div, onClick: () => {dispatch(addObject(new Mul().toSerializableObj()))}},
     {name: Constant.MenuName, icon: MenuIcons.div, onClick: () => {dispatch(addObject(new Constant().toSerializableObj()))}},
     {name: Gain.MenuName, icon: MenuIcons.div, onClick: () => {dispatch(addObject(new Gain().toSerializableObj()))}},
-
   ];
 
+
+  const [canvasElementTypes, setCanvasElementTypes] = useState<CanvasElementType[]>(petriNetsCanvasElementsTypes)
+
+  //////////////////////////////////////////////////////////////// 
+  /// Inicializace Petriho sítí
   const initializePetriNets = () => {
     dispatch(removeAllObjects())
     setCanvasElementTypes(petriNetsCanvasElementsTypes);
@@ -102,6 +93,8 @@ export const App : FC = () => {
     setShowMenu(false);
   }
 
+  ////////////////////////////////////////////////////////////////
+  /// Inicializace Spojitých bloků
   const initializeContBlocks = () => {
     dispatch(removeAllObjects())
     setCanvasElementTypes(contBlocksCanvasElementsTypes)
@@ -109,16 +102,16 @@ export const App : FC = () => {
     setShowMenu(false);
   }
 
+  ////////////////////////////////////////////////////////////////
+  /// Funkčnost dostupná v hlavním menu
   const mainComponents = [ 
     {name: "Petriho sítě", initFunction: initializePetriNets},
     {name: "Spojitá bloková schémata", initFunction: initializeContBlocks}
   ];
 
-  const [canvasElementTypes, setCanvasElementTypes] = useState<CanvasElementType[]>(petriNetsCanvasElementsTypes)
 
-  const selectedId = useSelector(state => selectedObjectId(state));
-  const selectedEdgeId = useSelector(selectedEdge);
-
+  ////////////////////////////////////////////////////////////////
+  /// Handlery
   const handleDeleteKeyPressed = useCallback(() : void => {
     if (selectedId != null) {
       console.log(`delete element with id ${selectedId}`)
@@ -148,6 +141,8 @@ export const App : FC = () => {
     }, [dispatch]
   ) 
 
+  ////////////////////////////////////////////////////////////////
+  /// UseEffect Hooks
   useEffect(
     () => {
       document.addEventListener("keydown", onKeyDownHandler)
@@ -155,6 +150,17 @@ export const App : FC = () => {
     },[onKeyDownHandler]
   )
 
+  useEffect(
+    () => {
+      const test = async () => {
+        console.log("AppStart");
+        // const myModule =  await TestModule();
+        // myModule.test();
+        console.log("module initialized");
+      }
+      test();
+    },
+    [])
 
   if(showMenu){
     return(
