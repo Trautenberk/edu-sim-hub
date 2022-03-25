@@ -1,6 +1,7 @@
 import { FC } from "react"
 import { ObjectSVGProps } from "../Canvas"
 import { ContBlockDoubleSVG } from "./ContBlocksSVG"
+import styles from "./ContBlockStyles.module.scss"
 
 
 const middleX = 35

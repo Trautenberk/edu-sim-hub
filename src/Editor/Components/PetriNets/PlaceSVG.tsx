@@ -1,6 +1,5 @@
 import React, { FunctionComponent,  MouseEventHandler, useCallback, useEffect, useMemo, useState} from "react";
 import { EndPointSVG } from "../Utilities/UtilComponents";
-import styles from "./PlaceStyle.module.scss"
 import {useAppDispatch, useAppSelector} from "Editor/Store/Hooks"
 import {ALL_DIRECTIONS, convertToVisibility} from "Editor/Components/Utilities/UtilMethodsAndTypes"
 import {elementClicked, selectedObjectId} from "Editor/Feature/PointEdgeSelectionSlice"
@@ -9,6 +8,8 @@ import { GroupPoint, IGroupPoint } from "Editor/Model/UtilClasses/Point";
 import { Coordinates, ICoordinates } from "Editor/Model/UtilClasses/Coordinates";
 import { IPlace } from "Editor/Model/PetriNets/Place";
 import { useSelectable } from "../Utilities";
+import styles from "./PlaceStyle.module.scss"
+
 
 
 export const PlaceSVG : FunctionComponent<ObjectSVGProps> = (props) => {
@@ -37,12 +38,11 @@ export const PlaceSVG : FunctionComponent<ObjectSVGProps> = (props) => {
     
     return(
         <>
-            <circle className={styles.spot_foundation}  r="30"/>
+            <circle className={styles.spot_foundation} onMouseDown={onMouseDown}  onMouseUp={props.onMouseUpDragHandler}  r="30"/>
             <circle visibility={visible} className={styles.spot_selected} r="30"/>
             {endPoints.map((item, index) => <EndPointSVG key={item.id}  parentElementID={props.id} point={item} arrowDirection={ALL_DIRECTIONS[index]} {...props} /> )}
             <text x="-50" y="-50">{obj.label}</text>
             <text x="-10" y="5">{obj.tokenCount > 0 ? `${obj.tokenCount} x` : ""}</text>
-            <circle className={styles.spot_roof} onMouseDown={onMouseDown}  onMouseUp={props.onMouseUpDragHandler}  r="30"></circle>    
         </>
     )
 }

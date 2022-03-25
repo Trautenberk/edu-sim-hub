@@ -6,10 +6,11 @@
     stroke-width: 1px;
     fill: rgb(246, 246, 246);
     stroke: rgb(0, 0, 0);
+    pointer-events: visible;
+    cursor: move;
 }
 
 .spot_roof {
-    cursor: move;
     pointer-events: visible;
     fill: none;
 }
