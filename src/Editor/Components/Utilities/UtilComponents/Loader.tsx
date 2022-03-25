@@ -1,5 +1,5 @@
 import {FC} from "react";
-import styles from "Editor/Styles/Utils/LoaderStyle.module.scss";
+import styles from "./LoaderStyle.module.scss";
 
 
 type LoaderProps = {

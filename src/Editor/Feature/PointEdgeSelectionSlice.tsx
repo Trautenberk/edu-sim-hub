@@ -1,8 +1,8 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { NotImplementedException } from "Editor/Components/Utilities/Errors";
-import { Edge, IEdge } from "Editor/Components/Utilities/UtilClasses/Edge";
-import { Coordinates, ICoordinates } from "Editor/Components/Utilities/UtilClasses/Coordinates";
-import { IPoint, Point } from "Editor/Components/Utilities/UtilClasses/Point";
+import { Edge, IEdge } from "Editor/Model/UtilClasses/Edge";
+import { Coordinates, ICoordinates } from "Editor/Model/UtilClasses/Coordinates";
+import { IPoint, Point } from "Editor/Model/UtilClasses/Point";
 import { RootState } from "Editor/Store/Store";
 
 type PointEdgeSelectionSliceState = {

@@ -1,7 +1,7 @@
 import {FC} from "react"
-import { ICoordinates } from "../UtilClasses/Coordinates"
+import { ICoordinates } from "../../../Model/UtilClasses/Coordinates"
 import { Direction, Visibility } from "../UtilMethodsAndTypes"
-import styles from "./UtilComponentsStyle/ArrowSVG.module.scss"
+import styles from "./ArrowSVG.module.scss"
 
 export type ArrowSVGComponentProps = {
     direction : Direction 

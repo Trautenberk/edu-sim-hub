@@ -3,7 +3,7 @@ import { changeObject } from "Editor/Feature/SimObjectManagementSlice";
 import { ITransition, TransitionType } from "Editor/Model/PetriNets/Transition";
 import React, {FC} from "react"
 import { useAppDispatch, useAppSelector } from "Editor/Store/Hooks";
-import style from "Editor/Styles/PetriNets/TransitionStyle.module.scss"
+import style from "./TransitionStyle.module.scss"
 
 export const TransitionEdit : FC<ObjectEditProps> = (props) => {
     const useSelector = useAppSelector;

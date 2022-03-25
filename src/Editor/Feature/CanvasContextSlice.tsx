@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Coordinates, ICoordinates } from "Editor/Components/Utilities/UtilClasses/Coordinates";
+import { Coordinates, ICoordinates } from "Editor/Model/UtilClasses/Coordinates";
 import { Boundaries } from "Editor/Components/Utilities/UtilMethodsAndTypes";
 import { RootState } from "Editor/Store/Store";
 

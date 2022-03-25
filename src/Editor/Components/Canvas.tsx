@@ -1,12 +1,12 @@
 import React, { useRef, useEffect,  useState, FC, useCallback } from "react"; 
 import {DraggableHandlers, useDragable } from "./Utilities/CustomHooks/useDraggable";
-import styles from "Editor/Styles/CanvasStyle.module.scss";
+import styles from "./CanvasStyle.module.scss";
 import {useAppDispatch, useAppSelector} from "../Store/Hooks"
 import {zoom, selelctCurrentZoom } from "../Feature/ZoomSlice";
 import { convertMatrixToString, TransormMatrix } from "./Utilities/UtilMethodsAndTypes";
 import { updateCanvasBoundaries} from "../Feature/CanvasContextSlice"
 import {gridClicked } from "../Feature/PointEdgeSelectionSlice"
-import { Coordinates, ICoordinates } from "./Utilities/UtilClasses/Coordinates";
+import { Coordinates, ICoordinates } from "../Model/UtilClasses/Coordinates";
 
 
 export type GroupAbsoluteCoords = {

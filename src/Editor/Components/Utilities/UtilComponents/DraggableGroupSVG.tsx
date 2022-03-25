@@ -2,7 +2,7 @@
 import { FC, FunctionComponent, useCallback, useState } from "react"
 import { useDragable } from "../CustomHooks/useDraggable"
 import { ObjectSVGProps } from "../../Canvas";
-import { Coordinates, ICoordinates } from "../UtilClasses/Coordinates";
+import { Coordinates, ICoordinates } from "../../../Model/UtilClasses/Coordinates";
 
 export type DraggableGroupSVGProps = Pick<ObjectSVGProps, "id"> & {
     coords : ICoordinates,      // počáteční souřadnice

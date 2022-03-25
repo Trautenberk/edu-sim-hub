@@ -2,7 +2,7 @@ import React, {useMemo, useCallback, useRef} from "react"
 import {selelctCurrentZoom} from "Editor/Feature/ZoomSlice";
 import {useAppSelector} from "Editor/Store/Hooks";
 import {selectCanvasBoundaries} from "Editor/Feature/CanvasContextSlice"
-import { Coordinates, ICoordinates } from "../UtilClasses/Coordinates";
+import { Coordinates, ICoordinates } from "../../../Model/UtilClasses/Coordinates";
 
 
 export type DraggableHandlers = {

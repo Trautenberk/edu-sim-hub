@@ -1,0 +1,13 @@
+@import "Editor/Styles/Variables.scss";
+@import  "Editor/Styles/Mixins.scss" ;
+
+.foundation {
+    fill: #ffffff;
+    stroke: #000000;
+}
+
+.input_output {
+    stroke: #000000;
+    stroke-linejoin: miter;
+    stroke-miterlimit:4;
+}

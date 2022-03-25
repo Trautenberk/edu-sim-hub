@@ -1,11 +1,11 @@
 import React, { FC, MouseEventHandler, useCallback, useEffect } from "react"
-import styles from "Editor/Styles/EndPoint.module.scss"
+import styles from "./EndPoint.module.scss"
 import { convertDirectionToOffset, convertToVisibility, Direction } from "Editor/Components/Utilities/UtilMethodsAndTypes"
 import { useAppSelector, useAppDispatch } from "Editor/Store/Hooks"
 import { selectedEndPoint, selectedObjectId, registerEndPoint, unregisterEndPoint, addEdge, updatePointCoords } from "Editor/Feature/PointEdgeSelectionSlice"
 import { ArrowSVG } from "Editor/Components/Utilities/UtilComponents/ArrowSVG"
-import { GroupPoint, Point } from "../UtilClasses/Point"
-import { Coordinates } from "../UtilClasses/Coordinates"
+import { GroupPoint, Point } from "../../../Model/UtilClasses/Point"
+import { Coordinates } from "../../../Model/UtilClasses/Coordinates"
 
 export type EndPointProps = {
     parentElementID : string,
@@ -19,7 +19,6 @@ export const EndPointSVG : FC<EndPointProps> = (props) => {
 
     const clickedEndPontHandler : MouseEventHandler<SVGCircleElement> = (e) => {
         e.stopPropagation();
-        // dispatch(endPointClicked(props.point.id));
     }
     
     useEffect(() => {

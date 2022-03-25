@@ -2,10 +2,10 @@ import { addPoint, getEdge, selectEdge, selectedEdge, selectPointsFromEdge, togg
 import React, { FC, useCallback, useEffect, useState } from "react"
 import { useAppDispatch, useAppSelector } from "Editor/Store/Hooks"
 import { useDragable } from "../CustomHooks/useDraggable"
-import { Edge } from "../UtilClasses/Edge"
-import { Coordinates, ICoordinates } from "../UtilClasses/Coordinates"
-import { IPoint, Point } from "../UtilClasses/Point"
-import style from "./UtilComponentsStyle/EdgeSVG.module.scss"
+import { Edge } from "../../../Model/UtilClasses/Edge"
+import { Coordinates, ICoordinates } from "../../../Model/UtilClasses/Coordinates"
+import { IPoint, Point } from "../../../Model/UtilClasses/Point"
+import style from "./EdgeSVG.module.scss"
 
 type EdgeSVGComponentProps = {
     edgeId : string

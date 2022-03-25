@@ -3,7 +3,7 @@ import { changeObject } from "Editor/Feature/SimObjectManagementSlice";
 import { IPlace, isPlace } from "Editor/Model/PetriNets/Place";
 import React, { FC} from "react"
 import { useAppDispatch, useAppSelector } from "Editor/Store/Hooks"
-import style from "Editor/Styles/PetriNets/PlaceStyle.module.scss"
+import style from "./PlaceStyle.module.scss"
 
 export const PlaceEdit : FC<ObjectEditProps>  = (props) => {
     const useSelector = useAppSelector;

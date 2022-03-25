@@ -1,12 +1,12 @@
 import { FunctionComponent,  MouseEventHandler, useCallback, useMemo } from "react";
-import styles from "Editor/Styles/PetriNets/TransitionStyle.module.scss"
+import styles from "./TransitionStyle.module.scss"
 import { selectedObjectId } from "Editor/Feature/PointEdgeSelectionSlice"
 import {ALL_DIRECTIONS, convertToVisibility} from "Editor/Components/Utilities/UtilMethodsAndTypes";
 import { useAppDispatch, useAppSelector } from "Editor/Store/Hooks";
 import { ObjectSVGProps } from "Editor/Components/Canvas";
 import { ITransition, TransitionType } from "Editor/Model/PetriNets/Transition";
-import { Coordinates, ICoordinates } from "Editor/Components/Utilities/UtilClasses/Coordinates";
-import { GroupPoint } from "Editor/Components/Utilities/UtilClasses/Point";
+import { Coordinates, ICoordinates } from "Editor/Model/UtilClasses/Coordinates";
+import { GroupPoint } from "Editor/Model/UtilClasses/Point";
 import { EndPointSVG } from "Editor/Components/Utilities/UtilComponents";
 import { useSelectable } from "../Utilities";
 

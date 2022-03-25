@@ -1,12 +1,12 @@
 import React, { FunctionComponent,  MouseEventHandler, useCallback, useEffect, useMemo, useState} from "react";
 import { EndPointSVG } from "../Utilities/UtilComponents";
-import styles from "Editor/Styles/PetriNets/PlaceStyle.module.scss"
+import styles from "./PlaceStyle.module.scss"
 import {useAppDispatch, useAppSelector} from "Editor/Store/Hooks"
 import {ALL_DIRECTIONS, convertToVisibility} from "Editor/Components/Utilities/UtilMethodsAndTypes"
 import {elementClicked, selectedObjectId} from "Editor/Feature/PointEdgeSelectionSlice"
 import { ObjectSVGProps } from "Editor/Components/Canvas";
-import { GroupPoint, IGroupPoint } from "Editor/Components/Utilities/UtilClasses/Point";
-import { Coordinates, ICoordinates } from "Editor/Components/Utilities/UtilClasses/Coordinates";
+import { GroupPoint, IGroupPoint } from "Editor/Model/UtilClasses/Point";
+import { Coordinates, ICoordinates } from "Editor/Model/UtilClasses/Coordinates";
 import { IPlace } from "Editor/Model/PetriNets/Place";
 import { useSelectable } from "../Utilities";
 

@@ -1,4 +1,4 @@
-import { ICoordinates } from "./UtilClasses/Coordinates";
+import { ICoordinates } from "../../Model/UtilClasses/Coordinates";
 
 export type Visibility = "visible" | "hidden";
 

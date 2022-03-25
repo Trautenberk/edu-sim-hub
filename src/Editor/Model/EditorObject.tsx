@@ -1,4 +1,4 @@
-import { IToSerializable } from "Editor/Components/Utilities/UtilClasses/Coordinates";
+import { IToSerializable } from "Editor/Model/UtilClasses/Coordinates";
 
 
 export interface IEditorObject {
