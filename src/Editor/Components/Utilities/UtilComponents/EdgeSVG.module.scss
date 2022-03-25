@@ -4,9 +4,17 @@
     stroke-width: 3px;
     stroke-miterlimit: 10;
     fill: none;
+    pointer-events: none;
 }
 
-.edge:hover {
+.edge_pom {
+    stroke-width: 15px;
+    fill: none;
+    // stroke: #08fc00;
+    pointer-events: stroke;
+}
+
+.edge_pom:hover {
     cursor: pointer;
 }
 

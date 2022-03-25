@@ -49,7 +49,9 @@ export const EdgeSVG : FC<EdgeSVGComponentProps> = (props) => {
 
         return (
             <g>
-                <path className={style.edge} onClick={onClickHandler}  markerEnd={"url(#arrow)"} d={Edge.getPathDescription(points)}/>
+                <path className={style.edge} markerEnd={"url(#arrow)"} d={Edge.getPathDescription(points)}/>
+                <path className={style.edge_pom} onClick={onClickHandler}   d={Edge.getPathDescription(points)}/>
+                
             </g>
         )
     }
