@@ -73,12 +73,12 @@ export const App : FC = () => {
   ////////////////////////////////////////////////////////////////
   /// Objekty Spojitých Bloků
   const contBlocksCanvasElementsTypes : CanvasElementType[] = [
-    {name: Div.MenuName, icon: MenuIcons.div, onClick: () => {dispatch(addObject(new Div().toSerializableObj()))}},
-    {name: Add.MenuName, icon: MenuIcons.div, onClick: () => {dispatch(addObject(new Add().toSerializableObj()))}},
-    {name: Sub.MenuName, icon: MenuIcons.div, onClick: () => {dispatch(addObject(new Sub().toSerializableObj()))}},
-    {name: Mul.MenuName, icon: MenuIcons.div, onClick: () => {dispatch(addObject(new Mul().toSerializableObj()))}},
-    {name: Constant.MenuName, icon: MenuIcons.div, onClick: () => {dispatch(addObject(new Constant().toSerializableObj()))}},
-    {name: Gain.MenuName, icon: MenuIcons.div, onClick: () => {dispatch(addObject(new Gain().toSerializableObj()))}},
+    {name: Div.MenuName, icon: MenuIcons.transparent, onClick: () => {dispatch(addObject(new Div().toSerializableObj()))}},
+    {name: Add.MenuName, icon: MenuIcons.transparent, onClick: () => {dispatch(addObject(new Add().toSerializableObj()))}},
+    {name: Sub.MenuName, icon: MenuIcons.transparent, onClick: () => {dispatch(addObject(new Sub().toSerializableObj()))}},
+    {name: Mul.MenuName, icon: MenuIcons.transparent, onClick: () => {dispatch(addObject(new Mul().toSerializableObj()))}},
+    {name: Constant.MenuName, icon: MenuIcons.transparent, onClick: () => {dispatch(addObject(new Constant().toSerializableObj()))}},
+    {name: Gain.MenuName, icon: MenuIcons.transparent, onClick: () => {dispatch(addObject(new Gain().toSerializableObj()))}},
   ];
 
 

@@ -7,7 +7,7 @@ export interface ISub extends IEditorObject {
 }
 
 export class Sub extends EditorObject implements ISub, IToSerializable<ISub> {
-    public static MenuName  = "SubBlock"
+    public static MenuName  = "Odčítání"
     
     constructor() 
     {

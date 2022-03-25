@@ -7,7 +7,7 @@ export interface IConstant extends IEditorObject {
 }
 
 export class Constant extends EditorObject implements IConstant, IToSerializable<IConstant> {
-    public static MenuName  = "ConstantBlock"
+    public static MenuName  = "Konstanta"
     
     constructor() 
     {
