@@ -116,7 +116,7 @@ export const App : FC = () => {
     if (selectedId != null) {
       console.log(`delete element with id ${selectedId}`)
       dispatch(unselectObject());
-      dispatch(removeObject(selectedId))
+      dispatch(removeObject(selectedId));
       // TODO element po odebrani je furt selected
     }
     if (selectedEdgeId != null) {
@@ -179,13 +179,13 @@ export const App : FC = () => {
             {topMenuActions.map(item => <MenuItemButton key={item.name} buttonText={item.name} onItemSelected={item.actionMethod}/>)}
         </Menu>
         <Menu clasName={editorStyles.editor_menu} >
-                {
-                  canvasElementTypes.map(item => 
-                    (<MenuItemButton  key={item.name} buttonText={item.name} iconPath={item.icon} onItemSelected={item.onClick}>
-                       <img src={item.icon} alt={""}/>
-                     </MenuItemButton>)
-                  )
-                }
+          {
+            canvasElementTypes.map(item => 
+              (<MenuItemButton  key={item.name} buttonText={item.name} iconPath={item.icon} onItemSelected={item.onClick}>
+                  <img src={item.icon} alt={""}/>
+                </MenuItemButton>)
+            )
+          }
          </Menu>
           <Canvas onGridClick={onGridClick}>
               {Object.values(simObjects).map(item => <DraggableGroupSVG

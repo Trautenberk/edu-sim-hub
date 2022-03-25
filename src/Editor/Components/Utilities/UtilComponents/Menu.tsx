@@ -18,8 +18,7 @@ export const Menu : FC<MenuProps> = (props) => {
 }
 
 
-type MenuItemButtonProps = {
-    className? : string,
+type MenuItemButtonProps = MenuProps & {
     listItemClass? : string,
     buttonClass? : string
     imageClass? : string,
