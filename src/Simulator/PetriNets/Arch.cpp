@@ -41,9 +41,11 @@ void OutputArch::execute()
 #ifdef EMSCRIPTEN
     EMSCRIPTEN_BINDINGS(Arch) {
         emscripten::class_<InputArch>("InputArch")
-        .constructor<shared_ptr<PetriNetsEngine>, shared_ptr<Place>, int>();
+        .smart_ptr<shared_ptr<InputArch> >("shared_ptr<InputArch>")
+        .constructor(&std::make_shared<InputArch, shared_ptr<PetriNetsEngine>, shared_ptr<Place>, int>);
 
         emscripten::class_<OutputArch>("OutputArch")
-        .constructor<shared_ptr<PetriNetsEngine>, shared_ptr<Place>, int>();
+        .smart_ptr<shared_ptr<OutputArch> >("shared_ptr<OutputArch>")
+        .constructor(&std::make_shared<OutputArch, shared_ptr<PetriNetsEngine>, shared_ptr<Place>, int>);
     }
 #endif

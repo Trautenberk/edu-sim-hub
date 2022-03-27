@@ -182,9 +182,11 @@ void TimedTransition::planTransitionFiringEvent()
 #ifdef EMSCRIPTEN
     EMSCRIPTEN_BINDINGS(Transition) {
         emscripten::class_<TimedTransition>("TimedTransition")
-        .constructor<shared_ptr<PetriNetsEngine>, string, shared_ptr<InputArch>, shared_ptr<OutputArch>, int>();
+        .smart_ptr<shared_ptr<TimedTransition>>("shared_ptr<TimedTransition>")
+        .constructor(&std::make_shared<TimedTransition, shared_ptr<PetriNetsEngine>, string, shared_ptr<InputArch>, shared_ptr<OutputArch>, int>);
 
         emscripten::class_<ImmediateTransition>("ImmediateTransition")
-        .constructor<shared_ptr<PetriNetsEngine>, string, shared_ptr<InputArch>, shared_ptr<OutputArch>, int>();
+        .smart_ptr<shared_ptr<ImmediateTransition>>("shared_ptr<ImmediateTransition>")
+        .constructor(&std::make_shared<ImmediateTransition, shared_ptr<PetriNetsEngine>, string, shared_ptr<InputArch>, shared_ptr<OutputArch>, int>);
     }
 #endif

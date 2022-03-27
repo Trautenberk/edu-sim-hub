@@ -162,6 +162,10 @@ export const App : FC = () => {
         testInstance.hello();
         const engine = new simulator.PetriNetsEngine();
         const place = new simulator.Place(engine, "test", 2);
+        const inputArch = new simulator.InputArch(engine, place, 1);
+        const outputArch = new simulator.OutputArch(engine, place, 1);
+        const timedTransition = new simulator.TimedTransition(engine, "TimedTransition", inputArch, outputArch, 0);
+        const ImmediateTransition = new simulator.ImmediateTransition(engine, "ImmediateTransition", inputArch, outputArch, 0);
         console.log(`tokens : ${place.tokens()}`) 
         console.log("module initialized");
       }
