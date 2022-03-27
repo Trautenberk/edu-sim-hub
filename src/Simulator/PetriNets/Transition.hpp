@@ -7,6 +7,9 @@
 #include <iostream>
 #include <limits>
 #include <algorithm>
+#ifdef EMSCRIPTEN
+    #include <emscripten/bind.h>
+#endif
 
 using namespace std;
 

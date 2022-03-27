@@ -15,9 +15,14 @@
 #include "ContinousBlocks/Sub.hpp"
 #include "ContinousBlocks/Sum.hpp"
 
+#ifdef EMSCRIPTEN
+    #include <emscripten/bind.h>
+    using namespace emscripten;
+#endif
 
 
 using namespace std;
+
 template <typename T> using SP = std::shared_ptr<T>;
 template <typename T> using vec = std::vector<T>;
 
@@ -27,6 +32,10 @@ void testGenerator();
 void testPriorityEvent();
 void contBlocksSandBox();
 
+
+void hello() {
+    cout << "Hello from wasm!!" << endl;
+}
 
 int main()
 {
@@ -118,8 +127,19 @@ void contBlocksSandBox()
     auto div = Div(constantOne, constantTwo);
     auto mul = Mul(constantOne, constantTwo);
     auto gain = Gain(1, constantOne);
-    auto integrator = Integrator();
+    // auto integrator = Integrator();
     auto sum = Sum(inputs);
-
-
 }
+
+class TestA {
+    public:
+        void hello() { cout << "hello from class" << endl;}
+};
+
+#ifdef EMSCRIPTEN
+    EMSCRIPTEN_BINDINGS(main) {
+        emscripten::function("hello", &hello);
+        // class_<TestA>("TestA")
+        // .function("hello", &TestA::hello);
+    }
+#endif

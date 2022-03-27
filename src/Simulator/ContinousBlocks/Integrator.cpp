@@ -1,6 +1,6 @@
 #include "Integrator.hpp"
 
-Integrator::Integrator() : ContBlock()
+Integrator::Integrator(shared_ptr<ContBlock> input, double initialValue) : ContBlock() 
 {}
 
 

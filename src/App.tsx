@@ -12,7 +12,7 @@ import { addObject, removeAllObjects, removeObject } from 'Editor/Feature/SimObj
 import { EditMenu, Canvas, IObjectGUIComponentFactory, ContBlocksGUIComponentFactory, PetriNetsGUIComponentFactory } from "Editor/Components"
 import {Add, Div, Sub, Mul, Constant, Gain} from "Editor/Model/ContBlocks"
 
-// import TestModule from "wasm-build/Simulator.js";
+import SimulatorModule from "wasm-build/wasm_Simulator.js";
 
 /**
  * @author Jaromír Březina
@@ -154,8 +154,15 @@ export const App : FC = () => {
     () => {
       const test = async () => {
         console.log("AppStart");
-        // const myModule =  await TestModule();
-        // myModule.test();
+        const simulator =  await SimulatorModule();
+        simulator.hello();
+        simulator.bbb();
+
+        const testInstance = new simulator.TestClassX();
+        testInstance.hello();
+        const engine = new simulator.PetriNetsEngine();
+        const place = new simulator.Place(engine, "test", 2);
+        console.log(`tokens : ${place.tokens()}`) 
         console.log("module initialized");
       }
       test();

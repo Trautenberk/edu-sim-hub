@@ -7,6 +7,9 @@
 #include <iostream>
 #include <memory>
 #include "../Generator/Generator.hpp"
+#ifdef EMSCRIPTEN
+    #include <emscripten/bind.h>
+#endif
 
 using namespace std;
 

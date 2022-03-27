@@ -3,10 +3,12 @@
 
 #include "../DiscreteSimulation/DiscreteEngine.hpp"
 
+
 class Transition;
 
 class PetriNetsEngine : public DiscreteEngine {
     public:
+        PetriNetsEngine();
         vector<Transition*> allTransitions = {};
 };
 

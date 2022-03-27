@@ -36,3 +36,14 @@ void OutputArch::execute()
 {
     this->targetPlace->addTokens(this->_weight);
 }
+
+
+#ifdef EMSCRIPTEN
+    EMSCRIPTEN_BINDINGS(Arch) {
+        emscripten::class_<InputArch>("InputArch")
+        .constructor<shared_ptr<PetriNetsEngine>, shared_ptr<Place>, int>();
+
+        emscripten::class_<OutputArch>("OutputArch")
+        .constructor<shared_ptr<PetriNetsEngine>, shared_ptr<Place>, int>();
+    }
+#endif

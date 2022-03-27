@@ -21,3 +21,27 @@ void Place::removeTokens(int cnt)
     }
     this->_tokens -= cnt;
 }
+
+
+void bbb() { 
+    cout << "bbb" << endl;
+}
+
+
+
+#ifdef EMSCRIPTEN
+
+    EMSCRIPTEN_BINDINGS(PlaceClass) {
+
+        emscripten::class_<Place>("Place")
+        .smart_ptr<shared_ptr<Place>>("shared_ptr<Place>")
+        .constructor(&std::make_shared<Place, shared_ptr<PetriNetsEngine>, string, int>)
+        .function("tokens", &Place::tokens);
+
+        emscripten::class_<TestClass>("TestClassX")
+        .constructor()
+        .function("hello", &TestClass::hello);
+
+        emscripten::function("bbb", &bbb);  // TODO smazat
+    }
+#endif

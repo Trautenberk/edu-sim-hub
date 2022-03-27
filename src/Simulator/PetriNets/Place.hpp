@@ -4,8 +4,13 @@
 #include <string>
 #include "PetriNetsObject.hpp"
 #include <vector>
+#ifdef EMSCRIPTEN
+    #include <emscripten/bind.h>
+#endif
 
 using namespace std;
+
+
 
 
 class Place : public PetriNetsObject {
@@ -21,5 +26,13 @@ class Place : public PetriNetsObject {
         string _label;
         int _tokens;
 };
+
+class TestClass {
+    public:
+        void hello() { cout << "hello from class" << endl;}
+};
+
+void bbb();
+
 
 #endif

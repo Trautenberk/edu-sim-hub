@@ -7,10 +7,9 @@
 
 using namespace std;
 
-class Integrator : ContBlockDouble {
+class Integrator : ContBlock {
     public:
         Integrator(shared_ptr<ContBlock> input, double initialValue);
-        Integrator(shared_ptr<ContBlock> input, shared_ptr<Constant> initialValueConst);
         string objTypeName() {return "IntegratorBlock";};
         void updateState();
         double prevStateValue;

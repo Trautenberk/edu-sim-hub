@@ -5,6 +5,9 @@
 #include "PetriNetsObject.hpp"
 #include "Place.hpp"
 #include <iostream>
+#ifdef EMSCRIPTEN
+    #include <emscripten/bind.h>
+#endif
 
 using namespace std;
 

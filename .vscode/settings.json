@@ -11,7 +11,8 @@
         "istream": "cpp",
         "numeric": "cpp",
         "ostream": "cpp",
-        "sstream": "cpp"
+        "sstream": "cpp",
+        "string": "cpp"
     },
     "testMate.cpp.test.executables": "{src/Simulator/build,Build,BUILD,out,Out,OUT}/**/*{test,Test,TEST}*",
     "CppHelper.SourcePattern": [
