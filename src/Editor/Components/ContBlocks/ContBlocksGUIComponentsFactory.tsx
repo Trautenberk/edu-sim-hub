@@ -1,8 +1,9 @@
 import { GUIComponents, IObjectGUIComponentFactory } from "Editor/Components/ObjectGUIComponentFactory";
 import { IEditorObject } from "Editor/Model/EditorObject";
-import { FC } from "react";
+import { FC, FunctionComponent } from "react";
 import { Add, Div, Sub, Mul, Constant, Gain } from "Editor/Model/ContBlocks"
 import { AddSVG, DivSVG, SubSVG, MulSVG, ConstantSVG, GainSVG } from "Editor/Components/ContBlocks"
+import { EdgeSVG, EdgeSVGComponentProps } from "../Utilities/UtilComponents/EdgeSVG";
 
 
 const emptyComponent : FC = () => {
@@ -11,6 +12,10 @@ const emptyComponent : FC = () => {
 }
 
 export class ContBlocksGUIComponentFactory implements IObjectGUIComponentFactory {
+    getEdgeGUI(): FunctionComponent<EdgeSVGComponentProps> {
+        return EdgeSVG;
+    }
+    
     getElement (object : IEditorObject): GUIComponents  {
         switch(object.typeName) {
             case Div.name:

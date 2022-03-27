@@ -7,15 +7,15 @@ import { Coordinates, ICoordinates } from "../../../Model/UtilClasses/Coordinate
 import { IPoint, Point } from "../../../Model/UtilClasses/Point"
 import style from "./EdgeSVG.module.scss"
 
-type EdgeSVGComponentProps = {
-    edgeId : string
+export type EdgeSVGComponentProps = {
+    id : string
  }
 
 export const EdgeSVG : FC<EdgeSVGComponentProps> = (props) => {
     const dispatch = useAppDispatch();
     const useSelector = useAppSelector;
 
-    const edge = useSelector(state => getEdge(state, props.edgeId));
+    const edge = useSelector(state => getEdge(state, props.id));
     const points = useSelector(state => selectPointsFromEdge(state, edge.pointsId));
     const selected = edge.id === useSelector(selectedEdge);
 

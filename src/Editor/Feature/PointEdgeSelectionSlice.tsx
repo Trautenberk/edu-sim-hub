@@ -133,9 +133,7 @@ const pointEdgeSelectionSlice = createSlice({
             const points = action.payload;
             const newEdge : IEdge = {id : Edge.getId(), pointsId : points.map(item => item.id)};
             state.edges[newEdge.id] = newEdge;
-            points.forEach(item => {
-                state.points[item.id] = item;
-            })
+            points.forEach(item => { state.points[item.id] = item; })
             newEdge.from = points[0].id;
             state.selectedObjectId = null;
             state.selectedEdge = newEdge.id;

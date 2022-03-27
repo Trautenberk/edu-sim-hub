@@ -195,10 +195,9 @@ export const App : FC = () => {
                 canvasElement={objectGUIComponentFactory.getElement(item).SVGComponent}                   
                 />)
               }
-              {Object.values(edges).map(item => <EdgeSVG
-              key={item.id} 
-              edgeId={item.id}
-              />)}
+              {Object.values(edges).map(item => {
+                return objectGUIComponentFactory.getEdgeGUI()({id : item.id});
+              })}
           </Canvas>
           <EditMenu factory={objectGUIComponentFactory} />
         <Loader visibile={false} >Jupiiiiiii </Loader>

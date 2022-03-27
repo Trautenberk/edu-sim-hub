@@ -9,6 +9,9 @@ import { Coordinates, ICoordinates } from "Editor/Model/UtilClasses/Coordinates"
 import { IPlace } from "Editor/Model/PetriNets/Place";
 import { useSelectable } from "../Utilities";
 import styles from "./PlaceStyle.module.scss"
+import { addObject } from "Editor/Feature/SimObjectManagementSlice";
+import { Arch } from "Editor/Model/PetriNets/Arch";
+
 
 
 
@@ -28,7 +31,11 @@ export const PlaceSVG : FunctionComponent<ObjectSVGProps> = (props) => {
         {x : 0, y: -30},
     ]), [])
 
-
+    const onEdgeSpawn = useCallback(
+        () => {
+            dispatch(addObject(new Arch().toSerializableObj()))
+        },[]
+    )
 
     // TODO refaktorovat pro optimalizaci
     const absoluteCoords = props.groupAbsoluteCoordinates;
@@ -40,7 +47,7 @@ export const PlaceSVG : FunctionComponent<ObjectSVGProps> = (props) => {
         <>
             <circle className={styles.spot_foundation} onMouseDown={onMouseDown}  onMouseUp={props.onMouseUpDragHandler}  r="30"/>
             <circle visibility={visible} className={styles.spot_selected} r="30"/>
-            {endPoints.map((item, index) => <EndPointSVG key={item.id}  parentElementID={props.id} point={item} arrowDirection={ALL_DIRECTIONS[index]} {...props} /> )}
+            {endPoints.map((item, index) => <EndPointSVG onEdgeSpawn={onEdgeSpawn} key={item.id}  parentElementID={props.id} point={item} arrowDirection={ALL_DIRECTIONS[index]} {...props} /> )}
             <text x="-50" y="-50">{obj.label}</text>
             <text x="-10" y="5">{obj.tokenCount > 0 ? `${obj.tokenCount} x` : ""}</text>
         </>

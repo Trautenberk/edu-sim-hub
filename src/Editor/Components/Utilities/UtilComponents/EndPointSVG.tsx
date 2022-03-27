@@ -11,6 +11,7 @@ export type EndPointProps = {
     parentElementID : string,
     point : GroupPoint,
     arrowDirection : Direction,
+    onEdgeSpawn? : (parentId: string) => void;
 }
 
 export const EndPointSVG : FC<EndPointProps> = (props) => {
@@ -40,6 +41,7 @@ export const EndPointSVG : FC<EndPointProps> = (props) => {
 
 
     const onArrowClick = useCallback(() => {
+        props.onEdgeSpawn && props.onEdgeSpawn(props.parentElementID);
         const secondPointCoords  =  new Coordinates(convertDirectionToOffset(props.arrowDirection)).add(props.point.coords)
         const secondPoint = new Point({id : `Point_${Point.cnt}`, coords : secondPointCoords})
         dispatch(addEdge([props.point.toSerializableObj(), secondPoint.toSerializableObj()]))
