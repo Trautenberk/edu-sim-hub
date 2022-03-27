@@ -6,7 +6,7 @@ export interface IAdd extends IEditorObject {
 
 }
 
-export class Add extends EditorObject implements IAdd, IToSerializable<IAdd> {
+export class Add extends EditorObject implements  IToSerializable<IAdd> {
     public className(){ return Add.name; }  
     public static MenuName  = "Sčítání"
 }

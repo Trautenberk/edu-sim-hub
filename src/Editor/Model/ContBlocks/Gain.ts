@@ -6,7 +6,7 @@ export interface IGain extends IEditorObject {
 
 }
 
-export class Gain extends EditorObject implements IGain, IToSerializable<IGain> {
+export class Gain extends EditorObject implements IToSerializable<IGain> {
     public className() { return Gain.name; }
     public static MenuName = "Gain"
 }

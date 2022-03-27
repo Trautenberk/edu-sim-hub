@@ -6,7 +6,7 @@ export interface IParameter extends IEditorObject {
 
 }
 
-export class Parameter extends EditorObject implements IParameter, IToSerializable<IParameter> {
+export class Parameter extends EditorObject implements IToSerializable<IParameter> {
     public className() { return Parameter.name;} 
     public static MenuName  = "Parametr";
 }

@@ -15,7 +15,7 @@ export interface ITransition  extends IEditorObject{
     probability : number
 }
 
-export class Transition extends EditorObject implements ITransition, IToSerializable<ITransition>{
+export class Transition extends EditorObject implements IToSerializable<ITransition>{
     public className() { return Transition.name; } 
     public static MenuName : string = "Přechod";
     public priority : number = 0; 

@@ -6,7 +6,7 @@ export interface IIntegrator extends IEditorObject {
 
 }
 
-export class Integrator extends EditorObject implements IIntegrator, IToSerializable<IIntegrator> {
+export class Integrator extends EditorObject implements IToSerializable<IIntegrator> {
     public className() { return  Integrator.name; }
     public static MenuName  = "IntegratorBlock"
 }

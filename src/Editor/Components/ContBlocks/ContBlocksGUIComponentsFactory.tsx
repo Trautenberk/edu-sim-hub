@@ -17,7 +17,7 @@ export class ContBlocksGUIComponentFactory implements IObjectGUIComponentFactory
     }
     
     getElement (object : IEditorObject): GUIComponents  {
-        switch(object.className()) {
+        switch(object.className) {
             case Div.name:
                 return {SVGComponent: DivSVG, EditComponent : emptyComponent};
             case Add.name:

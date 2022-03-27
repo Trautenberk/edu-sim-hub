@@ -9,6 +9,8 @@ import { Coordinates, ICoordinates } from "Editor/Model/UtilClasses/Coordinates"
 import { GroupPoint } from "Editor/Model/UtilClasses/Point";
 import { EndPointSVG } from "Editor/Components/Utilities/UtilComponents";
 import { useSelectable } from "../Utilities";
+import { addObject } from "Editor/Feature/SimObjectManagementSlice";
+import { InputArch } from "Editor/Model/PetriNets";
 
 export const TransitionSVG : FunctionComponent<ObjectSVGProps> = (props) => {
     const dispatch = useAppDispatch()
@@ -22,6 +24,11 @@ export const TransitionSVG : FunctionComponent<ObjectSVGProps> = (props) => {
 
     const {onMouseDown} = useSelectable(props.id, props.onMouseDownDragHandler)
 
+    const onEdgeSpawn = useCallback(
+        () => {
+            dispatch(addObject(new InputArch(obj.id).toSerializableObj()))
+        },[]
+    )
 
     const endPointsInGroupCoords : ICoordinates[] = useMemo(() => ([
         {x : width, y: height / 2},
@@ -39,7 +46,7 @@ export const TransitionSVG : FunctionComponent<ObjectSVGProps> = (props) => {
         <>
             <rect className={styles.transition} width={width} height={height} onMouseDown={onMouseDown}  onMouseUp={props.onMouseUpDragHandler}/>  
             <rect className={styles.transition_selected} visibility={visible} width={width} height={height}/> 
-            {endPoints.map((item, index) => <EndPointSVG key={item.id}  parentElementID={props.id} point={item} arrowDirection={ALL_DIRECTIONS[index]} {...props} /> )}
+            {endPoints.map((item, index) => <EndPointSVG onEdgeSpawn={onEdgeSpawn} key={item.id}  parentElementID={props.id} point={item} arrowDirection={ALL_DIRECTIONS[index]} {...props} /> )}
             <text x="-10" y="-10">{obj.label}</text>
             {obj.type === TransitionType.Priority && <text x="0" y="100"> {obj.priority > 0 ? `p = ${obj.priority}` : ""} </text>  }
             {obj.type === TransitionType.Probability && <text x="0" y="100"> { `${obj.probability}%`} </text>}

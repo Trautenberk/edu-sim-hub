@@ -10,7 +10,7 @@ import { IPlace } from "Editor/Model/PetriNets/Place";
 import { useSelectable } from "../Utilities";
 import styles from "./PlaceStyle.module.scss"
 import { addObject } from "Editor/Feature/SimObjectManagementSlice";
-import { Arch } from "Editor/Model/PetriNets/Arch";
+import { Arch, OutputArch } from "Editor/Model/PetriNets/Arch";
 
 
 
@@ -33,7 +33,7 @@ export const PlaceSVG : FunctionComponent<ObjectSVGProps> = (props) => {
 
     const onEdgeSpawn = useCallback(
         () => {
-            dispatch(addObject(new Arch().toSerializableObj()))
+            dispatch(addObject(new OutputArch(obj.id).toSerializableObj()))
         },[]
     )
 

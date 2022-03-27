@@ -6,7 +6,7 @@ export interface ISub extends IEditorObject {
 
 }
 
-export class Sub extends EditorObject implements ISub, IToSerializable<ISub> {
+export class Sub extends EditorObject implements IToSerializable<ISub> {
     public className() { return Sub.name; } 
     public static MenuName  = "Odčítání"
 }

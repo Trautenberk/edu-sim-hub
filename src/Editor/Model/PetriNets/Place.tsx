@@ -7,11 +7,7 @@ export interface IPlace extends IEditorObject {
     tokenCount : number
 }
 
-export function isPlace(obj : IEditorObject | IPlace) : obj is Place {
-    return  obj.className() === Place.name;
-}
-
-export class Place extends EditorObject implements IPlace, IToSerializable<IPlace>{
+export class Place extends EditorObject implements IToSerializable<IPlace>{
     public className() { return Place.name; } 
     public static MenuName : string = "Místo"
 

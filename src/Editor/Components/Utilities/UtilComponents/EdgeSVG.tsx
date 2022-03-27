@@ -8,7 +8,7 @@ import { IPoint, Point } from "../../../Model/UtilClasses/Point"
 import style from "./EdgeSVG.module.scss"
 
 export type EdgeSVGComponentProps = {
-    id : string
+    id : string,
  }
 
 export const EdgeSVG : FC<EdgeSVGComponentProps> = (props) => {
@@ -31,8 +31,6 @@ export const EdgeSVG : FC<EdgeSVGComponentProps> = (props) => {
         }
         const lastPoint = new Point(points[points.length - 1]);
 
-
-    
         return (
             <g>
                 <path className={style.edge}  markerEnd={"url(#arrow)"} d={Edge.getPathDescription(points)}/>

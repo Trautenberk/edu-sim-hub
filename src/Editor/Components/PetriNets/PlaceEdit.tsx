@@ -1,6 +1,6 @@
 import { ObjectEditProps } from "Editor/Components/Canvas";
 import { changeObject } from "Editor/Feature/SimObjectManagementSlice";
-import { IPlace, isPlace } from "Editor/Model/PetriNets/Place";
+import { IPlace  } from "Editor/Model/PetriNets/Place";
 import React, { FC} from "react"
 import { useAppDispatch, useAppSelector } from "Editor/Store/Hooks"
 import style from "./PlaceStyle.module.scss"
@@ -12,12 +12,8 @@ export const PlaceEdit : FC<ObjectEditProps>  = (props) => {
     const obj = {...useSelector(state => state.simObjectManagement.objects[props.id])} as IPlace // TODO odstranit pretypovani
 
     const onLabelInputChange = (e : React.ChangeEvent<HTMLInputElement>) => {
-        if(isPlace(obj)){
-            obj.label = e.currentTarget.value;
-            dispatch(changeObject(obj))
-        } else {
-            console.error("Object is not type of Place");
-        }
+        obj.label = e.currentTarget.value;
+        dispatch(changeObject(obj))
     }
 
     const incrementCallback = () => {

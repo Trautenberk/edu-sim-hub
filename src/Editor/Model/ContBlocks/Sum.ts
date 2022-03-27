@@ -6,7 +6,7 @@ export interface ISum extends IEditorObject {
 
 }
 
-export class Sum extends EditorObject implements ISum, IToSerializable<ISum> {
+export class Sum extends EditorObject implements IToSerializable<ISum> {
     public className() { return Sum.name; } 
     public static MenuName  = "SumBlock";
 }

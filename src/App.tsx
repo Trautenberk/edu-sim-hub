@@ -196,8 +196,11 @@ export const App : FC = () => {
                 />)
               }
               {Object.values(edges).map(item => {
-                return objectGUIComponentFactory.getEdgeGUI()({id : item.id});
-              })}
+                return (
+                  <g key={item.id}>
+                    {objectGUIComponentFactory.getEdgeGUI()({id : item.id})}
+                  </g>
+              )})}
           </Canvas>
           <EditMenu factory={objectGUIComponentFactory} />
         <Loader visibile={false} >Jupiiiiiii </Loader>

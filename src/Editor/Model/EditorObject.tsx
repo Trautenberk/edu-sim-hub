@@ -3,10 +3,10 @@ import { IToSerializable } from "Editor/Model/UtilClasses/Coordinates";
 
 export interface IEditorObject {
     id : string,
-    className() : string;
+    className : string;
 }
 
-export abstract class EditorObject implements IEditorObject, IToSerializable<IEditorObject> {
+export abstract class EditorObject implements  IToSerializable<IEditorObject> {
     protected static _idCounter : number = 0;
     protected get idCount() : number {
         return EditorObject._idCounter++;
@@ -24,7 +24,7 @@ export abstract class EditorObject implements IEditorObject, IToSerializable<IEd
     }
 
     public toSerializableObj() : IEditorObject {
-        return {id : this.id, className : this.className,}
+        return {id : this.id, className : this.className(),}
     }
     
 } 
