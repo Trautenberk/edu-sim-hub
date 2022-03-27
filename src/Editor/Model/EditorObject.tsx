@@ -3,7 +3,7 @@ import { IToSerializable } from "Editor/Model/UtilClasses/Coordinates";
 
 export interface IEditorObject {
     id : string,
-    typeName : string,
+    className() : string;
 }
 
 export abstract class EditorObject implements IEditorObject, IToSerializable<IEditorObject> {
@@ -11,23 +11,20 @@ export abstract class EditorObject implements IEditorObject, IToSerializable<IEd
     protected get idCount() : number {
         return EditorObject._idCounter++;
     }
-    
-    protected getElementId = (name : string) => {
-        return name.toLowerCase().replaceAll(" ", "_") + this.idCount;
-    }
 
     public readonly id : string;
-    public readonly typeName : string;
+    public abstract className() : string;
+    protected getElementId = () => { 
+        return `${this.className().toLowerCase()}_ ${this.idCount}`;
+    }
 
-
-    constructor(typeName : string)
+    constructor()
     {
-        this.id = this.getElementId(typeName);
-        this.typeName = typeName;
+        this.id = this.getElementId();
     }
 
     public toSerializableObj() : IEditorObject {
-        return {id : this.id, typeName : this.typeName}
+        return {id : this.id, className : this.className,}
     }
     
 } 

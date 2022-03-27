@@ -7,10 +7,7 @@ export interface IDiv extends IEditorObject {
 }
 
 export class Div extends EditorObject implements IDiv, IToSerializable<IDiv> {
+    public className() { return Div.name; }
     public static MenuName = "Dělení"
     
-    constructor() 
-    {
-        super(Div.name);
-    }
 }

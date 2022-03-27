@@ -7,10 +7,6 @@ export interface IMul extends IEditorObject {
 }
 
 export class Mul extends EditorObject implements IMul, IToSerializable<IMul> {
+    public className() { return Mul.name; } 
     public static MenuName  = "Násobení"
-    
-    constructor() 
-    {
-        super(Mul.name);
-    }
 }

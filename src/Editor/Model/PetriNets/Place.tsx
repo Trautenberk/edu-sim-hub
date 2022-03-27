@@ -8,19 +8,15 @@ export interface IPlace extends IEditorObject {
 }
 
 export function isPlace(obj : IEditorObject | IPlace) : obj is Place {
-    return  obj.typeName === Place.name;
+    return  obj.className() === Place.name;
 }
 
 export class Place extends EditorObject implements IPlace, IToSerializable<IPlace>{
+    public className() { return Place.name; } 
     public static MenuName : string = "Místo"
 
     public tokenCount : number = 0;
     public label: string = "";
-
-    constructor()
-    {
-        super(Place.name);
-    }
 
     public toSerializableObj(): IPlace {
         const superObj = super.toSerializableObj();

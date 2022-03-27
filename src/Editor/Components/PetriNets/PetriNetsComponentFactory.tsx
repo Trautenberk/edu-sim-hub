@@ -15,9 +15,9 @@ export class PetriNetsGUIComponentFactory implements IObjectGUIComponentFactory 
     getEdgeGUI(): FunctionComponent<EdgeSVGComponentProps> {
         return ArchSVG;
     }
-    
+
     getElement (object : IEditorObject): GUIComponents  {
-        switch(object.typeName) {
+        switch(object.className()) {
             case Place.name:
                 return {SVGComponent : PlaceSVG, EditComponent : PlaceEdit};
             case Transition.name:

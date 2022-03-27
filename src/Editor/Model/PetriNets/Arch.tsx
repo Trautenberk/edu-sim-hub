@@ -4,13 +4,13 @@ import { IEditorObject, EditorObject } from "Editor/Model/EditorObject";
 export interface IArch extends IEditorObject {}
 
 export class Arch extends EditorObject implements IArch, IToSerializable<IArch> {
+    public className() { return Arch.name; } 
     private weight : number = 1;
-    constructor()
-    {
-        super(Arch.name);
-    }
-    
+
     public toSerializableObj(): IEditorObject {
         return super.toSerializableObj();
     }
+}
+
+export class InputArch extends Arch {
 }

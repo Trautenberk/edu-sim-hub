@@ -16,18 +16,13 @@ export interface ITransition  extends IEditorObject{
 }
 
 export class Transition extends EditorObject implements ITransition, IToSerializable<ITransition>{
+    public className() { return Transition.name; } 
     public static MenuName : string = "Přechod";
     public priority : number = 0; 
     public label: string = "";
     public type: TransitionType = TransitionType.Priority;
     public timeValue: number = 0;
     public probability: number = 0;
-
-    constructor()
-    {
-        super(Transition.name);
-    }
-
 
     public toSerializableObj() : ITransition {
         const superObj = super.toSerializableObj()
