@@ -17,6 +17,9 @@ void DiscreteEngine::simulate()
 {
     this->time = 0;
 
+    cout << "Simulation begin" << endl;
+    cout << "Total SimObject count:" << this->simObjects.size() << endl;
+
     while(!calendar.isEmpty() && this->iteration <= this->maxIteration){
         auto event = calendar.getNextEvent();
         if(event.time > this->endTime){
@@ -39,3 +42,15 @@ void DiscreteEngine::clear()
     this->simObjects = {};
     this->iteration = 0;
 }
+
+DiscreteEngine::DiscreteEngine()
+{}
+
+#ifdef EMSCRIPTEN
+    EMSCRIPTEN_BINDINGS(DiscreteEngine) {
+        emscripten::class_<DiscreteEngine>("DiscreteEngine")
+        .smart_ptr_constructor<shared_ptr<DiscreteEngine>>("shared_ptr<DiscreteEngine>", &std::make_shared<DiscreteEngine>)
+        .function("init", &DiscreteEngine::init)
+        .function("simulate", &DiscreteEngine::simulate);
+    }
+#endif

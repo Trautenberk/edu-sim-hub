@@ -15,6 +15,7 @@ using namespace std;
 
 class DiscreteEngine {
     public:
+        DiscreteEngine();
         void init(float endTime, int maxIteration = 1000);
         void simulate();
         void clear();

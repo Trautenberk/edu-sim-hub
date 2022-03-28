@@ -161,12 +161,24 @@ export const App : FC = () => {
         const testInstance = new simulator.TestClassX();
         testInstance.hello();
         const engine = new simulator.PetriNetsEngine();
-        const place = new simulator.Place(engine, "test", 2);
+        // const discreteEngine =  new simulator.DiscreteEngine();
+        const place = new simulator.Place(engine, "test", 5);
+        const place_two = new simulator.Place(engine, "outputPlace",0);
+        const place_three = new simulator.Place(engine, "testPlace",0);
         const inputArch = new simulator.InputArch(engine, place, 1);
-        const outputArch = new simulator.OutputArch(engine, place, 1);
-        const timedTransition = new simulator.TimedTransition(engine, "TimedTransition", inputArch, outputArch, 0);
-        const ImmediateTransition = new simulator.ImmediateTransition(engine, "ImmediateTransition", inputArch, outputArch, 0);
-        console.log(`tokens : ${place.tokens()}`) 
+        const outputArch = new simulator.OutputArch(engine, place_two, 1);
+        const outputArchTest = new simulator.OutputArch(engine, place_two,1);
+        const outputArchVec = new simulator.OutputArchVec();
+        outputArchVec.push_back(outputArch);
+        outputArchVec.push_back(outputArchTest);
+        const inputArchVec = new simulator.InputArchVec();
+        inputArchVec.push_back(inputArch);
+        // const timedTransition = new simulator.TimedTransition(engine, "TimedTransition", inputArch, outputArch, 0);
+        const ImmediateTransition = new simulator.ImmediateTransition(engine, "ImmediateTransition", inputArchVec, outputArchVec, 0);
+        engine.init(10,10);
+        engine.simulate();
+        console.log(`tokens in first place: ${place.tokens()}`)
+        console.log(`tokens in second place: ${place_two.tokens()}`) 
         console.log("module initialized");
       }
       test();
