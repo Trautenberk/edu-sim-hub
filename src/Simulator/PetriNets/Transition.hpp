@@ -11,20 +11,20 @@
     #include <emscripten/bind.h>
 #endif
 
-using namespace std;
+// using namespace std;
+template <typename T> using SPVec = vector<shared_ptr<T>>;
 
 class Transition : public PetriNetsObject
 {
     public:
-        string label;
+        std::string label;
         vector<shared_ptr<InputArch>> inputArches = {};
         vector<shared_ptr<OutputArch>> outputArches = {};
         vector<shared_ptr<Arch>> allArches = {};
         deque<int> plannedEventsId = {};
         int firedCnt = 0;
 
-        Transition(shared_ptr<PetriNetsEngine> engine, string label, vector<shared_ptr<InputArch>> inputArches, vector<shared_ptr<OutputArch>> outputArches);
-        Transition(shared_ptr<PetriNetsEngine> engine, string label, shared_ptr<InputArch> inputArch, shared_ptr<OutputArch> outputArch);
+        Transition(shared_ptr<PetriNetsEngine> engine, std::string label, SPVec<InputArch> inputArches, SPVec<OutputArch> outputArches, std::string auxName = "");
 
         void initialize();
         int allInputArchSsatisfied();
@@ -41,9 +41,8 @@ class Transition : public PetriNetsObject
 class ImmediateTransition : public Transition {
     public:
         int priority;
-        string objTypeName() {return "ImmediateTransition";};
-        ImmediateTransition(shared_ptr<PetriNetsEngine> engine, string label, vector<shared_ptr<InputArch>> inputArches, vector<shared_ptr<OutputArch>> outputArches, int priority = 0);
-        ImmediateTransition(shared_ptr<PetriNetsEngine> engine, string label, shared_ptr<InputArch> inputArch, shared_ptr<OutputArch> outputArch, int priority = 0);
+        std::string objTypeName() {return "ImmediateTransition";};
+        ImmediateTransition(shared_ptr<PetriNetsEngine> engine, std::string label, SPVec<InputArch> inputArches, SPVec<OutputArch> outputArches, int priority = 0, std::string auxName = "");
         void planTransitionFiringEvent();
 };
 
@@ -51,9 +50,8 @@ class ImmediateTransition : public Transition {
 class TimedTransition : public Transition {
     public:
         int delay;
-        string objTypeName() {return "TimedTransition";};
-        TimedTransition(shared_ptr<PetriNetsEngine> engine, string label, vector<shared_ptr<InputArch>> inputArches, vector<shared_ptr<OutputArch>> outputArches, int delay);
-        TimedTransition(shared_ptr<PetriNetsEngine> engine, string label, shared_ptr<InputArch> inputArch, shared_ptr<OutputArch> outputArch, int delay);
+        std::string objTypeName() {return "TimedTransition";};
+        TimedTransition(shared_ptr<PetriNetsEngine> engine, std::string label, SPVec<InputArch> inputArches, SPVec<OutputArch>  outputArches, int delay, std::string auxName = "");
         void planTransitionFiringEvent();
 };
 

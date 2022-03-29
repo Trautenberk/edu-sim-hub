@@ -1,8 +1,10 @@
 #include "Transition.hpp"
 
+using namespace std;
+
 // Transition
-Transition::Transition(shared_ptr<PetriNetsEngine> engine, string label, vector<shared_ptr<InputArch>> inputArches, vector<shared_ptr<OutputArch>> outputArches) 
-: PetriNetsObject(engine)
+Transition::Transition(shared_ptr<PetriNetsEngine> engine, string label, vector<shared_ptr<InputArch>> inputArches, vector<shared_ptr<OutputArch>> outputArches, string auxName) 
+: PetriNetsObject(engine, auxName)
 {
     this->label = label;
     this->inputArches = inputArches;
@@ -26,10 +28,6 @@ Transition::Transition(shared_ptr<PetriNetsEngine> engine, string label, vector<
     this->allArches.insert(this->allArches.end(), outputArches.begin(), outputArches.end());
     this->allArches.insert(this->allArches.end(), inputArches.begin(), inputArches.end());
 }
-
-Transition::Transition(shared_ptr<PetriNetsEngine> engine, string label, shared_ptr<InputArch> inputArch, shared_ptr<OutputArch> outputArch)
-: Transition(engine, label, vector<shared_ptr<InputArch>>({inputArch}), vector<shared_ptr<OutputArch>>({outputArch}))
-{}
 
 void Transition::initialize()
 {
@@ -134,16 +132,11 @@ void Transition::rePlanTransition()
 }
 
 
+////////////////////////////////////////////////////////////////
 // ImmediateTransition
 
-ImmediateTransition::ImmediateTransition(shared_ptr<PetriNetsEngine> engine, string label, vector<shared_ptr<InputArch>> inputArches, vector<shared_ptr<OutputArch>> outputArches, int priority)
-: Transition(engine, label, inputArches, outputArches)
-{
-    this->priority = priority;
-}
-
-ImmediateTransition::ImmediateTransition(shared_ptr<PetriNetsEngine> engine, string label, shared_ptr<InputArch> inputArch, shared_ptr<OutputArch> outputArch, int priority)
-: Transition(engine, label, inputArch, outputArch)
+ImmediateTransition::ImmediateTransition(shared_ptr<PetriNetsEngine> engine, string label, vector<shared_ptr<InputArch>> inputArches, vector<shared_ptr<OutputArch>> outputArches, int priority, string auxName)
+: Transition(engine, label, inputArches, outputArches, auxName)
 {
     this->priority = priority;
 }
@@ -157,16 +150,11 @@ void ImmediateTransition::planTransitionFiringEvent()
 }
 
 
+////////////////////////////////////////////////////////////////
 // TimedTransition
 
-TimedTransition::TimedTransition(shared_ptr<PetriNetsEngine> engine, string label, vector<shared_ptr<InputArch>> inputArches, vector<shared_ptr<OutputArch>> outputArches, int delay)
-: Transition(engine, label, inputArches, outputArches)
-{
-    this->delay = delay;
-}
-
-TimedTransition::TimedTransition(shared_ptr<PetriNetsEngine> engine, string label, shared_ptr<InputArch> inputArch, shared_ptr<OutputArch> outputArch, int delay)
-: Transition(engine, label, inputArch, outputArch)
+TimedTransition::TimedTransition(shared_ptr<PetriNetsEngine> engine, string label, vector<shared_ptr<InputArch>> inputArches, vector<shared_ptr<OutputArch>> outputArches, int delay, string auxName)
+: Transition(engine, label, inputArches, outputArches, auxName)
 {
     this->delay = delay;
 }
@@ -188,13 +176,13 @@ void TimedTransition::planTransitionFiringEvent()
 
         emscripten::class_<TimedTransition>("TimedTransition")
         .smart_ptr<shared_ptr<TimedTransition>>("shared_ptr<TimedTransition>")
-        // .constructor(&std::make_shared<TimedTransition, shared_ptr<PetriNetsEngine>, string, shared_ptr<InputArch>, shared_ptr<OutputArch>, int>)
-        .constructor(&std::make_shared<TimedTransition, shared_ptr<PetriNetsEngine>, string, vector<shared_ptr<InputArch>>, vector<shared_ptr<OutputArch>>, int>);
+        .constructor(&std::make_shared<TimedTransition, shared_ptr<PetriNetsEngine>, string, vector<shared_ptr<InputArch>>, vector<shared_ptr<OutputArch>>, int>)
+        .constructor(&std::make_shared<TimedTransition, shared_ptr<PetriNetsEngine>, string, vector<shared_ptr<InputArch>>, vector<shared_ptr<OutputArch>>, int, string>);
 
         emscripten::class_<ImmediateTransition>("ImmediateTransition")
         .smart_ptr<shared_ptr<ImmediateTransition>>("shared_ptr<ImmediateTransition>")
-        // .constructor(&std::make_shared<ImmediateTransition, shared_ptr<PetriNetsEngine>, string, shared_ptr<InputArch>, shared_ptr<OutputArch>, int>)
-        .constructor(&std::make_shared<TimedTransition, shared_ptr<PetriNetsEngine>, string, vector<shared_ptr<InputArch>>, vector<shared_ptr<OutputArch>>, int>);
+        .constructor(&std::make_shared<TimedTransition, shared_ptr<PetriNetsEngine>, string, vector<shared_ptr<InputArch>>, vector<shared_ptr<OutputArch>>, int>)
+        .constructor(&std::make_shared<TimedTransition, shared_ptr<PetriNetsEngine>, string, vector<shared_ptr<InputArch>>, vector<shared_ptr<OutputArch>>, int, string>);
     
     }
 #endif

@@ -13,7 +13,7 @@ TEST(SimpleSimWithImmediateTransition, BasicAssertions)
     auto placeTwo = make_shared<Place>(engine, "Place 2", 0);
     auto inputArch = make_shared<InputArch>(engine, placeOne);
     auto outputArch = make_shared<OutputArch>(engine, placeTwo);
-    auto transition = make_shared<ImmediateTransition>(engine, "Transition 1", inputArch, outputArch);
+    auto transition = make_shared<ImmediateTransition>(engine, "Transition 1", SPVec<InputArch>{inputArch}, SPVec<OutputArch>{outputArch});
     EXPECT_EQ(engine, transition->engine);
     engine->init(10);
     engine->simulate();
@@ -30,7 +30,7 @@ TEST(SimpleSimWithTimedTransition, BasicAssertions)
     auto placeTwo = make_shared<Place>(engine, "Place 2", 0);
     auto inputArch = make_shared<InputArch>(engine, placeOne);
     auto outputArch = make_shared<OutputArch>(engine, placeTwo);
-    auto transition = make_shared<TimedTransition>(engine, "Transition 1", inputArch, outputArch, 5);
+    auto transition = make_shared<TimedTransition>(engine, "Transition 1", SPVec<InputArch> {inputArch}, SPVec<OutputArch> {outputArch}, 5);
     
     EXPECT_EQ(engine, transition->engine);
     engine->init(10);
@@ -50,8 +50,8 @@ TEST(testImmediateAndTimedTransition, BasicAssertions)
     auto outputImmediate = make_shared<OutputArch>(engine, placeTwo);
     auto inputTimed = make_shared<InputArch>(engine, placeOne);
     auto outputTimed = make_shared<OutputArch>(engine, placeThree);
-    auto immediate = make_shared<ImmediateTransition>(engine, "Immediate 1", inputImmediate, outputImmediate);
-    auto timed = make_shared<TimedTransition>(engine, "Timed 1", inputTimed, outputTimed, 5);
+    auto immediate = make_shared<ImmediateTransition>(engine, "Immediate 1", SPVec<InputArch> {inputImmediate}, SPVec<OutputArch> {outputImmediate});
+    auto timed = make_shared<TimedTransition>(engine, "Timed 1", SPVec<InputArch> {inputTimed}, SPVec<OutputArch> {outputTimed}, 5);
 
     engine->init(10);
     engine->simulate();
@@ -79,11 +79,8 @@ TEST(testImmediateAndTimedTransitionTwo, BasicAssertions)
     auto inputTimed = make_shared<InputArch>(engine, placeOne);
     auto outputTimed = make_shared<OutputArch>(engine, placeFour);
 
-    vector<shared_ptr<InputArch>> immediateInputs = {inputImmediate, inputImmediateTwo};
-    vector<shared_ptr<OutputArch>> immediateOutputs = {outputImmediate};
-
-    auto immediate = make_shared<ImmediateTransition>(engine, "Immediate 1", immediateInputs, immediateOutputs);
-    auto timed = make_shared<TimedTransition>(engine, "Timed 1", inputTimed, outputTimed, 5);
+    auto immediate = make_shared<ImmediateTransition>(engine, "Immediate 1", SPVec<InputArch> {inputImmediate, inputImmediateTwo}, SPVec<OutputArch> {outputImmediate});
+    auto timed = make_shared<TimedTransition>(engine, "Timed 1", SPVec<InputArch> {inputTimed}, SPVec<OutputArch> {outputTimed}, 5);
 
     engine->init(10);
     engine->simulate();

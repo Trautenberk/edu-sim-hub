@@ -1,7 +1,7 @@
 #include "Place.hpp"
 #include <iostream>
 
-Place::Place(shared_ptr<PetriNetsEngine> engine, string label, int tokens) : PetriNetsObject(engine)
+Place::Place(shared_ptr<PetriNetsEngine> engine, string label, int tokens, string auxName) : PetriNetsObject(engine, auxName)
 {
     this->_label = label;
     this->_tokens = tokens; 
@@ -30,12 +30,12 @@ void bbb() {
 
 
 #ifdef EMSCRIPTEN
-
     EMSCRIPTEN_BINDINGS(PlaceClass) {
 
         emscripten::class_<Place>("Place")
         .smart_ptr<shared_ptr<Place>>("shared_ptr<Place>")
         .constructor(&std::make_shared<Place, shared_ptr<PetriNetsEngine>, string, int>)
+        .constructor(&std::make_shared<Place, shared_ptr<PetriNetsEngine>, string, int, string>)
         .function("tokens", &Place::tokens);
 
         emscripten::class_<TestClass>("TestClassX")

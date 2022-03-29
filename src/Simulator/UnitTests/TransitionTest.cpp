@@ -8,7 +8,7 @@ TEST(ImmediateTransitionFire, BasicAssertions)
   auto outPlace = shared_ptr<Place>(new Place(engine, "Output Place", 0));
   auto inArch = shared_ptr<InputArch>(new InputArch(engine, inPlace));
   auto outArch = shared_ptr<OutputArch>(new OutputArch(engine, outPlace));
-  auto transition = ImmediateTransition(engine, "Transition",inArch, outArch);
+  auto transition = ImmediateTransition(engine, "Transition", {inArch}, {outArch});
   
   EXPECT_EQ(transition.allInputArchSsatisfied(), 1);
   transition.fire(-1);
@@ -24,7 +24,7 @@ TEST (TimedTransitionFire, BasicAssertions)
   auto outPlace = shared_ptr<Place>(new Place(engine, "Output Place", 0));
   auto inArch = shared_ptr<InputArch>(new InputArch(engine, inPlace));
   auto outArch = shared_ptr<OutputArch>(new OutputArch(engine, outPlace));
-  auto transition = TimedTransition(engine, "Transition",inArch, outArch, 0);
+  auto transition = TimedTransition(engine, "Transition", {inArch}, {outArch}, 0);
   
   EXPECT_EQ(transition.allInputArchSsatisfied(), 1);
   transition.fire(-1);

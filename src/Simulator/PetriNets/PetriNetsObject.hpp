@@ -8,9 +8,12 @@ class PetriNetsEngine;
 
 class PetriNetsObject : public DiscreteSimObject {
     public:
-        PetriNetsObject(shared_ptr<PetriNetsEngine> engine);
+        PetriNetsObject(shared_ptr<PetriNetsEngine> engine, string auxName = "");
         shared_ptr<PetriNetsEngine> engine;
         virtual void initialize() = 0;
+        string auxName() {return _auxName;};
+    private:
+        string _auxName = "";
 };
 
 #endif

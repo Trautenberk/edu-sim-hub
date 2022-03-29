@@ -2,7 +2,7 @@
 
 using namespace std;
 
-Arch::Arch(shared_ptr<PetriNetsEngine> engine, shared_ptr<Place> targetPlace, int weight) : PetriNetsObject(engine)
+Arch::Arch(shared_ptr<PetriNetsEngine> engine, shared_ptr<Place> targetPlace, int weight, string auxName) : PetriNetsObject(engine, auxName)
 {
     if (weight < 1) {
         cerr << "Error: cannot initialize arch with weight smaller than one" << endl;
@@ -14,7 +14,8 @@ Arch::Arch(shared_ptr<PetriNetsEngine> engine, shared_ptr<Place> targetPlace, in
 }
 
 /// InputArch
-InputArch::InputArch(shared_ptr<PetriNetsEngine> engine, shared_ptr<Place> targetPlace, int weight) : Arch(engine, targetPlace, weight)
+InputArch::InputArch(shared_ptr<PetriNetsEngine> engine, shared_ptr<Place> targetPlace, int weight, string auxName) 
+: Arch(engine, targetPlace, weight, auxName)
 {}
 
 void InputArch::execute()
@@ -29,7 +30,8 @@ int InputArch::satisfied()
 }
 
 /// OutpuArch
-OutputArch::OutputArch(shared_ptr<PetriNetsEngine> engine, shared_ptr<Place> targetPlace, int weight) : Arch(engine, targetPlace, weight)
+OutputArch::OutputArch(shared_ptr<PetriNetsEngine> engine, shared_ptr<Place> targetPlace, int weight, string auxName)
+: Arch(engine, targetPlace, weight, auxName)
 {}
 
 void OutputArch::execute()
@@ -42,10 +44,12 @@ void OutputArch::execute()
     EMSCRIPTEN_BINDINGS(Arch) {
         emscripten::class_<InputArch>("InputArch")
         .smart_ptr<shared_ptr<InputArch> >("shared_ptr<InputArch>")
-        .constructor(&std::make_shared<InputArch, shared_ptr<PetriNetsEngine>, shared_ptr<Place>, int>);
+        .constructor(&std::make_shared<InputArch, shared_ptr<PetriNetsEngine>, shared_ptr<Place>, int>)
+        .constructor(&std::make_shared<InputArch, shared_ptr<PetriNetsEngine>, shared_ptr<Place>, int, string>);
 
         emscripten::class_<OutputArch>("OutputArch")
         .smart_ptr<shared_ptr<OutputArch> >("shared_ptr<OutputArch>")
-        .constructor(&std::make_shared<OutputArch, shared_ptr<PetriNetsEngine>, shared_ptr<Place>, int>);
+        .constructor(&std::make_shared<InputArch, shared_ptr<PetriNetsEngine>, shared_ptr<Place>, int>)
+        .constructor(&std::make_shared<OutputArch, shared_ptr<PetriNetsEngine>, shared_ptr<Place>, int, string>);
     }
 #endif
