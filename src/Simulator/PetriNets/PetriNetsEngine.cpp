@@ -1,7 +1,9 @@
 #include "PetriNetsEngine.hpp"
 
 PetriNetsEngine::PetriNetsEngine() : DiscreteEngine() 
-{}
+{
+    cout << "PetriNetsEngine constructor" << endl;
+}
 
 #ifdef EMSCRIPTEN
  EMSCRIPTEN_BINDINGS(PetriNetsEngine) {

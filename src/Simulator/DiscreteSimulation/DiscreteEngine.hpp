@@ -7,6 +7,7 @@
 #include <iostream>
 #include <memory>
 #include "../Generator/Generator.hpp"
+#include <ctime>
 #ifdef EMSCRIPTEN
     #include <emscripten/bind.h>
 #endif

@@ -31,6 +31,8 @@ Transition::Transition(shared_ptr<PetriNetsEngine> engine, string label, vector<
 
 void Transition::initialize()
 {
+    cout << "Transition initialization" << endl;
+    cout << "Inputs satisfied: " << this->allInputArchSsatisfied() << endl;
     for (int i = 0; i < this->allInputArchSsatisfied(); i++)
         this->planTransitionFiringEvent();
 
@@ -42,6 +44,11 @@ void Transition::initialize()
 int Transition::allInputArchSsatisfied()
 {
     int timesSatisfied = INT_MAX;
+
+    cout << "input arches count: " << this->inputArches.size() << endl;
+    if (this->inputArches.size() == 0)
+        return 0;
+    
     for (auto& inputArch : this->inputArches)
     {
         if (inputArch->satisfied() == 0)
@@ -173,15 +180,14 @@ void TimedTransition::planTransitionFiringEvent()
         emscripten::register_vector<shared_ptr<InputArch>>("InputArchVec");
         emscripten::register_vector<shared_ptr<OutputArch>>("OutputArchVec");
 
-
         emscripten::class_<TimedTransition>("TimedTransition")
         .smart_ptr<shared_ptr<TimedTransition>>("shared_ptr<TimedTransition>")
-        .constructor(&std::make_shared<TimedTransition, shared_ptr<PetriNetsEngine>, string, vector<shared_ptr<InputArch>>, vector<shared_ptr<OutputArch>>, int>)
+        // .constructor(&std::make_shared<TimedTransition, shared_ptr<PetriNetsEngine>, string, vector<shared_ptr<InputArch>>, vector<shared_ptr<OutputArch>>, int>)
         .constructor(&std::make_shared<TimedTransition, shared_ptr<PetriNetsEngine>, string, vector<shared_ptr<InputArch>>, vector<shared_ptr<OutputArch>>, int, string>);
 
         emscripten::class_<ImmediateTransition>("ImmediateTransition")
         .smart_ptr<shared_ptr<ImmediateTransition>>("shared_ptr<ImmediateTransition>")
-        .constructor(&std::make_shared<TimedTransition, shared_ptr<PetriNetsEngine>, string, vector<shared_ptr<InputArch>>, vector<shared_ptr<OutputArch>>, int>)
+        // .constructor(&std::make_shared<TimedTransition, shared_ptr<PetriNetsEngine>, string, vector<shared_ptr<InputArch>>, vector<shared_ptr<OutputArch>>, int>)
         .constructor(&std::make_shared<TimedTransition, shared_ptr<PetriNetsEngine>, string, vector<shared_ptr<InputArch>>, vector<shared_ptr<OutputArch>>, int, string>);
     
     }
