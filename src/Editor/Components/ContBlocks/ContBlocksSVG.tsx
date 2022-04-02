@@ -1,4 +1,4 @@
-import { FC, useCallback } from "react"
+import  React, { FC, useRef } from "react"
 import { Coordinates, DraggableHandlers } from "Editor/Components/Utilities"
 import { EndPointSVG } from "Editor/Components/Utilities/UtilComponents"
 import { Direction } from "../Utilities/UtilMethodsAndTypes"
@@ -10,15 +10,16 @@ import { useSelectable } from "Editor/Components/Utilities"
 import { ICoordinates } from "../../Model/UtilClasses/Coordinates"
 import styles from "./ContBlockStyles.module.scss"
 
-type ContBlockProps = ObjectSVGProps;
+
+type DragElementRef = {
+    setRef : (ref : SVGElement | null) => void
+}
+
+type ContBlockProps  = ObjectSVGProps & DragElementRef;
 
 export const ContBlockFoundationSVG : FC<ContBlockProps> = (props) => {    
-    const dispatch = useAppDispatch();
-
-    const {onMouseDown} = useSelectable(props.id, props.onMouseDownDragHandler)
-
     return (
-            <rect className={styles.foundation} onMouseDown={onMouseDown} onMouseUp={props.onMouseUpDragHandler} width="70" height="70"/> 
+            <rect ref={props.setRef} className={styles.foundation}  width="70" height="70"/> 
     )
 }
 

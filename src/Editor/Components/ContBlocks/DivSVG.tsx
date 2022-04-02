@@ -1,6 +1,8 @@
 import { useAppDispatch, useAppSelector } from "Editor/Store/Hooks";
 import { FC } from "react"
 import { ObjectSVGProps } from "../Canvas"
+import { useDragRef } from "../Utilities";
+import { SelectableAndDraggableGroupSVG } from "../Utilities/UtilComponents";
 import { ContBlockDoubleSVG } from "./ContBlocksSVG"
 import styles from "./ContBlockStyles.module.scss"
 
@@ -11,10 +13,12 @@ const middleY = 35
 export const DivSVG : FC<ObjectSVGProps> = (props) => {
     const dispatch = useAppDispatch();
     const useSelector = useAppSelector;
+    const {dragRef, setRef} = useDragRef()
+
 
     return (
-        <g>
-            <ContBlockDoubleSVG {...props}/>
+        <SelectableAndDraggableGroupSVG id={props.id} refObj={dragRef} coords={props.groupAbsoluteCoordinates} >
+            <ContBlockDoubleSVG {...props} setRef={setRef}/>
             <circle
                 className={styles.sign}
                 r={circleDiameter}
@@ -32,7 +36,7 @@ export const DivSVG : FC<ObjectSVGProps> = (props) => {
                 height="8"
                 x={middleX - 15}
                 y={middleY - 4} />
-    </g>
+        </SelectableAndDraggableGroupSVG>
     )
 }
 

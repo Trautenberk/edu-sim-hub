@@ -11,8 +11,10 @@ import { clearAllEdges, removeEdge, selectedObjectId, unselectEdge, selectedEdge
 import { addObject, removeAllObjects, removeObject } from 'Editor/Feature/SimObjectManagementSlice';
 import { EditMenu, Canvas, IObjectGUIComponentFactory, ContBlocksGUIComponentFactory, PetriNetsGUIComponentFactory } from "Editor/Components"
 import {Add, Div, Sub, Mul, Constant, Gain} from "Editor/Model/ContBlocks"
-
+import { PetriNetsSimulatorAdapter } from "Editor/Model/PetriNets"
 import SimulatorModule from "wasm-build/wasm_Simulator.js";
+import { PlaceSVG } from 'Editor/Components/PetriNets';
+import { ObjectSVGProps } from 'Editor/Components/Canvas';
 
 /**
  * @author Jaromír Březina
@@ -41,6 +43,7 @@ export const App : FC = () => {
   const dispatch = useAppDispatch();
 
   const [showMenu, setShowMenu] = useState(true);
+  const [simulatorModule, setSimulatorModule] = useState(null);
   const [objectGUIComponentFactory, setobjectGUIComponentFactory] = useState<IObjectGUIComponentFactory>(new PetriNetsGUIComponentFactory())
   const simObjects = useSelector(state => state.simObjectManagement.objects);
   const edges = useSelector(state => state.pointEdgeSelection.edges);
@@ -54,13 +57,18 @@ export const App : FC = () => {
     dispatch(removeAllObjects());
   },[dispatch])
   
+  const initializePNEngine = () => {
+    const adapter = new PetriNetsSimulatorAdapter(simulatorModule, Object.values(simObjects));
+  }
+
   // eslint-disable-next-line no-unused-vars
-  const [topMenuActions, setTopMenuActions] = useState<Action[]>([
+  const topMenuActions : Action[] = [
     {name : "Do hlavního menu", actionMethod : showMainMenu},
     {name : "Smazat vše", actionMethod : clearAllAction },
+    {name : "Inicializace", actionMethod: initializePNEngine },
     {name : "Uložit", actionMethod : () => {throw new NotImplementedException()}},
     {name : "Nahrát", actionMethod: () => {throw new NotImplementedException()}}
-  ]) 
+  ]
 
 ////////////////////////////////////////////////////////////////
 /// Objekty Petriho sítě
@@ -152,38 +160,15 @@ export const App : FC = () => {
 
   useEffect(
     () => {
-      const test = async () => {
-        console.log("AppStart");
+      const loadSimulatorModule = async () => {
+        console.log("Loading simulator module...");
         const simulator =  await SimulatorModule();
         simulator.hello();
-        simulator.bbb();
-
-        const testInstance = new simulator.TestClassX();
-        testInstance.hello();
-        const engine = new simulator.PetriNetsEngine();
-        // const discreteEngine =  new simulator.DiscreteEngine();
-        const place = new simulator.Place(engine, "test", 5);
-        const place_two = new simulator.Place(engine, "outputPlace",0);
-        const place_three = new simulator.Place(engine, "testPlace",0);
-        const inputArch = new simulator.InputArch(engine, place, 1);
-        const outputArch = new simulator.OutputArch(engine, place_two, 1);
-        const outputArchTest = new simulator.OutputArch(engine, place_two,1);
-        const outputArchVec = new simulator.OutputArchVec();
-        outputArchVec.push_back(outputArch);
-        outputArchVec.push_back(outputArchTest);
-        const inputArchVec = new simulator.InputArchVec();
-        inputArchVec.push_back(inputArch);
-        // const timedTransition = new simulator.TimedTransition(engine, "TimedTransition", inputArch, outputArch, 0);
-        const ImmediateTransition = new simulator.ImmediateTransition(engine, "ImmediateTransition", inputArchVec, outputArchVec, 0);
-        engine.init(10,10);
-        engine.simulate();
-        console.log(`tokens in first place: ${place.tokens()}`)
-        console.log(`tokens in second place: ${place_two.tokens()}`) 
-        console.log("module initialized");
+        setSimulatorModule(simulator);
+        console.log("Simulator loaded...");
       }
-      test();
-    },
-    [])
+      loadSimulatorModule();
+    },[])
 
   if(showMenu){
     return(
@@ -211,19 +196,29 @@ export const App : FC = () => {
           }
          </Menu>
           <Canvas onGridClick={onGridClick}>
-              {Object.values(simObjects).map(item => <DraggableGroupSVG
+          {Object.values(simObjects).map(item => 
+              (React.createElement(objectGUIComponentFactory.getElement(item).SVGComponent, 
+              {
+                id : item.id,
+                groupAbsoluteCoordinates: {x: 30, y: 30},
+                onMouseDownDragHandler: () => {},
+                onMouseUpDragHandler: () => {},
+                key: item.id
+              } as ObjectSVGProps)))
+          }
+              {/* {Object.values(simObjects).map(item => <DraggableGroupSVG
                 key={item.id}
                 coords={{x: 30, y: 30}}
                 id={item.id}
                 canvasElement={objectGUIComponentFactory.getElement(item).SVGComponent}                   
                 />)
-              }
-              {Object.values(edges).map(item => {
+              } */}
+              {/* {Object.values(edges).map(item => {
                 return (
                   <g key={item.id}>
                     {objectGUIComponentFactory.getEdgeGUI()({id : item.id})}
                   </g>
-              )})}
+              )})} */}
           </Canvas>
           <EditMenu factory={objectGUIComponentFactory} />
         <Loader visibile={false} >Jupiiiiiii </Loader>
@@ -231,4 +226,36 @@ export const App : FC = () => {
     )
   }
   
+}
+
+
+
+const experiment = async () => {
+  console.log("AppStart");
+  const simulator =  await SimulatorModule();
+  simulator.hello();
+  simulator.bbb();
+
+  const testInstance = new simulator.TestClassX();
+  testInstance.hello();
+  const engine = new simulator.PetriNetsEngine();
+  // const discreteEngine =  new simulator.DiscreteEngine();
+  const place = new simulator.Place(engine, "test", 5);
+  const place_two = new simulator.Place(engine, "outputPlace",0);
+  const place_three = new simulator.Place(engine, "testPlace",0);
+  const inputArch = new simulator.InputArch(engine, place, 1);
+  const outputArch = new simulator.OutputArch(engine, place_two, 1);
+  const outputArchTest = new simulator.OutputArch(engine, place_two,1);
+  const outputArchVec = new simulator.OutputArchVec();
+  outputArchVec.push_back(outputArch);
+  outputArchVec.push_back(outputArchTest);
+  const inputArchVec = new simulator.InputArchVec();
+  inputArchVec.push_back(inputArch);
+  // const timedTransition = new simulator.TimedTransition(engine, "TimedTransition", inputArch, outputArch, 0);
+  const ImmediateTransition = new simulator.ImmediateTransition(engine, "ImmediateTransition", inputArchVec, outputArchVec, 0);
+  engine.init(10,10);
+  engine.simulate();
+  console.log(`tokens in first place: ${place.tokens()}`)
+  console.log(`tokens in second place: ${place_two.tokens()}`) 
+  console.log("module initialized");
 }
