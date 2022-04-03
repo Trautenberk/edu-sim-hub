@@ -1,5 +1,5 @@
 import { FC } from "react"
-import { ObjectSVGProps } from "../Canvas"
+import { ObjectSVGProps } from "App"
 import styles from "./ContBlockStyles.module.scss"
 
 

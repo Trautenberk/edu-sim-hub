@@ -7,6 +7,10 @@ export interface ICoordinates {
     y: number
 }
 
+export function isCoordinates(obj : any) : obj is ICoordinates {
+    return (obj as ICoordinates).x !== undefined && (obj as ICoordinates).y !== undefined;
+} 
+
 export class Coordinates implements ICoordinates, IToSerializable<ICoordinates> {
 
     public constructor(obj : ICoordinates);

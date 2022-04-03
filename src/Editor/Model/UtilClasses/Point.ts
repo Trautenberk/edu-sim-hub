@@ -1,4 +1,4 @@
-import { Coordinates, ICoordinates, IToSerializable } from "./Coordinates";
+import { Coordinates, ICoordinates, isCoordinates, IToSerializable } from "./Coordinates";
 
 export interface IPoint {
     id : string
@@ -23,10 +23,16 @@ export class Point implements IPoint, IToSerializable<IPoint> {
         return `Point_${Point.cnt}`
     }
     
-    constructor (value : IPoint) {
-        this.id = value.id;
-        this.coords = new Coordinates(value.coords);
+    constructor (value : IPoint | ICoordinates) {
+        if (isCoordinates(value)) {
+            this.id = Point.getId();
+            this.coords = new Coordinates(value);
+        } else {
+            this.id = value.id;
+            this.coords = new Coordinates(value.coords);   
+        }
     }
+
 
     public toSerializableObj () : IPoint {
         return {id : this.id, coords: this.coords.toSerializableObj()};

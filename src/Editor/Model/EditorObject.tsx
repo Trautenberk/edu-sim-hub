@@ -15,7 +15,7 @@ export abstract class EditorObject implements  IToSerializable<IEditorObject> {
     public readonly id : string;
     public abstract className() : string;
     protected getElementId = () => { 
-        return `${this.className().toLowerCase()}_ ${this.idCount}`;
+        return `${this.className().toLowerCase()}_${this.idCount}`;
     }
 
     constructor()
@@ -28,3 +28,16 @@ export abstract class EditorObject implements  IToSerializable<IEditorObject> {
     }
     
 } 
+
+
+export interface IEditorObjectWithEndPoints extends IEditorObject {
+    endPointIds : string[]
+}
+
+export abstract class EditorObjectWithEndPoints extends EditorObject implements IToSerializable<IEditorObjectWithEndPoints>{
+    public endPointIds : string[] = []
+
+    public toSerializableObj() : IEditorObjectWithEndPoints {
+        return { ...super.toSerializableObj(), endPointIds: this.endPointIds }
+    }
+}

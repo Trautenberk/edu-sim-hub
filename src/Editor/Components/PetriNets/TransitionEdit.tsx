@@ -1,4 +1,4 @@
-import { ObjectEditProps } from "Editor/Components/Canvas"
+import { ObjectEditProps } from "App"
 import { changeObject } from "Editor/Feature/SimObjectManagementSlice";
 import { ITransition, TransitionType } from "Editor/Model/PetriNets/Transition";
 import React, {FC} from "react"

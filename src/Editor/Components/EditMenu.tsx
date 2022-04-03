@@ -2,6 +2,7 @@ import { IObjectGUIComponentFactory } from "Editor/Components/ObjectGUIComponent
 import React, {FC} from "react"
 import { useAppDispatch, useAppSelector } from "Editor/Store/Hooks"
 import style from "Editor/Styles/EditMenu.module.scss"
+import { useStoreHooks } from "./Utilities/CustomHooks"
 
 
 type EditMenuProps = {
@@ -9,11 +10,10 @@ type EditMenuProps = {
 }
 
 export const EditMenu : FC<EditMenuProps> = (props) => {
-    const useSelector = useAppSelector;
-    // eslint-disable-next-line no-unused-vars
-    const dispatch = useAppDispatch();
+    const { dispatch, useSelector } = useStoreHooks();
 
-    const selectedObjectId = useSelector(state => state.pointEdgeSelection.selectedObjectId); 
+
+    const selectedObjectId = useSelector(state => state.simObjectManagement.selectedObjectId); 
     const object =  useSelector(state => state.simObjectManagement.objects[selectedObjectId ?? ""]) // TODO odstanit ten empty string
 
     if (selectedObjectId != null && object != null) {

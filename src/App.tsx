@@ -1,5 +1,5 @@
 import React, {FC, useCallback, useEffect, useState} from 'react';
-import {Menu, MenuItemButton, Loader, DraggableGroupSVG, EdgeSVG} from "Editor/Components/Utilities/UtilComponents"
+import {Menu, MenuItemButton, Loader } from "Editor/Components/Utilities/UtilComponents"
 import styles from "AppStyle.module.scss"
 import editorStyles from "Editor/Styles/EditorStyle.module.scss"
 import TopMenuStyle from "Editor/Styles/TopMenuStyle.module.scss";
@@ -7,19 +7,27 @@ import { Place, Transition } from "Editor/Model/PetriNets"
 import { MenuIcons } from "Editor/Components/Icons"
 import { NotImplementedException } from 'Editor/Components/Utilities';
 import { useAppDispatch, useAppSelector } from 'Editor/Store/Hooks';
-import { clearAllEdges, removeEdge, selectedObjectId, unselectEdge, selectedEdge, unselectObject } from 'Editor/Feature/PointEdgeSelectionSlice';
-import { addObject, removeAllObjects, removeObject } from 'Editor/Feature/SimObjectManagementSlice';
-import { EditMenu, Canvas, IObjectGUIComponentFactory, ContBlocksGUIComponentFactory, PetriNetsGUIComponentFactory } from "Editor/Components"
+import { addObject, removeAllObjects, removeObject, selectedObjectId,  unselectObject } from 'Editor/Feature/SimObjectManagementSlice';
+import { EditMenu, CanvasSVG, IObjectGUIComponentFactory, ContBlocksGUIComponentFactory, PetriNetsGUIComponentFactory } from "Editor/Components"
 import {Add, Div, Sub, Mul, Constant, Gain} from "Editor/Model/ContBlocks"
 import { PetriNetsSimulatorAdapter } from "Editor/Model/PetriNets"
 import SimulatorModule from "wasm-build/wasm_Simulator.js";
 import { PlaceSVG } from 'Editor/Components/PetriNets';
-import { ObjectSVGProps } from 'Editor/Components/Canvas';
 
 /**
  * @author Jaromír Březina
  * @abstract 
  */
+
+export type ObjectSVGProps = {
+  id : string;
+}
+
+export type ObjectEditProps = {
+  id : string
+}
+
+
 
 export type Action = {
   name : string,
@@ -46,14 +54,11 @@ export const App : FC = () => {
   const [simulatorModule, setSimulatorModule] = useState(null);
   const [objectGUIComponentFactory, setobjectGUIComponentFactory] = useState<IObjectGUIComponentFactory>(new PetriNetsGUIComponentFactory())
   const simObjects = useSelector(state => state.simObjectManagement.objects);
-  const edges = useSelector(state => state.pointEdgeSelection.edges);
   const selectedId = useSelector(state => selectedObjectId(state));
-  const selectedEdgeId = useSelector(selectedEdge);
   
   const showMainMenu = useCallback<()=>void>(() => {setShowMenu(true)}, [])
 
   const clearAllAction = useCallback(()=> {
-    dispatch(clearAllEdges());
     dispatch(removeAllObjects());
   },[dispatch])
   
@@ -127,11 +132,8 @@ export const App : FC = () => {
       dispatch(removeObject(selectedId));
       // TODO element po odebrani je furt selected
     }
-    if (selectedEdgeId != null) {
-      dispatch(removeEdge(selectedEdgeId));
-    }
     
-  },[selectedId, selectedEdgeId, dispatch])
+  },[selectedId, dispatch])
 
   const onKeyDownHandler =  useCallback(
     (e : KeyboardEvent) : void => {
@@ -143,11 +145,6 @@ export const App : FC = () => {
     }
   },[handleDeleteKeyPressed])
 
-  const onGridClick = useCallback(
-    () => {
-      dispatch(unselectEdge);
-    }, [dispatch]
-  ) 
 
   ////////////////////////////////////////////////////////////////
   /// UseEffect Hooks
@@ -195,31 +192,15 @@ export const App : FC = () => {
             )
           }
          </Menu>
-          <Canvas onGridClick={onGridClick}>
-          {Object.values(simObjects).map(item => 
-              (React.createElement(objectGUIComponentFactory.getElement(item).SVGComponent, 
-              {
-                id : item.id,
-                groupAbsoluteCoordinates: {x: 30, y: 30},
-                onMouseDownDragHandler: () => {},
-                onMouseUpDragHandler: () => {},
-                key: item.id
-              } as ObjectSVGProps)))
-          }
-              {/* {Object.values(simObjects).map(item => <DraggableGroupSVG
-                key={item.id}
-                coords={{x: 30, y: 30}}
-                id={item.id}
-                canvasElement={objectGUIComponentFactory.getElement(item).SVGComponent}                   
-                />)
-              } */}
-              {/* {Object.values(edges).map(item => {
-                return (
-                  <g key={item.id}>
-                    {objectGUIComponentFactory.getEdgeGUI()({id : item.id})}
-                  </g>
-              )})} */}
-          </Canvas>
+          <CanvasSVG>
+            {Object.values(simObjects).map(item => 
+                (React.createElement(objectGUIComponentFactory.getElement(item).SVGComponent, 
+                {
+                  id : item.id,
+                  key: item.id
+                } as ObjectSVGProps)))
+            }
+          </CanvasSVG>
           <EditMenu factory={objectGUIComponentFactory} />
         <Loader visibile={false} >Jupiiiiiii </Loader>
       </div>

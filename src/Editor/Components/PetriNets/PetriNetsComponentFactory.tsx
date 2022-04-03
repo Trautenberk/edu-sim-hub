@@ -23,9 +23,9 @@ export class PetriNetsGUIComponentFactory implements IObjectGUIComponentFactory 
             case Transition.name:
                 return  {SVGComponent: TransitionSVG, EditComponent : TransitionEdit};
             case InputArch.name:
-                return {SVGComponent: emptyComponent, EditComponent: emptyComponent };
+                return {SVGComponent: ArchSVG, EditComponent: emptyComponent };
             case OutputArch.name:
-                    return {SVGComponent: emptyComponent, EditComponent: emptyComponent }
+                    return {SVGComponent: ArchSVG, EditComponent: emptyComponent }
             default:
                 throw new Error("Couldnt find SVG component for given object");
         }

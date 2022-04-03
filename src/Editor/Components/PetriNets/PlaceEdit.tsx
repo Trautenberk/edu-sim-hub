@@ -1,4 +1,4 @@
-import { ObjectEditProps } from "Editor/Components/Canvas";
+import { ObjectEditProps } from "App";
 import { changeObject } from "Editor/Feature/SimObjectManagementSlice";
 import { IPlace  } from "Editor/Model/PetriNets/Place";
 import React, { FC} from "react"

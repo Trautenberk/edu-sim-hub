@@ -1,13 +1,13 @@
 import { IToSerializable } from "Editor/Model/UtilClasses/Coordinates";
-import { IEditorObject, EditorObject } from "Editor/Model/EditorObject";
+import { IEditorObject, EditorObject, IEditorObjectWithEndPoints, EditorObjectWithEndPoints } from "Editor/Model/EditorObject";
 
 
-export interface IPlace extends IEditorObject {
+export interface IPlace extends IEditorObjectWithEndPoints {
     label : string
     tokenCount : number
 }
 
-export class Place extends EditorObject implements IToSerializable<IPlace>{
+export class Place extends EditorObjectWithEndPoints implements IToSerializable<IPlace>{
     public className() { return Place.name; } 
     public static MenuName : string = "Místo"
 

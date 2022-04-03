@@ -1,47 +1,22 @@
 import React, { useRef, useEffect,  useState, FC, useCallback } from "react"; 
-import {DraggableHandlers, useDragable } from "./Utilities/CustomHooks/useDraggable";
+import { DraggableHandlers, useDragable } from "./Utilities/CustomHooks/useDraggable";
 import styles from "./CanvasStyle.module.scss";
-import {useAppDispatch, useAppSelector} from "../Store/Hooks"
-import {zoom, selelctCurrentZoom } from "../Feature/ZoomSlice";
+import { useAppDispatch, useAppSelector} from "../Store/Hooks"
+import { zoom, selelctCurrentZoom } from "../Feature/ZoomSlice";
 import { convertMatrixToString, TransormMatrix } from "./Utilities/UtilMethodsAndTypes";
 import { updateCanvasBoundaries} from "../Feature/CanvasContextSlice"
-import {gridClicked } from "../Feature/PointEdgeSelectionSlice"
 import { Coordinates, ICoordinates } from "../Model/UtilClasses/Coordinates";
+import { unselectObject } from "Editor/Feature/SimObjectManagementSlice";
+import { useStoreHooks } from "./Utilities/CustomHooks";
 
-
-export type GroupAbsoluteCoords = {
-    groupAbsoluteCoordinates : ICoordinates  // absolutní souřadnice skupiny ve které se element nachází
-}
-
-export type ObjectSVGProps = DraggableHandlers & GroupAbsoluteCoords & {
-    id : string;
-}
-
-export type ObjectEditProps = {
-    id : string
-}
-
-type CanvasProps = {
-    onGridClick: () => void
-}
-
-export const Canvas : FC<CanvasProps> = (props) => {
-    const dispatch = useAppDispatch();
-    const useSelector = useAppSelector;
+export const CanvasSVG : FC = (props) => {
+    const { dispatch, useSelector } = useStoreHooks();
 
     const scale = useSelector(selelctCurrentZoom); 
 
-
     const [svgSize, setSvgSize] = useState({width : 0, height: 0})
     const canvasBoundingElementRef = useRef<HTMLDivElement>(null);
-    const [coordinates, setCoordinates] = useState<ICoordinates>({x: 30, y: 30});
-    
-    const onCoordsChange =  useCallback(
-        (newCoords : Coordinates) => {
-        setCoordinates(newCoords.toSerializableObj())
-    },[])
-
-    const { onMouseDownHandler, onMouseUpHandler } = useDragable({ coordinates, onCoordsChange });
+    const {coordinates, onMouseDownHandler, onMouseUpHandler } = useDragable({initialCoordinates: {x: 30, y: 30}});
     
     const mainGroupTransformMatrix : TransormMatrix = ( { scaleX: scale, skewY : 0 , skewX : 0, scaleY : scale, translateX : coordinates.x, transalteY : coordinates.y } )
 
@@ -55,8 +30,7 @@ export const Canvas : FC<CanvasProps> = (props) => {
     }
 
     const onGridClickHandler  = (e : React.MouseEvent) => {
-        dispatch(gridClicked({x: e.clientX, y: e.clientY})); 
-        props.onGridClick();
+        dispatch(unselectObject());
     }
 
     useEffect(() => {
@@ -83,7 +57,9 @@ export const Canvas : FC<CanvasProps> = (props) => {
                             <path d="M 0 0 L 8 5 L 0 10 z" />
                         </marker>
                     </defs>
-                    <g transform={convertMatrixToString(mainGroupTransformMatrix)} onMouseDown={onMouseDownHandler} onMouseUp={onMouseUpHandler}>  
+                    <g transform={convertMatrixToString(mainGroupTransformMatrix)} 
+                    // onMouseDown={onMouseDownHandler} onMouseUp={onMouseUpHandler}
+                    >  
                         <rect width={1201} height={1201} onClick={onGridClickHandler} className={styles.canvas_svg__grid} fill="url(#grid)" />  {/* Grid element*/}
                             {props.children}
                     </g>

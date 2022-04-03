@@ -1,7 +1,6 @@
+import { ObjectSVGProps } from "App"
 import { FC, useRef } from "react"
-import { ObjectSVGProps } from "../Canvas"
-import { useDragRef, useSelectable } from "../Utilities"
-import { DraggableRefGroupSVG, SelectableAndDraggableGroupSVG } from "../Utilities/UtilComponents"
+import {  useSelectable } from "../Utilities"
 import { ContBlockDoubleSVG } from "./ContBlocksSVG"
 import styles from "./ContBlockStyles.module.scss"
 
@@ -9,11 +8,10 @@ const middleX = 35
 const middleY = 35
 
 export const AddSVG : FC<ObjectSVGProps> = (props) => {
-    const {dragRef, setRef} = useDragRef()
-
+    const coordinates = { x: 0, y: 0};
     return (
-        <SelectableAndDraggableGroupSVG id={props.id} refObj={dragRef} coords={props.groupAbsoluteCoordinates} >
-            <ContBlockDoubleSVG {...props} setRef={setRef} />
+        <g transform={`translate(${coordinates.x},${coordinates.y})`}> 
+            {/* <ContBlockDoubleSVG {...props} /> */}
             <rect
                 className={styles.sign}
                 width="30"
@@ -27,7 +25,7 @@ export const AddSVG : FC<ObjectSVGProps> = (props) => {
                 height="30"
                 x={middleX - 4}
                 y={middleY - 15} />
-        </SelectableAndDraggableGroupSVG>
+        </g>
             
     )
 }

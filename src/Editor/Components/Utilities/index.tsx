@@ -5,4 +5,3 @@ export { Coordinates } from "../../Model/UtilClasses/Coordinates";
 export { Point } from "../../Model/UtilClasses/Point";
 export { Edge } from "../../Model/UtilClasses/Edge";
 export { useSelectable } from "./CustomHooks/useSelectable"
-export { useDragRef } from "./CustomHooks/useDragRef"

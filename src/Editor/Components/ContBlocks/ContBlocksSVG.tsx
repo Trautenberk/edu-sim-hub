@@ -3,23 +3,19 @@ import { Coordinates, DraggableHandlers } from "Editor/Components/Utilities"
 import { EndPointSVG } from "Editor/Components/Utilities/UtilComponents"
 import { Direction } from "../Utilities/UtilMethodsAndTypes"
 import { GroupPoint } from "../../Model/UtilClasses/Point"
-import { ObjectSVGProps } from "../Canvas"
-import { useAppDispatch } from "Editor/Store/Hooks"
-import { elementClicked } from "Editor/Feature/PointEdgeSelectionSlice"
-import { useSelectable } from "Editor/Components/Utilities"
+import { ObjectSVGProps } from "App"
 import { ICoordinates } from "../../Model/UtilClasses/Coordinates"
 import styles from "./ContBlockStyles.module.scss"
 
-
 type DragElementRef = {
-    setRef : (ref : SVGElement | null) => void
+    coords: ICoordinates
 }
 
 type ContBlockProps  = ObjectSVGProps & DragElementRef;
 
 export const ContBlockFoundationSVG : FC<ContBlockProps> = (props) => {    
     return (
-            <rect ref={props.setRef} className={styles.foundation}  width="70" height="70"/> 
+            <rect className={styles.foundation}  width="70" height="70"/> 
     )
 }
 
@@ -27,7 +23,7 @@ export const ContBlockWithSingleOutputSVG : FC<ContBlockProps> = (props) => {
 
     const outputEndPointCoords : ICoordinates = {x: 70, y: 35};
 
-    const point = new GroupPoint({id: `${props.id}_1`, groupCoords: outputEndPointCoords, coords: new Coordinates(props.groupAbsoluteCoordinates).add(outputEndPointCoords)});
+    const point = new GroupPoint({id: `${props.id}_1`, groupCoords: outputEndPointCoords, coords: new Coordinates(props.coords).add(outputEndPointCoords)});
 
     return (
         <>
@@ -43,8 +39,8 @@ export const ContBlockDoubleSVG : FC<ContBlockProps> = (props) => {
     const inputTwoEndPointCoords : ICoordinates = {x: 0, y: 55};
 
 
-    const inputOnePoint = new GroupPoint({id: `${props.id}_2`, groupCoords: inputOneEndPointCoords, coords: new Coordinates(props.groupAbsoluteCoordinates).add(inputOneEndPointCoords)});
-    const inputTwoPoint = new GroupPoint({id: `${props.id}_3`, groupCoords: inputTwoEndPointCoords, coords: new Coordinates(props.groupAbsoluteCoordinates).add(inputTwoEndPointCoords)});
+    const inputOnePoint = new GroupPoint({id: `${props.id}_2`, groupCoords: inputOneEndPointCoords, coords: new Coordinates(props.coords).add(inputOneEndPointCoords)});
+    const inputTwoPoint = new GroupPoint({id: `${props.id}_3`, groupCoords: inputTwoEndPointCoords, coords: new Coordinates(props.coords).add(inputTwoEndPointCoords)});
 
     return (
         <>
@@ -60,7 +56,7 @@ export const ContBlockDoubleSVG : FC<ContBlockProps> = (props) => {
 export const ContBlockSingleSVG : FC<ContBlockProps> = (props) => {
     
     const inputOneEndPointCoords : ICoordinates = {x: 0, y: 35};
-    const inputOnePoint = new GroupPoint({id: `${props.id}_2`, groupCoords: inputOneEndPointCoords, coords: new Coordinates(props.groupAbsoluteCoordinates).add(inputOneEndPointCoords)});
+    const inputOnePoint = new GroupPoint({id: `${props.id}_2`, groupCoords: inputOneEndPointCoords, coords: new Coordinates(props.coords).add(inputOneEndPointCoords)});
     
     return (
         <>

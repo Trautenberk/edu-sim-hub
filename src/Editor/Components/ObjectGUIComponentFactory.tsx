@@ -1,6 +1,6 @@
 import { FunctionComponent } from "react";
 import { IEditorObject } from "../Model/EditorObject";
-import { ObjectEditProps, ObjectSVGProps } from "Editor/Components/Canvas";
+import { ObjectEditProps, ObjectSVGProps } from "App";
 import { EdgeSVGComponentProps } from "./Utilities/UtilComponents/EdgeSVG";
 
 export type GUIComponents = {

@@ -2,16 +2,17 @@ import React, { FC, MouseEventHandler, useCallback, useEffect } from "react"
 import styles from "./EndPoint.module.scss"
 import { convertDirectionToOffset, convertToVisibility, Direction } from "Editor/Components/Utilities/UtilMethodsAndTypes"
 import { useAppSelector, useAppDispatch } from "Editor/Store/Hooks"
-import { selectedEndPoint, selectedObjectId, registerEndPoint, unregisterEndPoint, addEdge, updatePointCoords } from "Editor/Feature/PointEdgeSelectionSlice"
+import { registerEndPoint, unregisterEndPoint, updatePointCoords } from "Editor/Feature/SimObjectManagementSlice"
 import { ArrowSVG } from "Editor/Components/Utilities/UtilComponents/ArrowSVG"
-import { GroupPoint, Point } from "../../../Model/UtilClasses/Point"
+import { GroupPoint, IPoint, Point } from "../../../Model/UtilClasses/Point"
 import { Coordinates } from "../../../Model/UtilClasses/Coordinates"
+import { selectedObjectId } from "Editor/Feature/SimObjectManagementSlice"
 
 export type EndPointProps = {
     parentElementID : string,
     point : GroupPoint,
     arrowDirection : Direction,
-    onEdgeSpawn? : (parentId: string) => void;
+    onAddObject? : (fistPoint  : IPoint, secondPoint: IPoint) => void;
 }
 
 export const EndPointSVG : FC<EndPointProps> = (props) => {
@@ -23,7 +24,7 @@ export const EndPointSVG : FC<EndPointProps> = (props) => {
     }
     
     useEffect(() => {
-        dispatch(registerEndPoint(props.point.toSerializableObj()));
+        dispatch(registerEndPoint({endPoint: props.point.toSerializableObj(), ownerId: props.parentElementID}));
         return (() => {dispatch(unregisterEndPoint(props.point.id))})
     // eslint-disable-next-line react-hooks/exhaustive-deps
     },[])
@@ -34,17 +35,14 @@ export const EndPointSVG : FC<EndPointProps> = (props) => {
         },[dispatch, props.point.coords, props.point.coords.x, props.point.coords.y, props.point.groupCoords, props.point.id]
     )
 
-    const style =  useSelector(state => selectedEndPoint(state)) === props.point.id ? styles.end_point_selected : styles.end_point 
-    const visible = convertToVisibility(useSelector(state => selectedObjectId(state) === props.parentElementID || selectedEndPoint(state) === props.point.id));
+    const style = styles.end_point;
+    const visible = convertToVisibility(useSelector(state => selectedObjectId(state) === props.parentElementID));
    
-    const higlihghtVisible = convertToVisibility(useSelector(state => state.pointEdgeSelection.highlightedEndPoint) === props.point.id); // TODO
-
+    const higlihghtVisible = convertToVisibility(useSelector(state => state.simObjectManagement.highlightedEndPoint) === props.point.id); // TODO
 
     const onArrowClick = useCallback(() => {
-        props.onEdgeSpawn && props.onEdgeSpawn(props.parentElementID);
-        const secondPointCoords  =  new Coordinates(convertDirectionToOffset(props.arrowDirection)).add(props.point.coords)
-        const secondPoint = new Point({id : `Point_${Point.cnt}`, coords : secondPointCoords})
-        dispatch(addEdge([props.point.toSerializableObj(), secondPoint.toSerializableObj()]))
+        const secondPoint = new Point(new Coordinates(convertDirectionToOffset(props.arrowDirection)).add(props.point.coords));
+        props.onAddObject && props.onAddObject(props.point.toSerializableObj(), secondPoint.toSerializableObj());
     },[dispatch, props])
 
     return(

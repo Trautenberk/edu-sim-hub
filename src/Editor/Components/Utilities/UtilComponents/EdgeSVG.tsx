@@ -1,23 +1,22 @@
-import { addPoint, getEdge, selectEdge, selectedEdge, selectPointsFromEdge, toggleIsLastPointMoving, updatePointCoords } from "Editor/Feature/PointEdgeSelectionSlice"
+import { addPoint, selectedObjectId, selectObject, selectPoints, toggleIsLastPointMoving, updatePointCoords } from "Editor/Feature/SimObjectManagementSlice"
 import React, { FC, useCallback, useEffect, useState } from "react"
-import { useAppDispatch, useAppSelector } from "Editor/Store/Hooks"
 import { useDragable } from "../CustomHooks/useDraggable"
-import { Edge } from "../../../Model/UtilClasses/Edge"
+import { Edge, IEdge } from "../../../Model/UtilClasses/Edge"
 import { Coordinates, ICoordinates } from "../../../Model/UtilClasses/Coordinates"
 import { IPoint, Point } from "../../../Model/UtilClasses/Point"
 import style from "./EdgeSVG.module.scss"
+import { useStoreHooks } from "../CustomHooks"
 
 export type EdgeSVGComponentProps = {
     id : string,
  }
 
 export const EdgeSVG : FC<EdgeSVGComponentProps> = (props) => {
-    const dispatch = useAppDispatch();
-    const useSelector = useAppSelector;
+    const { dispatch, useSelector } = useStoreHooks();
 
-    const edge = useSelector(state => getEdge(state, props.id));
-    const points = useSelector(state => selectPointsFromEdge(state, edge.pointsId));
-    const selected = edge.id === useSelector(selectedEdge);
+    const edge = useSelector(state => state.simObjectManagement.objects[props.id]) as IEdge;
+    const points = useSelector(state => selectPoints(state, edge.pointsId));
+    const selected = edge.id === useSelector(selectedObjectId);
 
     if (selected) {
         const edgePoints : Point[] = (points.slice(1, points.length - 1)).map(item => new Point(item));
@@ -42,7 +41,7 @@ export const EdgeSVG : FC<EdgeSVGComponentProps> = (props) => {
     } else {
 
         const onClickHandler = () => {
-            dispatch(selectEdge(edge.id));
+            dispatch(selectObject(edge.id));
         }
 
         return (
@@ -60,17 +59,15 @@ type EdgePointSVGProps = {
 }
 
 const EdgePointsSVG : FC<EdgePointSVGProps> = (props) => {
-    const dispatch = useAppDispatch();
+    const { dispatch } = useStoreHooks();
     const point = props.point
-    const [coordinates, setCoordinates] = useState<ICoordinates>(props.point.coords);
 
     const onCoordsChange = useCallback((newCoords : ICoordinates) => {
-        setCoordinates(newCoords);
         dispatch(updatePointCoords({id: props.point.id, newCoords : {x: newCoords.x, y: newCoords.y}}));
 
     },[dispatch, props.point.id])
 
-    const {onMouseDownHandler, onMouseUpHandler} = useDragable({coordinates: point.coords, onCoordsChange});
+    const { coordinates, onMouseDownHandler, onMouseUpHandler} = useDragable({initialCoordinates: point.coords, onCoordsChange});
     
     return (
         <circle className={style.edge_point} cx={coordinates.x} cy={coordinates.y} r={5} onMouseDown={onMouseDownHandler} onMouseUp={onMouseUpHandler} />    
@@ -85,7 +82,7 @@ type AddPointSVGProps = {
 }
 
 const AddPointSVG : FC<AddPointSVGProps> = (props) => {
-    const dispatch = useAppDispatch();
+    const { dispatch } = useStoreHooks();
 
     const onClickHandler = () => {
         dispatch(addPoint({edgeId: props.edgeId, point: props.point.toSerializableObj(), index: props.pointIndex}));
@@ -102,13 +99,10 @@ type LastEdgePointSVGProps = {
 }
 
 const LastEdgePointSVG : FC<LastEdgePointSVGProps> = (props) => {
-    const dispatch = useAppDispatch();
-    const [coordinates, setCoordinates] = useState<ICoordinates>(props.point.coords.toSerializableObj());
-
+    const { dispatch } = useStoreHooks();
     const point = props.point
 
     const onCoordsChange = useCallback((newCoords : Coordinates) => {
-        setCoordinates(newCoords.toSerializableObj());
         dispatch(updatePointCoords({id : props.point.id, newCoords : newCoords.toSerializableObj()}));
     },[dispatch, props.point.id])
 
@@ -116,7 +110,7 @@ const LastEdgePointSVG : FC<LastEdgePointSVGProps> = (props) => {
         dispatch(toggleIsLastPointMoving());
     },[dispatch])
 
-    const {onMouseDownHandler, onMouseUpHandler} = useDragable({coordinates : point.coords, onCoordsChange, onMouseDown : onMouseDownAndUpHandler, onMouseUp : onMouseDownAndUpHandler});
+    const {coordinates, onMouseDownHandler, onMouseUpHandler } = useDragable({initialCoordinates : point.coords, onCoordsChange, onMouseDown : onMouseDownAndUpHandler, onMouseUp : onMouseDownAndUpHandler});
 
     return (
         <circle className={style.edge_point} cx={coordinates.x} cy={coordinates.y} r={5} onMouseDown={onMouseDownHandler} onMouseUp={onMouseUpHandler} />    
