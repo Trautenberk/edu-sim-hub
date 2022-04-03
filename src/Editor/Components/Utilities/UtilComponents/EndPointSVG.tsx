@@ -5,12 +5,13 @@ import { useAppSelector, useAppDispatch } from "Editor/Store/Hooks"
 import { registerEndPoint, unregisterEndPoint, updatePointCoords } from "Editor/Feature/SimObjectManagementSlice"
 import { ArrowSVG } from "Editor/Components/Utilities/UtilComponents/ArrowSVG"
 import { GroupPoint, IPoint, Point } from "../../../Model/UtilClasses/Point"
-import { Coordinates } from "../../../Model/UtilClasses/Coordinates"
+import { Coordinates, ICoordinates } from "../../../Model/UtilClasses/Coordinates"
 import { selectedObjectId } from "Editor/Feature/SimObjectManagementSlice"
 
 export type EndPointProps = {
     parentElementID : string,
-    point : GroupPoint,
+    point : Point,
+    coordinates : ICoordinates,
     arrowDirection : Direction,
     onAddObject? : (fistPoint  : IPoint, secondPoint: IPoint) => void;
 }
@@ -32,7 +33,7 @@ export const EndPointSVG : FC<EndPointProps> = (props) => {
     useEffect(
         () => {
             dispatch(updatePointCoords({id : props.point.id,  newCoords: props.point.coords.toSerializableObj()}));
-        },[dispatch, props.point.coords, props.point.coords.x, props.point.coords.y, props.point.groupCoords, props.point.id]
+        },[dispatch, props.point.coords, props.point.coords.x, props.point.coords.y, props.point.id]
     )
 
     const style = styles.end_point;
@@ -46,10 +47,10 @@ export const EndPointSVG : FC<EndPointProps> = (props) => {
     },[dispatch, props])
 
     return(
-        <>
-            <circle onClick={clickedEndPontHandler} visibility={visible} className={style} cx={props.point.groupCoords.x} cy={props.point.groupCoords.y} r={5}/>
-            <circle visibility={higlihghtVisible} className={styles.helper_circle} cx={props.point.groupCoords.x} cy={props.point.groupCoords.y} r={15}/>
-            <ArrowSVG onClick={onArrowClick}  visible={visible} direction={props.arrowDirection}  coordinates={props.point.groupCoords} scale={1} />
-        </>
+        <g transform={`translate(${props.coordinates.x} ${props.coordinates.y})`}>
+            <circle onClick={clickedEndPontHandler} visibility={visible} className={style} r={5}/>
+            <circle visibility={higlihghtVisible} className={styles.helper_circle} r={15}/>
+            <ArrowSVG onClick={onArrowClick}  visible={visible} direction={props.arrowDirection} scale={1} />
+        </g>
     )   
 }

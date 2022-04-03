@@ -1,8 +1,8 @@
-import { FunctionComponent, useCallback, useMemo } from "react";
+import { FunctionComponent, useCallback, useEffect, useMemo, useState } from "react";
 import { EndPointSVG } from "../Utilities/UtilComponents";
 import {ALL_DIRECTIONS, convertToVisibility} from "Editor/Components/Utilities/UtilMethodsAndTypes"
 import { ObjectSVGProps } from "App"
-import { GroupPoint, IGroupPoint, IPoint } from "Editor/Model/UtilClasses/Point";
+import { GroupPoint, IGroupPoint, IPoint, Point } from "Editor/Model/UtilClasses/Point";
 import { Coordinates, ICoordinates } from "Editor/Model/UtilClasses/Coordinates";
 import { IPlace } from "Editor/Model/PetriNets/Place";
 import styles from "./PlaceStyle.module.scss"
@@ -30,14 +30,14 @@ export const PlaceSVG : FunctionComponent<ObjectSVGProps> = (props) => {
 
     // TODO refaktorovat pro optimalizaci
     const endPoints = useMemo (
-        () => (placeEndPoints.map((item, index) => new GroupPoint({id : `${props.id}_${index}`, groupCoords:  item, coords: new Coordinates(item).add(coordinates)}))), 
+        () => (placeEndPoints.map((item, index) => new Point({id : `${props.id}_${index}`, coords: new Coordinates(item).add(coordinates)}))), 
         [coordinates]); 
 
     return(
         <g transform={`translate(${coordinates.x},${coordinates.y})`}> 
             <circle className={styles.spot_foundation} onMouseDown={onMouseDownHandler} onMouseUp={onMouseUpHandler} r="30"/>
             <circle visibility={selectedVisible} className={styles.spot_selected} r="30"/>
-            {endPoints.map((item, index) => <EndPointSVG onAddObject={addInputArch} key={item.id}  parentElementID={props.id} point={item} arrowDirection={ALL_DIRECTIONS[index]} {...props} /> )}
+            {endPoints.map((item, index) => <EndPointSVG onAddObject={addInputArch} key={item.id} coordinates={placeEndPoints[index]}  parentElementID={props.id} point={item} arrowDirection={ALL_DIRECTIONS[index]}/> )}
             <text x="-50" y="-50">{obj.label}</text>
             <text x="-10" y="5">{obj.tokenCount > 0 ? `${obj.tokenCount} x` : ""}</text>
         </g>

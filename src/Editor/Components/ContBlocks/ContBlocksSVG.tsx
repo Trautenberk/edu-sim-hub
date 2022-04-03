@@ -29,7 +29,7 @@ export const ContBlockWithSingleOutputSVG : FC<ContBlockProps> = (props) => {
         <>
             <ContBlockFoundationSVG {...props} />
             <path className={styles.input_output} d="M 70,30 80,35 70,40"/>
-            <EndPointSVG parentElementID={props.id} point={point} arrowDirection={Direction.Right}/>
+            {/* <EndPointSVG parentElementID={props.id} point={point} arrowDirection={Direction.Right}/> */}
         </>       
     )
 }
@@ -47,8 +47,8 @@ export const ContBlockDoubleSVG : FC<ContBlockProps> = (props) => {
             <ContBlockWithSingleOutputSVG {...props} />
             <path className={styles.input_output} d="M -10,10 0,15 -10,20"/>
             <path className={styles.input_output} d="M -10,50 0,55 -10,60"/>
-            <EndPointSVG parentElementID={props.id} point={inputOnePoint} arrowDirection={Direction.Left}/>
-            <EndPointSVG parentElementID={props.id} point={inputTwoPoint} arrowDirection={Direction.Left}/>
+            {/* <EndPointSVG parentElementID={props.id} point={inputOnePoint} arrowDirection={Direction.Left}/> */}
+            {/* <EndPointSVG parentElementID={props.id} point={inputTwoPoint} arrowDirection={Direction.Left}/> */}
         </>       
     )
 }
@@ -62,7 +62,7 @@ export const ContBlockSingleSVG : FC<ContBlockProps> = (props) => {
         <>
             <ContBlockWithSingleOutputSVG {...props}/>
             <path className={styles.input_output}  d="M -10,30 0,35 -10,40"/>
-            <EndPointSVG parentElementID={props.id} point={inputOnePoint} arrowDirection={Direction.Left}/>
+            {/* <EndPointSVG parentElementID={props.id} point={inputOnePoint} arrowDirection={Direction.Left}/> */}
         </>       
     )
 }
