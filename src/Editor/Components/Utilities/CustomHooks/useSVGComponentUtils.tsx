@@ -32,7 +32,7 @@ export const useSVGComponentUtils = <T extends IEditorObjectWithEndPoints,>(para
             const endPoints = params.endPointsCoords.map((item, index) => new EndPoint(new Coordinates(item).add(coordinates), params.id))
             setEndPoints(endPoints);
             endPoints.forEach(item => dispatch(registerEndPoint(item.toSerializableObj())))
-            endPoints.forEach(item => obj.endPointIds.push(item.id));
+            endPoints.forEach(item => obj.endPointIds = [...obj.endPointIds, item.id]);
             dispatch(changeObject(obj));
         }
         ,[]

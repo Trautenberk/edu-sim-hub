@@ -9,7 +9,7 @@ import { useStoreHooks } from "../CustomHooks"
 
 export type EdgeSVGComponentProps = {
     id : string,
-    value? : string
+    value? : string | number
  }
 
 export const EdgeSVG : FC<EdgeSVGComponentProps> = (props) => {
@@ -18,6 +18,7 @@ export const EdgeSVG : FC<EdgeSVGComponentProps> = (props) => {
     const edge = useSelector(state => selectObj(state,props.id)) as IEdge;
     const points = useSelector(state => selectPoints(state, edge.pointsId));
     const selected = edge.id === useSelector(selectedObjectId);
+    const lastPoint = new Point(points[points.length - 1]);
 
     if (selected) {
         const edgePoints : Point[] = (points.slice(1, points.length - 1)).map(item => new Point(item));
@@ -29,27 +30,26 @@ export const EdgeSVG : FC<EdgeSVGComponentProps> = (props) => {
             const halfWayPoint = new Point({ id : `addPoint_${i}`, coords : beginCoords.add(vector)});
             addPoints.push(halfWayPoint);
         }
-        const lastPoint = new Point(points[points.length - 1]);
 
         return (
             <g>
                 <path className={style.edge}  markerEnd={"url(#arrow)"} d={Edge.getPathDescription(points)}/>
                 {edgePoints.map(item => <EdgePointsSVG point={item} key={item.id} {...props}/>)}
                 {addPoints.map((item,index) => <AddPointSVG point={item} pointIndex={++index} edgeId={edge.id} key={item.id} />)}
-                {props.value && <text x={lastPoint.coords.x} y={lastPoint.coords.y}>{props.value}</text>}
+                {props.value && <text x={lastPoint.coords.x - 20} y={lastPoint.coords.y - 10}>{props.value}</text>} 
                 <LastEdgePointSVG point={lastPoint} {...props}/>
             </g>
         )
     } else {
         const onClickHandler = () => {
             dispatch(selectObject(edge.id));
-        }
-        
+        }   
+            // TODO zlepsit vypis value - aby zohlednoval stupne a podle toho menil souradnice
         return (
             <g>
                 <path className={style.edge} markerEnd={"url(#arrow)"} d={Edge.getPathDescription(points)}/>
                 <path className={style.edge_pom} onClick={onClickHandler}   d={Edge.getPathDescription(points)}/>
-                
+                {props.value && <text x={lastPoint.coords.x - 20} y={lastPoint.coords.y - 10}>{props.value}</text>}
             </g>
         )
     }

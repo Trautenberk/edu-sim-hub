@@ -221,7 +221,7 @@ export const selectObj = (state : RootState, id: string) : IEditorObject | null 
     if (obj != null) {
         return {...obj}
     } else {
-        console.error("Coulndt select object with id: {id} beacause there is no object with this id in store")
+        // console.error("Coulndt select object with id: {id} beacause there is no object with this id in store") // TODO vyresit lepe
         return null;
     }
 }
