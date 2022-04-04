@@ -1,4 +1,4 @@
-import { addPoint, selectedObjectId, selectObject, selectPoints, toggleIsLastPointMoving, updatePointCoords } from "Editor/Feature/SimObjectManagementSlice"
+import { addPoint, selectedObjectId, selectObj, selectObject, selectPoints, toggleIsLastPointMoving, updatePointCoords } from "Editor/Feature/SimObjectManagementSlice"
 import React, { FC, useCallback, useEffect, useState } from "react"
 import { useDragable } from "../CustomHooks/useDraggable"
 import { Edge, IEdge } from "../../../Model/UtilClasses/Edge"
@@ -9,12 +9,13 @@ import { useStoreHooks } from "../CustomHooks"
 
 export type EdgeSVGComponentProps = {
     id : string,
+    value? : string
  }
 
 export const EdgeSVG : FC<EdgeSVGComponentProps> = (props) => {
     const { dispatch, useSelector } = useStoreHooks();
 
-    const edge = useSelector(state => state.simObjectManagement.objects[props.id]) as IEdge;
+    const edge = useSelector(state => selectObj(state,props.id)) as IEdge;
     const points = useSelector(state => selectPoints(state, edge.pointsId));
     const selected = edge.id === useSelector(selectedObjectId);
 
@@ -35,6 +36,7 @@ export const EdgeSVG : FC<EdgeSVGComponentProps> = (props) => {
                 <path className={style.edge}  markerEnd={"url(#arrow)"} d={Edge.getPathDescription(points)}/>
                 {edgePoints.map(item => <EdgePointsSVG point={item} key={item.id} {...props}/>)}
                 {addPoints.map((item,index) => <AddPointSVG point={item} pointIndex={++index} edgeId={edge.id} key={item.id} />)}
+                {props.value && <text x={lastPoint.coords.x} y={lastPoint.coords.y}>{props.value}</text>}
                 <LastEdgePointSVG point={lastPoint} {...props}/>
             </g>
         )

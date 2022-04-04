@@ -3,6 +3,8 @@ import React, {FC} from "react"
 import { useAppDispatch, useAppSelector } from "Editor/Store/Hooks"
 import style from "Editor/Styles/EditMenu.module.scss"
 import { useStoreHooks } from "./Utilities/CustomHooks"
+import { selectObj } from "Editor/Feature/SimObjectManagementSlice"
+import { NULL_OBJ_ID } from "Editor/Model/EditorObject"
 
 
 type EditMenuProps = {
@@ -14,7 +16,7 @@ export const EditMenu : FC<EditMenuProps> = (props) => {
 
 
     const selectedObjectId = useSelector(state => state.simObjectManagement.selectedObjectId); 
-    const object =  useSelector(state => state.simObjectManagement.objects[selectedObjectId ?? ""]) // TODO odstanit ten empty string
+    const object =  useSelector(state => selectObj(state, selectedObjectId ?? NULL_OBJ_ID)); // TODO odstanit ten empty string, mozna to udelat tak ze se bude predavat celej ten objekt
 
     if (selectedObjectId != null && object != null) {
         const EditComponent = props.factory.getElement(object).EditComponent; 

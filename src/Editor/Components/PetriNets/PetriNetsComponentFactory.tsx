@@ -4,6 +4,7 @@ import { IEditorObject } from "Editor/Model/EditorObject";
 import { PlaceSVG, PlaceEdit, TransitionSVG, TransitionEdit, ArchSVG } from "./"
 import { FC, FunctionComponent } from "react";
 import { EdgeSVGComponentProps } from "../Utilities/UtilComponents/EdgeSVG";
+import { ArchEdit } from "./ArchEdit";
 
 
 const emptyComponent : FC = () => {
@@ -23,9 +24,9 @@ export class PetriNetsGUIComponentFactory implements IObjectGUIComponentFactory 
             case Transition.name:
                 return  {SVGComponent: TransitionSVG, EditComponent : TransitionEdit};
             case InputArch.name:
-                return {SVGComponent: ArchSVG, EditComponent: emptyComponent };
+                return {SVGComponent: ArchSVG, EditComponent: ArchEdit };
             case OutputArch.name:
-                    return {SVGComponent: ArchSVG, EditComponent: emptyComponent }
+                    return {SVGComponent: ArchSVG, EditComponent: ArchEdit }
             default:
                 throw new Error("Couldnt find SVG component for given object");
         }

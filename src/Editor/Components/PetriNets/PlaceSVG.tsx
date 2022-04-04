@@ -8,7 +8,7 @@ import { IPlace } from "Editor/Model/PetriNets/Place";
 import styles from "./PlaceStyle.module.scss"
 import { addPointAndObject } from "Editor/Feature/SimObjectManagementSlice";
 import { InputArch } from "Editor/Model/PetriNets/Arch";
-import { useComponentUtils } from "../Utilities/CustomHooks/useComponentUtils";
+import { useSVGComponentUtils } from "../Utilities/CustomHooks/useSVGComponentUtils";
 
 const placeEndPointsCoords =  [
     {x : 30, y: 0},
@@ -27,7 +27,7 @@ export const PlaceSVG : FunctionComponent<ObjectSVGProps> = (props) => {
         obj,
         endPoints
     } 
-    = useComponentUtils<IPlace>({id: props.id, initialCoordinates: {x: 30, y: 30}, endPointsCoords: placeEndPointsCoords});
+    = useSVGComponentUtils<IPlace>({id: props.id, initialCoordinates: {x: 30, y: 30}, endPointsCoords: placeEndPointsCoords});
 
     const addInputArch = useCallback(
         (firstPoint : IPoint, secondPoint : IPoint) => {

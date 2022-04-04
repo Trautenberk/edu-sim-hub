@@ -4,72 +4,70 @@ import { ITransition, TransitionType } from "Editor/Model/PetriNets/Transition";
 import React, {FC} from "react"
 import { useAppDispatch, useAppSelector } from "Editor/Store/Hooks";
 import style from "./TransitionStyle.module.scss"
+import { useEditComponentUtils } from "../Utilities/CustomHooks";
 
 export const TransitionEdit : FC<ObjectEditProps> = (props) => {
-    const useSelector = useAppSelector;
-    const dispatch = useAppDispatch();
-
-    const obj = {...useSelector(state => state.simObjectManagement.objects[props.id])} as ITransition // TODO odstranit pretypovani
+    const { obj, dispatchChange } = useEditComponentUtils<ITransition>(props.id); 
  
     const onLabelInputChange = (e : React.ChangeEvent<HTMLInputElement>) => {
         obj.label = e.currentTarget.value;
-        dispatch(changeObject(obj))
+        dispatchChange(obj)
     }
 
     const onPriorityChange = (e : React.ChangeEvent<HTMLInputElement>) => {
         obj.priority = parseInt(e.target.value);
-        dispatch(changeObject(obj))
+        dispatchChange(obj)
     }
     const incrementPriority = () => {
         obj.priority++;
-        dispatch(changeObject(obj))        
+        dispatchChange(obj)
     }
 
     const decrementPriority = () => {
         if (obj.priority > 0) {
             obj.priority--;
-            dispatch(changeObject(obj))        
+            dispatchChange(obj)
         }
     }
 
     const onProbabilityChange = (e : React.ChangeEvent<HTMLInputElement>) => {
         obj.probability = parseInt(e.target.value); //TODO pouzit něco jineho než parseInt
-        dispatch(changeObject(obj));
+        dispatchChange(obj)
     }
 
     const incrementProbability = () => {
         if (obj.probability < 100) {
             obj.probability++;
-            dispatch(changeObject(obj));
+            dispatchChange(obj)
         }
     }
 
     const decrementProbability = () => {
         if (obj.probability > 0) {
             obj.probability--;
-            dispatch(changeObject(obj));
+            dispatchChange(obj)
         }
     }
 
     const onSelectChange = (e : React.ChangeEvent<HTMLSelectElement>) => {
         obj.type = e.target.value as TransitionType;
-        dispatch(changeObject(obj));
+        dispatchChange(obj)
     }
 
     const onTimeValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         obj.timeValue = parseInt(e.target.value);
-        dispatch(changeObject(obj));
+        dispatchChange(obj)
     }
 
     const incrementTimeValue = () => {
         obj.timeValue++;
-        dispatch(changeObject(obj));
+        dispatchChange(obj)
     }
 
     const decrementTimeValue = () => {
         if (obj.timeValue > 0) {
             obj.timeValue--;
-            dispatch(changeObject(obj));
+            dispatchChange(obj)
         }
     }
 

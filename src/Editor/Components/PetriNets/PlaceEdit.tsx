@@ -4,27 +4,24 @@ import { IPlace  } from "Editor/Model/PetriNets/Place";
 import React, { FC} from "react"
 import { useAppDispatch, useAppSelector } from "Editor/Store/Hooks"
 import style from "./PlaceStyle.module.scss"
+import { useEditComponentUtils } from "../Utilities/CustomHooks/useEditComponentUtils";
 
 export const PlaceEdit : FC<ObjectEditProps>  = (props) => {
-    const useSelector = useAppSelector;
-    const dispatch = useAppDispatch();
-
-    const obj = {...useSelector(state => state.simObjectManagement.objects[props.id])} as IPlace // TODO odstranit pretypovani
+    const { obj, dispatchChange} = useEditComponentUtils<IPlace>(props.id);
 
     const onLabelInputChange = (e : React.ChangeEvent<HTMLInputElement>) => {
         obj.label = e.currentTarget.value;
-        dispatch(changeObject(obj))
+        dispatchChange(obj)
     }
 
     const incrementCallback = () => {
         obj.tokenCount++;
-        dispatch(changeObject(obj))        
-    }
+        dispatchChange(obj)    }
 
     const decrementCallback = () => {
         if (obj.tokenCount > 0) {
             obj.tokenCount--;
-            dispatch(changeObject(obj))        
+            dispatchChange(obj) 
         }
     }
 

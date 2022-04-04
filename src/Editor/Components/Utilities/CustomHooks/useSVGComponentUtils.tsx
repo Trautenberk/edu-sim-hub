@@ -4,26 +4,26 @@ import { useEffect, useMemo, useState } from "react";
 import { convertToVisibility } from "../UtilMethodsAndTypes";
 import { useDragable } from "./useDraggable";
 import { useSelectable } from "./useSelectable";
-import { changeObject, registerEndPoint, selectedObjectId, unregisterEndPoint, updatePointCoords } from "Editor/Feature/SimObjectManagementSlice";
+import { changeObject, registerEndPoint, selectedObjectId, unregisterEndPoint, updatePointCoords, selectObj } from "Editor/Feature/SimObjectManagementSlice";
 import { EditorObject, IEditorObject, IEditorObjectWithEndPoints } from "Editor/Model/EditorObject";
 import { useStoreHooks } from "./useStoreHooks";
 import { EndPoint } from "Editor/Model/UtilClasses/Point";
 
 
-type UseComponentUtilsParams = {
+type UseSVGComponentUtilsParams = {
     id : string
     initialCoordinates : ICoordinates,
     endPointsCoords : ICoordinates[]
 }
 
-export const useComponentUtils = <T extends IEditorObjectWithEndPoints,>(params : UseComponentUtilsParams) => {
+export const useSVGComponentUtils = <T extends IEditorObjectWithEndPoints,>(params : UseSVGComponentUtilsParams) => {
     const { dispatch, useSelector } = useStoreHooks();
 
     const { onMouseDown } = useSelectable(params.id);
     const { coordinates, onMouseDownHandler, onMouseUpHandler } = useDragable({initialCoordinates: params.initialCoordinates, onMouseDown: onMouseDown});
 
     const selectedVisible = convertToVisibility(useSelector(state => selectedObjectId(state) === params.id));
-    const obj = useSelector(state => state.simObjectManagement.objects[params.id]) as T;    // TODO tady to pretypovani vyresit
+    const obj = useSelector(state => selectObj(state, params.id)) as T;    // TODO tady to pretypovani vyresit
     
     const [endPoints, setEndPoints] = useState<EndPoint[]>([]);
 
@@ -32,9 +32,8 @@ export const useComponentUtils = <T extends IEditorObjectWithEndPoints,>(params 
             const endPoints = params.endPointsCoords.map((item, index) => new EndPoint(new Coordinates(item).add(coordinates), params.id))
             setEndPoints(endPoints);
             endPoints.forEach(item => dispatch(registerEndPoint(item.toSerializableObj())))
-            const objCopy = Object.assign({}, obj)  // TODO vyresit pro je tady nutne pouzit kopii
-            endPoints.forEach(item => objCopy.endPointIds = [...objCopy.endPointIds, item.id]);
-            dispatch(changeObject(objCopy));
+            endPoints.forEach(item => obj.endPointIds.push(item.id));
+            dispatch(changeObject(obj));
         }
         ,[]
     )

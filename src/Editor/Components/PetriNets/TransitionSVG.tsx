@@ -8,7 +8,7 @@ import { EndPoint, GroupPoint, IPoint, Point } from "Editor/Model/UtilClasses/Po
 import { EndPointSVG } from "Editor/Components/Utilities/UtilComponents";
 import { addPointAndObject } from "Editor/Feature/SimObjectManagementSlice";
 import { OutputArch } from "Editor/Model/PetriNets";
-import { useComponentUtils } from "../Utilities/CustomHooks/useComponentUtils";
+import { useSVGComponentUtils } from "../Utilities/CustomHooks/useSVGComponentUtils";
 
 
 const width = 30;
@@ -31,7 +31,7 @@ export const TransitionSVG : FunctionComponent<ObjectSVGProps> = (props) => {
         selectedVisible,
         obj,
         endPoints
-    } = useComponentUtils<ITransition>({id: props.id, initialCoordinates: {x: 30, y: 30}, endPointsCoords: transitionEndPoints });
+    } = useSVGComponentUtils<ITransition>({id: props.id, initialCoordinates: {x: 30, y: 30}, endPointsCoords: transitionEndPoints });
 
     const addOutputArch = useCallback(
         (firstPoint : IPoint, secondPoint : IPoint) => {

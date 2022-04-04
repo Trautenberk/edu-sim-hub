@@ -216,6 +216,15 @@ const simObjectManagementSlice = createSlice({
 })
 
 export const selectedObjectId = (state : RootState) => state.simObjectManagement.selectedObjectId;
+export const selectObj = (state : RootState, id: string) : IEditorObject | null => {
+    const obj = state.simObjectManagement.objects[id]
+    if (obj != null) {
+        return {...obj}
+    } else {
+        console.error("Coulndt select object with id: {id} beacause there is no object with this id in store")
+        return null;
+    }
+}
 export const selectPoints = (state: RootState, ids : string[]) : IPoint[] => ids.map(item => {
     
     const point = state.simObjectManagement.points[item];
