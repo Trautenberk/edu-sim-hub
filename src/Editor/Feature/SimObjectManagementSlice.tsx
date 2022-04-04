@@ -3,7 +3,7 @@ import { Coordinates, NotImplementedException } from "Editor/Components/Utilitie
 import { IEditorObject } from "Editor/Model/EditorObject";
 import { ICoordinates } from "Editor/Model/UtilClasses/Coordinates";
 import { IEdge, isEdge } from "Editor/Model/UtilClasses/Edge";
-import { IPoint, Point } from "Editor/Model/UtilClasses/Point";
+import { IEndPoint, IPoint, Point } from "Editor/Model/UtilClasses/Point";
 import { RootState } from "Editor/Store/Store";
 
 
@@ -11,7 +11,7 @@ type SimObjectManagementState = {
     objects : {[id : string] : IEditorObject}
     edgeObjectsIds : string[];
     selectedObjectId: string | null
-    endPoints :  {[id : string] : string}  // identifikatory koncovych bodu 
+    endPoints :  {[id : string] : IEndPoint}  // koncove body
     points : {[id : string] : IPoint} // vsechny body
     isLastPointMoving : boolean
     highlightedEndPoint : null | string,
@@ -66,7 +66,7 @@ function removeEdgeFnc(state : SimObjectManagementState, obj : IEditorObject) {
 function removeBoundedEdgeObjects(state : SimObjectManagementState, obj : IEditorObject) {
     for (const edgeId of state.edgeObjectsIds) {
         const edge = state.objects[edgeId] as IEdge;
-        if (edge.to === obj.id || edge.from === obj.id) {
+        if ((edge.to != null && edge.to.objId === obj.id) || (edge.from != null && edge.from.objId === obj.id)) {
             removeEdgeFnc(state, edge);
         }
     }
@@ -116,13 +116,12 @@ const simObjectManagementSlice = createSlice({
             state.selectedObjectId = null;
         },
          // registrace endPointu
-        registerEndPoint (state, action : PayloadAction<{endPoint : IPoint, ownerId : string}>){
-            const endPoint = action.payload.endPoint;
+        registerEndPoint (state, action : PayloadAction<IEndPoint>){
+            const endPoint = action.payload;
             if (Object.keys(state.endPoints).includes(endPoint.id)) {
                 throw new Error(`Registering already registered endPoint ${endPoint.id} `)
             } else {
-                state.points[endPoint.id] = endPoint;
-                state.endPoints[endPoint.id] = action.payload.ownerId;
+                state.endPoints[endPoint.id] = endPoint;
             }
         },
         // odregistrování endPointu
@@ -132,7 +131,6 @@ const simObjectManagementSlice = createSlice({
                 return;
 
             if (Object.keys(state.points).includes(id)) {
-                delete state.points[id];
                 delete state.endPoints[id];
             }
             else {
@@ -141,12 +139,12 @@ const simObjectManagementSlice = createSlice({
         },
         updatePointCoords (state, action : PayloadAction<{id : string, newCoords : ICoordinates}>){
             const { id , newCoords } = action.payload;
-            if (Object.keys(state.points).includes(id)){   // pokud slovnik obsahuje Point s přijatým id
+            if (Object.keys(state.points).includes(id)) {   // pokud slovnik obsahuje Point s přijatým id
                 state.points[id].coords = newCoords;  // provede update
 
                 if (state.isLastPointMoving) {
                     const lastPoint = state.points[id];
-                    for (const endPoint of Object.keys(state.endPoints).map(id => state.points[id])) {
+                    for (const endPoint of Object.keys(state.endPoints).map(id => state.endPoints[id])) {
                         if (Coordinates.getDistance(lastPoint.coords, endPoint.coords) < state.distanceThreshold) {
                             state.highlightedEndPoint = endPoint.id;
                             return;
@@ -154,10 +152,19 @@ const simObjectManagementSlice = createSlice({
                     }
                     state.highlightedEndPoint = null;
                 }
-            } else {
+            } else if (Object.keys(state.endPoints).includes(id)) {
+                const endPoint = state.endPoints[id];
+                endPoint.coords = newCoords;
+                for (const pointId of endPoint.bindings) {
+                    const point = state.points[pointId];
+                    point.coords = newCoords;
+                }
+            } 
+            else {
                 console.error(`update of nonexisting point ${id}`); // TODO vyřešit logovani jinak
                 return;
             }
+
         },
         addPoint (state, action : PayloadAction<{edgeId : string, point : IPoint, index : number}>) {
             const { edgeId, point, index } = action.payload
@@ -179,15 +186,20 @@ const simObjectManagementSlice = createSlice({
                 if (isEdge(selectedEdge)) {
                     if (state.isLastPointMoving) { // TODO refaktoring, zjednodusit a extrahovat do funkci
                         if (state.highlightedEndPoint != null) {
-                            const endPoint = state.points[state.highlightedEndPoint];
-                            selectedEdge.to = endPoint.id;
-                            const selectedEdgePoints = selectedEdge.pointsId;
+                            const endPoint = state.endPoints[state.highlightedEndPoint];
+                            selectedEdge.to = { objId: endPoint.ownerId, pointId: endPoint.id }; // napojuju na endPoint
+                            const lastPointFromEdge = selectedEdge.pointsId[selectedEdge.pointsId.length - 1];
+                            const point = state.points[lastPointFromEdge];
+                            point.coords = endPoint.coords;
+                            endPoint.bindings.push(lastPointFromEdge); // pridavam ho do bindingu
                             state.highlightedEndPoint = null;
                         }
                     } else {
                         if (selectedEdge.to != null) {
-                            const pointIdToUnBind = selectedEdge.pointsId[selectedEdge.pointsId.length - 1]; // poslední bod  
-                            selectedEdge.to = undefined;
+                            const endPoint = state.endPoints[selectedEdge.to.pointId]
+                            const lastPointId = selectedEdge.pointsId[selectedEdge.pointsId.length - 1];
+                            endPoint.bindings = endPoint.bindings.filter(id => id !== lastPointId);
+                            selectedEdge.to = null; 
                         }
                     }
                 }
@@ -204,7 +216,15 @@ const simObjectManagementSlice = createSlice({
 })
 
 export const selectedObjectId = (state : RootState) => state.simObjectManagement.selectedObjectId;
-export const selectPoints = (state: RootState, ids : string[]) : IPoint[] => ids.map(item => state.simObjectManagement.points[item]);
+export const selectPoints = (state: RootState, ids : string[]) : IPoint[] => ids.map(item => {
+    
+    const point = state.simObjectManagement.points[item];
+    if (point != null) {
+        return point;
+    } else {
+        return state.simObjectManagement.endPoints[item];
+    }
+});
 
 export const {
     addObject,

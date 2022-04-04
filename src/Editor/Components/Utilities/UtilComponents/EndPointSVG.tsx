@@ -4,13 +4,12 @@ import { convertDirectionToOffset, convertToVisibility, Direction } from "Editor
 import { useAppSelector, useAppDispatch } from "Editor/Store/Hooks"
 import { registerEndPoint, unregisterEndPoint, updatePointCoords } from "Editor/Feature/SimObjectManagementSlice"
 import { ArrowSVG } from "Editor/Components/Utilities/UtilComponents/ArrowSVG"
-import { GroupPoint, IPoint, Point } from "../../../Model/UtilClasses/Point"
+import { EndPoint, GroupPoint, IEndPoint, IPoint, Point } from "../../../Model/UtilClasses/Point"
 import { Coordinates, ICoordinates } from "../../../Model/UtilClasses/Coordinates"
 import { selectedObjectId } from "Editor/Feature/SimObjectManagementSlice"
 
 export type EndPointProps = {
-    parentElementID : string,
-    point : Point,
+    endPoint : IEndPoint,
     coordinates : ICoordinates,
     arrowDirection : Direction,
     onAddObject? : (fistPoint  : IPoint, secondPoint: IPoint) => void;
@@ -24,26 +23,15 @@ export const EndPointSVG : FC<EndPointProps> = (props) => {
         e.stopPropagation();
     }
     
-    useEffect(() => {
-        dispatch(registerEndPoint({endPoint: props.point.toSerializableObj(), ownerId: props.parentElementID}));
-        return (() => {dispatch(unregisterEndPoint(props.point.id))})
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    },[])
-
-    useEffect(
-        () => {
-            dispatch(updatePointCoords({id : props.point.id,  newCoords: props.point.coords.toSerializableObj()}));
-        },[dispatch, props.point.coords, props.point.coords.x, props.point.coords.y, props.point.id]
-    )
 
     const style = styles.end_point;
-    const visible = convertToVisibility(useSelector(state => selectedObjectId(state) === props.parentElementID));
+    const visible = convertToVisibility(useSelector(state => selectedObjectId(state) === props.endPoint.ownerId));
    
-    const higlihghtVisible = convertToVisibility(useSelector(state => state.simObjectManagement.highlightedEndPoint) === props.point.id); // TODO
+    const higlihghtVisible = convertToVisibility(useSelector(state => state.simObjectManagement.highlightedEndPoint) === props.endPoint.id); // TODO
 
     const onArrowClick = useCallback(() => {
-        const secondPoint = new Point(new Coordinates(convertDirectionToOffset(props.arrowDirection)).add(props.point.coords));
-        props.onAddObject && props.onAddObject(props.point.toSerializableObj(), secondPoint.toSerializableObj());
+        const secondPoint = new Point(new Coordinates(convertDirectionToOffset(props.arrowDirection)).add(props.endPoint.coords));
+        props.onAddObject && props.onAddObject(props.endPoint, secondPoint.toSerializableObj());
     },[dispatch, props])
 
     return(

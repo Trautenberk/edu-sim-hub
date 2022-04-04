@@ -1,20 +1,22 @@
-import { ICoordinates } from "Editor/Model/UtilClasses/Coordinates";
+import { Coordinates, ICoordinates } from "Editor/Model/UtilClasses/Coordinates";
 import { useAppDispatch, useAppSelector } from "Editor/Store/Hooks";
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { convertToVisibility } from "../UtilMethodsAndTypes";
 import { useDragable } from "./useDraggable";
 import { useSelectable } from "./useSelectable";
-import { selectedObjectId } from "Editor/Feature/SimObjectManagementSlice";
-import { EditorObject, IEditorObject } from "Editor/Model/EditorObject";
+import { changeObject, registerEndPoint, selectedObjectId, unregisterEndPoint, updatePointCoords } from "Editor/Feature/SimObjectManagementSlice";
+import { EditorObject, IEditorObject, IEditorObjectWithEndPoints } from "Editor/Model/EditorObject";
 import { useStoreHooks } from "./useStoreHooks";
+import { EndPoint } from "Editor/Model/UtilClasses/Point";
 
 
 type UseComponentUtilsParams = {
     id : string
-    initialCoordinates : ICoordinates
+    initialCoordinates : ICoordinates,
+    endPointsCoords : ICoordinates[]
 }
 
-export const useComponentUtils = <T extends IEditorObject,>(params : UseComponentUtilsParams) => {
+export const useComponentUtils = <T extends IEditorObjectWithEndPoints,>(params : UseComponentUtilsParams) => {
     const { dispatch, useSelector } = useStoreHooks();
 
     const { onMouseDown } = useSelectable(params.id);
@@ -23,6 +25,45 @@ export const useComponentUtils = <T extends IEditorObject,>(params : UseComponen
     const selectedVisible = convertToVisibility(useSelector(state => selectedObjectId(state) === params.id));
     const obj = useSelector(state => state.simObjectManagement.objects[params.id]) as T;    // TODO tady to pretypovani vyresit
     
+    const [endPoints, setEndPoints] = useState<EndPoint[]>([]);
+
+    useEffect(
+        () => {
+            const endPoints = params.endPointsCoords.map((item, index) => new EndPoint(new Coordinates(item).add(coordinates), params.id))
+            setEndPoints(endPoints);
+            endPoints.forEach(item => dispatch(registerEndPoint(item.toSerializableObj())))
+            const objCopy = Object.assign({}, obj)  // TODO vyresit pro je tady nutne pouzit kopii
+            endPoints.forEach(item => objCopy.endPointIds = [...objCopy.endPointIds, item.id]);
+            dispatch(changeObject(objCopy));
+        }
+        ,[]
+    )
+
+    useEffect(() => {
+        return (() => {
+            endPoints.forEach(item => { 
+                dispatch(unregisterEndPoint(item.id))
+            })
+        })
+    },[])
+
+    useEffect(
+        () => {
+            setEndPoints(endPoints => endPoints.map((item, index) => {
+                item.coords =  new Coordinates(params.endPointsCoords[index]).add(coordinates);
+                return item;
+            }))
+        }
+        ,[coordinates]
+    )
+
+    useEffect(
+        () => {
+            endPoints.forEach(item => dispatch(updatePointCoords({id: item.id,  newCoords: item.coords.toSerializableObj()})));
+        }
+        ,[coordinates]
+    )
+
     const values = {
         coordinates,
         onMouseDownHandler,
@@ -30,7 +71,8 @@ export const useComponentUtils = <T extends IEditorObject,>(params : UseComponen
         useSelector,
         dispatch,
         selectedVisible,
-        obj
+        obj,
+        endPoints
     }
 
     return values

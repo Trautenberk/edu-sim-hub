@@ -1,25 +1,34 @@
 import { EditorObject, IEditorObject } from "../EditorObject";
 import { Coordinates, IToSerializable } from "./Coordinates";
-import { IPoint } from "./Point";
+import { IEndPoint, IPoint } from "./Point";
+
 
 export interface IEdge extends IEditorObject {
     pointsId : string[]
-    from? : string,
-    to? : string,
+    from : ConnectionInfo | null,
+    to : ConnectionInfo | null,
 }
+
+
 
 export function isEdge(obj : any): obj is IEdge{
     return (obj as IEdge).pointsId != undefined;
 }
 
+export type ConnectionInfo = {
+    pointId : string
+    objId : string 
+}
+
 export abstract class Edge extends EditorObject implements IToSerializable<IEdge> {
     public  pointsId : string[] = [];
 
-    public from? : string;
-    public to? : string;
+    public from : ConnectionInfo | null = null
+    public to : ConnectionInfo | null = null;
 
-    constructor() {
+    constructor(from : ConnectionInfo) {
         super();
+        this.from = from;
     }
 
     toSerializableObj(): IEdge {

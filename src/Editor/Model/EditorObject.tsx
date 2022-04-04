@@ -6,6 +6,8 @@ export interface IEditorObject {
     className : string;
 }
 
+export const NULL_OBJ_ID = "NULL_OBJ_ID";
+
 export abstract class EditorObject implements  IToSerializable<IEditorObject> {
     protected static _idCounter : number = 0;
     protected get idCount() : number {

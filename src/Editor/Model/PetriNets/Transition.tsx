@@ -1,5 +1,5 @@
 import { IToSerializable } from "Editor/Model/UtilClasses/Coordinates";
-import { IEditorObject, EditorObject } from "Editor/Model/EditorObject";
+import { IEditorObject, EditorObject, IEditorObjectWithEndPoints, EditorObjectWithEndPoints } from "Editor/Model/EditorObject";
 
 export enum TransitionType {
     Priority = "Prioritní",
@@ -7,7 +7,7 @@ export enum TransitionType {
     Probability = "Pravděpodobnostní"
 }
 
-export interface ITransition  extends IEditorObject{
+export interface ITransition  extends IEditorObjectWithEndPoints{
     label : string
     type : TransitionType
     priority : number
@@ -15,7 +15,7 @@ export interface ITransition  extends IEditorObject{
     probability : number
 }
 
-export class Transition extends EditorObject implements IToSerializable<ITransition>{
+export class Transition extends EditorObjectWithEndPoints implements IToSerializable<ITransition>{
     public className() { return Transition.name; } 
     public static MenuName : string = "Přechod";
     public priority : number = 0; 
@@ -25,9 +25,8 @@ export class Transition extends EditorObject implements IToSerializable<ITransit
     public probability: number = 0;
 
     public toSerializableObj() : ITransition {
-        const superObj = super.toSerializableObj()
         return {
-            ...superObj,
+            ...super.toSerializableObj(),
             priority : this.priority,
             label : this.label,
             timeValue : this.timeValue,

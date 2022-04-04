@@ -54,3 +54,25 @@ export class GroupPoint extends Point implements IGroupPoint, IToSerializable<IG
         return groupObj;
     }
 }
+
+
+export interface IEndPoint extends IPoint {
+    ownerId : string
+    bindings : string[]
+}
+
+export class EndPoint  extends Point implements IToSerializable<IEndPoint> {
+
+    public ownerId : string
+
+    public bindings : string[] = [];
+
+    constructor(value : ICoordinates, ownerId : string) {
+        super(value);
+        this.ownerId = ownerId;
+    }
+    public toSerializableObj () : IEndPoint {
+        return {...super.toSerializableObj(), ownerId: this.ownerId, bindings : this.bindings}
+    }
+
+}

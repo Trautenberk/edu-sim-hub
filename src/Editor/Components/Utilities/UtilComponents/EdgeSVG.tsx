@@ -39,11 +39,10 @@ export const EdgeSVG : FC<EdgeSVGComponentProps> = (props) => {
             </g>
         )
     } else {
-
         const onClickHandler = () => {
             dispatch(selectObject(edge.id));
         }
-
+        
         return (
             <g>
                 <path className={style.edge} markerEnd={"url(#arrow)"} d={Edge.getPathDescription(points)}/>
@@ -64,7 +63,6 @@ const EdgePointsSVG : FC<EdgePointSVGProps> = (props) => {
 
     const onCoordsChange = useCallback((newCoords : ICoordinates) => {
         dispatch(updatePointCoords({id: props.point.id, newCoords : {x: newCoords.x, y: newCoords.y}}));
-
     },[dispatch, props.point.id])
 
     const { coordinates, onMouseDownHandler, onMouseUpHandler} = useDragable({initialCoordinates: point.coords, onCoordsChange});

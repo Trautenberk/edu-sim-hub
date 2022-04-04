@@ -1,41 +1,65 @@
 import { IToSerializable } from "Editor/Model/UtilClasses/Coordinates";
-import { IEditorObject, EditorObject } from "Editor/Model/EditorObject";
-import { Edge, IEdge } from "../UtilClasses/Edge";
+import { IEditorObject, EditorObject, NULL_OBJ_ID } from "Editor/Model/EditorObject";
+import { ConnectionInfo, Edge, IEdge } from "../UtilClasses/Edge";
 import { IPoint } from "../UtilClasses/Point";
 
 export interface IArch extends IEdge {
     placeId: string;
-    transitionId: string;
+    transitionId: string;   // TODO visi to pak blbe v reduxu
     weight : number;
 }
 
 export abstract class Arch extends Edge implements IToSerializable<IArch> {
     private weight : number = 1;
 
-    public placeId : string = "";
-    public transitionId : string = "";
+    abstract get transitionId(): string;
+    abstract get placeId() : string;
 
     public toSerializableObj(): IArch {
-        return {weight: this.weight, placeId: this.placeId, transitionId: this.transitionId, ...super.toSerializableObj()};
+        return {...super.toSerializableObj(), weight: this.weight, transitionId: this.transitionId, placeId: this.placeId};
     }
 }
 
 export class InputArch extends Arch implements IToSerializable<IArch> {
     public className() { return InputArch.name; }
 
-    constructor(transitionId : string) {
-        super()
-        this.transitionId = transitionId;
-        this.from = transitionId;
+    public get transitionId() : string {
+        if (this.to != null) 
+            return this.to.objId;
+        else
+            return NULL_OBJ_ID;
+    }
+
+    public get placeId() : string {
+        if (this.from != null) 
+            return this.from.objId;
+        else
+            return NULL_OBJ_ID;
+    }
+
+    constructor(from : ConnectionInfo) {
+        super(from)
     }
 }
 
 export class OutputArch extends Arch {
     public className() { return OutputArch.name }
 
-    constructor(placeId : string) {
-        super();
-        this.placeId = placeId;
-        this.from = placeId;
+    public get transitionId() : string {
+        if (this.from != null) 
+            return this.from.objId;
+        else
+            return NULL_OBJ_ID;
+    }
+
+    public get placeId() : string {
+        if (this.to != null) 
+            return this.to.objId;
+        else
+            return NULL_OBJ_ID;
+    }
+
+    constructor(from : ConnectionInfo) {
+        super(from);
     }
 }
