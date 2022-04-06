@@ -14,6 +14,8 @@
 #include "ContinousBlocks/Integrator.hpp"
 #include "ContinousBlocks/Sub.hpp"
 #include "ContinousBlocks/Sum.hpp"
+#include "ContinousBlocks/ContBlockEngine.hpp"
+#include "ContinousBlocks/IntegrationMethods/Euler.hpp"
 
 #ifdef EMSCRIPTEN
     #include <emscripten/bind.h>
@@ -118,17 +120,20 @@ void testGenerator()
 
 void contBlocksSandBox()
 {
-    auto constantOne = make_shared<Constant>(1.0);
-    auto constantTwo = make_shared<Constant>(2.0);
+    auto euler = Euler();
+    auto engine = make_shared<ContBlockEngine>(euler);
+
+    auto constantOne = make_shared<Constant>(engine,1.0);
+    auto constantTwo = make_shared<Constant>(engine, 2.0);
     vector<shared_ptr<ContBlock>> inputs = {constantOne, constantTwo};
 
-    auto add = Add(constantOne, constantTwo);
-    auto sub = Sub(constantOne, constantTwo);
-    auto div = Div(constantOne, constantTwo);
-    auto mul = Mul(constantOne, constantTwo);
-    auto gain = Gain(1, constantOne);
+    auto add = Add(engine, constantOne, constantTwo);
+    auto sub = Sub(engine, constantOne, constantTwo);
+    auto div = Div(engine, constantOne, constantTwo);
+    auto mul = Mul(engine, constantOne, constantTwo);
+    auto gain = Gain(engine, 1, constantOne);
     // auto integrator = Integrator();
-    auto sum = Sum(inputs);
+    auto sum = Sum(engine, inputs);
 }
 
 class TestA {

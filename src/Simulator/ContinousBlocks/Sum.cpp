@@ -1,6 +1,6 @@
 #include "Sum.hpp"
 
-Sum::Sum(vector<shared_ptr<ContBlock>> &inputs) : ContBlockMulti(inputs)
+Sum::Sum(shared_ptr<ContBlockEngine> engine, vector<shared_ptr<ContBlock>> &inputs) : ContBlockMulti(engine, inputs)
 {}
 
 void Sum::eval()

@@ -5,7 +5,7 @@
 
 class Sub : public ContBlockDouble {
     public:
-        Sub(shared_ptr<ContBlock> inputFirst, shared_ptr<ContBlock> inputSecond);
+        Sub(shared_ptr<ContBlockEngine> engine, shared_ptr<ContBlock> inputFirst, shared_ptr<ContBlock> inputSecond);
         string objTypeName() {return "SubBlock";};
         void eval();
         double value();

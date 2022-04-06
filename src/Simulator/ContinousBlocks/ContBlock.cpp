@@ -1,11 +1,15 @@
 #include "ContBlock.hpp"
 
-ContBlockSingle::ContBlockSingle(shared_ptr<ContBlock> _input) : ContBlock(), input(_input) 
+ContBlock::ContBlock(shared_ptr<ContBlockEngine> _engine)
+: ContinousSimObject(), engine(_engine)
 {}
 
-ContBlockDouble::ContBlockDouble(shared_ptr<ContBlock> _inputFirst, shared_ptr<ContBlock> _inputSecond) 
-: ContBlock(), inputFirst(_inputFirst), inputSecond(_inputSecond) 
+ContBlockSingle::ContBlockSingle(shared_ptr<ContBlockEngine> engine, shared_ptr<ContBlock> _input) : ContBlock(engine), input(_input) 
 {}
 
-ContBlockMulti::ContBlockMulti(vector<shared_ptr<ContBlock>> _inputs) : ContBlock(), inputs(_inputs)
+ContBlockDouble::ContBlockDouble(shared_ptr<ContBlockEngine> engine, shared_ptr<ContBlock> _inputFirst, shared_ptr<ContBlock> _inputSecond) 
+: ContBlock(engine), inputFirst(_inputFirst), inputSecond(_inputSecond) 
+{}
+
+ContBlockMulti::ContBlockMulti(shared_ptr<ContBlockEngine> engine, vector<shared_ptr<ContBlock>> _inputs) : ContBlock(engine), inputs(_inputs)
 {}

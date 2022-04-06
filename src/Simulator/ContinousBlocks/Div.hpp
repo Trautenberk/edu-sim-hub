@@ -8,7 +8,7 @@ using namespace std;
 
 class Div : public ContBlockDouble {
     public:
-        Div(shared_ptr<ContBlock> value, shared_ptr<ContBlock> divider);
+        Div(shared_ptr<ContBlockEngine> engine, shared_ptr<ContBlock> value, shared_ptr<ContBlock> divider);
         string objTypeName() {return "DivBlock";};
         void eval();
         double value();

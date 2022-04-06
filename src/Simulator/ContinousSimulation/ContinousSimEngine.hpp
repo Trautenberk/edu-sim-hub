@@ -6,7 +6,7 @@
 
 using namespace std;
 
-class ContinousSimulator {
+class ContinousSimEngine {
     public:
         void init(float endTime, float step);
         void simulate();

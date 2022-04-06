@@ -10,7 +10,7 @@ using namespace std;
 class Sum : public ContBlockMulti
 {
     public:
-        Sum(vector<shared_ptr<ContBlock>> &inputs);
+        Sum(shared_ptr<ContBlockEngine> engine, vector<shared_ptr<ContBlock>> &inputs);
         string objTypeName() {return "SumBlock";};
         void eval();
         double value();

@@ -1,6 +1,6 @@
-#include "ContinousSimulator.hpp"
+#include "ContinousSimEngine.hpp"
 
-void ContinousSimulator::init(float endTime, float step)
+void ContinousSimEngine::init(float endTime, float step)
 {
     if (step <= 0)
         throw "Step cannot be smaller then zero";
@@ -12,7 +12,7 @@ void ContinousSimulator::init(float endTime, float step)
     this->step = step;
 }
 
-void ContinousSimulator::simulate()
+void ContinousSimEngine::simulate()
 {
     while(this->time <= this->endTime)
     {

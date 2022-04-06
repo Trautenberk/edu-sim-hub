@@ -9,7 +9,7 @@ using namespace std;
 class Constant : public ContBlock
 {
     public:
-        Constant(double value);
+        Constant(shared_ptr<ContBlockEngine> engine, double value);
         void eval();
         double value();
         string objTypeName() {return "ConstantBlock";};

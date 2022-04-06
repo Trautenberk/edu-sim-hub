@@ -10,9 +10,6 @@
 
 using namespace std;
 
-
-
-
 class Place : public PetriNetsObject {
     public :
         string label() {return _label;};

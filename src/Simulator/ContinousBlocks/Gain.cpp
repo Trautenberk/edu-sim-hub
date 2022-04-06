@@ -1,6 +1,6 @@
 #include "Gain.hpp"
 
-Gain::Gain(double _gain, shared_ptr<ContBlock> input) : ContBlockSingle(input), gain(_gain)
+Gain::Gain(shared_ptr<ContBlockEngine> engine, double _gain, shared_ptr<ContBlock> input) : ContBlockSingle(engine, input), gain(_gain)
 {}  
 
 
