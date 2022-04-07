@@ -1,16 +1,17 @@
 #ifndef TRANSITION_H
 #define TRANSITION_H
 
-#include "PetriNetsObject.hpp"
 #include "Arch.hpp"
 #include <vector>
 #include <iostream>
 #include <limits>
 #include <algorithm>
+
 #ifdef EMSCRIPTEN
     #include <emscripten/bind.h>
 #endif
 
+class PetriNetsObject;
 // using namespace std;
 template <typename T> using SPVec = vector<shared_ptr<T>>;
 
@@ -35,6 +36,8 @@ class Transition : public PetriNetsObject
         bool hasPlaceOnInput(vector<int> &placeId);
         vector<int> placeIdsOnInput = {};
         vector<int> placeIdsOnOutput = {};
+
+        void gatherStatistics();
 };
 
 

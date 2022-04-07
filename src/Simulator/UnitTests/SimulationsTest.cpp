@@ -19,7 +19,7 @@ TEST(SimpleSimWithImmediateTransition, BasicAssertions)
     engine->simulate();
     EXPECT_EQ(placeOne->tokens(), 0);
     EXPECT_EQ(placeTwo->tokens(), 1);
-    EXPECT_EQ(engine->time, 0);
+    EXPECT_EQ(engine->time(), 0);
     engine->clear();
 }
 
@@ -37,7 +37,7 @@ TEST(SimpleSimWithTimedTransition, BasicAssertions)
     engine->simulate();
     EXPECT_EQ(placeOne->tokens(), 0);
     EXPECT_EQ(placeTwo->tokens(), 1);
-    EXPECT_EQ(engine->time, 5);
+    EXPECT_EQ(engine->time(), 5);
 }
 
 TEST(testImmediateAndTimedTransition, BasicAssertions)

@@ -1,4 +1,5 @@
 #include "Transition.hpp"
+#include "PetriNetsObject.hpp"
 
 using namespace std;
 
@@ -138,6 +139,11 @@ void Transition::rePlanTransition()
     }
 }
 
+void Transition::gatherStatistics()
+{
+    this->engine->statistics->transitionRecords[this->id()].emplace(this->firedCnt);
+}
+
 
 ////////////////////////////////////////////////////////////////
 // ImmediateTransition
@@ -151,7 +157,7 @@ ImmediateTransition::ImmediateTransition(shared_ptr<PetriNetsEngine> engine, str
 void ImmediateTransition::planTransitionFiringEvent()
 {
     auto func = [this](int evenetId) {this->fire(evenetId);};
-    auto event = Event(engine->time, func, this->priority);
+    auto event = Event(engine->time(), func, this->priority);
     this->engine->calendar.insertEvent(event);
     this->plannedEventsId.push_back(event.id);    
 }
@@ -169,7 +175,7 @@ TimedTransition::TimedTransition(shared_ptr<PetriNetsEngine> engine, string labe
 void TimedTransition::planTransitionFiringEvent()
 {
     auto func = [this](int evenetId) {this->fire(evenetId);};
-    auto event = Event(engine->time + this->delay, func);
+    auto event = Event(engine->time() + this->delay, func);
     this->engine->calendar.insertEvent(event);
     this->plannedEventsId.push_back(event.id);    
 }

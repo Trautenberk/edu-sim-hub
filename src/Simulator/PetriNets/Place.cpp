@@ -22,6 +22,11 @@ void Place::removeTokens(int cnt)
     this->_tokens -= cnt;
 }
 
+void Place::gatherStatistics()
+{
+    this->engine->statistics->placeRecords[this->id()].emplace(this->_tokens);
+}
+
 
 void bbb() { 
     cout << "bbb" << endl;

@@ -3,6 +3,7 @@
 PetriNetsEngine::PetriNetsEngine() : DiscreteEngine() 
 {
     cout << "PetriNetsEngine constructor" << endl;
+    this->statistics =  std::make_unique<PetriNetsStatistics>();
 }
 
 #ifdef EMSCRIPTEN

@@ -13,6 +13,7 @@ class ContBlock : public ContinousSimObject {
         ContBlock(shared_ptr<ContBlockEngine> engine);
         virtual double value() = 0;
         shared_ptr<ContBlockEngine> engine;
+        void gatherStatistics() {} // TODO tady pak dopsat implementaci
 };
 
 class ContBlockSingle : public ContBlock {

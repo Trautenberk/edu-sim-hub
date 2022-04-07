@@ -20,6 +20,7 @@ class Arch : public PetriNetsObject {
         shared_ptr<Place> targetPlace;
         virtual void execute() = 0;
         void initialize() { return; };
+        void gatherStatistics() {};     
     protected:
         int _weight;
 };

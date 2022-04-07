@@ -14,6 +14,7 @@ using namespace std;
         string name() {return objTypeName() + "_" + to_string(_id);}
         const int id() const {return _id;};
         virtual string objTypeName() = 0;
+        virtual void gatherStatistics() = 0;
         SimObject();
     private:
         int _id = 0;

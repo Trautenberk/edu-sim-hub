@@ -20,14 +20,18 @@ class DiscreteEngine {
         void init(float endTime, int maxIteration = 1000);
         void simulate();
         void clear();
+        void gatherStatistics();
 
         int maxIteration;
         int iteration;
         Calendar calendar = Calendar();
         Generator generator = Generator();
         float endTime;
-        float time = 0;
-        vector<DiscreteSimObject*> simObjects = {}; 
+        void time(double time);
+        const double time() const;
+        vector<DiscreteSimObject*> simObjects = {};
+    private:
+        double _time = 0;
 };
 
 #endif
