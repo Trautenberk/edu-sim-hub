@@ -15,7 +15,7 @@
 #include "ContinousBlocks/Sub.hpp"
 #include "ContinousBlocks/Sum.hpp"
 #include "ContinousBlocks/ContBlockEngine.hpp"
-#include "ContinousBlocks/IntegrationMethods/Euler.hpp"
+#include "IntegrationMethods/IntegrationMethods.hpp"
 
 #ifdef EMSCRIPTEN
     #include <emscripten/bind.h>
@@ -120,8 +120,7 @@ void testGenerator()
 
 void contBlocksSandBox()
 {
-    auto euler = Euler();
-    auto engine = make_shared<ContBlockEngine>(euler);
+    auto engine = make_shared<ContBlockEngine>(IntegrationMethods::Euler);
 
     auto constantOne = make_shared<Constant>(engine,1.0);
     auto constantTwo = make_shared<Constant>(engine, 2.0);

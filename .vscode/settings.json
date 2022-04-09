@@ -12,7 +12,10 @@
         "numeric": "cpp",
         "ostream": "cpp",
         "sstream": "cpp",
-        "string": "cpp"
+        "string": "cpp",
+        "functional": "cpp",
+        "optional": "cpp",
+        "system_error": "cpp"
     },
     "testMate.cpp.test.executables": "{src/Simulator/build,Build,BUILD,out,Out,OUT}/**/*{test,Test,TEST}*",
     "CppHelper.SourcePattern": [

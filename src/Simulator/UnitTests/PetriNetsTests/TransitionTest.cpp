@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "../PetriNets/Transition.hpp"
+#include "../../PetriNets/Transition.hpp"
 
 TEST(ImmediateTransitionFire, BasicAssertions) 
 {

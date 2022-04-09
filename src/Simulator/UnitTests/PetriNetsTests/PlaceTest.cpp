@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
-#include "../PetriNets/Place.hpp"
-#include "../PetriNets/PetriNetsEngine.hpp"
+#include "../../PetriNets/Place.hpp"
+#include "../../PetriNets/PetriNetsEngine.hpp"
 
 TEST(AddTokens, BasicAssertions)
 {

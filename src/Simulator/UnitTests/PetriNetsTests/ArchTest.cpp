@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
-#include "../PetriNets/Place.hpp"
-#include "../PetriNets/Arch.hpp"
-#include "../PetriNets/PetriNetsEngine.hpp"
+#include "../../PetriNets/Place.hpp"
+#include "../../PetriNets/Arch.hpp"
+#include "../../PetriNets/PetriNetsEngine.hpp"
 
 
 TEST(InputArchExecute, BasicAssertions)

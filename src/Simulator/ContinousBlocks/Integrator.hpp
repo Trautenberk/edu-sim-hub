@@ -2,22 +2,30 @@
 #define __INTEGRATOR_H__
 
 #include "ContBlock.hpp"
-#include "Constant.hpp"
 #include <memory>
 
-using namespace std;
-
-class Integrator : ContBlock {
+class Integrator : ContBlockSingle {
     public:
+        // input value = f(t,y)
+        Integrator(shared_ptr<ContBlockEngine> engine, double initialValue);
         Integrator(shared_ptr<ContBlockEngine> engine, shared_ptr<ContBlock> input, double initialValue);
         string objTypeName() {return "IntegratorBlock";};
-        void updateState();
-        double prevStateValue;
 
+        void setInput(shared_ptr<ContBlock> input); 
+        
         void eval();
         double value();
+        void integrate();
+        double currentState();
+        double currentInputValue(); 
     private:
+        shared_ptr<ContBlock> _input;
+        double _currentState;  
+        double _prevState; 
+        double _currentInputValue;
+        double _prevInputValue;
         double _initialValue;
+
 
         // TODO
 };

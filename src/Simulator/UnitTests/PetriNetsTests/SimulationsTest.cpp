@@ -1,8 +1,8 @@
 #include <gtest/gtest.h>
-#include "../PetriNets/PetriNetsEngine.hpp"
-#include "../PetriNets/Place.hpp"
-#include "../PetriNets/Arch.hpp"
-#include "../PetriNets/Transition.hpp"
+#include "../../PetriNets/PetriNetsEngine.hpp"
+#include "../../PetriNets/Place.hpp"
+#include "../../PetriNets/Arch.hpp"
+#include "../../PetriNets/Transition.hpp"
 #include <iostream>
 
 
