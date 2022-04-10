@@ -7,10 +7,15 @@
 #include <vector>
 
 class Integrator;
+class ContBlockEngine;
+
+using ContBlockEngineObj = shared_ptr<ContBlockEngine>;
 
 class ContBlockEngine : public ContinousSimEngine {
     public:
         ContBlockEngine(function<double(double currentState, double derivation, double step)> integrationMethod);
+        static ContBlockEngineObj New(function<double(double currentState, double derivation, double step)> integrationMethod);
+
         void addIntegrator(Integrator *integrator);
         void simStep();
         void dynamic();

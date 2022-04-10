@@ -47,3 +47,9 @@ function<double(double currentState, double derivation, double step)> ContBlockE
 {
     return this->_integrationMethod;
 }
+
+
+ContBlockEngineObj ContBlockEngine::New(function<double(double currentState, double derivation, double step)> integrationMethod)
+{
+    return make_shared<ContBlockEngine>(integrationMethod);
+}

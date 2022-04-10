@@ -5,7 +5,8 @@
 
 class Add : public ContBlockDouble {
     public:
-        Add(shared_ptr<ContBlockEngine> engine, shared_ptr<ContBlock> inputFirst, shared_ptr<ContBlock> inputSecond);
+        Add(ContBlockEngineObj engine, ContBlockObj inputFirst, ContBlockObj inputSecond);
+        static ContBlockObj New(ContBlockEngineObj engine, ContBlockObj inputFirst, ContBlockObj inputSecond);
         void eval();
         double value();
         string objTypeName() {return "AddBlock";};

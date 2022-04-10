@@ -8,8 +8,9 @@ using namespace std;
 
 class Gain : public ContBlockSingle {
     public:
-        Gain(shared_ptr<ContBlockEngine> engine, double gain, shared_ptr<ContBlock> input);
-        double gain = 0;
+        Gain(ContBlockEngineObj engine, double gain, ContBlockObj input);
+        static ContBlockObj New(ContBlockEngineObj engine, double gain, ContBlockObj input);        
+        double gain = 1;
         string objTypeName() {return "GainBlock";};
         void eval();
         double value();

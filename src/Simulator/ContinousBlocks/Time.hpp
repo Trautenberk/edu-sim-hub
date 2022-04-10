@@ -5,7 +5,9 @@
 
 class Time : public ContBlock {
     public:
-        Time(shared_ptr<ContBlockEngine> engine);
+        Time(ContBlockEngineObj engine);
+        static ContBlockObj New(ContBlockEngineObj engine);
+
         void eval();
         double value();
         string objTypeName() {return "TimeBlock";};

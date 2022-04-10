@@ -2,7 +2,7 @@
 #include "Constant.hpp"
 
 
-Integrator::Integrator(shared_ptr<ContBlockEngine> engine, shared_ptr<ContBlock> input, double initialValue)
+Integrator::Integrator(ContBlockEngineObj engine, ContBlockObj input, double initialValue)
 : ContBlockSingle(engine, input), _initialValue(initialValue), _currentState(initialValue) 
 {
     engine->addIntegrator(this);
@@ -10,7 +10,7 @@ Integrator::Integrator(shared_ptr<ContBlockEngine> engine, shared_ptr<ContBlock>
 
 #define DUMMY_BLOCK make_shared<Constant>(nullptr, 0)
 
-Integrator::Integrator(shared_ptr<ContBlockEngine> engine, double initialValue) 
+Integrator::Integrator(ContBlockEngineObj engine, double initialValue) 
 : Integrator(engine, DUMMY_BLOCK, initialValue)
 {}
 

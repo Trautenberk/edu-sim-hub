@@ -6,7 +6,11 @@
 #include <vector>
 #include "ContBlockEngine.hpp"
 
+class ContBlock;
+
+using ContBlockObj = std::shared_ptr<ContBlock>;
 using namespace std;
+
 
 class ContBlock : public ContinousSimObject {
     public:

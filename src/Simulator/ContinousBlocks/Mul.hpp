@@ -5,7 +5,9 @@
 
 class Mul : public ContBlockDouble {
     public:
-        Mul(shared_ptr<ContBlockEngine> engine, shared_ptr<ContBlock> inputFirst, shared_ptr<ContBlock> inputSecond);
+        Mul(ContBlockEngineObj engine, ContBlockObj inputFirst, ContBlockObj inputSecond);
+        static ContBlockObj New(ContBlockEngineObj engine, ContBlockObj inputFirst, ContBlockObj inputSecond);
+
         string objTypeName() {return "MulBlock";};
         void eval();
         double value();

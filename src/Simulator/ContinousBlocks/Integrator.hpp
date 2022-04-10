@@ -7,8 +7,8 @@
 class Integrator : ContBlockSingle {
     public:
         // input value = f(t,y)
-        Integrator(shared_ptr<ContBlockEngine> engine, double initialValue);
-        Integrator(shared_ptr<ContBlockEngine> engine, shared_ptr<ContBlock> input, double initialValue);
+        Integrator(ContBlockEngineObj engine, double initialValue);
+        Integrator(ContBlockEngineObj engine, ContBlockObj input, double initialValue);
         string objTypeName() {return "IntegratorBlock";};
 
         void setInput(shared_ptr<ContBlock> input); 
