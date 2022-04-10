@@ -1,21 +1,27 @@
 import  React, { FC, useRef } from "react"
 import { Coordinates, DraggableHandlers } from "Editor/Components/Utilities"
 import { EndPointSVG } from "Editor/Components/Utilities/UtilComponents"
-import { Direction } from "../Utilities/UtilMethodsAndTypes"
+import { Direction, Visibility } from "../Utilities/UtilMethodsAndTypes"
 import { GroupPoint, IEndPointBrief } from "../../Model/UtilClasses/Point"
 import { ObjectSVGProps } from "App"
 import { ICoordinates } from "../../Model/UtilClasses/Coordinates"
 import styles from "./ContBlockStyles.module.scss"
 
 
-type ContBlockProps = DraggableHandlers
+type ContBlockProps = DraggableHandlers & {
+    selectedVisible : Visibility
+}
 
 export const ContBlockFoundationSVG : FC<ContBlockProps> = (props) => {    
     return (
+        <>
             <rect className={styles.foundation} onMouseDown={props.onMouseDownDragHandler} onMouseUp={props.onMouseUpDragHandler}  width="70" height="70"/> 
-    )
+            <rect className={styles.foundation_selected} visibility={props.selectedVisible} width="70" height="70"/> 
+        </>
+        )
 }
 
+// TODO jsou to konstanty, takze prepsat na velka pismena
 export const ContBlockWithSingleOutputEndPoints : IEndPointBrief[] = [
     { coords : {x: 70, y: 35}, inputOnly: false, arrowDirection: Direction.Right }
 ]

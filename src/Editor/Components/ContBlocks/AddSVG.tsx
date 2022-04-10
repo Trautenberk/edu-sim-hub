@@ -20,17 +20,15 @@ export const AddSVG : FC<ObjectSVGProps> = (props) => {
         dispatch,
         selectedVisible,
         obj,
-        endPoints
+        endPoints,
+        mapEndPoints
     } 
     = useSVGComponentUtils<IAdd>({id: props.id, initialCoordinates: {x: 30, y: 30}, endPointsBrief: ContBlockDoubleEndPoints });
 
     return (
         <g transform={`translate(${coordinates.x},${coordinates.y})`}> 
-            <ContBlockDoubleSVG onMouseDownDragHandler={onMouseDownHandler} onMouseUpDragHandler={onMouseUpHandler} />
-            {endPoints.map((item, index) => <EndPointSVG key={item.id}
-                                                         coordinates={ContBlockDoubleEndPoints[index].coords}
-                                                         endPoint={item.toSerializableObj()}
-                                                         /> )}
+            <ContBlockDoubleSVG onMouseDownDragHandler={onMouseDownHandler} onMouseUpDragHandler={onMouseUpHandler} selectedVisible={selectedVisible} />
+            {mapEndPoints()}
             <rect
                 className={styles.sign}
                 width="30"

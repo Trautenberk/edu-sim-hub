@@ -6,6 +6,10 @@
     stroke: #000000;
 }
 
+.foundation_selected {
+    @include selected-svg;
+}
+
 .input_output {
     stroke: #000000;
     stroke-linejoin: miter;

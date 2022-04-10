@@ -1,22 +1,31 @@
 import { useAppDispatch, useAppSelector } from "Editor/Store/Hooks";
 import { FC } from "react"
 import { ObjectSVGProps } from "App"
-import { ContBlockDoubleSVG } from "./ContBlocksSVG"
+import { ContBlockDoubleEndPoints, ContBlockDoubleSVG } from "./ContBlocksSVG"
 import styles from "./ContBlockStyles.module.scss"
+import { useSVGComponentUtils } from "../Utilities/CustomHooks";
+import { IDiv } from "Editor/Model/ContBlocks/Div";
 
 const circleDiameter = 5
 const middleX = 35
 const middleY = 35
 
 export const DivSVG : FC<ObjectSVGProps> = (props) => {
-
-
-    const coordinates = { x : 0, y : 0}
+    const {
+        coordinates,
+        onMouseDownHandler,
+        onMouseUpHandler,
+        dispatch,
+        selectedVisible,
+        obj,
+        endPoints,
+        mapEndPoints
+    } 
+    = useSVGComponentUtils<IDiv>({id: props.id, initialCoordinates: {x: 30, y: 30}, endPointsBrief: ContBlockDoubleEndPoints });
 
     return (
         <g transform={`translate(${coordinates.x},${coordinates.y})`}> 
-
-            {/* <ContBlockDoubleSVG {...props} /> */}
+            <ContBlockDoubleSVG onMouseDownDragHandler={onMouseDownHandler} onMouseUpDragHandler={onMouseUpHandler} selectedVisible={selectedVisible} />
             <circle
                 className={styles.sign}
                 r={circleDiameter}
@@ -34,6 +43,7 @@ export const DivSVG : FC<ObjectSVGProps> = (props) => {
                 height="8"
                 x={middleX - 15}
                 y={middleY - 4} />
+            {mapEndPoints()}
         </g>
     )
 }

@@ -1,12 +1,12 @@
 import { IToSerializable } from "Editor/Model/UtilClasses/Coordinates";
-import { IEditorObject, EditorObject } from "Editor/Model/EditorObject";
+import { IEditorObjectWithEndPoints, EditorObjectWithEndPoints } from "Editor/Model/EditorObject";
 
 
-export interface IGain extends IEditorObject {
+export interface IGain extends IEditorObjectWithEndPoints {
 
 }
 
-export class Gain extends EditorObject implements IToSerializable<IGain> {
+export class Gain extends EditorObjectWithEndPoints implements IToSerializable<IGain> {
     public className() { return Gain.name; }
     public static MenuName = "Gain"
 }
