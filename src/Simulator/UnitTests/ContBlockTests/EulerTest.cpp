@@ -10,19 +10,21 @@ TEST(EulerBasicTest, BasicAssertions)
 {
 
     double x = 0.0;
-    double stepSize = 0.1;
+    double stepSize = 0.01;
     double initValue = 0;
     
     double currentState = initValue;
     int iteration = 0;
 
+    std::cout.precision(17);
+
     while (x < 5.0)
     {
-        currentState = IntegrationMethods::Euler(currentState, f_one(x), stepSize);
-
-            if(iteration % 10 == 0)
+        if(iteration % 10 == 0)
             std::cout << "X: " << x <<  " CurrentState: " << currentState << std::endl;
-        
+    
+        currentState = IntegrationMethods::Euler(currentState, f_one(x), stepSize);
+    
         x += stepSize;
         iteration++;
     }
@@ -34,18 +36,21 @@ TEST(EulerBasicTest, BasicAssertions)
 TEST(EulerAdvancedTest, BasicAssertions)
 {
     double x = 0.0;
-    double stepSize = 0.1;
+    double stepSize = 0.01;
     double initValue = 0;
     
     double currentState = initValue;
     int iteration = 0;
 
+    std::cout.precision(5);
+
     while (x < 5.0)
     {
+        if(iteration % 10 == 0)
+            std::cout << "X: " << x << " f(y) = " << f_two(x) << " CurrentState: " << currentState << std::endl;
+        
         currentState = IntegrationMethods::Euler(currentState, f_two(x), stepSize);
 
-        if(iteration % 10 == 0)
-            std::cout << "X: " << x <<  " CurrentState: " << currentState << std::endl;
         x += stepSize;
 
         iteration++;

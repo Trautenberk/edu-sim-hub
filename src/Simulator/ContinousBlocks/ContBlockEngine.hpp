@@ -16,10 +16,10 @@ class ContBlockEngine : public ContinousSimEngine {
         void dynamic();
         void integrate();   // provedu integraci na vsech integratorech
         function<double(double currentState, double derivation, double step)> integrationMethod();
+
     private:
         std::vector<Integrator*> _integrators;
         function<double(double currentState, double derivation, double step)> _integrationMethod;
-        // unique_ptr<IntegrationMethod> _integrationMethod;
 };
 
 #endif // __CONTBLOCKENGINE_H__

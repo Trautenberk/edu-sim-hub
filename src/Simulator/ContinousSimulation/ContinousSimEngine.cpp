@@ -18,9 +18,10 @@ void ContinousSimEngine::simulate()
 
     while(this->time() <= this->endTime())
     {
-        this->simStep(); // krok simulace
         if (cnt % 10 == 0)
-            this->Sample();
+            this->Sample(); // TODO odstranit
+
+        this->simStep(); // krok simulace
         cnt ++;
     } 
 }

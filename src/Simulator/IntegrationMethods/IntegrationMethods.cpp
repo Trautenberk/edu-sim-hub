@@ -6,5 +6,5 @@
 ////////////////////////////////
 
 double IntegrationMethods::Euler(double currentState, double derivation, double step) {
-    return currentState + step * derivation;
+    return currentState + (step * derivation);
 }

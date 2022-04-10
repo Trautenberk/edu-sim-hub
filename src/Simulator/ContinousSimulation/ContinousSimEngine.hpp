@@ -22,7 +22,6 @@ class ContinousSimEngine {
         vector<ContinousSimObject*> _objects = {};
         double _endTime = 0.0;
         double _stepSize = -1;
-        int iteration = 0;
         double _time = 0.0;      // TODO cas by se dal vytahnout do spolecneho predka pro oba engine
 
 };
