@@ -1,3 +1,4 @@
+import { Direction } from "Editor/Components/Utilities/UtilMethodsAndTypes";
 import { Coordinates, ICoordinates, isCoordinates, IToSerializable } from "./Coordinates";
 
 export interface IPoint {
@@ -56,23 +57,35 @@ export class GroupPoint extends Point implements IGroupPoint, IToSerializable<IG
 }
 
 
+export type IEndPointBrief = {
+    coords : ICoordinates
+    inputOnly : boolean
+    arrowDirection? : Direction
+} 
+
 export interface IEndPoint extends IPoint {
     ownerId : string
     bindings : string[]
+    inputOnly : boolean,
+    arrowDirection? : Direction,
 }
 
 export class EndPoint  extends Point implements IToSerializable<IEndPoint> {
 
     public ownerId : string
 
-    public bindings : string[] = [];
+    public bindings : string[] = []
+    public inputOnly : boolean = false;
+    public arrowDirection? : Direction
 
-    constructor(value : ICoordinates, ownerId : string) {
+    constructor(value : ICoordinates, ownerId : string, inputOnly : boolean = false, arrowDirection? : Direction) {
         super(value);
         this.ownerId = ownerId;
-    }
-    public toSerializableObj () : IEndPoint {
-        return {...super.toSerializableObj(), ownerId: this.ownerId, bindings : this.bindings}
+        this.inputOnly = false;
+        this.arrowDirection = arrowDirection;
     }
 
+    public toSerializableObj () : IEndPoint {
+        return {...super.toSerializableObj(), ownerId: this.ownerId, bindings : this.bindings, inputOnly: this.inputOnly, arrowDirection: this.arrowDirection}
+    }
 }

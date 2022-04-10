@@ -11,7 +11,6 @@ import { selectedObjectId } from "Editor/Feature/SimObjectManagementSlice"
 export type EndPointProps = {
     endPoint : IEndPoint,
     coordinates : ICoordinates,
-    arrowDirection : Direction,
     onAddObject? : (fistPoint  : IPoint, secondPoint: IPoint) => void;
 }
 
@@ -30,7 +29,10 @@ export const EndPointSVG : FC<EndPointProps> = (props) => {
     const higlihghtVisible = convertToVisibility(useSelector(state => state.simObjectManagement.highlightedEndPoint) === props.endPoint.id); // TODO
 
     const onArrowClick = useCallback(() => {
-        const secondPoint = new Point(new Coordinates(convertDirectionToOffset(props.arrowDirection)).add(props.endPoint.coords));
+        if (props.endPoint.inputOnly || props.endPoint.arrowDirection == null)
+            return;
+        
+        const secondPoint = new Point(new Coordinates(convertDirectionToOffset(props.endPoint.arrowDirection)).add(props.endPoint.coords));
         props.onAddObject && props.onAddObject(props.endPoint, secondPoint.toSerializableObj());
     },[dispatch, props])
 
@@ -38,7 +40,7 @@ export const EndPointSVG : FC<EndPointProps> = (props) => {
         <g transform={`translate(${props.coordinates.x} ${props.coordinates.y})`}>
             <circle onClick={clickedEndPontHandler} visibility={visible} className={style} r={5}/>
             <circle visibility={higlihghtVisible} className={styles.helper_circle} r={15}/>
-            <ArrowSVG onClick={onArrowClick}  visible={visible} direction={props.arrowDirection} scale={1} />
+            {!props.endPoint.inputOnly && props.endPoint.arrowDirection != null && <ArrowSVG onClick={onArrowClick}  visible={visible} direction={props.endPoint.arrowDirection} scale={1} />}
         </g>
     )   
 }

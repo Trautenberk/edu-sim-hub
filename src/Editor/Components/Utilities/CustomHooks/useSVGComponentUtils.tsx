@@ -7,13 +7,13 @@ import { useSelectable } from "./useSelectable";
 import { changeObject, registerEndPoint, selectedObjectId, unregisterEndPoint, updatePointCoords, selectObj } from "Editor/Feature/SimObjectManagementSlice";
 import { EditorObject, IEditorObject, IEditorObjectWithEndPoints } from "Editor/Model/EditorObject";
 import { useStoreHooks } from "./useStoreHooks";
-import { EndPoint } from "Editor/Model/UtilClasses/Point";
+import { EndPoint, IEndPointBrief } from "Editor/Model/UtilClasses/Point";
 
 
 type UseSVGComponentUtilsParams = {
     id : string
     initialCoordinates : ICoordinates,
-    endPointsCoords : ICoordinates[]
+    endPointsBrief : IEndPointBrief[]
 }
 
 export const useSVGComponentUtils = <T extends IEditorObjectWithEndPoints,>(params : UseSVGComponentUtilsParams) => {
@@ -29,7 +29,7 @@ export const useSVGComponentUtils = <T extends IEditorObjectWithEndPoints,>(para
 
     useEffect(
         () => {
-            const endPoints = params.endPointsCoords.map((item, index) => new EndPoint(new Coordinates(item).add(coordinates), params.id))
+            const endPoints = params.endPointsBrief.map((item, index) => new EndPoint(new Coordinates(item.coords).add(coordinates), params.id, item.inputOnly, item.arrowDirection))
             setEndPoints(endPoints);
             endPoints.forEach(item => dispatch(registerEndPoint(item.toSerializableObj())))
             endPoints.forEach(item => obj.endPointIds = [...obj.endPointIds, item.id]);
@@ -49,7 +49,7 @@ export const useSVGComponentUtils = <T extends IEditorObjectWithEndPoints,>(para
     useEffect(
         () => {
             setEndPoints(endPoints => endPoints.map((item, index) => {
-                item.coords =  new Coordinates(params.endPointsCoords[index]).add(coordinates);
+                item.coords =  new Coordinates(params.endPointsBrief[index].coords).add(coordinates);
                 return item;
             }))
         }

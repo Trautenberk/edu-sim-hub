@@ -1,17 +1,36 @@
 import { ObjectSVGProps } from "App"
+import { IAdd } from "Editor/Model/ContBlocks/Add"
+import { ICoordinates } from "Editor/Model/UtilClasses/Coordinates"
 import { FC, useRef } from "react"
 import {  useSelectable } from "../Utilities"
-import { ContBlockDoubleSVG } from "./ContBlocksSVG"
+import { useSVGComponentUtils } from "../Utilities/CustomHooks"
+import { EndPointSVG } from "../Utilities/UtilComponents"
+import { ALL_DIRECTIONS, Direction } from "../Utilities/UtilMethodsAndTypes"
+import { ContBlockDoubleEndPoints, ContBlockDoubleSVG } from "./ContBlocksSVG"
 import styles from "./ContBlockStyles.module.scss"
 
 const middleX = 35
 const middleY = 35
 
 export const AddSVG : FC<ObjectSVGProps> = (props) => {
-    const coordinates = { x: 0, y: 0};
+    const {
+        coordinates,
+        onMouseDownHandler,
+        onMouseUpHandler,
+        dispatch,
+        selectedVisible,
+        obj,
+        endPoints
+    } 
+    = useSVGComponentUtils<IAdd>({id: props.id, initialCoordinates: {x: 30, y: 30}, endPointsBrief: ContBlockDoubleEndPoints });
+
     return (
         <g transform={`translate(${coordinates.x},${coordinates.y})`}> 
-            {/* <ContBlockDoubleSVG {...props} /> */}
+            <ContBlockDoubleSVG onMouseDownDragHandler={onMouseDownHandler} onMouseUpDragHandler={onMouseUpHandler} />
+            {endPoints.map((item, index) => <EndPointSVG key={item.id}
+                                                         coordinates={ContBlockDoubleEndPoints[index].coords}
+                                                         endPoint={item.toSerializableObj()}
+                                                         /> )}
             <rect
                 className={styles.sign}
                 width="30"
