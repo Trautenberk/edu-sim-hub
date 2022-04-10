@@ -3,15 +3,16 @@
 
 TEST(ImmediateTransitionFire, BasicAssertions) 
 {
-  auto engine = shared_ptr<PetriNetsEngine> (new PetriNetsEngine());
-  auto inPlace = shared_ptr<Place>(new Place(engine, "Input Place", 1));
-  auto outPlace = shared_ptr<Place>(new Place(engine, "Output Place", 0));
-  auto inArch = shared_ptr<InputArch>(new InputArch(engine, inPlace));
-  auto outArch = shared_ptr<OutputArch>(new OutputArch(engine, outPlace));
-  auto transition = ImmediateTransition(engine, "Transition", {inArch}, {outArch});
+  auto engine = PetriNetsEngine::New();
+
+  auto inPlace = Place::New(engine, "Input Place", 1);
+  auto outPlace = Place::New(engine, "Output Place", 0);
+  auto inArch = InputArch::New(engine, inPlace);
+  auto outArch = OutputArch::New(engine, outPlace);
+  auto transition = ImmediateTransition::New(engine, "Transition", {inArch}, {outArch});
   
-  EXPECT_EQ(transition.allInputArchSsatisfied(), 1);
-  transition.fire(-1);
+  EXPECT_EQ(transition->allInputArchSsatisfied(), 1);
+  transition->fire(-1);
   EXPECT_EQ(inPlace->tokens(), 0);
   EXPECT_EQ(outPlace->tokens(), 1);
 }
@@ -19,15 +20,15 @@ TEST(ImmediateTransitionFire, BasicAssertions)
 
 TEST (TimedTransitionFire, BasicAssertions)
 {
-  auto engine = shared_ptr<PetriNetsEngine> (new PetriNetsEngine());
-  auto inPlace = shared_ptr<Place>(new Place(engine, "Input Place", 1));
-  auto outPlace = shared_ptr<Place>(new Place(engine, "Output Place", 0));
-  auto inArch = shared_ptr<InputArch>(new InputArch(engine, inPlace));
-  auto outArch = shared_ptr<OutputArch>(new OutputArch(engine, outPlace));
-  auto transition = TimedTransition(engine, "Transition", {inArch}, {outArch}, 0);
+  auto engine = PetriNetsEngine::New();
+  auto inPlace = Place::New(engine, "Input Place", 1);
+  auto outPlace = Place::New(engine, "Output Place", 0);
+  auto inArch = InputArch::New(engine, inPlace);
+  auto outArch = OutputArch::New(engine, outPlace);
+  auto transition = TimedTransition::New(engine, "Transition", {inArch}, {outArch}, 0);
   
-  EXPECT_EQ(transition.allInputArchSsatisfied(), 1);
-  transition.fire(-1);
+  EXPECT_EQ(transition->allInputArchSsatisfied(), 1);
+  transition->fire(-1);
   EXPECT_EQ(inPlace->tokens(), 0);
   EXPECT_EQ(outPlace->tokens(), 1);
 }

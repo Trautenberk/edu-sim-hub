@@ -27,7 +27,6 @@ void DiscreteEngine::init(float endTime, int maxIteration)
 
 void DiscreteEngine::simulate()
 {
-
     cout << "Simulation begin" << endl;
     cout << "Total SimObject count:" << this->_simObjects.size() << endl;
     auto beginSimTime = std::clock();

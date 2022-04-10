@@ -8,12 +8,12 @@
 
 TEST(SimpleSimWithImmediateTransition, BasicAssertions)
 {
-    auto engine = make_shared<PetriNetsEngine>();
-    auto placeOne = make_shared<Place>(engine, "Place 1", 1);
-    auto placeTwo = make_shared<Place>(engine, "Place 2", 0);
-    auto inputArch = make_shared<InputArch>(engine, placeOne);
-    auto outputArch = make_shared<OutputArch>(engine, placeTwo);
-    auto transition = make_shared<ImmediateTransition>(engine, "Transition 1", SPVec<InputArch>{inputArch}, SPVec<OutputArch>{outputArch});
+    auto engine = PetriNetsEngine::New();
+    auto placeOne = Place::New(engine, "Place 1", 1);
+    auto placeTwo = Place::New(engine, "Place 2", 0);
+    auto inputArch = InputArch::New(engine, placeOne);
+    auto outputArch = OutputArch::New(engine, placeTwo);
+    auto transition = ImmediateTransition::New(engine, "Transition 1", SPVec<InputArch>{inputArch}, SPVec<OutputArch>{outputArch});
     EXPECT_EQ(engine, transition->engine);
     engine->init(10);
     engine->simulate();
@@ -24,12 +24,12 @@ TEST(SimpleSimWithImmediateTransition, BasicAssertions)
 
 TEST(SimpleSimWithTimedTransition, BasicAssertions)
 {
-    auto engine = make_shared<PetriNetsEngine>();
-    auto placeOne = make_shared<Place>(engine, "Place 1", 1);
-    auto placeTwo = make_shared<Place>(engine, "Place 2", 0);
-    auto inputArch = make_shared<InputArch>(engine, placeOne);
-    auto outputArch = make_shared<OutputArch>(engine, placeTwo);
-    auto transition = make_shared<TimedTransition>(engine, "Transition 1", SPVec<InputArch> {inputArch}, SPVec<OutputArch> {outputArch}, 5);
+    auto engine = PetriNetsEngine::New();
+    auto placeOne = Place::New(engine, "Place 1", 1);
+    auto placeTwo = Place::New(engine, "Place 2", 0);
+    auto inputArch = InputArch::New(engine, placeOne);
+    auto outputArch = OutputArch::New(engine, placeTwo);
+    auto transition = TimedTransition::New(engine, "Transition 1", SPVec<InputArch> {inputArch}, SPVec<OutputArch> {outputArch}, 5);
     
     EXPECT_EQ(engine, transition->engine);
     engine->init(10);
@@ -41,16 +41,16 @@ TEST(SimpleSimWithTimedTransition, BasicAssertions)
 
 TEST(testImmediateAndTimedTransition, BasicAssertions)
 {
-    auto engine = make_shared<PetriNetsEngine>();
-    auto placeOne = make_shared<Place>(engine, "Place 1", 1);
-    auto placeTwo = make_shared<Place>(engine, "Place 2", 0);
-    auto placeThree = make_shared<Place>(engine, "Place 3", 0);
-    auto inputImmediate = make_shared<InputArch>(engine, placeOne);
-    auto outputImmediate = make_shared<OutputArch>(engine, placeTwo);
-    auto inputTimed = make_shared<InputArch>(engine, placeOne);
-    auto outputTimed = make_shared<OutputArch>(engine, placeThree);
-    auto immediate = make_shared<ImmediateTransition>(engine, "Immediate 1", SPVec<InputArch> {inputImmediate}, SPVec<OutputArch> {outputImmediate});
-    auto timed = make_shared<TimedTransition>(engine, "Timed 1", SPVec<InputArch> {inputTimed}, SPVec<OutputArch> {outputTimed}, 5);
+    auto engine = PetriNetsEngine::New();
+    auto placeOne = Place::New(engine, "Place 1", 1);
+    auto placeTwo = Place::New(engine, "Place 2", 0);
+    auto placeThree = Place::New(engine, "Place 3", 0);
+    auto inputImmediate = InputArch::New(engine, placeOne);
+    auto outputImmediate = OutputArch::New(engine, placeTwo);
+    auto inputTimed = InputArch::New(engine, placeOne);
+    auto outputTimed = OutputArch::New(engine, placeThree);
+    auto immediate = ImmediateTransition::New(engine, "Immediate 1", SPVec<InputArch> {inputImmediate}, SPVec<OutputArch> {outputImmediate});
+    auto timed = TimedTransition::New(engine, "Timed 1", SPVec<InputArch> {inputTimed}, SPVec<OutputArch> {outputTimed}, 5);
 
     engine->init(10);
     engine->simulate();
@@ -63,21 +63,21 @@ TEST(testImmediateAndTimedTransition, BasicAssertions)
 
 TEST(testImmediateAndTimedTransitionTwo, BasicAssertions)
 {
-    auto engine = make_shared<PetriNetsEngine>();
-    auto placeOne = make_shared<Place>(engine, "Place 1", 5);
-    auto placeTwo = make_shared<Place>(engine, "Place 2", 2);
-    auto placeThree = make_shared<Place>(engine, "Place 3", 0);
-    auto placeFour = make_shared<Place>(engine, "Place 4", 0);
+    auto engine = PetriNetsEngine::New();
+    auto placeOne = Place::New(engine, "Place 1", 5);
+    auto placeTwo = Place::New(engine, "Place 2", 2);
+    auto placeThree = Place::New(engine, "Place 3", 0);
+    auto placeFour = Place::New(engine, "Place 4", 0);
 
-    auto inputImmediate = make_shared<InputArch>(engine, placeOne);
-    auto inputImmediateTwo = make_shared<InputArch>(engine, placeTwo);
-    auto outputImmediate = make_shared<OutputArch>(engine, placeThree);
+    auto inputImmediate = InputArch::New(engine, placeOne);
+    auto inputImmediateTwo = InputArch::New(engine, placeTwo);
+    auto outputImmediate = OutputArch::New(engine, placeThree);
 
-    auto inputTimed = make_shared<InputArch>(engine, placeOne);
-    auto outputTimed = make_shared<OutputArch>(engine, placeFour);
+    auto inputTimed = InputArch::New(engine, placeOne);
+    auto outputTimed = OutputArch::New(engine, placeFour);
 
-    auto immediate = make_shared<ImmediateTransition>(engine, "Immediate 1", SPVec<InputArch> {inputImmediate, inputImmediateTwo}, SPVec<OutputArch> {outputImmediate});
-    auto timed = make_shared<TimedTransition>(engine, "Timed 1", SPVec<InputArch> {inputTimed}, SPVec<OutputArch> {outputTimed}, 5);
+    auto immediate = ImmediateTransition::New(engine, "Immediate 1", SPVec<InputArch> {inputImmediate, inputImmediateTwo}, SPVec<OutputArch> {outputImmediate});
+    auto timed = TimedTransition::New(engine, "Timed 1", SPVec<InputArch> {inputTimed}, SPVec<OutputArch> {outputTimed}, 5);
 
     engine->init(10);
     engine->simulate();

@@ -7,9 +7,12 @@
 
 class Transition;
 
+template <typename T> using PNObj = std::shared_ptr<T>; 
+
 class PetriNetsEngine : public DiscreteEngine {
     public:
         PetriNetsEngine();
+        static PNObj<PetriNetsEngine> New();
         vector<Transition*> allTransitions = {};
         unique_ptr<PetriNetsStatistics> statistics;
 };

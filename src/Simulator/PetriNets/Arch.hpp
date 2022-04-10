@@ -28,7 +28,8 @@ class Arch : public PetriNetsObject {
 
 class InputArch : public Arch {
     public:
-        InputArch(shared_ptr<PetriNetsEngine> engine, shared_ptr<Place> targetPlace, int weight = 1, string auxName = "");
+        InputArch(PNObj<PetriNetsEngine> engine, PNObj<Place> targetPlace, int weight = 1, string auxName = "");
+        static PNObj<InputArch> New(PNObj<PetriNetsEngine> engine, PNObj<Place> targetPlace, int weight = 1, string auxName = ""); 
         string objTypeName() {return "InputArch";};
         void execute();
         int satisfied();
@@ -36,7 +37,8 @@ class InputArch : public Arch {
 
 class OutputArch : public Arch {
     public:
-        OutputArch(shared_ptr<PetriNetsEngine> engine, shared_ptr<Place> targetPlace, int weight = 1, string auxName = "");
+        OutputArch(PNObj<PetriNetsEngine> engine, PNObj<Place> targetPlace, int weight = 1, string auxName = "");
+        static PNObj<OutputArch> New(PNObj<PetriNetsEngine> engine, PNObj<Place> targetPlace, int weight = 1, string auxName = "");
         string objTypeName() {return "OutputArch";};
         void execute();
 };

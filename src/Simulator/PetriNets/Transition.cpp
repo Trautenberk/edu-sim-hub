@@ -162,6 +162,10 @@ void ImmediateTransition::planTransitionFiringEvent()
     this->plannedEventsId.push_back(event.id);    
 }
 
+PNObj<ImmediateTransition> ImmediateTransition::New(PNObj<PetriNetsEngine> engine, std::string label, SPVec<InputArch> inputArches, SPVec<OutputArch> outputArches, int priority, std::string auxName)
+{
+    return make_shared<ImmediateTransition>(engine, label, inputArches, outputArches, priority, auxName);
+}
 
 ////////////////////////////////////////////////////////////////
 // TimedTransition
@@ -178,6 +182,11 @@ void TimedTransition::planTransitionFiringEvent()
     auto event = Event(engine->time() + this->delay, func);
     this->engine->calendar.insertEvent(event);
     this->plannedEventsId.push_back(event.id);    
+}
+
+PNObj<TimedTransition> TimedTransition::New(shared_ptr<PetriNetsEngine> engine, std::string label, SPVec<InputArch> inputArches, SPVec<OutputArch>  outputArches, int delay, std::string auxName)
+{
+    return make_shared<TimedTransition>(engine, label, inputArches, outputArches, delay, auxName);
 }
 
 #ifdef EMSCRIPTEN

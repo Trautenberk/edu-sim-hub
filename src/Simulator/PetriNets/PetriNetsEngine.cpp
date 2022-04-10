@@ -6,6 +6,11 @@ PetriNetsEngine::PetriNetsEngine() : DiscreteEngine()
     this->statistics =  std::make_unique<PetriNetsStatistics>();
 }
 
+PNObj<PetriNetsEngine> PetriNetsEngine::New()
+{
+    return make_shared<PetriNetsEngine>();
+}
+
 #ifdef EMSCRIPTEN
  EMSCRIPTEN_BINDINGS(PetriNetsEngine) {
      emscripten::class_<PetriNetsEngine, emscripten::base<DiscreteEngine>>("PetriNetsEngine")

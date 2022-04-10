@@ -4,6 +4,7 @@
 #include <string>
 #include "PetriNetsObject.hpp"
 #include <vector>
+
 #ifdef EMSCRIPTEN
     #include <emscripten/bind.h>
 #endif
@@ -12,11 +13,14 @@ using namespace std;
 
 class Place : public PetriNetsObject {
     public :
+
+        static PNObj<Place> New(shared_ptr<PetriNetsEngine> engine, string label, int tokens = 0, string auxName = "");
+        Place(shared_ptr<PetriNetsEngine> engine, string label, int tokens = 0, string auxName = "");
+
         string label() {return _label;};
         int tokens() {return _tokens;};
         void removeTokens(int cnt);
         void addTokens(int cnt);
-        Place(shared_ptr<PetriNetsEngine> engine, string label, int tokens = 0, string auxName = "");
         string objTypeName() {return "Place";};
         void initialize() {return;};
         void gatherStatistics();

@@ -29,10 +29,21 @@ int InputArch::satisfied()
     return this->targetPlace->tokens() / _weight;
 }
 
+PNObj<InputArch> InputArch::New(PNObj<PetriNetsEngine> engine, PNObj<Place> targetPlace, int weight, string auxName)
+{
+    return make_shared<InputArch>(engine, targetPlace, weight, auxName);
+}
+
+
 /// OutpuArch
-OutputArch::OutputArch(shared_ptr<PetriNetsEngine> engine, shared_ptr<Place> targetPlace, int weight, string auxName)
+OutputArch::OutputArch(PNObj<PetriNetsEngine> engine, PNObj<Place> targetPlace, int weight, string auxName)
 : Arch(engine, targetPlace, weight, auxName)
 {}
+
+PNObj<OutputArch> OutputArch::New(PNObj<PetriNetsEngine> engine, PNObj<Place> targetPlace, int weight, string auxName)
+{
+    return make_shared<OutputArch>(engine, targetPlace, weight, auxName);
+}
 
 void OutputArch::execute()
 {

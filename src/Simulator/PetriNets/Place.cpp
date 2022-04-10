@@ -7,6 +7,11 @@ Place::Place(shared_ptr<PetriNetsEngine> engine, string label, int tokens, strin
     this->_tokens = tokens; 
 }
 
+PNObj<Place> Place::New(shared_ptr<PetriNetsEngine> engine, string label, int tokens, string auxName)
+{
+    return make_shared<Place>(engine, label, tokens, auxName);
+}
+
 void Place::addTokens(int cnt)
 {
     this->_tokens += cnt;  
