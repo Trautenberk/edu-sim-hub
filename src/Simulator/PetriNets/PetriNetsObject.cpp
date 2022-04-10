@@ -3,6 +3,6 @@
 PetriNetsObject::PetriNetsObject(shared_ptr<PetriNetsEngine> engine, string auxName) : DiscreteSimObject()
 {
     this->engine = engine;
-    this->engine->simObjects.push_back(this);
+    this->engine->addDiscreteObject(this);  // TODO je tohle to spravne misto?
     this->_auxName = auxName;
 }

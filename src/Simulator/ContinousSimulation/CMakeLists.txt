@@ -1,5 +1,5 @@
-set(CONTINOUS_SIMULATION_HEADERS ContinousSimObject.hpp ContinousSimEngine.hpp ../SimObject.hpp)
-set(CONTINOUS_SIMULATION_SOURCES ContinousSimEngine.cpp ../SimObject.cpp) 
+set(CONTINOUS_SIMULATION_HEADERS ContinousSimObject.hpp ContinousSimEngine.hpp ../SimObject.hpp ../SimEngine.hpp)
+set(CONTINOUS_SIMULATION_SOURCES ContinousSimEngine.cpp ../SimObject.cpp ../SimEngine.cpp) 
 
 
 add_library(${CONTINOUS_SIMULATION_LIB} ${CONTINOUS_SIMULATION_HEADERS} ${CONTINOUS_SIMULATION_SOURCES})

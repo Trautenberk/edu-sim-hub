@@ -26,22 +26,7 @@ void ContinousSimEngine::simulate()
     } 
 }
 
-double ContinousSimEngine::time()
-{
-    return this->_time;
-}
-
-double ContinousSimEngine::endTime()
-{
-    return this->_endTime;
-}
-
 double ContinousSimEngine::stepSize()
 {
     return this->_stepSize;
-}
-
-const double & ContinousSimEngine::timeRef()
-{
-    return this->_time;
 }

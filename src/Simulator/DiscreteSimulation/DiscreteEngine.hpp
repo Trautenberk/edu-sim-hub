@@ -8,30 +8,29 @@
 #include <memory>
 #include "../Generator/Generator.hpp"
 #include <ctime>
+#include "../SimEngine.hpp"
+
 #ifdef EMSCRIPTEN
     #include <emscripten/bind.h>
 #endif
 
 using namespace std;
 
-class DiscreteEngine {
+class DiscreteEngine : public SimEngine {
     public:
-        DiscreteEngine();
         void init(float endTime, int maxIteration = 1000);
         void simulate();
-        void clear();
         void gatherStatistics();
+        void addDiscreteObject(DiscreteSimObject* object);
 
-        int maxIteration;
-        int iteration;
         Calendar calendar = Calendar();
         Generator generator = Generator();
-        float endTime;
-        void time(double time);
-        const double time() const;
-        vector<DiscreteSimObject*> simObjects = {};
+    
     private:
-        double _time = 0;
+        int _maxIteration;
+        int _iteration;
+        vector<DiscreteSimObject*> _simObjects = {};
+
 };
 
 #endif
