@@ -52,6 +52,9 @@ function removeEdgeFnc(state : SimObjectManagementState, obj : IEditorObject) {
     const edge =  obj as IEdge;
     if (edge != null) {
         for (const point of edge.pointsId.map(id => state.points[id])){
+            if (point == null) // endpoint
+                continue;
+                
             if (!Object.keys(state.endPoints).includes(point.id)) {
                 delete state.points[point.id]
             }
