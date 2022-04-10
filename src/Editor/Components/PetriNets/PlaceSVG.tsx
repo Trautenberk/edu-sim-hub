@@ -18,6 +18,7 @@ const placeEndPointsBrief : IEndPointBrief[] =  [
 ]
 
 export const PlaceSVG : FunctionComponent<ObjectSVGProps> = (props) => {
+
     const {
         coordinates,
         onMouseDownHandler,
@@ -25,7 +26,8 @@ export const PlaceSVG : FunctionComponent<ObjectSVGProps> = (props) => {
         dispatch,
         selectedVisible,
         obj,
-        endPoints
+        endPoints,
+        mapEndPoints
     } 
     = useSVGComponentUtils<IPlace>({id: props.id, initialCoordinates: {x: 30, y: 30}, endPointsBrief: placeEndPointsBrief});
 
@@ -41,7 +43,7 @@ export const PlaceSVG : FunctionComponent<ObjectSVGProps> = (props) => {
         <g transform={`translate(${coordinates.x},${coordinates.y})`}> 
             <circle className={styles.spot_foundation} onMouseDown={onMouseDownHandler} onMouseUp={onMouseUpHandler} r="30"/>
             <circle visibility={selectedVisible} className={styles.spot_selected} r="30"/>
-            {endPoints.map((item, index) => <EndPointSVG onAddObject={addInputArch} key={item.id} coordinates={placeEndPointsBrief[index].coords}  endPoint={item.toSerializableObj()}/> )}
+            {mapEndPoints(addInputArch)}
             <text x="-50" y="-50">{obj.label}</text>
             <text x="-10" y="5">{obj.tokenCount > 0 ? `${obj.tokenCount} x` : ""}</text>
         </g>

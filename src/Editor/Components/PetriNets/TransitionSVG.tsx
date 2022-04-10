@@ -30,7 +30,7 @@ export const TransitionSVG : FunctionComponent<ObjectSVGProps> = (props) => {
         dispatch,
         selectedVisible,
         obj,
-        endPoints
+        mapEndPoints
     } = useSVGComponentUtils<ITransition>({id: props.id, initialCoordinates: {x: 30, y: 30}, endPointsBrief: transitionEndPointsBrief });
 
     const addOutputArch = useCallback(
@@ -45,7 +45,7 @@ export const TransitionSVG : FunctionComponent<ObjectSVGProps> = (props) => {
         <g transform={`translate(${coordinates.x},${coordinates.y})`}> 
             <rect className={styles.transition} width={width} height={height} onMouseDown={onMouseDownHandler} onMouseUp={onMouseUpHandler}/>  
             <rect className={styles.transition_selected} visibility={selectedVisible} width={width} height={height}/> 
-            {endPoints.map((item, index) => <EndPointSVG key={item.id} coordinates={transitionEndPointsBrief[index].coords} onAddObject={addOutputArch}  endPoint={item} /> )}
+            {mapEndPoints(addOutputArch)}
             <text x="-10" y="-10">{obj.label}</text>
             {obj.type === TransitionType.Priority && <text x="0" y="100"> {obj.priority > 0 ? `p = ${obj.priority}` : ""} </text>  }
             {obj.type === TransitionType.Probability && <text x="0" y="100"> { `${obj.probability}%`} </text>}

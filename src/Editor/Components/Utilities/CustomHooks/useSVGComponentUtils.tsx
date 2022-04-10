@@ -7,12 +7,13 @@ import { useSelectable } from "./useSelectable";
 import { changeObject, registerEndPoint, selectedObjectId, unregisterEndPoint, updatePointCoords, selectObj } from "Editor/Feature/SimObjectManagementSlice";
 import { EditorObject, IEditorObject, IEditorObjectWithEndPoints } from "Editor/Model/EditorObject";
 import { useStoreHooks } from "./useStoreHooks";
-import { EndPoint, IEndPointBrief } from "Editor/Model/UtilClasses/Point";
+import { EndPoint, IEndPointBrief, IPoint } from "Editor/Model/UtilClasses/Point";
+import { EndPointSVG } from "../UtilComponents";
 
 
 type UseSVGComponentUtilsParams = {
     id : string
-    initialCoordinates : ICoordinates,
+    initialCoordinates : ICoordinates
     endPointsBrief : IEndPointBrief[]
 }
 
@@ -26,6 +27,10 @@ export const useSVGComponentUtils = <T extends IEditorObjectWithEndPoints,>(para
     const obj = useSelector(state => selectObj(state, params.id)) as T;    // TODO tady to pretypovani vyresit
     
     const [endPoints, setEndPoints] = useState<EndPoint[]>([]);
+
+    const mapEndPoints = (onAddObject? : (firstPoint : IPoint, secondPoint : IPoint) => void) => {
+        return endPoints.map((item, index) => <EndPointSVG onAddObject={onAddObject} key={item.id} coordinates={params.endPointsBrief[index].coords}  endPoint={item.toSerializableObj()}/> )
+    }
 
     useEffect(
         () => {
@@ -71,7 +76,8 @@ export const useSVGComponentUtils = <T extends IEditorObjectWithEndPoints,>(para
         dispatch,
         selectedVisible,
         obj,
-        endPoints
+        endPoints,
+        mapEndPoints
     }
 
     return values
