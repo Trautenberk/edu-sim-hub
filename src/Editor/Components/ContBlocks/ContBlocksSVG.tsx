@@ -2,7 +2,7 @@ import  React, { FC, useRef } from "react"
 import { Coordinates, DraggableHandlers } from "Editor/Components/Utilities"
 import { EndPointSVG } from "Editor/Components/Utilities/UtilComponents"
 import { Direction, Visibility } from "../Utilities/UtilMethodsAndTypes"
-import { GroupPoint, IEndPointBrief } from "../../Model/UtilClasses/Point"
+import { EndPointType, GroupPoint, IEndPointBrief } from "../../Model/UtilClasses/Point"
 import { ObjectSVGProps } from "App"
 import { ICoordinates } from "../../Model/UtilClasses/Coordinates"
 import styles from "./ContBlockStyles.module.scss"
@@ -23,7 +23,7 @@ export const ContBlockFoundationSVG : FC<ContBlockProps> = (props) => {
 
 // TODO jsou to konstanty, takze prepsat na velka pismena
 export const ContBlockWithSingleOutputEndPoints : IEndPointBrief[] = [
-    { coords : {x: 70, y: 35}, inputOnly: false, arrowDirection: Direction.Right }
+    { coords : {x: 70, y: 35}, type: EndPointType.Restricted, maxSpawnedObj: 1 ,arrowDirection: Direction.Right }
 ]
 
 export const ContBlockWithSingleOutputSVG : FC<ContBlockProps> = (props) => {
@@ -36,8 +36,8 @@ export const ContBlockWithSingleOutputSVG : FC<ContBlockProps> = (props) => {
 }
 
 export const ContBlockDoubleEndPoints : IEndPointBrief[] = [
-    { coords : {x: 0, y: 15}, inputOnly : true},
-    { coords: {x: 0, y: 55}, inputOnly : true },
+    { coords : {x: 0, y: 15}, type: EndPointType.Input},
+    { coords: {x: 0, y: 55}, type: EndPointType.Input },
     ...ContBlockWithSingleOutputEndPoints
 ]
 
@@ -53,7 +53,7 @@ export const ContBlockDoubleSVG : FC<ContBlockProps> = (props) => {
 
 
 export const ContBlockSingleEndPoints : IEndPointBrief[] = [
-    {coords : {x: 0, y: 35}, inputOnly: true},
+    {coords : {x: 0, y: 35}, type: EndPointType.Input},
     ...ContBlockWithSingleOutputEndPoints,
 
 ]

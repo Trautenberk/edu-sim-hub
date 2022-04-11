@@ -4,9 +4,9 @@ import {ALL_DIRECTIONS, Direction } from "Editor/Components/Utilities/UtilMethod
 import { ObjectSVGProps } from "App"
 import { ITransition, TransitionType } from "Editor/Model/PetriNets/Transition";
 import { Coordinates, ICoordinates } from "Editor/Model/UtilClasses/Coordinates";
-import { EndPoint, GroupPoint, IEndPointBrief, IPoint, Point } from "Editor/Model/UtilClasses/Point";
+import { EndPoint, EndPointType, GroupPoint, IEndPointBrief, IPoint, Point } from "Editor/Model/UtilClasses/Point";
 import { EndPointSVG } from "Editor/Components/Utilities/UtilComponents";
-import { addPointAndObject } from "Editor/Feature/SimObjectManagementSlice";
+import { addEdgeObject } from "Editor/Feature/SimObjectManagementSlice";
 import { OutputArch } from "Editor/Model/PetriNets";
 import { useSVGComponentUtils } from "../Utilities/CustomHooks/useSVGComponentUtils";
 
@@ -16,10 +16,10 @@ const height = 80;
 
 
 const transitionEndPointsBrief : IEndPointBrief[] = [
-    {coords : {x : width, y: height / 2}, inputOnly: false, arrowDirection: Direction.Right },
-    {coords : {x : 0, y: height / 2}, inputOnly: false, arrowDirection: Direction.Left },
-    {coords : {x : width / 2, y: height}, inputOnly: false, arrowDirection: Direction.Down },
-    {coords : {x : width / 2, y: 0}, inputOnly: false, arrowDirection: Direction.Top },
+    {coords : {x : width, y: height / 2}, type: EndPointType.Infinite, arrowDirection: Direction.Right },
+    {coords : {x : 0, y: height / 2}, type: EndPointType.Infinite, arrowDirection: Direction.Left },
+    {coords : {x : width / 2, y: height}, type: EndPointType.Infinite, arrowDirection: Direction.Down },
+    {coords : {x : width / 2, y: 0}, type: EndPointType.Infinite, arrowDirection: Direction.Top },
 ]
 
 export const TransitionSVG : FunctionComponent<ObjectSVGProps> = (props) => {
@@ -37,7 +37,7 @@ export const TransitionSVG : FunctionComponent<ObjectSVGProps> = (props) => {
         (firstPoint : IPoint, secondPoint : IPoint) => {
             const outputArch = new OutputArch({ objId: obj.id, pointId: firstPoint.id});
             outputArch.pointsId = [firstPoint.id, secondPoint.id];
-            dispatch(addPointAndObject({obj: outputArch.toSerializableObj(), point: secondPoint}))
+            dispatch(addEdgeObject({obj: outputArch.toSerializableObj(), point: secondPoint}))
         },[obj]
     )
     

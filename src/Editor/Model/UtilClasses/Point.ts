@@ -59,15 +59,27 @@ export class GroupPoint extends Point implements IGroupPoint, IToSerializable<IG
 
 export type IEndPointBrief = {
     coords : ICoordinates
-    inputOnly : boolean
+
+    type : EndPointType
+
+    maxSpawnedObj?: number
+
     arrowDirection? : Direction
 } 
 
 export interface IEndPoint extends IPoint {
     ownerId : string
     bindings : string[]
-    inputOnly : boolean,
+    type : EndPointType
+    spawnedObjCnt : number
+    maxSpawnedObj?: number
     arrowDirection? : Direction,
+}
+
+export enum EndPointType {
+    Input,  // nemuze vytvaret dalsi objekty
+    Infinite,   // muze vytvorit nekonecno dalsich objektu
+    Restricted  // omezeni definovane dalsi parametrem
 }
 
 export class EndPoint  extends Point implements IToSerializable<IEndPoint> {
@@ -75,17 +87,38 @@ export class EndPoint  extends Point implements IToSerializable<IEndPoint> {
     public ownerId : string
 
     public bindings : string[] = []
-    public inputOnly : boolean = false;
+
+    public type : EndPointType 
+    public spawnedObjCnt : number = 0
+
+    public maxSpawnedObj? : number  // 0 znamena inputOnly
+
     public arrowDirection? : Direction
 
-    constructor(value : ICoordinates, ownerId : string, inputOnly : boolean = false, arrowDirection? : Direction) {
+    constructor(value : ICoordinates, ownerId : string, type : EndPointType, maxSpawnedObj? : number, arrowDirection? : Direction ) {
         super(value);
         this.ownerId = ownerId;
-        this.inputOnly = false;
+        this.type = type;
         this.arrowDirection = arrowDirection;
+
+        if (maxSpawnedObj) {
+            if (maxSpawnedObj >= 1)
+                this.maxSpawnedObj = maxSpawnedObj;
+            else 
+                console.warn("value of maxSpawnedObj cannot be less than one")
+        }
+    
     }
 
     public toSerializableObj () : IEndPoint {
-        return {...super.toSerializableObj(), ownerId: this.ownerId, bindings : this.bindings, inputOnly: this.inputOnly, arrowDirection: this.arrowDirection}
+        return {
+            ...super.toSerializableObj(),
+            ownerId: this.ownerId,
+            spawnedObjCnt: this.spawnedObjCnt,
+            bindings : this.bindings,
+            type : this.type,
+            arrowDirection: this.arrowDirection,
+            maxSpawnedObj: this.maxSpawnedObj
+        }
     }
 }

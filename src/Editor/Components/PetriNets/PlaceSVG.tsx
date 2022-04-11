@@ -2,19 +2,19 @@ import { FunctionComponent, useCallback, useEffect, useMemo, useState } from "re
 import { EndPointSVG } from "../Utilities/UtilComponents";
 import {ALL_DIRECTIONS, convertToVisibility, Direction} from "Editor/Components/Utilities/UtilMethodsAndTypes"
 import { ObjectSVGProps } from "App"
-import { EndPoint, GroupPoint, IEndPoint, IEndPointBrief, IGroupPoint, IPoint, Point } from "Editor/Model/UtilClasses/Point";
+import { EndPoint, EndPointType, GroupPoint, IEndPoint, IEndPointBrief, IGroupPoint, IPoint, Point } from "Editor/Model/UtilClasses/Point";
 import { Coordinates, ICoordinates } from "Editor/Model/UtilClasses/Coordinates";
 import { IPlace } from "Editor/Model/PetriNets/Place";
 import styles from "./PlaceStyle.module.scss"
-import { addPointAndObject } from "Editor/Feature/SimObjectManagementSlice";
+import { addEdgeObject } from "Editor/Feature/SimObjectManagementSlice";
 import { InputArch } from "Editor/Model/PetriNets/Arch";
 import { useSVGComponentUtils } from "../Utilities/CustomHooks/useSVGComponentUtils";
 
 const placeEndPointsBrief : IEndPointBrief[] =  [
-    { coords : {x : 30, y: 0}, inputOnly : false, arrowDirection : Direction.Right},
-    { coords : {x : -30, y: 0}, inputOnly : false, arrowDirection : Direction.Left},
-    { coords : {x : 0, y: 30}, inputOnly : false, arrowDirection : Direction.Down},
-    { coords : {x : 0, y: -30}, inputOnly : false, arrowDirection : Direction.Top},
+    { coords : {x : 30, y: 0}, type: EndPointType.Infinite, arrowDirection : Direction.Right},
+    { coords : {x : -30, y: 0}, type: EndPointType.Infinite, arrowDirection : Direction.Left},
+    { coords : {x : 0, y: 30}, type: EndPointType.Infinite, arrowDirection : Direction.Down},
+    { coords : {x : 0, y: -30}, type: EndPointType.Infinite, arrowDirection : Direction.Top},
 ]
 
 export const PlaceSVG : FunctionComponent<ObjectSVGProps> = (props) => {
@@ -35,7 +35,7 @@ export const PlaceSVG : FunctionComponent<ObjectSVGProps> = (props) => {
         (firstPoint : IPoint, secondPoint : IPoint) => {
             const inputArch = new InputArch({objId: obj.id, pointId: firstPoint.id});
             inputArch.pointsId = [firstPoint.id, secondPoint.id];
-            dispatch(addPointAndObject({point : secondPoint, obj : inputArch.toSerializableObj()}))
+            dispatch(addEdgeObject({point : secondPoint, obj : inputArch.toSerializableObj()}))
         },[obj]
     )
 

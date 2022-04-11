@@ -33,6 +33,7 @@ function addObjectFnc(state : SimObjectManagementState, obj : IEditorObject) {
     if (!Object.keys(state.objects).includes(obj.id)) {
         state.objects[obj.id] = obj
         if (isEdge(obj)) {
+            obj.from && state.endPoints[obj.from.pointId].spawnedObjCnt++;
             state.edgeObjectsIds.push(obj.id);
         }
     } else {
@@ -56,9 +57,10 @@ function removeEdgeFnc(state : SimObjectManagementState, obj : IEditorObject) {
                 continue;
                 
             if (!Object.keys(state.endPoints).includes(point.id)) {
-                delete state.points[point.id]
+                delete state.points[point.id];
             }
         }
+        edge.from && state.endPoints[edge.from.pointId].spawnedObjCnt--;
         state.edgeObjectsIds = state.edgeObjectsIds.filter(id => id !== edge.id);
         delete state.objects[edge.id];
     } else {
@@ -82,7 +84,7 @@ const simObjectManagementSlice = createSlice({
         addObject (state, action : PayloadAction<IEditorObject>) {
             addObjectFnc(state, action.payload);
         },
-        addPointAndObject(state, action : PayloadAction<{obj : IEditorObject, point : IPoint}>) {
+        addEdgeObject(state, action : PayloadAction<{obj : IEdge, point : IPoint}>) {
             addObjectFnc(state, action.payload.obj);
             addPointFnc(state, action.payload.point);
         },
@@ -240,7 +242,7 @@ export const selectPoints = (state: RootState, ids : string[]) : IPoint[] => ids
 
 export const {
     addObject,
-    addPointAndObject,
+    addEdgeObject,
     removeAllObjects,
     removeObject,
     changeObject,

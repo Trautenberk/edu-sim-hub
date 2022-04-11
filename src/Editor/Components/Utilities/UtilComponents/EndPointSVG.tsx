@@ -4,9 +4,10 @@ import { convertDirectionToOffset, convertToVisibility, Direction } from "Editor
 import { useAppSelector, useAppDispatch } from "Editor/Store/Hooks"
 import { registerEndPoint, unregisterEndPoint, updatePointCoords } from "Editor/Feature/SimObjectManagementSlice"
 import { ArrowSVG } from "Editor/Components/Utilities/UtilComponents/ArrowSVG"
-import { EndPoint, GroupPoint, IEndPoint, IPoint, Point } from "../../../Model/UtilClasses/Point"
+import { EndPoint, EndPointType, GroupPoint, IEndPoint, IPoint, Point } from "../../../Model/UtilClasses/Point"
 import { Coordinates, ICoordinates } from "../../../Model/UtilClasses/Coordinates"
 import { selectedObjectId } from "Editor/Feature/SimObjectManagementSlice"
+import { useStoreHooks } from "../CustomHooks"
 
 export type EndPointProps = {
     endPoint : IEndPoint,
@@ -14,22 +15,21 @@ export type EndPointProps = {
     onAddObject? : (fistPoint  : IPoint, secondPoint: IPoint) => void;
 }
 
+function isRestrictionMet(endPoint : IEndPoint, spawnedObjCnt : number) : boolean {
+    return (endPoint.type === EndPointType.Restricted && endPoint.maxSpawnedObj && endPoint.maxSpawnedObj >= spawnedObjCnt) as boolean;
+}
+
 export const EndPointSVG : FC<EndPointProps> = (props) => {
-    const useSelector = useAppSelector;
-    const dispatch = useAppDispatch();
+    const { dispatch, useSelector} = useStoreHooks();
 
-    const clickedEndPontHandler : MouseEventHandler<SVGCircleElement> = (e) => {
-        e.stopPropagation();
-    }
-    
+    const spawnedObjCnt = useSelector(state => state.simObjectManagement.endPoints[props.endPoint.id].spawnedObjCnt);
 
-    const style = styles.end_point;
     const visible = convertToVisibility(useSelector(state => selectedObjectId(state) === props.endPoint.ownerId));
    
-    const higlihghtVisible = convertToVisibility(useSelector(state => state.simObjectManagement.highlightedEndPoint) === props.endPoint.id); // TODO
+    // const higlihghtVisible = convertToVisibility(useSelector(state => state.simObjectManagement.highlightedEndPoint) === props.endPoint.id);
 
     const onArrowClick = useCallback(() => {
-        if (props.endPoint.inputOnly || props.endPoint.arrowDirection == null)
+        if (props.endPoint.type === EndPointType.Input || isRestrictionMet(props.endPoint, spawnedObjCnt) || !props.endPoint.arrowDirection) 
             return;
         
         const secondPoint = new Point(new Coordinates(convertDirectionToOffset(props.endPoint.arrowDirection)).add(props.endPoint.coords));
@@ -38,9 +38,10 @@ export const EndPointSVG : FC<EndPointProps> = (props) => {
 
     return(
         <g transform={`translate(${props.coordinates.x} ${props.coordinates.y})`}>
-            <circle onClick={clickedEndPontHandler} visibility={visible} className={style} r={5}/>
-            <circle visibility={higlihghtVisible} className={styles.helper_circle} r={15}/>
-            {!props.endPoint.inputOnly && props.endPoint.arrowDirection != null && <ArrowSVG onClick={onArrowClick}  visible={visible} direction={props.endPoint.arrowDirection} scale={1} />}
+            <circle visibility={visible} className={styles.end_point} r={5}/>
+            {/* <circle visibility={higlihghtVisible} className={styles.helper_circle} r={15}/> */}
+            { ((props.endPoint.type === EndPointType.Infinite || (props.endPoint.type === EndPointType.Restricted && isRestrictionMet(props.endPoint, spawnedObjCnt)))) && props.endPoint.arrowDirection != null 
+            && <ArrowSVG onClick={onArrowClick}  visible={visible} direction={props.endPoint.arrowDirection} scale={1} />}
         </g>
     )   
 }
