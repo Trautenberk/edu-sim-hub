@@ -1,7 +1,10 @@
 import { ObjectSVGProps } from "App"
+import { addEdgeObject } from "Editor/Feature/SimObjectManagementSlice"
 import { IAdd } from "Editor/Model/ContBlocks/Add"
+import { Signal } from "Editor/Model/ContBlocks/Signal"
 import { ICoordinates } from "Editor/Model/UtilClasses/Coordinates"
-import { FC, useRef } from "react"
+import { IPoint } from "Editor/Model/UtilClasses/Point"
+import { FC, useCallback, useRef } from "react"
 import {  useSelectable } from "../Utilities"
 import { useSVGComponentUtils } from "../Utilities/CustomHooks"
 import { EndPointSVG } from "../Utilities/UtilComponents"
@@ -25,10 +28,21 @@ export const AddSVG : FC<ObjectSVGProps> = (props) => {
     } 
     = useSVGComponentUtils<IAdd>({id: props.id, initialCoordinates: {x: 30, y: 30}, endPointsBrief: ContBlockDoubleEndPoints });
 
+
+    const addSignal = useCallback(
+        (firstPoint : IPoint, secondPoint : IPoint) => {
+            console.log("AAA");
+            const signal = new Signal({objId: obj.id, pointId: firstPoint.id});
+            signal.pointsId = [firstPoint.id, secondPoint.id];
+            dispatch(addEdgeObject({point : secondPoint, obj : signal.toSerializableObj()}))
+        }
+        ,[obj]
+    )
+
     return (
         <g transform={`translate(${coordinates.x},${coordinates.y})`}> 
             <ContBlockDoubleSVG onMouseDownDragHandler={onMouseDownHandler} onMouseUpDragHandler={onMouseUpHandler} selectedVisible={selectedVisible} />
-            {mapEndPoints()}
+            {mapEndPoints(addSignal)}
             <rect
                 className={styles.sign}
                 width="30"

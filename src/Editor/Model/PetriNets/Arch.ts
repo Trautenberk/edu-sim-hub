@@ -38,7 +38,7 @@ export class InputArch extends Arch implements IToSerializable<IArch> {
     }
 
     constructor(from : ConnectionInfo) {
-        super(from)
+        super(from);
     }
 }
 

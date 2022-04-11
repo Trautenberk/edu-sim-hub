@@ -16,7 +16,7 @@ export type EndPointProps = {
 }
 
 function isRestrictionMet(endPoint : IEndPoint, spawnedObjCnt : number) : boolean {
-    return (endPoint.type === EndPointType.Restricted && endPoint.maxSpawnedObj && endPoint.maxSpawnedObj >= spawnedObjCnt) as boolean;
+    return (endPoint.type === EndPointType.Restricted && endPoint.maxSpawnedObj && endPoint.maxSpawnedObj > spawnedObjCnt) as boolean;
 }
 
 export const EndPointSVG : FC<EndPointProps> = (props) => {
@@ -29,7 +29,7 @@ export const EndPointSVG : FC<EndPointProps> = (props) => {
     // const higlihghtVisible = convertToVisibility(useSelector(state => state.simObjectManagement.highlightedEndPoint) === props.endPoint.id);
 
     const onArrowClick = useCallback(() => {
-        if (props.endPoint.type === EndPointType.Input || isRestrictionMet(props.endPoint, spawnedObjCnt) || !props.endPoint.arrowDirection) 
+        if (props.endPoint.type === EndPointType.Input || !isRestrictionMet(props.endPoint, spawnedObjCnt) || !props.endPoint.arrowDirection) 
             return;
         
         const secondPoint = new Point(new Coordinates(convertDirectionToOffset(props.endPoint.arrowDirection)).add(props.endPoint.coords));

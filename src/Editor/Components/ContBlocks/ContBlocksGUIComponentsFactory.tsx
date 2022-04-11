@@ -4,6 +4,8 @@ import { FC, FunctionComponent } from "react";
 import { Add, Div, Sub, Mul, Constant, Gain } from "Editor/Model/ContBlocks"
 import { AddSVG, DivSVG, SubSVG, MulSVG, ConstantSVG, GainSVG } from "Editor/Components/ContBlocks"
 import { EdgeSVG, EdgeSVGComponentProps } from "../Utilities/UtilComponents/EdgeSVG";
+import { SignalSVG } from "./SignalSVG";
+import { Signal } from "Editor/Model/ContBlocks/Signal";
 
 
 const emptyComponent : FC = () => {
@@ -29,7 +31,9 @@ export class ContBlocksGUIComponentFactory implements IObjectGUIComponentFactory
             case Constant.name:
                 return {SVGComponent: ConstantSVG, EditComponent : emptyComponent};
             case Gain.name:
-                return {SVGComponent: GainSVG, EditComponent : emptyComponent}; 
+                return {SVGComponent: GainSVG, EditComponent : emptyComponent};
+            case Signal.name:
+                    return {SVGComponent: SignalSVG, EditComponent : emptyComponent};
             default:
                 throw new Error("Couldnt find SVG component for given object");
         }
