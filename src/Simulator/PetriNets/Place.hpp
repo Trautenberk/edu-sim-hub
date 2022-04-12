@@ -4,6 +4,7 @@
 #include <string>
 #include "PetriNetsObject.hpp"
 #include <vector>
+#include "PetriNetsStatistics.hpp"
 
 #ifdef EMSCRIPTEN
     #include <emscripten/bind.h>
@@ -23,7 +24,7 @@ class Place : public PetriNetsObject {
         void addTokens(int cnt);
         string objTypeName() {return "Place";};
         void initialize() {return;};
-        void gatherStatistics();
+        PlaceRecord getStatisticsRecord();
     private:
         string _label;
         int _tokens;

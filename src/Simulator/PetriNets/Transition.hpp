@@ -6,6 +6,7 @@
 #include <iostream>
 #include <limits>
 #include <algorithm>
+#include "PetriNetsStatistics.hpp"
 
 #ifdef EMSCRIPTEN
     #include <emscripten/bind.h>
@@ -23,7 +24,6 @@ class Transition : public PetriNetsObject
         vector<shared_ptr<OutputArch>> outputArches = {};
         vector<shared_ptr<Arch>> allArches = {};
         deque<int> plannedEventsId = {};
-        int firedCnt = 0;
 
         Transition(shared_ptr<PetriNetsEngine> engine, std::string label, SPVec<InputArch> inputArches, SPVec<OutputArch> outputArches, std::string auxName = "");
         void initialize();
@@ -36,7 +36,11 @@ class Transition : public PetriNetsObject
         vector<int> placeIdsOnInput = {};
         vector<int> placeIdsOnOutput = {};
 
-        void gatherStatistics();
+        TransitionRecord getStatisticsRecord();
+        int firedCnt();
+    private:
+        int _firedCnt = 0;
+
 };
 
 

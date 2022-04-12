@@ -13,8 +13,17 @@ class PetriNetsEngine : public DiscreteEngine {
     public:
         PetriNetsEngine();
         static PNObj<PetriNetsEngine> New();
-        vector<Transition*> allTransitions = {};
-        unique_ptr<PetriNetsStatistics> statistics;
+        void addPlace(Place* place);
+        void addTransition(Transition* transition);
+        vector<Transition*> allTransitions = {};            // TODO vyhodit jako private
+        void gatherStatistics() override;
+
+
+    private:
+        vector<Place*> _allPlaces = {};
+        unique_ptr<PetriNetsStatistics> statistics = make_unique<PetriNetsStatistics>();
+    
+
 };
 
 #endif

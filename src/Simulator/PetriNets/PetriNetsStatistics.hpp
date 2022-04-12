@@ -5,27 +5,33 @@
 #include <tuple>
 #include <queue>
 #include <vector>
+#include "../SimObject.hpp"
 
 class Transition;
 class Place;
 struct PlaceRecord;
 struct TransitionRecord;
+struct PNStatisticsRecord;
 
-class PetriNetsStatistics {
-    public:
-        std::vector<double> recordTimes = {};
-        std::map<int, queue<PlaceRecord>> placeRecords = {};
-        std::map<int, queue<TransitionRecord>> transitionRecords = {};
+struct PetriNetsStatistics {
+    std::vector<PNStatisticsRecord> records;
+    double simulationTime = -1;
+};
+
+struct PNStatisticsRecord {
+    double time;
+    std::map<objectId, PlaceRecord> placeRecords = {};
+    std::map<objectId, TransitionRecord> transitionRecords = {};
 };
 
 struct PlaceRecord  {
-    int tokenCount;
-    PlaceRecord(int _tokenCount) : tokenCount(_tokenCount) {}
+    int tokens;
+    PlaceRecord(int _tokenCount) : tokens(_tokenCount) {}
 };
 
 struct TransitionRecord {
-    int firedCnt;
-    TransitionRecord(int _firedCnt) : firedCnt(_firedCnt) {}
+    int fired;
+    TransitionRecord(int _firedCnt) : fired(_firedCnt) {}
 };
 
 #endif // __PETRINETSSTATISTICS_H__

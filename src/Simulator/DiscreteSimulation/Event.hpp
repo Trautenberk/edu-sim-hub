@@ -9,9 +9,9 @@ class Event {
     public:
         int id;
         int priority = 0;
-        float time;
+        double time;
         function<void(int eventId)> func;
-        Event(float _time, function<void(int eventId)> _func, int priority = 0);
+        Event(double _time, function<void(int eventId)> _func, int priority = 0);
         void Cancel();
     private:
         static int _cnt;

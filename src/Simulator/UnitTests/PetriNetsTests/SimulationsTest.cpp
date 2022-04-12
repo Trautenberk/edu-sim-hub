@@ -57,8 +57,8 @@ TEST(testImmediateAndTimedTransition, BasicAssertions)
     EXPECT_EQ(placeOne->tokens(), 0);
     EXPECT_EQ(placeTwo->tokens(), 1);
     EXPECT_EQ(placeThree->tokens(), 0);
-    EXPECT_EQ(immediate->firedCnt, 1);
-    EXPECT_EQ(timed->firedCnt, 0);
+    EXPECT_EQ(immediate->firedCnt(), 1);
+    EXPECT_EQ(timed->firedCnt(), 0);
 }
 
 TEST(testImmediateAndTimedTransitionTwo, BasicAssertions)
@@ -86,6 +86,29 @@ TEST(testImmediateAndTimedTransitionTwo, BasicAssertions)
     EXPECT_EQ(placeTwo->tokens(), 0);
     EXPECT_EQ(placeThree->tokens(), 2);
     EXPECT_EQ(placeFour->tokens(), 3);
-    EXPECT_EQ(immediate->firedCnt, 2);
-    EXPECT_EQ(timed->firedCnt, 3);
+    EXPECT_EQ(immediate->firedCnt(), 2);
+    EXPECT_EQ(timed->firedCnt(), 3);
+}
+
+
+TEST(SimpleSimWithTimedTransitionTwo, BasicAssertions)
+{
+    auto engine = PetriNetsEngine::New();
+    auto placeOne = Place::New(engine, "Place 1", 5);
+    auto placeTwo = Place::New(engine, "Place 2", 0);
+    auto inputArch = InputArch::New(engine, placeOne);
+    auto outputArch = OutputArch::New(engine, placeTwo, 2);
+    auto transition = TimedTransition::New(engine, "Transition 1", SPVec<InputArch> {inputArch}, SPVec<OutputArch> {outputArch}, 5);
+
+    auto placeThree = Place::New(engine, "Place 3", 0);
+    auto iputArchTwo = InputArch::New(engine, placeTwo);
+    auto outputArchTwo = OutputArch::New(engine, placeThree);
+    auto transitionTwo = TimedTransition::New(engine, "Transition 1", SPVec<InputArch> {iputArchTwo}, SPVec<OutputArch> {outputArchTwo}, 5);
+    
+    EXPECT_EQ(engine, transition->engine);
+    engine->init(10);
+    engine->simulate();
+    EXPECT_EQ(placeOne->tokens(), 0);
+    EXPECT_EQ(placeThree->tokens(), 10);
+    EXPECT_EQ(engine->time(), 10);
 }

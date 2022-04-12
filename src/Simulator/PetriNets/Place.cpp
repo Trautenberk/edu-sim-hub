@@ -5,6 +5,7 @@ Place::Place(shared_ptr<PetriNetsEngine> engine, string label, int tokens, strin
 {
     this->_label = label;
     this->_tokens = tokens; 
+    engine->addPlace(this);
 }
 
 PNObj<Place> Place::New(shared_ptr<PetriNetsEngine> engine, string label, int tokens, string auxName)
@@ -27,11 +28,10 @@ void Place::removeTokens(int cnt)
     this->_tokens -= cnt;
 }
 
-void Place::gatherStatistics()
+PlaceRecord Place::getStatisticsRecord()
 {
-    this->engine->statistics->placeRecords[this->id()].emplace(this->_tokens);
+    return PlaceRecord(this->_tokens);
 }
-
 
 void bbb() { 
     cout << "bbb" << endl;

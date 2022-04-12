@@ -10,7 +10,7 @@ Transition::Transition(shared_ptr<PetriNetsEngine> engine, string label, vector<
     this->label = label;
     this->inputArches = inputArches;
 
-    this->engine->allTransitions.push_back(this);
+    this->engine->addTransition(this);
 
     for (auto& arch : inputArches)
     {
@@ -104,7 +104,7 @@ void Transition::fire(int eventId)
             transition->rePlanTransition();
         }
     }
-    this->firedCnt++;
+    this->_firedCnt++;
 }
 
 bool Transition::hasPlaceOnInput(vector<int> &placeIds)
@@ -139,11 +139,15 @@ void Transition::rePlanTransition()
     }
 }
 
-void Transition::gatherStatistics()
+int Transition::firedCnt()
 {
-    this->engine->statistics->transitionRecords[this->id()].emplace(this->firedCnt);
+    return this->_firedCnt;
 }
 
+TransitionRecord Transition::getStatisticsRecord()
+{
+    return TransitionRecord(this->_firedCnt);
+}
 
 ////////////////////////////////////////////////////////////////
 // ImmediateTransition
