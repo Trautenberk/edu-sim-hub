@@ -12,6 +12,9 @@ class ContinousSimEngine : public SimEngine {
         void init(double endTime, double stepSize);
         virtual void simStep() = 0;   // krok simulace
         void simulate();
+        virtual void simulationBegin() override;
+        virtual void simulationEnd() override;
+        void addContSimObject(ContinousSimObject* object);
 
         double stepSize();
         function<void(void)> Sample = [](){};

@@ -17,7 +17,7 @@ void PetriNetsEngine::addPlace(Place *place)
     this->_allPlaces.push_back(place);
 }
 
-PNObj<PetriNetsEngine> PetriNetsEngine::New()
+PetriNetsEngineObj PetriNetsEngine::New()
 {
     return make_shared<PetriNetsEngine>();
 }
@@ -37,7 +37,7 @@ void PetriNetsEngine::gatherStatistics()
         record.transitionRecords.insert(std::pair<objectId, TransitionRecord>(transition->id(), transition->getStatisticsRecord()));
     }
 
-    this->statistics->records.push_back(record);
+    this->_statistics->records.push_back(record);
 }
 
 #ifdef EMSCRIPTEN

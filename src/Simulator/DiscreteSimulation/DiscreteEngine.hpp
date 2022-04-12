@@ -20,8 +20,8 @@ class DiscreteEngine : public SimEngine {
     public:
         void init(float endTime, int maxIteration = 1000);
         virtual void simulate();
-        virtual void simulationBegin();
-        virtual void simulationEnd();
+        virtual void simulationBegin() override;
+        virtual void simulationEnd() override;
         void addDiscreteObject(DiscreteSimObject* object);
         virtual void updateTime(double nextEventTime);
         virtual void processEvent(Event& event);
@@ -34,7 +34,6 @@ class DiscreteEngine : public SimEngine {
         int _maxIteration;
         int _iteration;
         vector<DiscreteSimObject*> _simObjects = {};
-
 };
 
 #endif

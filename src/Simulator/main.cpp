@@ -98,12 +98,12 @@ void testGenerator()
     auto engine = shared_ptr<PetriNetsEngine> (new PetriNetsEngine());
     auto placeOne = shared_ptr<Place>(new Place(engine, "Place 1", 1));
     auto placeTwo = shared_ptr<Place>(new Place(engine, "Place 2", 0));
-    auto inputArch = shared_ptr<InputArch>(new InputArch(engine, placeOne));
-    auto outputArch = shared_ptr<OutputArch>(new OutputArch(engine, placeTwo));
-    auto rekurseArch = shared_ptr<OutputArch>(new OutputArch(engine, placeOne));
+    auto inputArch = InputArchObj(new InputArch(engine, placeOne));
+    auto outputArch = OutputArchObj(new OutputArch(engine, placeTwo));
+    auto rekurseArch = OutputArchObj(new OutputArch(engine, placeOne));
 
-    vector<shared_ptr<InputArch>> inputArches = {inputArch}; 
-    vector<shared_ptr<OutputArch>> outputArches = {outputArch, rekurseArch};
+    vector<InputArchObj> inputArches = {inputArch}; 
+    vector<OutputArchObj> outputArches = {outputArch, rekurseArch};
     
     auto transition = shared_ptr<Transition>(new TimedTransition(engine, "Transition 1", inputArches, outputArches, 5));
 

@@ -1,14 +1,14 @@
 #include "Place.hpp"
 #include <iostream>
 
-Place::Place(shared_ptr<PetriNetsEngine> engine, string label, int tokens, string auxName) : PetriNetsObject(engine, auxName)
+Place::Place(PetriNetsEngineObj engine, string label, int tokens, string auxName) : PetriNetsObject(engine, auxName)
 {
     this->_label = label;
     this->_tokens = tokens; 
     engine->addPlace(this);
 }
 
-PNObj<Place> Place::New(shared_ptr<PetriNetsEngine> engine, string label, int tokens, string auxName)
+PlaceObj Place::New(PetriNetsEngineObj engine, string label, int tokens, string auxName)
 {
     return make_shared<Place>(engine, label, tokens, auxName);
 }

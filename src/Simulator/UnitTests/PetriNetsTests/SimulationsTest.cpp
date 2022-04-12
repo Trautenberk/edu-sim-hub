@@ -13,7 +13,7 @@ TEST(SimpleSimWithImmediateTransition, BasicAssertions)
     auto placeTwo = Place::New(engine, "Place 2", 0);
     auto inputArch = InputArch::New(engine, placeOne);
     auto outputArch = OutputArch::New(engine, placeTwo);
-    auto transition = ImmediateTransition::New(engine, "Transition 1", SPVec<InputArch>{inputArch}, SPVec<OutputArch>{outputArch});
+    auto transition = ImmediateTransition::New(engine, "Transition 1", vector<InputArchObj>{inputArch}, vector<OutputArchObj>{outputArch});
     EXPECT_EQ(engine, transition->engine);
     engine->init(10);
     engine->simulate();
@@ -29,7 +29,7 @@ TEST(SimpleSimWithTimedTransition, BasicAssertions)
     auto placeTwo = Place::New(engine, "Place 2", 0);
     auto inputArch = InputArch::New(engine, placeOne);
     auto outputArch = OutputArch::New(engine, placeTwo);
-    auto transition = TimedTransition::New(engine, "Transition 1", SPVec<InputArch> {inputArch}, SPVec<OutputArch> {outputArch}, 5);
+    auto transition = TimedTransition::New(engine, "Transition 1", vector<InputArchObj> {inputArch}, vector<OutputArchObj> {outputArch}, 5);
     
     EXPECT_EQ(engine, transition->engine);
     engine->init(10);
@@ -49,8 +49,8 @@ TEST(testImmediateAndTimedTransition, BasicAssertions)
     auto outputImmediate = OutputArch::New(engine, placeTwo);
     auto inputTimed = InputArch::New(engine, placeOne);
     auto outputTimed = OutputArch::New(engine, placeThree);
-    auto immediate = ImmediateTransition::New(engine, "Immediate 1", SPVec<InputArch> {inputImmediate}, SPVec<OutputArch> {outputImmediate});
-    auto timed = TimedTransition::New(engine, "Timed 1", SPVec<InputArch> {inputTimed}, SPVec<OutputArch> {outputTimed}, 5);
+    auto immediate = ImmediateTransition::New(engine, "Immediate 1", vector<InputArchObj> {inputImmediate}, vector<OutputArchObj> {outputImmediate});
+    auto timed = TimedTransition::New(engine, "Timed 1", vector<InputArchObj> {inputTimed}, vector<OutputArchObj> {outputTimed}, 5);
 
     engine->init(10);
     engine->simulate();
@@ -76,8 +76,8 @@ TEST(testImmediateAndTimedTransitionTwo, BasicAssertions)
     auto inputTimed = InputArch::New(engine, placeOne);
     auto outputTimed = OutputArch::New(engine, placeFour);
 
-    auto immediate = ImmediateTransition::New(engine, "Immediate 1", SPVec<InputArch> {inputImmediate, inputImmediateTwo}, SPVec<OutputArch> {outputImmediate});
-    auto timed = TimedTransition::New(engine, "Timed 1", SPVec<InputArch> {inputTimed}, SPVec<OutputArch> {outputTimed}, 5);
+    auto immediate = ImmediateTransition::New(engine, "Immediate 1", vector<InputArchObj> {inputImmediate, inputImmediateTwo}, vector<OutputArchObj> {outputImmediate});
+    auto timed = TimedTransition::New(engine, "Timed 1", vector<InputArchObj> {inputTimed}, vector<OutputArchObj> {outputTimed}, 5);
 
     engine->init(10);
     engine->simulate();
@@ -98,12 +98,12 @@ TEST(SimpleSimWithTimedTransitionTwo, BasicAssertions)
     auto placeTwo = Place::New(engine, "Place 2", 0);
     auto inputArch = InputArch::New(engine, placeOne);
     auto outputArch = OutputArch::New(engine, placeTwo, 2);
-    auto transition = TimedTransition::New(engine, "Transition 1", SPVec<InputArch> {inputArch}, SPVec<OutputArch> {outputArch}, 5);
+    auto transition = TimedTransition::New(engine, "Transition 1", vector<InputArchObj> {inputArch}, vector<OutputArchObj> {outputArch}, 5);
 
     auto placeThree = Place::New(engine, "Place 3", 0);
     auto iputArchTwo = InputArch::New(engine, placeTwo);
     auto outputArchTwo = OutputArch::New(engine, placeThree);
-    auto transitionTwo = TimedTransition::New(engine, "Transition 1", SPVec<InputArch> {iputArchTwo}, SPVec<OutputArch> {outputArchTwo}, 5);
+    auto transitionTwo = TimedTransition::New(engine, "Transition 1", vector<InputArchObj> {iputArchTwo}, vector<OutputArchObj> {outputArchTwo}, 5);
     
     EXPECT_EQ(engine, transition->engine);
     engine->init(10);

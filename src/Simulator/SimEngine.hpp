@@ -6,6 +6,8 @@ class SimEngine {
         double time();
         double endTime();
         virtual void simulate() = 0;
+        virtual void simulationBegin() = 0;
+        virtual void simulationEnd() = 0;
 
     protected:
         double _endTime = 0.0;

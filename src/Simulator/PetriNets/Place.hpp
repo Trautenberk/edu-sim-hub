@@ -12,11 +12,13 @@
 
 using namespace std;
 
+using PlaceObj = shared_ptr<Place>;
+
 class Place : public PetriNetsObject {
     public :
 
-        static PNObj<Place> New(shared_ptr<PetriNetsEngine> engine, string label, int tokens = 0, string auxName = "");
-        Place(shared_ptr<PetriNetsEngine> engine, string label, int tokens = 0, string auxName = "");
+        static PlaceObj New(PetriNetsEngineObj engine, string label, int tokens = 0, string auxName = "");
+        Place(PetriNetsEngineObj engine, string label, int tokens = 0, string auxName = "");
 
         string label() {return _label;};
         int tokens() {return _tokens;};

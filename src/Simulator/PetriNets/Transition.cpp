@@ -4,7 +4,7 @@
 using namespace std;
 
 // Transition
-Transition::Transition(shared_ptr<PetriNetsEngine> engine, string label, vector<shared_ptr<InputArch>> inputArches, vector<shared_ptr<OutputArch>> outputArches, string auxName) 
+Transition::Transition(shared_ptr<PetriNetsEngine> engine, string label, vector<InputArchObj> inputArches, vector<OutputArchObj> outputArches, string auxName) 
 : PetriNetsObject(engine, auxName)
 {
     this->label = label;
@@ -152,7 +152,7 @@ TransitionRecord Transition::getStatisticsRecord()
 ////////////////////////////////////////////////////////////////
 // ImmediateTransition
 
-ImmediateTransition::ImmediateTransition(shared_ptr<PetriNetsEngine> engine, string label, vector<shared_ptr<InputArch>> inputArches, vector<shared_ptr<OutputArch>> outputArches, int priority, string auxName)
+ImmediateTransition::ImmediateTransition(PetriNetsEngineObj engine, string label, vector<InputArchObj> inputArches, vector<OutputArchObj> outputArches, int priority, string auxName)
 : Transition(engine, label, inputArches, outputArches, auxName)
 {
     this->priority = priority;
@@ -166,7 +166,7 @@ void ImmediateTransition::planTransitionFiringEvent()
     this->plannedEventsId.push_back(event.id);    
 }
 
-PNObj<ImmediateTransition> ImmediateTransition::New(PNObj<PetriNetsEngine> engine, std::string label, SPVec<InputArch> inputArches, SPVec<OutputArch> outputArches, int priority, std::string auxName)
+ImmediateTransitionObj ImmediateTransition::New(PetriNetsEngineObj engine, std::string label, vector<InputArchObj> inputArches, vector<OutputArchObj> outputArches, int priority, std::string auxName)
 {
     return make_shared<ImmediateTransition>(engine, label, inputArches, outputArches, priority, auxName);
 }
@@ -174,7 +174,7 @@ PNObj<ImmediateTransition> ImmediateTransition::New(PNObj<PetriNetsEngine> engin
 ////////////////////////////////////////////////////////////////
 // TimedTransition
 
-TimedTransition::TimedTransition(shared_ptr<PetriNetsEngine> engine, string label, vector<shared_ptr<InputArch>> inputArches, vector<shared_ptr<OutputArch>> outputArches, int delay, string auxName)
+TimedTransition::TimedTransition(shared_ptr<PetriNetsEngine> engine, string label, vector<InputArchObj> inputArches, vector<OutputArchObj> outputArches, int delay, string auxName)
 : Transition(engine, label, inputArches, outputArches, auxName)
 {
     this->delay = delay;
@@ -188,7 +188,7 @@ void TimedTransition::planTransitionFiringEvent()
     this->plannedEventsId.push_back(event.id);    
 }
 
-PNObj<TimedTransition> TimedTransition::New(shared_ptr<PetriNetsEngine> engine, std::string label, SPVec<InputArch> inputArches, SPVec<OutputArch>  outputArches, int delay, std::string auxName)
+TimedTransitionObj TimedTransition::New(PetriNetsEngineObj engine, std::string label, vector<InputArchObj> inputArches, vector<OutputArchObj>  outputArches, int delay, std::string auxName)
 {
     return make_shared<TimedTransition>(engine, label, inputArches, outputArches, delay, auxName);
 }
@@ -196,18 +196,18 @@ PNObj<TimedTransition> TimedTransition::New(shared_ptr<PetriNetsEngine> engine, 
 #ifdef EMSCRIPTEN
     EMSCRIPTEN_BINDINGS(Transition) {
 
-        emscripten::register_vector<shared_ptr<InputArch>>("InputArchVec");
-        emscripten::register_vector<shared_ptr<OutputArch>>("OutputArchVec");
+        emscripten::register_vector<InputArchObj>("InputArchVec");
+        emscripten::register_vector<OutputArchObj>("OutputArchVec");
 
         emscripten::class_<TimedTransition>("TimedTransition")
         .smart_ptr<shared_ptr<TimedTransition>>("shared_ptr<TimedTransition>")
-        // .constructor(&std::make_shared<TimedTransition, shared_ptr<PetriNetsEngine>, string, vector<shared_ptr<InputArch>>, vector<shared_ptr<OutputArch>>, int>)
-        .constructor(&std::make_shared<TimedTransition, shared_ptr<PetriNetsEngine>, string, vector<shared_ptr<InputArch>>, vector<shared_ptr<OutputArch>>, int, string>);
+        // .constructor(&std::make_shared<TimedTransition, shared_ptr<PetriNetsEngine>, string, vector<InputArchObj>, vector<OutputArchObj>, int>)
+        .constructor(&std::make_shared<TimedTransition, shared_ptr<PetriNetsEngine>, string, vector<InputArchObj>, vector<OutputArchObj>, int, string>);
 
         emscripten::class_<ImmediateTransition>("ImmediateTransition")
         .smart_ptr<shared_ptr<ImmediateTransition>>("shared_ptr<ImmediateTransition>")
-        // .constructor(&std::make_shared<TimedTransition, shared_ptr<PetriNetsEngine>, string, vector<shared_ptr<InputArch>>, vector<shared_ptr<OutputArch>>, int>)
-        .constructor(&std::make_shared<TimedTransition, shared_ptr<PetriNetsEngine>, string, vector<shared_ptr<InputArch>>, vector<shared_ptr<OutputArch>>, int, string>);
+        // .constructor(&std::make_shared<TimedTransition, shared_ptr<PetriNetsEngine>, string, vector<InputArchObj>, vector<OutputArchObj>, int>)
+        .constructor(&std::make_shared<TimedTransition, shared_ptr<PetriNetsEngine>, string, vector<InputArchObj>, vector<OutputArchObj>, int, string>);
     
     }
 #endif

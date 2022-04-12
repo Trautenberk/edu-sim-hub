@@ -6,13 +6,14 @@
 #include <memory>
 
 class Transition;
+class PetriNetsEngine;
 
-template <typename T> using PNObj = std::shared_ptr<T>; 
+using PetriNetsEngineObj = shared_ptr<PetriNetsEngine>;
 
 class PetriNetsEngine : public DiscreteEngine {
     public:
         PetriNetsEngine();
-        static PNObj<PetriNetsEngine> New();
+        static PetriNetsEngineObj New();
         void addPlace(Place* place);
         void addTransition(Transition* transition);
         vector<Transition*> allTransitions = {};            // TODO vyhodit jako private
@@ -21,9 +22,7 @@ class PetriNetsEngine : public DiscreteEngine {
 
     private:
         vector<Place*> _allPlaces = {};
-        unique_ptr<PetriNetsStatistics> statistics = make_unique<PetriNetsStatistics>();
-    
-
+        unique_ptr<PetriNetsStatistics> _statistics = make_unique<PetriNetsStatistics>();
 };
 
 #endif
