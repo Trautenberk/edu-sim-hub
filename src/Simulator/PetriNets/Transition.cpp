@@ -147,7 +147,7 @@ int Transition::firedCnt()
 
 TransitionRecord Transition::getStatisticsRecord()
 {
-    return TransitionRecord(this->_firedCnt);
+    return TransitionRecord {this->_firedCnt};
 }
 
 ////////////////////////////////////////////////////////////////

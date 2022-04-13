@@ -98,6 +98,7 @@ export class PetriNetsSimulatorAdapter implements ISimulatorAdapter {
 
             this._engine.init(params.endTime,10);
             this._engine.simulate();
+            const statistics = this._engine.statistics();
             this.clear();
     }
 

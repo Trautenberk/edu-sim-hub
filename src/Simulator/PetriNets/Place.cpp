@@ -29,8 +29,8 @@ void Place::removeTokens(int cnt)
 }
 
 PlaceRecord Place::getStatisticsRecord()
-{
-    return PlaceRecord(this->_tokens);
+{  
+    return PlaceRecord { this->_tokens };
 }
 
 void bbb() { 

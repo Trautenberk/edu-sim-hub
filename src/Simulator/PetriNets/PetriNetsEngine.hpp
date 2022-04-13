@@ -19,10 +19,10 @@ class PetriNetsEngine : public DiscreteEngine {
         vector<Transition*> allTransitions = {};            // TODO vyhodit jako private
         void gatherStatistics() override;
 
-
+        PetriNetsStatistics statistics();
     private:
         vector<Place*> _allPlaces = {};
-        unique_ptr<PetriNetsStatistics> _statistics = make_unique<PetriNetsStatistics>();
+        PetriNetsStatistics _statistics = PetriNetsStatistics();
 };
 
 #endif

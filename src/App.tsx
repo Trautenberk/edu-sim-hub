@@ -55,6 +55,7 @@ export const App : FC = () => {
   const [objectGUIComponentFactory, setobjectGUIComponentFactory] = useState<IObjectGUIComponentFactory>(new PetriNetsGUIComponentFactory())
   const simObjects = useSelector(state => state.simObjectManagement.objects);
   const selectedId = useSelector(state => selectedObjectId(state));
+  const simulationParams = useSelector(state => state.simObjectManagement.simulationParams); 
   
   const showMainMenu = useCallback<()=>void>(() => {setShowMenu(true)}, [])
 
@@ -63,8 +64,7 @@ export const App : FC = () => {
   },[dispatch])
   
   const initializePNEngine = () => {
-    const params = useSelector(state => state.simObjectManagement.simulationParams) as IPNSimulationParams;
-    const adapter = new PetriNetsSimulatorAdapter(simulatorModule, Object.values(simObjects), params);
+    const adapter = new PetriNetsSimulatorAdapter(simulatorModule, Object.values(simObjects), simulationParams as IPNSimulationParams);
   }
 
   // eslint-disable-next-line no-unused-vars

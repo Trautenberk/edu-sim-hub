@@ -7,6 +7,11 @@
 #include <vector>
 #include "../SimObject.hpp"
 
+#ifdef EMSCRIPTEN
+    #include <emscripten/bind.h>
+#endif
+
+
 class Transition;
 class Place;
 struct PlaceRecord;
@@ -26,12 +31,13 @@ struct PNStatisticsRecord {
 
 struct PlaceRecord  {
     int tokens;
-    PlaceRecord(int _tokenCount) : tokens(_tokenCount) {}
 };
 
 struct TransitionRecord {
     int fired;
-    TransitionRecord(int _firedCnt) : fired(_firedCnt) {}
 };
+
+
+
 
 #endif // __PETRINETSSTATISTICS_H__
