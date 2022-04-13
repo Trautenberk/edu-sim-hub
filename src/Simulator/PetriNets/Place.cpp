@@ -45,7 +45,7 @@ void bbb() {
         emscripten::class_<Place>("Place")
         .smart_ptr<shared_ptr<Place>>("shared_ptr<Place>")
         // .constructor(&std::make_shared<Place, shared_ptr<PetriNetsEngine>, string, int>)
-        .constructor(&std::make_shared<Place, shared_ptr<PetriNetsEngine>, string, int, string>)
+        .constructor(&std::make_shared<Place, PetriNetsEngineObj, string, int, string>)
         .function("tokens", &Place::tokens);
 
         emscripten::class_<TestClass>("TestClassX")

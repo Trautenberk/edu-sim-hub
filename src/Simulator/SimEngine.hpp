@@ -3,6 +3,10 @@
 
 #include <functional>
 
+#ifdef EMSCRIPTEN
+    #include <emscripten/bind.h>
+#endif
+
 class SimEngine {
     public:
         double time();

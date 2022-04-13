@@ -56,11 +56,11 @@ void OutputArch::execute()
         emscripten::class_<InputArch>("InputArch")
         .smart_ptr<InputArchObj >("InputArchObj")
         // .constructor(&std::make_shared<InputArch, shared_ptr<PetriNetsEngine>, shared_ptr<Place>, int>)
-        .constructor(&std::make_shared<InputArch, shared_ptr<PetriNetsEngine>, shared_ptr<Place>, int, string>);
+        .constructor(&std::make_shared<InputArch, PetriNetsEngineObj, PlaceObj, int, string>);
 
         emscripten::class_<OutputArch>("OutputArch")
         .smart_ptr<OutputArchObj >("OutputArchObj")
-        // .constructor(&std::make_shared<InputArch, shared_ptr<PetriNetsEngine>, shared_ptr<Place>, int>)
-        .constructor(&std::make_shared<OutputArch, shared_ptr<PetriNetsEngine>, shared_ptr<Place>, int, string>);
+        // .constructor(&std::make_shared<OutputArch, shared_ptr<PetriNetsEngine>, shared_ptr<Place>, int>)
+        .constructor(&std::make_shared<OutputArch, PetriNetsEngineObj, PlaceObj, int, string>);
     }
 #endif

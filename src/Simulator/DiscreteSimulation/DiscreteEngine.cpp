@@ -79,7 +79,6 @@ void DiscreteEngine::simulationEnd()
 #ifdef EMSCRIPTEN
     EMSCRIPTEN_BINDINGS(DiscreteEngine) {
         emscripten::class_<DiscreteEngine>("DiscreteEngine")
-        .smart_ptr_constructor<shared_ptr<DiscreteEngine>>("shared_ptr<DiscreteEngine>", &std::make_shared<DiscreteEngine>)
         .function("init", &DiscreteEngine::init)
         .function("simulate", &DiscreteEngine::simulate);
     }

@@ -1,7 +1,7 @@
 import { IEditorObject } from "../EditorObject";
 import { IArch, InputArch, OutputArch } from "./Arch";
 import { IPlace, Place } from "./Place";
-import { ITransition, Transition } from "./Transition";
+import { ITransition, Transition, TransitionType } from "./Transition";
 
 interface ISimulatorAdapter {
     init(endTime : number, maxIteration : number) : void;
@@ -10,17 +10,30 @@ interface ISimulatorAdapter {
 
 export class PetriNetsSimulatorAdapter implements ISimulatorAdapter {
 
-    private engine : any;
+    private _engine : any;
 
-    init(endTime : number, maxIteration : number): void {
-        this.engine.init(endTime, maxIteration);
+    private _placesDict : {[key : string] : IPlace } = {};
+    private _inputArchesDict : {[key : string] : IArch } = {};
+    private _outputArchesDict : {[key : string] : IArch } = {};
+    private _transitionsDict : {[key : string] : ITransition } = {};
+
+    public init(endTime : number, maxIteration : number): void {
+        this._engine.init(endTime, maxIteration);
     }
-    simulate(): void {
-        this.engine.simulate();
+
+    public simulate(): void {
+        this._engine.simulate();
+    }
+
+    public clear() : void {
+        const allObjects = {...this._placesDict, ...this._inputArchesDict, ...this._outputArchesDict, ...this._transitionsDict };
+
+        for (const simObjectKey of Object.keys(allObjects))
+            delete allObjects[simObjectKey];
     }
 
     constructor(simulatorModule: any, objects : IEditorObject[]) {
-        this.engine = new simulatorModule.PetriNetsEngine();
+        this._engine = new simulatorModule.PetriNetsEngine();
 
         const places :  IPlace[] = [];
         const inputArches : IArch[] = [];
@@ -44,21 +57,18 @@ export class PetriNetsSimulatorAdapter implements ISimulatorAdapter {
             }
         }
 
-        const placesDict : {[key : string] : IPlace } = {};
-        const inputArchesDict : {[key : string] : IArch } = {};
-        const outputArchesDict : {[key : string] : IArch } = {};
-        const transitionsDict : {[key : string] : ITransition } = {};
-
         for (const place of places) {
-            placesDict[place.id] = new simulatorModule.Place(this.engine, place.label, place.tokenCount, place.id);
+            this._placesDict[place.id] = new simulatorModule.Place(this._engine, place.label, place.tokenCount, place.id);
         }
 
         for (const inputArch of inputArches) {
-            inputArchesDict[inputArch.id] = new simulatorModule.InputArch(this.engine, placesDict[inputArch.placeId], inputArch.weight, inputArch.id);
+            this._inputArchesDict[inputArch.id] = new simulatorModule.InputArch(this._engine, this._placesDict[inputArch.placeId], inputArch.weight, inputArch.id);
         }
 
         for (const outputArch of outputArches) {
-            outputArchesDict[outputArch.id] = new simulatorModule.OutputArch(this.engine, placesDict[outputArch.placeId], outputArch.weight, outputArch.id);
+            if (outputArch.to != null) {    // TODO docasne reseni, predelat
+                this._outputArchesDict[outputArch.id] = new simulatorModule.OutputArch(this._engine, this._placesDict[outputArch.to.objId], outputArch.weight, outputArch.id);
+            }
         }
 
         for (const transition of transitions) {
@@ -66,21 +76,29 @@ export class PetriNetsSimulatorAdapter implements ISimulatorAdapter {
             const outputArchVec = new simulatorModule.OutputArchVec();
 
             for (const inputArch of inputArches) {
-                if (inputArch.transitionId === transition.id) {
-                    inputArchVec.push_back(inputArchesDict[inputArch.id]);
+                if (inputArch.to != null && inputArch.to?.objId === transition.id) {
+                    inputArchVec.push_back(this._inputArchesDict[inputArch.id]);
                 }
             }
 
             for (const outputArch of outputArches) {
                 if (outputArch.transitionId === transition.id) {
-                    outputArchVec.push_back(outputArchesDict[outputArch.id]);
+                    outputArchVec.push_back(this._outputArchesDict[outputArch.id]);
                 }
             }
 
-            transitionsDict[transition.id] = new simulatorModule.ImmediateTransition(this.engine, transition.label, inputArchVec, outputArchVec, 0, transition.id)
+            if (transition.type === TransitionType.Priority) {
+                this._transitionsDict[transition.id] = new simulatorModule.ImmediateTransition(this._engine, transition.label, inputArchVec, outputArchVec, transition.priority, transition.id);
+            } else {
+                this._transitionsDict[transition.id] = new simulatorModule.TimedTransition(this._engine, transition.label, inputArchVec, outputArchVec, transition.timeValue, transition.id);
+            }
 
-            this.engine.init(10,10);
-            this.engine.simulate();
         }
+
+            this._engine.init(10,10);
+            this._engine.simulate();
+            this.clear();
     }
+
+
 }

@@ -32,12 +32,12 @@ Transition::Transition(shared_ptr<PetriNetsEngine> engine, string label, vector<
 
 void Transition::initialize()
 {
-    cout << "Transition initialization" << endl;
-    cout << "Inputs satisfied: " << this->allInputArchSsatisfied() << endl;
+    cout << "Transition initialization " << this->auxName()  << endl;
+    // cout << "Inputs satisfied: " << this->allInputArchSsatisfied() << endl;
     for (int i = 0; i < this->allInputArchSsatisfied(); i++)
         this->planTransitionFiringEvent();
 
-    cout << "Initialize transition" << endl;
+    // cout << "Transition initialized..." << this->auxName() << endl;
     return;
 }
 
@@ -46,7 +46,7 @@ int Transition::allInputArchSsatisfied()
 {
     int timesSatisfied = INT_MAX;
 
-    cout << "input arches count: " << this->inputArches.size() << endl;
+    // cout << "input arches count: " << this->inputArches.size() << endl;
     if (this->inputArches.size() == 0)
         return 0;
     
@@ -105,6 +105,7 @@ void Transition::fire(int eventId)
         }
     }
     this->_firedCnt++;
+    std::cout << "Transition : " << this->auxName()  << " fired!!" << std::endl; 
 }
 
 bool Transition::hasPlaceOnInput(vector<int> &placeIds)
