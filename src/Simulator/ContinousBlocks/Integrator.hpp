@@ -3,8 +3,10 @@
 
 #include "ContBlock.hpp"
 #include <memory>
+#include "ContBlockStatistics.hpp"
 
-class Integrator : ContBlockSingle {
+
+class Integrator : public ContBlockSingle {
     public:
         // input value = f(t,y)
         Integrator(ContBlockEngineObj engine, double initialValue);
@@ -12,7 +14,8 @@ class Integrator : ContBlockSingle {
         string objTypeName() {return "IntegratorBlock";};
 
         void setInput(shared_ptr<ContBlock> input); 
-        
+        IntegratorRecord getStatisticsRecord();
+
         void eval();
         double value();
         void integrate();

@@ -45,3 +45,8 @@ void Integrator::setInput(shared_ptr<ContBlock> input)
 {
     this->input = input;
 } 
+
+IntegratorRecord Integrator::getStatisticsRecord()
+{
+    return IntegratorRecord(this->value());
+}

@@ -10,7 +10,7 @@ ContBlockEngine::ContBlockEngine(function<double(double currentState, double der
 
 void ContBlockEngine::addIntegrator(Integrator *integrator)
 {
-    this->_integrators.push_back(integrator);
+    this->_allIntegrators.push_back(integrator);
 }
 
 void ContBlockEngine::simStep() 
@@ -23,10 +23,10 @@ void ContBlockEngine::simStep()
 
 void ContBlockEngine::dynamic()
 {
-    if (this->_integrators.empty())
+    if (this->_allIntegrators.empty())
         return;
         
-    for (auto integratorPtr : this->_integrators)
+    for (auto integratorPtr : this->_allIntegrators)
     {
         integratorPtr->eval(); // nactu vstupy integratoru
     }
@@ -34,10 +34,10 @@ void ContBlockEngine::dynamic()
 
 void ContBlockEngine::integrate()
 {
-    if (this->_integrators.empty())
+    if (this->_allIntegrators.empty())
         return;
 
-    for (auto integratorPtr : this->_integrators)
+    for (auto integratorPtr : this->_allIntegrators)
     {
         integratorPtr->integrate();    // provedu integraci na vsech integratorech
     }
@@ -52,4 +52,17 @@ function<double(double currentState, double derivation, double step)> ContBlockE
 ContBlockEngineObj ContBlockEngine::New(function<double(double currentState, double derivation, double step)> integrationMethod)
 {
     return make_shared<ContBlockEngine>(integrationMethod);
+}
+
+void ContBlockEngine::gatherStatistics()
+{
+    auto record = ContBlockStatisticsRecord();
+    record.time = this->time();
+
+    for (auto integrator : this->_allIntegrators)
+    {
+        record.integratorRecords.insert(std::pair<objectId, IntegratorRecord>(integrator->id(), integrator->getStatisticsRecord()));
+    }
+
+    this->_statistics->records.push_back(record);
 }

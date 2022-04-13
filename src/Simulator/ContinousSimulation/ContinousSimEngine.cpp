@@ -1,15 +1,19 @@
 #include "ContinousSimEngine.hpp"
 
-void ContinousSimEngine::init(double endTime, double stepSize)
+void ContinousSimEngine::init(double endTime, double stepSize, int sampleRate)
 {
     if (stepSize <= 0)
         throw "Step cannot be smaller then zero";
 
     if (endTime <= 0)
         throw "endTime cannost be smaller than zero";
+    
+    if (sampleRate <= 0)
+        throw "sampleRate cannot be smaller than zero";
 
     this->_stepSize = stepSize;
     this->_endTime = endTime;
+    this->_sampleRate = sampleRate;
 }
 
 void ContinousSimEngine::simulate()
@@ -18,11 +22,8 @@ void ContinousSimEngine::simulate()
     this->simulationBegin();
     while(this->time() <= this->endTime())
     {
-        if (cnt % 10 == 0)
-            this->Sample(); // TODO odstranit
-
+        this->statisticsStep(); // sber statistik
         this->simStep(); // krok simulace
-        cnt ++;
     }
     this->simulationEnd(); 
 }
@@ -39,10 +40,21 @@ void ContinousSimEngine::simulationBegin()
 
 void ContinousSimEngine::simulationEnd()
 {
-    return;
+    this->gatherStatistics();
 }
 
 void ContinousSimEngine::addContSimObject(ContinousSimObject *object)
 {
     this->_objects.push_back(object);
+}
+
+void ContinousSimEngine::statisticsStep()
+{
+    if (this->_sampleStep % this->_sampleRate == 0) 
+    {
+        this->gatherStatistics();
+        this->Sample();
+    }
+
+    this->_sampleStep++;
 }

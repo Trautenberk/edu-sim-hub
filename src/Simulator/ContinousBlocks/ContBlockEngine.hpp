@@ -3,6 +3,7 @@
 
 #include "../ContinousSimulation/ContinousSimEngine.hpp"
 #include "../IntegrationMethods/IntegrationMethods.hpp"
+#include "ContBlockStatistics.hpp"
 #include <memory>
 #include <vector>
 
@@ -21,9 +22,11 @@ class ContBlockEngine : public ContinousSimEngine {
         void dynamic();
         void integrate();   // provedu integraci na vsech integratorech
         function<double(double currentState, double derivation, double step)> integrationMethod();
+        void gatherStatistics();
 
     private:
-        std::vector<Integrator*> _integrators;
+        std::vector<Integrator*> _allIntegrators;
+        unique_ptr<ContBlockStatistics> _statistics = make_unique<ContBlockStatistics>();  
         function<double(double currentState, double derivation, double step)> _integrationMethod;
 };
 

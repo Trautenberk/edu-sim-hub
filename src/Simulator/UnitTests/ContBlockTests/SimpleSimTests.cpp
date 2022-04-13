@@ -68,7 +68,7 @@ TEST(SimWithIntegratorTwo, BasicAssertions)
 
     engine->Sample = sample;
 
-    engine->init(10.0, 0.01);
+    engine->init(10.0, 0.01, 20);
     std::cout << "Simulation begin" << std::endl;
     engine->simulate();
     std::cout << "Simulation end" << std::endl;
