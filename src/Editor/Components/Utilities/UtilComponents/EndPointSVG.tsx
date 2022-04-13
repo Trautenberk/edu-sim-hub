@@ -26,7 +26,7 @@ export const EndPointSVG : FC<EndPointProps> = (props) => {
 
     const visible = convertToVisibility(useSelector(state => selectedObjectId(state) === props.endPoint.ownerId));
    
-    // const higlihghtVisible = convertToVisibility(useSelector(state => state.simObjectManagement.highlightedEndPoint) === props.endPoint.id);
+    const higlihghtVisible = convertToVisibility(useSelector(state => state.simObjectManagement.highlightedEndPoint) === props.endPoint.id);
 
     const onArrowClick = useCallback(() => {
         if (props.endPoint.type === EndPointType.Input || (props.endPoint.type !== EndPointType.Infinite && !isRestrictionMet(props.endPoint, spawnedObjCnt)) || !props.endPoint.arrowDirection) {
@@ -41,7 +41,7 @@ export const EndPointSVG : FC<EndPointProps> = (props) => {
     return(
         <g transform={`translate(${props.coordinates.x} ${props.coordinates.y})`}>
             <circle visibility={visible} className={styles.end_point} r={5}/>
-            {/* <circle visibility={higlihghtVisible} className={styles.helper_circle} r={15}/> */}
+            <circle visibility={higlihghtVisible} className={styles.helper_circle} r={15}/>
             { ((props.endPoint.type === EndPointType.Infinite || (props.endPoint.type === EndPointType.Restricted && isRestrictionMet(props.endPoint, spawnedObjCnt)))) && props.endPoint.arrowDirection != null 
             && <ArrowSVG onClick={onArrowClick}  visible={visible} direction={props.endPoint.arrowDirection} scale={1} />}
         </g>

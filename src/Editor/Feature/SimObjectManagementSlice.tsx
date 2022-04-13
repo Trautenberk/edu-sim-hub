@@ -60,7 +60,15 @@ function removeEdgeFnc(state : SimObjectManagementState, obj : IEditorObject) {
                 delete state.points[point.id];
             }
         }
-        edge.from && state.endPoints[edge.from.pointId].spawnedObjCnt--;
+        
+        if (edge.from != null) {
+            state.endPoints[edge.from.pointId].spawnedObjCnt--;
+        }
+        
+        if (edge.to != null) {
+            state.endPoints[edge.to.pointId].bindings = state.endPoints[edge.to.pointId].bindings.filter(id => id !== edge.pointsId[edge.pointsId.length - 1]); // odeberu binding
+        }
+
         state.edgeObjectsIds = state.edgeObjectsIds.filter(id => id !== edge.id);
         delete state.objects[edge.id];
     } else {
