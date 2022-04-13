@@ -1,4 +1,5 @@
 import { IEditorObject } from "../EditorObject";
+import { IPNSimulationParams } from "../SimulationParams";
 import { IArch, InputArch, OutputArch } from "./Arch";
 import { IPlace, Place } from "./Place";
 import { ITransition, Transition, TransitionType } from "./Transition";
@@ -32,7 +33,7 @@ export class PetriNetsSimulatorAdapter implements ISimulatorAdapter {
             delete allObjects[simObjectKey];
     }
 
-    constructor(simulatorModule: any, objects : IEditorObject[]) {
+    constructor(simulatorModule: any, objects : IEditorObject[], params : IPNSimulationParams) {
         this._engine = new simulatorModule.PetriNetsEngine();
 
         const places :  IPlace[] = [];
@@ -95,7 +96,7 @@ export class PetriNetsSimulatorAdapter implements ISimulatorAdapter {
 
         }
 
-            this._engine.init(10,10);
+            this._engine.init(params.endTime,10);
             this._engine.simulate();
             this.clear();
     }

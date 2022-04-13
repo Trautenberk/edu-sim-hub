@@ -54,3 +54,10 @@ export function convertDirectionToOffset (direction : Direction) : ICoordinates 
 export function logNotImplemented(name : string) {
     console.error(`Error: method call but not implemented ${name}`)
 }
+
+export function checkMinValueAndSetDefault(value : number, defaultValue : number = 1, minValue : number = 1 ) {
+    if (value <= minValue) {
+        return defaultValue;
+    }
+    return value;
+}

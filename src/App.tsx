@@ -12,7 +12,7 @@ import { EditMenu, CanvasSVG, IObjectGUIComponentFactory, ContBlocksGUIComponent
 import {Add, Div, Sub, Mul, Constant, Gain} from "Editor/Model/ContBlocks"
 import { PetriNetsSimulatorAdapter } from "Editor/Model/PetriNets"
 import SimulatorModule from "wasm-build/wasm_Simulator.js";
-import { defaultContBlocksSimulationParams, defaultPNSimulationParams } from 'Editor/Model/SimulationParams';
+import { defaultContBlocksSimulationParams, defaultPNSimulationParams, IPNSimulationParams } from 'Editor/Model/SimulationParams';
 
 /**
  * @author Jaromír Březina
@@ -63,7 +63,8 @@ export const App : FC = () => {
   },[dispatch])
   
   const initializePNEngine = () => {
-    const adapter = new PetriNetsSimulatorAdapter(simulatorModule, Object.values(simObjects));
+    const params = useSelector(state => state.simObjectManagement.simulationParams) as IPNSimulationParams;
+    const adapter = new PetriNetsSimulatorAdapter(simulatorModule, Object.values(simObjects), params);
   }
 
   // eslint-disable-next-line no-unused-vars

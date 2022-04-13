@@ -1,8 +1,8 @@
 import { setSimulationParams } from "Editor/Feature/SimObjectManagementSlice";
 import { IContBlocksSimulationParams } from "Editor/Model/SimulationParams";
 import { FC } from "react"
+import { checkMinValueAndSetDefault } from "../Utilities";
 import { useStoreHooks } from "../Utilities/CustomHooks";
-
 
 export const ContBlockSimulationParamsEdit  : FC = () => {
     const { dispatch, useSelector } = useStoreHooks();
@@ -10,17 +10,17 @@ export const ContBlockSimulationParamsEdit  : FC = () => {
     const params = {...useSelector(state => state.simObjectManagement.simulationParams)} as IContBlocksSimulationParams;
 
     const onEndTimeChange = (e : React.ChangeEvent<HTMLInputElement>) => {
-        params.endTime = parseInt(e.currentTarget.value);
+        params.endTime = checkMinValueAndSetDefault(parseInt(e.currentTarget.value));
         dispatch(setSimulationParams(params));
     }
 
     const onSimStepSizeChange = (e : React.ChangeEvent<HTMLInputElement>) => {
-        params.simStepSize = parseInt(e.currentTarget.value);
+        params.simStepSize = checkMinValueAndSetDefault(parseInt(e.currentTarget.value));
         dispatch(setSimulationParams(params));
     }
 
     const onStatisticsIntervalChange = (e : React.ChangeEvent<HTMLInputElement>) => {
-        params.statisticsInterval = parseInt(e.currentTarget.value);
+        params.statisticsInterval = checkMinValueAndSetDefault(parseInt(e.currentTarget.value));;
         dispatch(setSimulationParams(params));
     }
 
@@ -42,3 +42,4 @@ export const ContBlockSimulationParamsEdit  : FC = () => {
     </div>
     )
 }
+
