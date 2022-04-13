@@ -9,6 +9,7 @@ export type GUIComponents = {
 }
 
 export interface IObjectGUIComponentFactory {
-    getElement (object : IEditorObject) : GUIComponents;
-    getEdgeGUI () : FunctionComponent<EdgeSVGComponentProps>;
+    getElement(object : IEditorObject) : GUIComponents;
+    getEdgeGUI() : FunctionComponent<EdgeSVGComponentProps>;
+    getSimulationParamsEdit() : FunctionComponent;
 }

@@ -5,6 +5,7 @@ import { PlaceSVG, PlaceEdit, TransitionSVG, TransitionEdit, ArchSVG } from "./"
 import { FC, FunctionComponent } from "react";
 import { EdgeSVGComponentProps } from "../Utilities/UtilComponents/EdgeSVG";
 import { ArchEdit } from "./ArchEdit";
+import { PetriNetsSimulationParamsEdit } from "./PetriNetsSimulationParamsEdit";
 
 
 const emptyComponent : FC = () => {
@@ -32,5 +33,7 @@ export class PetriNetsGUIComponentFactory implements IObjectGUIComponentFactory 
         }
     }
 
-        
+    getSimulationParamsEdit(): FunctionComponent<{}> {
+       return PetriNetsSimulationParamsEdit; 
+    }
 }

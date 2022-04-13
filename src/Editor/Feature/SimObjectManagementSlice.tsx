@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Coordinates, NotImplementedException } from "Editor/Components/Utilities";
 import { IEditorObject } from "Editor/Model/EditorObject";
+import { IContBlocksSimulationParams, IPNSimulationParams } from "Editor/Model/SimulationParams";
 import { ICoordinates } from "Editor/Model/UtilClasses/Coordinates";
 import { IEdge, isEdge } from "Editor/Model/UtilClasses/Edge";
 import { IEndPoint, IPoint, Point } from "Editor/Model/UtilClasses/Point";
@@ -8,6 +9,7 @@ import { RootState } from "Editor/Store/Store";
 
 
 type SimObjectManagementState = {
+    simulationParams : IPNSimulationParams | IContBlocksSimulationParams | null
     objects : {[id : string] : IEditorObject}
     edgeObjectsIds : string[];
     selectedObjectId: string | null
@@ -19,6 +21,7 @@ type SimObjectManagementState = {
 }
 
 const initialState : SimObjectManagementState = {
+    simulationParams: null,
     objects: {},
     edgeObjectsIds: [],
     selectedObjectId: null,
@@ -224,6 +227,9 @@ const simObjectManagementSlice = createSlice({
         },
         setDistanceThreshold (state, action : PayloadAction<number>) {
             state.distanceThreshold = action.payload;
+        },
+        setSimulationParams(state, action : PayloadAction<IPNSimulationParams | IContBlocksSimulationParams>) {
+            state.simulationParams = action.payload; 
         }
     }
 })
@@ -261,6 +267,7 @@ export const {
     removePoint,
     toggleIsLastPointMoving,
     selectObject,
-    unselectObject
+    unselectObject,
+    setSimulationParams
 } = simObjectManagementSlice.actions;
 export default simObjectManagementSlice.reducer;

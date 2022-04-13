@@ -27,9 +27,10 @@ export const EditMenu : FC<EditMenuProps> = (props) => {
             </div>
         )
     }  else {
+        const SimulationParamsEdit = props.factory.getSimulationParamsEdit();
         return(
             <div className={style.edit_menu}>
-                <p>Neni vybran zadny element</p>
+                <SimulationParamsEdit></SimulationParamsEdit>                
             </div>
         )
     }    

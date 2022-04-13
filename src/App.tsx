@@ -7,12 +7,12 @@ import { Place, Transition } from "Editor/Model/PetriNets"
 import { MenuIcons } from "Editor/Components/Icons"
 import { NotImplementedException } from 'Editor/Components/Utilities';
 import { useAppDispatch, useAppSelector } from 'Editor/Store/Hooks';
-import { addObject, removeAllObjects, removeObject, selectedObjectId,  unselectObject } from 'Editor/Feature/SimObjectManagementSlice';
+import { addObject, removeAllObjects, removeObject, selectedObjectId,  setSimulationParams,  unselectObject } from 'Editor/Feature/SimObjectManagementSlice';
 import { EditMenu, CanvasSVG, IObjectGUIComponentFactory, ContBlocksGUIComponentFactory, PetriNetsGUIComponentFactory } from "Editor/Components"
 import {Add, Div, Sub, Mul, Constant, Gain} from "Editor/Model/ContBlocks"
 import { PetriNetsSimulatorAdapter } from "Editor/Model/PetriNets"
 import SimulatorModule from "wasm-build/wasm_Simulator.js";
-import { PlaceSVG } from 'Editor/Components/PetriNets';
+import { defaultContBlocksSimulationParams, defaultPNSimulationParams } from 'Editor/Model/SimulationParams';
 
 /**
  * @author Jaromír Březina
@@ -101,6 +101,7 @@ export const App : FC = () => {
   /// Inicializace Petriho sítí
   const initializePetriNets = () => {
     dispatch(removeAllObjects())
+    dispatch(setSimulationParams(defaultPNSimulationParams));
     setCanvasElementTypes(petriNetsCanvasElementsTypes);
     setobjectGUIComponentFactory(new PetriNetsGUIComponentFactory());
     setShowMenu(false);
@@ -110,6 +111,7 @@ export const App : FC = () => {
   /// Inicializace Spojitých bloků
   const initializeContBlocks = () => {
     dispatch(removeAllObjects())
+    dispatch(setSimulationParams(defaultContBlocksSimulationParams));
     setCanvasElementTypes(contBlocksCanvasElementsTypes)
     setobjectGUIComponentFactory(new ContBlocksGUIComponentFactory());
     setShowMenu(false);

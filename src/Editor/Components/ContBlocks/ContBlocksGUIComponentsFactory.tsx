@@ -6,6 +6,7 @@ import { AddSVG, DivSVG, SubSVG, MulSVG, ConstantSVG, GainSVG } from "Editor/Com
 import { EdgeSVG, EdgeSVGComponentProps } from "../Utilities/UtilComponents/EdgeSVG";
 import { SignalSVG } from "./SignalSVG";
 import { Signal } from "Editor/Model/ContBlocks/Signal";
+import { ContBlockSimulationParamsEdit } from "./ContBlockSimulationParamsEdit";
 
 
 const emptyComponent : FC = () => {
@@ -37,5 +38,9 @@ export class ContBlocksGUIComponentFactory implements IObjectGUIComponentFactory
             default:
                 throw new Error("Couldnt find SVG component for given object");
         }
+    }
+
+    getSimulationParamsEdit(): FunctionComponent<{}> {
+        return ContBlockSimulationParamsEdit;
     }
 }
