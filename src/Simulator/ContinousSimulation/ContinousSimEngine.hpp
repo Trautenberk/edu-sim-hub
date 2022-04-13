@@ -19,7 +19,6 @@ class ContinousSimEngine : public SimEngine {
         void statisticsStep();
 
         double stepSize();
-        function<void(void)> Sample = [](){};
 
     protected:
         vector<ContinousSimObject*> _objects = {};

@@ -50,6 +50,7 @@ void DiscreteEngine::updateTime(double nextEventTime)
     {
         std::cout << "Detekce zmeny casu" << std::endl;
         this->gatherStatistics(); // pokud dojde k posunu casu, sesbirej statistiky
+        this->Sample();
         this->_iteration = 0;   // vynuluju 
     } 
     else    // nedošlo k posunu

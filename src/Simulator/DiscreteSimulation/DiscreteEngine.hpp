@@ -19,7 +19,7 @@ using namespace std;
 class DiscreteEngine : public SimEngine {
     public:
         void init(float endTime, int maxIteration = 1000);
-        virtual void simulate();
+        virtual void simulate() override;
         virtual void simulationBegin() override;
         virtual void simulationEnd() override;
         void addDiscreteObject(DiscreteSimObject* object);
