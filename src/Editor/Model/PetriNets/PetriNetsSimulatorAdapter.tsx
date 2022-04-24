@@ -18,7 +18,7 @@ export class PetriNetsSimulatorAdapter implements ISimulatorAdapter {
     private _outputArchesDict : {[key : string] : IArch } = {};
     private _transitionsDict : {[key : string] : ITransition } = {};
 
-    private statistics : any;
+    public statistics : IPetriNetsStatistics;
     
     public init(endTime : number, maxIteration : number): void {
         this._engine.init(endTime, maxIteration);
@@ -34,6 +34,41 @@ export class PetriNetsSimulatorAdapter implements ISimulatorAdapter {
         for (const simObjectKey of Object.keys(allObjects))
             delete allObjects[simObjectKey];
     }
+
+    private convertStatistics(rawStatistics : any) : IPetriNetsStatistics {
+        const statistics : IPetriNetsStatistics = { 
+            simulationTime: rawStatistics.simulationTime,
+            placeRecords : {},
+            transitionRecords: {}
+        };
+
+        for(const id of Object.keys(this._placesDict)) {
+            const specificPlaceRecords = rawStatistics.placeRecords.get(id);
+            const recordsArray : PlaceRecord[] = []; 
+
+            for (let i = 0; i < specificPlaceRecords.size(); i++) {
+                const rawRecord = specificPlaceRecords.get(i);
+                recordsArray.push({time: rawRecord.time, tokens : rawRecord.tokens});
+            }
+
+            statistics.placeRecords[id] = recordsArray;
+        }
+
+        for(const id of Object.keys(this._transitionsDict)) {
+            const specificTransitionRecords = rawStatistics.transitionRecords.get(id);
+            const recordsArray : TransitionRecord[] = []; 
+
+            for (let i = 0; i < specificTransitionRecords.size(); i++) {
+                const rawRecord = specificTransitionRecords.get(i);
+                recordsArray.push({time: rawRecord.time, fired : rawRecord.fired});
+            }
+
+            statistics.transitionRecords[id] = recordsArray;
+        }
+
+        return statistics;
+    }
+
 
     constructor(simulatorModule: any, objects : IEditorObject[], params : IPNSimulationParams) {
         this._engine = new simulatorModule.PetriNetsEngine();
@@ -100,8 +135,26 @@ export class PetriNetsSimulatorAdapter implements ISimulatorAdapter {
 
             this._engine.init(params.endTime,10);
             this._engine.simulate();
-            this.statistics = this._engine.statistics();
+            this.statistics = this.convertStatistics(this._engine.statistics())
             this.clear();
     }
 
+}
+
+
+export interface IPetriNetsStatistics {
+    simulationTime : number
+    placeRecords : {[key : string] : PlaceRecord[] }
+    transitionRecords : {[key : string] : TransitionRecord[] }
+}
+
+
+export type PlaceRecord = {
+    time : number
+    tokens : number
+}
+
+export type TransitionRecord = {
+    time : number
+    fired : number
 }

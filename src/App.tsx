@@ -13,6 +13,7 @@ import {Add, Div, Sub, Mul, Constant, Gain} from "Editor/Model/ContBlocks"
 import { PetriNetsSimulatorAdapter } from "Editor/Model/PetriNets"
 import SimulatorModule from "wasm-build/wasm_Simulator.js";
 import { defaultContBlocksSimulationParams, defaultPNSimulationParams, IPNSimulationParams } from 'Editor/Model/SimulationParams';
+import { setStatistics } from 'Editor/Feature/StatisticsSlice';
 
 /**
  * @author Jaromír Březina
@@ -65,6 +66,8 @@ export const App : FC = () => {
   
   const initializePNEngine = () => {
     const adapter = new PetriNetsSimulatorAdapter(simulatorModule, Object.values(simObjects), simulationParams as IPNSimulationParams);
+    adapter.statistics;
+    dispatch(setStatistics(adapter.statistics));
   }
 
   // eslint-disable-next-line no-unused-vars
