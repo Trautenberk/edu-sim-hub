@@ -1,7 +1,19 @@
 #include "Sub.hpp"
 
-Sub::Sub(ContBlockEngineObj engine, ContBlockObj inputFirst, ContBlockObj inputSecond) : ContBlockDouble(engine, inputFirst, inputSecond)
+const string subTypeName = "SubBlock";
+
+Sub::Sub(objectId id, ContBlockEngineObj engine, ContBlockObj inputFirst, ContBlockObj inputSecond) 
+: ContBlockDouble(id, engine, inputFirst, inputSecond)
 {}
+
+Sub::Sub(ContBlockEngineObj engine, ContBlockObj inputFirst, ContBlockObj inputSecond)
+: Sub(SimObject::createId(subTypeName), engine, inputFirst, inputSecond)
+{}
+
+string Sub::objTypeName()
+{
+    return subTypeName;
+}
 
 void Sub::eval()
 {}

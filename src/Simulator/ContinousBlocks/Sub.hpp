@@ -5,9 +5,10 @@
 
 class Sub : public ContBlockDouble {
     public:
+        Sub(objectId id, ContBlockEngineObj engine, ContBlockObj inputFirst, ContBlockObj inputSecond);
         Sub(ContBlockEngineObj engine, ContBlockObj inputFirst, ContBlockObj inputSecond);
         static ContBlockObj New(ContBlockEngineObj engine, ContBlockObj inputFirst, ContBlockObj inputSecond);
-        string objTypeName() {return "SubBlock";};
+        string objTypeName();
         void eval();
         double value();
 };

@@ -26,7 +26,7 @@ class ContBlockEngine : public ContinousSimEngine {
 
     private:
         std::vector<Integrator*> _allIntegrators;
-        unique_ptr<ContBlockStatistics> _statistics = make_unique<ContBlockStatistics>();  
+        ContBlockStatistics _statistics = ContBlockStatistics();  
         function<double(double currentState, double derivation, double step)> _integrationMethod;
 };
 

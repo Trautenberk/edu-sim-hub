@@ -14,28 +14,28 @@ using namespace std;
 
 class ContBlock : public ContinousSimObject {
     public:
-        ContBlock(shared_ptr<ContBlockEngine> engine);
+        ContBlock(objectId, ContBlockEngineObj engine);
         virtual double value() = 0;
-        shared_ptr<ContBlockEngine> engine;
+        ContBlockEngineObj engine;
 };
 
 class ContBlockSingle : public ContBlock {
     public: 
-        ContBlockSingle(shared_ptr<ContBlockEngine> engine, shared_ptr<ContBlock> _input);
-        shared_ptr<ContBlock> input;
+        ContBlockSingle(objectId id, ContBlockEngineObj engine, shared_ptr<ContBlock> _input);
+        ContBlockObj input;
 };
 
 class ContBlockDouble : public ContBlock {
     public:
-        ContBlockDouble(shared_ptr<ContBlockEngine> engine, shared_ptr<ContBlock> inputFirst, shared_ptr<ContBlock> inputSecond);
-        shared_ptr<ContBlock> inputFirst;
-        shared_ptr<ContBlock> inputSecond;
+        ContBlockDouble(objectId id, ContBlockEngineObj engine, ContBlockObj inputFirst, ContBlockObj inputSecond);
+        ContBlockObj inputFirst;
+        ContBlockObj inputSecond;
 };
 
 class ContBlockMulti : public ContBlock {
     public: 
-        ContBlockMulti(shared_ptr<ContBlockEngine> engine, vector<shared_ptr<ContBlock>> inputs);
-        vector<shared_ptr<ContBlock>> inputs;
+        ContBlockMulti(objectId id, ContBlockEngineObj engine, vector<ContBlockObj> inputs);
+        vector<ContBlockObj> inputs;
 };
 
 #endif // __CONTBLOCK_H__

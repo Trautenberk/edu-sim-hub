@@ -8,10 +8,11 @@ using namespace std;
 
 class Div : public ContBlockDouble {
     public:
+        Div(objectId id, ContBlockEngineObj engine, ContBlockObj value, ContBlockObj divider);
         Div(ContBlockEngineObj engine, ContBlockObj value, ContBlockObj divider);
         static ContBlockObj New(ContBlockEngineObj engine, ContBlockObj value, ContBlockObj divider);
 
-        string objTypeName() {return "DivBlock";};
+        string objTypeName();
         void eval();
         double value();
 };

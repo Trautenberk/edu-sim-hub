@@ -4,21 +4,19 @@
 #include <string>
 #include "DiscreteSimulation/Calendar.hpp"
 
-using namespace std;
-using objectId = int;
-
+using objectId = std::string;
 
  class SimObject {
 
     private:
         static int _objCounter;
-    public: 
-        string name() {return objTypeName() + "_" + to_string(_id);}
-        const objectId id() const {return _id;};
+    public:
+        static string createId(string objectType); 
+        const objectId id();
         virtual string objTypeName() = 0;
-        SimObject();
+        SimObject(objectId id);
     private:
-        objectId _id = 0;
+        objectId _id;
 };
 
 

@@ -1,7 +1,19 @@
 #include "Add.hpp"
 
-Add::Add(ContBlockEngineObj engine, ContBlockObj inputFirst, ContBlockObj inputSecond) : ContBlockDouble(engine, inputFirst, inputSecond)
+const string addTypeName = "AddBlock";
+
+Add::Add(objectId id, ContBlockEngineObj engine, ContBlockObj inputFirst, ContBlockObj inputSecond)
+: ContBlockDouble(id, engine, inputFirst, inputSecond)
 {}
+
+Add::Add(ContBlockEngineObj engine, ContBlockObj inputFirst, ContBlockObj inputSecond)
+: Add(SimObject::createId(addTypeName) ,engine, inputFirst, inputSecond)
+{}
+
+string Add::objTypeName()
+{
+    return addTypeName;
+}
 
 ContBlockObj Add::New(ContBlockEngineObj engine, ContBlockObj inputFirst, ContBlockObj inputSecond)
 {

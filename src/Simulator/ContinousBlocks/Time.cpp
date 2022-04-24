@@ -1,7 +1,19 @@
 #include "Time.hpp"
 
-Time::Time(ContBlockEngineObj engine) : ContBlock(engine)
+const string timeTypeName = "TimeBlock";
+
+Time::Time(objectId id, ContBlockEngineObj engine) 
+: ContBlock(id, engine)
 {}
+
+Time::Time(ContBlockEngineObj engine) 
+: Time(SimObject::createId(timeTypeName), engine)
+{}
+
+string Time::objTypeName()
+{
+    return timeTypeName;
+}
 
 void Time::eval() {};
 

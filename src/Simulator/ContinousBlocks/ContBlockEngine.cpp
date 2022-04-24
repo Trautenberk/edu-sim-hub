@@ -15,7 +15,7 @@ void ContBlockEngine::addIntegrator(Integrator *integrator)
 
 void ContBlockEngine::simStep() 
 {
-    this->dynamic();    // aktualizace stavu systemu
+    this->dynamic();    // aktualizace stavu modelu
     this->integrate();  // provedu integraci na vsech integratorech
     this->_time += this->_stepSize;   // inkrementace casu
 }
@@ -64,5 +64,5 @@ void ContBlockEngine::gatherStatistics()
         record.integratorRecords.insert(std::pair<objectId, IntegratorRecord>(integrator->id(), integrator->getStatisticsRecord()));
     }
 
-    this->_statistics->records.push_back(record);
+    this->_statistics.records.push_back(record);
 }

@@ -1,7 +1,19 @@
 #include "Constant.hpp"
 
-Constant::Constant(ContBlockEngineObj engine, double value) : ContBlock(engine), _value(value) 
+const string constantTypeName = "ConstantBlock";
+
+Constant::Constant(objectId id, ContBlockEngineObj engine, double value) 
+: ContBlock(id, engine), _value(value) 
 {}
+
+Constant::Constant(ContBlockEngineObj engine, double value)
+: Constant(SimObject::createId(constantTypeName), engine, value)
+{}
+
+string Constant::objTypeName()
+{
+    return constantTypeName;
+}
 
 double Constant::value() 
 {

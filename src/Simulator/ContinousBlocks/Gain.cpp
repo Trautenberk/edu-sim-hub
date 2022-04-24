@@ -1,8 +1,19 @@
 #include "Gain.hpp"
 
-Gain::Gain(ContBlockEngineObj engine, double _gain, ContBlockObj input) : ContBlockSingle(engine, input), gain(_gain)
+const string gainTypeName = "GainBlock";
+
+Gain::Gain(objectId id, ContBlockEngineObj engine, double _gain, ContBlockObj input)
+: ContBlockSingle(id, engine, input), gain(_gain)
 {}  
 
+Gain::Gain(ContBlockEngineObj engine, double _gain, ContBlockObj input)
+: Gain(SimObject::createId(gainTypeName), engine, gain, input)
+{}
+
+string Gain::objTypeName()
+{
+    return gainTypeName;
+}
 
 void Gain::eval()
 {}

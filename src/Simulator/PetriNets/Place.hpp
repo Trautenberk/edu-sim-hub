@@ -17,15 +17,16 @@ using PlaceObj = shared_ptr<Place>;
 class Place : public PetriNetsObject {
     public :
 
-        static PlaceObj New(PetriNetsEngineObj engine, string label, int tokens = 0, string auxName = "");
-        Place(PetriNetsEngineObj engine, string label, int tokens = 0, string auxName = "");
+        Place(objectId id, PetriNetsEngineObj engine, string label, int tokens = 0);
+        Place(PetriNetsEngineObj engine, string label, int tokens = 0);
+        static PlaceObj New(PetriNetsEngineObj engine, string label, int tokens = 0);
 
-        string label() {return _label;};
-        int tokens() {return _tokens;};
+        string label() { return _label; };
+        int tokens() { return _tokens; };
         void removeTokens(int cnt);
         void addTokens(int cnt);
-        string objTypeName() {return "Place";};
-        void initialize() {return;};
+        string objTypeName();
+        void initialize() { return; };
         PlaceRecord getStatisticsRecord();
     private:
         string _label;
@@ -38,6 +39,7 @@ class TestClass {
 };
 
 void bbb();
+
 
 
 #endif

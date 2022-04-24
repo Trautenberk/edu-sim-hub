@@ -6,6 +6,7 @@
 class ContinousSimObject : public SimObject 
 {
     public:
+        ContinousSimObject(objectId id) : SimObject(id) {};
         virtual void eval() = 0;
 };
 

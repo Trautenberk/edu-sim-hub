@@ -5,12 +5,14 @@
 
 class Time : public ContBlock {
     public:
+
+        Time(objectId id, ContBlockEngineObj engine);
         Time(ContBlockEngineObj engine);
         static ContBlockObj New(ContBlockEngineObj engine);
 
         void eval();
         double value();
-        string objTypeName() {return "TimeBlock";};
+        string objTypeName();
 
 };
 

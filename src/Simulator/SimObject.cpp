@@ -2,10 +2,15 @@
 
 int SimObject::_objCounter = 0;
 
-SimObject::SimObject() : _id(_objCounter++)
-{}
-
-string SimObject::objTypeName()
+SimObject::SimObject(string id) 
 {
-    return "SimObject";
+    this->_id = id;
 }
+
+const objectId SimObject::id() { return this->_id; };
+
+string SimObject::createId(string objectType)
+{
+    return objectType + "_" + std::to_string(_objCounter++);
+} 
+

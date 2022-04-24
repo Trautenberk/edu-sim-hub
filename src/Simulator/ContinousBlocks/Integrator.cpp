@@ -1,18 +1,33 @@
 #include "Integrator.hpp"
 #include "Constant.hpp"
 
+const string integratorTypeName = "IntegratorBlock";
 
-Integrator::Integrator(ContBlockEngineObj engine, ContBlockObj input, double initialValue)
-: ContBlockSingle(engine, input), _initialValue(initialValue), _currentState(initialValue) 
+Integrator::Integrator(objectId id, ContBlockEngineObj engine, ContBlockObj input, double initialValue)
+: ContBlockSingle(id, engine, input), _initialValue(initialValue), _currentState(initialValue) 
 {
     engine->addIntegrator(this);
 }
 
+Integrator::Integrator(ContBlockEngineObj engine, ContBlockObj input, double initialValue)
+: Integrator(SimObject::createId(integratorTypeName), engine, input, initialValue)
+{}
+
+
 #define DUMMY_BLOCK make_shared<Constant>(nullptr, 0)
 
-Integrator::Integrator(ContBlockEngineObj engine, double initialValue) 
-: Integrator(engine, DUMMY_BLOCK, initialValue)
+Integrator::Integrator(objectId id, ContBlockEngineObj engine, double initialValue) 
+: Integrator(id, engine, DUMMY_BLOCK, initialValue)
 {}
+
+Integrator::Integrator(ContBlockEngineObj engine, double initialValue) 
+: Integrator(SimObject::createId(integratorTypeName), engine, DUMMY_BLOCK, initialValue)
+{}
+
+string Integrator::objTypeName()
+{
+    return integratorTypeName;
+}
 
 void Integrator::eval()
 {

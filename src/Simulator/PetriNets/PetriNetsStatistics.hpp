@@ -19,21 +19,19 @@ struct TransitionRecord;
 struct PNStatisticsRecord;
 
 struct PetriNetsStatistics {
-    std::vector<PNStatisticsRecord> records;
+    std::map<objectId, std::vector<PlaceRecord>> placeRecords = {};
+    std::map<objectId, std::vector<TransitionRecord>> transitionRecords = {};
     double simulationTime = -1;
 };
 
-struct PNStatisticsRecord {
-    double time;
-    std::map<objectId, PlaceRecord> placeRecords = {};
-    std::map<objectId, TransitionRecord> transitionRecords = {};
-};
 
 struct PlaceRecord  {
+    double time;
     int tokens;
 };
 
 struct TransitionRecord {
+    double time;
     int fired;
 };
 

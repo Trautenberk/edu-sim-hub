@@ -22,22 +22,30 @@ PetriNetsEngineObj PetriNetsEngine::New()
     return make_shared<PetriNetsEngine>();
 }
 
-void PetriNetsEngine::gatherStatistics()
+void PetriNetsEngine::initializeStatistics()
 {
-    auto record = PNStatisticsRecord();
-    record.time = this->time();
-
     for (auto place : this->_allPlaces)
     {
-        record.placeRecords.insert(std::pair<objectId, PlaceRecord>(place->id(), place->getStatisticsRecord()));
+        this->_statistics.placeRecords.insert({place->id(), std::vector<PlaceRecord> {}});
     }
 
     for (auto transition : this->allTransitions)
     {
-        record.transitionRecords.insert(std::pair<objectId, TransitionRecord>(transition->id(), transition->getStatisticsRecord()));
+        this->_statistics.transitionRecords.insert({transition->id(), std::vector<TransitionRecord>{}});
+    }
+}
+
+void PetriNetsEngine::gatherStatistics()
+{
+    for (auto place : this->_allPlaces)
+    {
+        this->_statistics.placeRecords[place->id()].push_back(place->getStatisticsRecord());
     }
 
-    this->_statistics.records.push_back(record);
+    for (auto transition : this->allTransitions)
+    {
+        this->_statistics.transitionRecords[transition->id()].push_back(transition->getStatisticsRecord());
+    }
 }
 
 PetriNetsStatistics PetriNetsEngine::statistics() {
@@ -48,23 +56,23 @@ PetriNetsStatistics PetriNetsEngine::statistics() {
  EMSCRIPTEN_BINDINGS(PetriNetsEngine) {
 
         emscripten::value_object<PlaceRecord>("PlaceRecord")
+            .field("time", &PlaceRecord::time)
             .field("tokens", &PlaceRecord::tokens);
 
         emscripten::value_object<TransitionRecord>("TransitionRecord")
+            .field("time", &TransitionRecord::time)
             .field("fired", &TransitionRecord::fired);
 
-        emscripten::register_map<objectId, PlaceRecord>("PlaceRecordsMap");
-        emscripten::register_map<objectId, TransitionRecord>("TransitionRecordsMap");
-        emscripten::register_vector<PNStatisticsRecord>("PNStatisticsRecordVector");
+        emscripten::register_vector<PlaceRecord>("PlaceRecordVector");
+        emscripten::register_vector<TransitionRecord>("TransitionRecordVector");
 
-        emscripten::value_object<PNStatisticsRecord>("PNStatisticsRecord")
-            .field("time", &PNStatisticsRecord::time)
-            .field("placeRecords", &PNStatisticsRecord::placeRecords)
-            .field("transitionRecords", &PNStatisticsRecord::transitionRecords);
+        emscripten::register_map<objectId, std::vector<PlaceRecord>>("PlaceRecordsMap");
+        emscripten::register_map<objectId, std::vector<TransitionRecord>>("TransitionRecordsMap");
 
         emscripten::value_object<PetriNetsStatistics>("PetriNetsStatistics")
             .field("simulationTime", &PetriNetsStatistics::simulationTime)
-            .field("records", &PetriNetsStatistics::records);
+            .field("placeRecords", &PetriNetsStatistics::placeRecords)
+            .field("transitionRecords", &PetriNetsStatistics::transitionRecords);
 
         emscripten::class_<PetriNetsEngine, emscripten::base<DiscreteEngine>>("PetriNetsEngine")
             .smart_ptr_constructor<shared_ptr<PetriNetsEngine>>("shared_ptr<PetriNetsEngine>", &std::make_shared<PetriNetsEngine>)

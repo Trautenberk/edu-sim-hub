@@ -17,7 +17,7 @@ using ArchObj = shared_ptr<Arch>;
 
 class Arch : public PetriNetsObject {
     public:
-        Arch(PetriNetsEngineObj engine, PlaceObj targetPlace, int weight = 1, string auxName = "");
+        Arch(objectId id, PetriNetsEngineObj engine, PlaceObj targetPlace, int weight = 1);
         virtual string objTypeName() = 0;
         int weight() const {return _weight;};
         shared_ptr<Place> targetPlace;
@@ -33,9 +33,10 @@ using InputArchObj = shared_ptr<InputArch>;
 
 class InputArch : public Arch {
     public:
-        InputArch(PetriNetsEngineObj engine, PlaceObj targetPlace, int weight = 1, string auxName = "");
-        static InputArchObj New(PetriNetsEngineObj engine, PlaceObj targetPlace, int weight = 1, string auxName = ""); 
-        string objTypeName() {return "InputArch";};
+        InputArch(objectId id, PetriNetsEngineObj engine, PlaceObj targetPlace, int weight = 1);
+        InputArch(PetriNetsEngineObj engine, PlaceObj targetPlace, int weight = 1);
+        static InputArchObj New(PetriNetsEngineObj engine, PlaceObj targetPlace, int weight = 1); 
+        string objTypeName();
         void execute();
         int satisfied();
 };
@@ -47,9 +48,10 @@ using OutputArchObj = shared_ptr<OutputArch>;
 
 class OutputArch : public Arch {
     public:
-        OutputArch(PetriNetsEngineObj engine, PlaceObj targetPlace, int weight = 1, string auxName = "");
-        static OutputArchObj New(PetriNetsEngineObj engine, PlaceObj targetPlace, int weight = 1, string auxName = "");
-        string objTypeName() {return "OutputArch";};
+        OutputArch(objectId id, PetriNetsEngineObj engine, PlaceObj targetPlace, int weight = 1);
+        OutputArch(PetriNetsEngineObj engine, PlaceObj targetPlace, int weight = 1);
+        static OutputArchObj New(PetriNetsEngineObj engine, PlaceObj targetPlace, int weight = 1);
+        string objTypeName();
         void execute();
 };
 

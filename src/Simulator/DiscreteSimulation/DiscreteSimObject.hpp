@@ -5,6 +5,7 @@
 
 class DiscreteSimObject : public SimObject {
     public:
+        DiscreteSimObject(objectId id) : SimObject(id) {};
         virtual void initialize() = 0;
 };
 

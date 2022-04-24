@@ -1,7 +1,19 @@
 #include "Div.hpp"
 
-Div::Div(ContBlockEngineObj engine, ContBlockObj value, ContBlockObj divider) : ContBlockDouble(engine, value, divider) 
+const string divTypeName = "DivBlock";
+
+Div::Div(objectId id, ContBlockEngineObj engine, ContBlockObj value, ContBlockObj divider) 
+: ContBlockDouble(id, engine, value, divider) 
 {}
+
+Div::Div(ContBlockEngineObj engine, ContBlockObj value, ContBlockObj divider) 
+: Div(SimObject::createId(divTypeName), engine, value, divider)
+{} 
+
+string Div::objTypeName()
+{
+    return divTypeName;
+}
 
 void Div::eval()
 {}

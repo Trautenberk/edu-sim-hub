@@ -23,16 +23,16 @@ class Transition : public PetriNetsObject
         vector<ArchObj> allArches = {};
         deque<int> plannedEventsId = {};
 
-        Transition(PetriNetsEngineObj engine, std::string label, vector<InputArchObj> inputArches, vector<OutputArchObj> outputArches, std::string auxName = "");
+        Transition(objectId id, PetriNetsEngineObj engine, std::string label, vector<InputArchObj> inputArches, vector<OutputArchObj> outputArches);
         void initialize();
         int allInputArchSsatisfied();
         virtual void planTransitionFiringEvent() = 0;
         void removeTransitionFiringEvent();
         void rePlanTransition();
         void fire(int eventId);
-        bool hasPlaceOnInput(vector<int> &placeId);
-        vector<int> placeIdsOnInput = {};
-        vector<int> placeIdsOnOutput = {};
+        bool hasPlaceOnInput(vector<objectId> &placeId);
+        vector<objectId> placeIdsOnInput = {};
+        vector<objectId> placeIdsOnOutput = {};
 
         TransitionRecord getStatisticsRecord();
         int firedCnt();
@@ -49,9 +49,10 @@ using ImmediateTransitionObj = shared_ptr<ImmediateTransition>;
 class ImmediateTransition : public Transition {
     public:
         int priority;
-        std::string objTypeName() {return "ImmediateTransition";};
-        ImmediateTransition(PetriNetsEngineObj engine, std::string label, vector<InputArchObj> inputArches, vector<OutputArchObj> outputArches, int priority = 0, std::string auxName = "");
-        static ImmediateTransitionObj New(PetriNetsEngineObj engine, std::string label, vector<InputArchObj> inputArches, vector<OutputArchObj> outputArches, int priority = 0, std::string auxName = "");
+        std::string objTypeName();
+        ImmediateTransition(objectId id, PetriNetsEngineObj engine, std::string label, vector<InputArchObj> inputArches, vector<OutputArchObj> outputArches, int priority = 0);
+        ImmediateTransition(PetriNetsEngineObj engine, std::string label, vector<InputArchObj> inputArches, vector<OutputArchObj> outputArches, int priority = 0);
+        static ImmediateTransitionObj New(PetriNetsEngineObj engine, std::string label, vector<InputArchObj> inputArches, vector<OutputArchObj> outputArches, int priority = 0);
         
         void planTransitionFiringEvent();
 };
@@ -65,9 +66,10 @@ using TimedTransitionObj = shared_ptr<TimedTransition>;
 class TimedTransition : public Transition {
     public:
         int delay;
-        std::string objTypeName() {return "TimedTransition";};
-        TimedTransition(PetriNetsEngineObj engine, std::string label, vector<InputArchObj> inputArches, vector<OutputArchObj>  outputArches, int delay, std::string auxName = "");
-        static TimedTransitionObj New(PetriNetsEngineObj engine, std::string label, vector<InputArchObj> inputArches, vector<OutputArchObj>  outputArches, int delay, std::string auxName = "");
+        std::string objTypeName();
+        TimedTransition(objectId id, PetriNetsEngineObj engine, std::string label, vector<InputArchObj> inputArches, vector<OutputArchObj>  outputArches, int delay);
+        TimedTransition(PetriNetsEngineObj engine, std::string label, vector<InputArchObj> inputArches, vector<OutputArchObj>  outputArches, int delay);
+        static TimedTransitionObj New(PetriNetsEngineObj engine, std::string label, vector<InputArchObj> inputArches, vector<OutputArchObj>  outputArches, int delay);
 
         void planTransitionFiringEvent();
 };

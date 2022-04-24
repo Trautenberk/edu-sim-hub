@@ -18,6 +18,7 @@ class PetriNetsEngine : public DiscreteEngine {
         void addTransition(Transition* transition);
         vector<Transition*> allTransitions = {};            // TODO vyhodit jako private
         void gatherStatistics() override;
+        void initializeStatistics();
 
         PetriNetsStatistics statistics();
     private:

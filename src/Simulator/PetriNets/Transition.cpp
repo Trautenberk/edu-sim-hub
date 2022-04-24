@@ -4,8 +4,8 @@
 using namespace std;
 
 // Transition
-Transition::Transition(shared_ptr<PetriNetsEngine> engine, string label, vector<InputArchObj> inputArches, vector<OutputArchObj> outputArches, string auxName) 
-: PetriNetsObject(engine, auxName)
+Transition::Transition(objectId id, PetriNetsEngineObj engine, string label, vector<InputArchObj> inputArches, vector<OutputArchObj> outputArches) 
+: PetriNetsObject(id, engine)
 {
     this->label = label;
     this->inputArches = inputArches;
@@ -32,7 +32,7 @@ Transition::Transition(shared_ptr<PetriNetsEngine> engine, string label, vector<
 
 void Transition::initialize()
 {
-    cout << "Transition initialization " << this->auxName()  << endl;
+    cout << "Transition initialization withId: " << this->id()  << endl;
     // cout << "Inputs satisfied: " << this->allInputArchSsatisfied() << endl;
     for (int i = 0; i < this->allInputArchSsatisfied(); i++)
         this->planTransitionFiringEvent();
@@ -105,10 +105,10 @@ void Transition::fire(int eventId)
         }
     }
     this->_firedCnt++;
-    std::cout << "Transition : " << this->auxName()  << " fired!!" << std::endl; 
+    std::cout << "Transition : " << this->id() << " fired!!" << std::endl; 
 }
 
-bool Transition::hasPlaceOnInput(vector<int> &placeIds)
+bool Transition::hasPlaceOnInput(vector<objectId> &placeIds)
 {
     for (auto& arch : this->inputArches)
     {
@@ -147,17 +147,22 @@ int Transition::firedCnt()
 
 TransitionRecord Transition::getStatisticsRecord()
 {
-    return TransitionRecord {this->_firedCnt};
+    return TransitionRecord { this->engine->time(), this->_firedCnt };
 }
 
 ////////////////////////////////////////////////////////////////
 // ImmediateTransition
+const string immediateTransitionTypeName = "ImmediateTransition";
 
-ImmediateTransition::ImmediateTransition(PetriNetsEngineObj engine, string label, vector<InputArchObj> inputArches, vector<OutputArchObj> outputArches, int priority, string auxName)
-: Transition(engine, label, inputArches, outputArches, auxName)
+ImmediateTransition::ImmediateTransition(objectId id, PetriNetsEngineObj engine, string label, vector<InputArchObj> inputArches, vector<OutputArchObj> outputArches, int priority)
+: Transition(id, engine, label, inputArches, outputArches)
 {
     this->priority = priority;
 }
+
+ImmediateTransition::ImmediateTransition(PetriNetsEngineObj engine, std::string label, vector<InputArchObj> inputArches, vector<OutputArchObj> outputArches, int priority)
+: ImmediateTransition(SimObject::createId(immediateTransitionTypeName), engine, label, inputArches, outputArches)
+{}
 
 void ImmediateTransition::planTransitionFiringEvent()
 {
@@ -167,19 +172,31 @@ void ImmediateTransition::planTransitionFiringEvent()
     this->plannedEventsId.push_back(event.id);    
 }
 
-ImmediateTransitionObj ImmediateTransition::New(PetriNetsEngineObj engine, std::string label, vector<InputArchObj> inputArches, vector<OutputArchObj> outputArches, int priority, std::string auxName)
+ImmediateTransitionObj ImmediateTransition::New(PetriNetsEngineObj engine, std::string label, vector<InputArchObj> inputArches, vector<OutputArchObj> outputArches, int priority)
 {
-    return make_shared<ImmediateTransition>(engine, label, inputArches, outputArches, priority, auxName);
+    return make_shared<ImmediateTransition>(engine, label, inputArches, outputArches, priority);
+}
+
+string ImmediateTransition::objTypeName()
+{
+    return immediateTransitionTypeName;
 }
 
 ////////////////////////////////////////////////////////////////
 // TimedTransition
 
-TimedTransition::TimedTransition(shared_ptr<PetriNetsEngine> engine, string label, vector<InputArchObj> inputArches, vector<OutputArchObj> outputArches, int delay, string auxName)
-: Transition(engine, label, inputArches, outputArches, auxName)
+const string timedTransitionTypeName = "TimedTransition";
+
+TimedTransition::TimedTransition(objectId id, PetriNetsEngineObj engine, string label, vector<InputArchObj> inputArches, vector<OutputArchObj> outputArches, int delay)
+: Transition(id, engine, label, inputArches, outputArches)
 {
     this->delay = delay;
 }
+
+TimedTransition::TimedTransition(PetriNetsEngineObj engine, std::string label, vector<InputArchObj> inputArches, vector<OutputArchObj>  outputArches, int delay)
+: TimedTransition(SimObject::createId(timedTransitionTypeName), engine, label, inputArches, outputArches, delay)
+{}
+
 
 void TimedTransition::planTransitionFiringEvent()
 {
@@ -189,9 +206,14 @@ void TimedTransition::planTransitionFiringEvent()
     this->plannedEventsId.push_back(event.id);    
 }
 
-TimedTransitionObj TimedTransition::New(PetriNetsEngineObj engine, std::string label, vector<InputArchObj> inputArches, vector<OutputArchObj>  outputArches, int delay, std::string auxName)
+string TimedTransition::objTypeName()
 {
-    return make_shared<TimedTransition>(engine, label, inputArches, outputArches, delay, auxName);
+    return timedTransitionTypeName;
+}
+
+TimedTransitionObj TimedTransition::New(PetriNetsEngineObj engine, std::string label, vector<InputArchObj> inputArches, vector<OutputArchObj>  outputArches, int delay)
+{
+    return make_shared<TimedTransition>(engine, label, inputArches, outputArches, delay);
 }
 
 #ifdef EMSCRIPTEN
@@ -203,12 +225,12 @@ TimedTransitionObj TimedTransition::New(PetriNetsEngineObj engine, std::string l
         emscripten::class_<TimedTransition>("TimedTransition")
         .smart_ptr<shared_ptr<TimedTransition>>("shared_ptr<TimedTransition>")
         // .constructor(&std::make_shared<TimedTransition, shared_ptr<PetriNetsEngine>, string, vector<InputArchObj>, vector<OutputArchObj>, int>)
-        .constructor(&std::make_shared<TimedTransition, shared_ptr<PetriNetsEngine>, string, vector<InputArchObj>, vector<OutputArchObj>, int, string>);
+        .constructor(&std::make_shared<TimedTransition, objectId ,PetriNetsEngineObj, string, vector<InputArchObj>, vector<OutputArchObj>, int>);
 
         emscripten::class_<ImmediateTransition>("ImmediateTransition")
         .smart_ptr<shared_ptr<ImmediateTransition>>("shared_ptr<ImmediateTransition>")
         // .constructor(&std::make_shared<TimedTransition, shared_ptr<PetriNetsEngine>, string, vector<InputArchObj>, vector<OutputArchObj>, int>)
-        .constructor(&std::make_shared<TimedTransition, shared_ptr<PetriNetsEngine>, string, vector<InputArchObj>, vector<OutputArchObj>, int, string>);
+        .constructor(&std::make_shared<TimedTransition, objectId, PetriNetsEngineObj, string, vector<InputArchObj>, vector<OutputArchObj>, int>);
     
     }
 #endif

@@ -7,12 +7,9 @@
 
 class PetriNetsObject : public DiscreteSimObject {
     public:
-        PetriNetsObject(PetriNetsEngineObj engine, string auxName = "");
+        PetriNetsObject(objectId id, PetriNetsEngineObj engine);
         PetriNetsEngineObj engine;
         virtual void initialize() = 0;
-        string auxName() {return _auxName;};
-    private:
-        string _auxName = "";
 };
 
 #endif

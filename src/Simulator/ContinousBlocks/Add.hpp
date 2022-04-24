@@ -5,11 +5,12 @@
 
 class Add : public ContBlockDouble {
     public:
+        Add(objectId id, ContBlockEngineObj engine, ContBlockObj inputFirst, ContBlockObj inputSecond);
         Add(ContBlockEngineObj engine, ContBlockObj inputFirst, ContBlockObj inputSecond);
         static ContBlockObj New(ContBlockEngineObj engine, ContBlockObj inputFirst, ContBlockObj inputSecond);
         void eval();
         double value();
-        string objTypeName() {return "AddBlock";};
+        string objTypeName();
 
 };
 
