@@ -1,18 +1,18 @@
 import { IObjectGUIComponentFactory } from "Editor/Components/ObjectGUIComponentFactory"
 import React, {FC} from "react"
 import { useAppDispatch, useAppSelector } from "Editor/Store/Hooks"
-import style from "Editor/Styles/EditMenu.module.scss"
+import style from "Editor/Styles/EditWindow.module.scss"
 import { useStoreHooks } from "./Utilities/CustomHooks"
 import { selectObj } from "Editor/Feature/SimObjectManagementSlice"
 import { NULL_OBJ_ID } from "Editor/Model/EditorObject"
 
 
-type EditMenuProps = {
+type EditWindowProps = {
     factory : IObjectGUIComponentFactory
 }
 
-export const EditMenu : FC<EditMenuProps> = (props) => {
-    const { dispatch, useSelector } = useStoreHooks();
+export const EditWindow : FC<EditWindowProps> = (props) => {
+    const { useSelector } = useStoreHooks();
 
 
     const selectedObjectId = useSelector(state => state.simObjectManagement.selectedObjectId); 
@@ -22,14 +22,14 @@ export const EditMenu : FC<EditMenuProps> = (props) => {
         const EditComponent = props.factory.getElement(object).EditComponent; 
         return(
 
-            <div className={style.edit_menu}>
+            <div className={style.edit_window}>
                 <EditComponent id={selectedObjectId} />
             </div>
         )
     }  else {
         const SimulationParamsEdit = props.factory.getSimulationParamsEdit();
         return(
-            <div className={style.edit_menu}>
+            <div className={style.edit_window}>
                 <SimulationParamsEdit></SimulationParamsEdit>                
             </div>
         )

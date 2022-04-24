@@ -59,19 +59,58 @@ class ImmediateTransition : public Transition {
 
 
 ////////////////////////////////////////////////////////////////
+/// TimedTranstio
 class TimedTransition;
 
 using TimedTransitionObj = shared_ptr<TimedTransition>;
 
 class TimedTransition : public Transition {
     public:
-        int delay;
-        std::string objTypeName();
-        TimedTransition(objectId id, PetriNetsEngineObj engine, std::string label, vector<InputArchObj> inputArches, vector<OutputArchObj>  outputArches, int delay);
-        TimedTransition(PetriNetsEngineObj engine, std::string label, vector<InputArchObj> inputArches, vector<OutputArchObj>  outputArches, int delay);
-        static TimedTransitionObj New(PetriNetsEngineObj engine, std::string label, vector<InputArchObj> inputArches, vector<OutputArchObj>  outputArches, int delay);
-
+        virtual double getDelay() = 0;
+        std::string objTypeName() override;
+        TimedTransition(objectId id, PetriNetsEngineObj engine, std::string label, vector<InputArchObj> inputArches, vector<OutputArchObj>  outputArches, double delayValue);
+        TimedTransition(PetriNetsEngineObj engine, std::string label, vector<InputArchObj> inputArches, vector<OutputArchObj>  outputArches, double delay);
         void planTransitionFiringEvent();
+
+    protected:
+        double _delayValue;
+};
+
+
+
+
+////////////////////////////////////////////////////////////////////////
+/// TimedConstantTransition
+class TimedConstantTransition;
+
+using TimedConstantTransitionObj = shared_ptr<TimedConstantTransition>;
+
+class TimedConstantTransition : public TimedTransition {
+    public:
+        double getDelay() override;
+        std::string objTypeName() override;
+
+        TimedConstantTransition(objectId id, PetriNetsEngineObj engine, std::string label, vector<InputArchObj> inputArches, vector<OutputArchObj>  outputArches, double delayValue);
+        TimedConstantTransition(PetriNetsEngineObj engine, std::string label, vector<InputArchObj> inputArches, vector<OutputArchObj>  outputArches, double delayValue);
+        static TimedConstantTransitionObj New(PetriNetsEngineObj engine, std::string label, vector<InputArchObj> inputArches, vector<OutputArchObj>  outputArches, double delayValue);
+};
+
+
+////////////////////////////////////////////
+/// TimedExponentialTransition
+
+class TimedExponentialTransition;
+
+using TimedExponentialTransitionObj = shared_ptr<TimedExponentialTransition>;
+
+class TimedExponentialTransition : public TimedTransition {
+    public:
+        double getDelay() override;
+        std::string objTypeName() override;
+
+        TimedExponentialTransition(objectId id, PetriNetsEngineObj engine, std::string label, vector<InputArchObj> inputArches, vector<OutputArchObj>  outputArches, double delayValue);
+        TimedExponentialTransition(PetriNetsEngineObj engine, std::string label, vector<InputArchObj> inputArches, vector<OutputArchObj>  outputArches, double delayValue);
+        static TimedExponentialTransitionObj New(PetriNetsEngineObj engine, std::string label, vector<InputArchObj> inputArches, vector<OutputArchObj>  outputArches, double delayValue);
 };
 
 #endif

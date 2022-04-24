@@ -29,7 +29,7 @@ export const EndPointSVG : FC<EndPointProps> = (props) => {
     const higlihghtVisible = convertToVisibility(useSelector(state => state.simObjectManagement.highlightedEndPoint) === props.endPoint.id);
 
     const onArrowClick = useCallback(() => {
-        if (props.endPoint.type === EndPointType.Input || (props.endPoint.type !== EndPointType.Infinite && !isRestrictionMet(props.endPoint, spawnedObjCnt)) || !props.endPoint.arrowDirection) {
+        if (props.endPoint.type === EndPointType.Input || (props.endPoint.type !== EndPointType.Infinite && !isRestrictionMet(props.endPoint, spawnedObjCnt)) || (props.endPoint.arrowDirection == null)) {
             console.warn("XXX");
             return;
         } 

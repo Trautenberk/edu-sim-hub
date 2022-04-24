@@ -1,4 +1,4 @@
-export { EditMenu } from "./EditMenu";
+export { EditWindow } from "./EditWindow";
 export { MenuIcons } from "./Icons";
 export { CanvasSVG } from "./CanvasSVG";
 export type { IObjectGUIComponentFactory } from "./ObjectGUIComponentFactory";

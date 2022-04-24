@@ -9,7 +9,7 @@ import { Coordinates, ICoordinates } from "../Model/UtilClasses/Coordinates";
 import { unselectObject } from "Editor/Feature/SimObjectManagementSlice";
 import { useStoreHooks } from "./Utilities/CustomHooks";
 
-export const CanvasSVG : FC = (props) => {
+export const CanvasSVG : FC<{middle : boolean}> = (props) => {
     const { dispatch, useSelector } = useStoreHooks();
 
     const scale = useSelector(selelctCurrentZoom); 
@@ -34,7 +34,7 @@ export const CanvasSVG : FC = (props) => {
     }
 
     useEffect(() => {
-            if(canvasBoundingElementRef.current != null ){
+            if(canvasBoundingElementRef.current != null ) {
                 const boundElement = canvasBoundingElementRef.current;
                 setSvgSize( { width: boundElement.clientWidth, height: boundElement.clientHeight } );
                 dispatch(updateCanvasBoundaries({left: boundElement.getBoundingClientRect().left, top: boundElement.getBoundingClientRect().top}))            
@@ -43,7 +43,7 @@ export const CanvasSVG : FC = (props) => {
         }, []) ;
 
     return(
-        <div ref={canvasBoundingElementRef} className={styles.canvas_wrapper}>
+        <div ref={canvasBoundingElementRef} className={props.middle ? styles.canvas_wrapper_middle : styles.canvas_wrapper_left}>
                 <svg className={styles.canvas_svg} xmlns="http://www.w3.org/2000/svg">
                     <defs>
                         <pattern id="smallGrid" width="8" height="8" patternUnits="userSpaceOnUse">

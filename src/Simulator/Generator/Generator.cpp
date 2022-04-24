@@ -13,21 +13,24 @@ unsigned int Generator::Random(unsigned int mod)
 }
 
 // Generátor normálního rozložení v rozsahu 0-1
-float Generator::Uniform()
+double Generator::Uniform()
 {
-    return Random() / (float) UINT_MAX;
+    return Random() / (double) UINT_MAX;
 }
 
 // Generátor normálního rozložení
-float Generator::Uniform(int a, int b)
+double Generator::Uniform(int a, int b)
 {
     return (Uniform() * (b - a)) + a;
 }
 
 
-float Generator::Exponential(float rate)
+double Generator::Exponential(double rate)
 {
-    // x = log(1-u)/(-λ)
+    // rate = 1/lambda
+    // x = -ln(u)/(λ)
+    // x = -ln(u) * rate
     const auto u = Uniform();
-    return log(1 - u) /(-rate);
+    // return log(1 - u) / (-rate);
+    return -log2(u) * rate;
 }

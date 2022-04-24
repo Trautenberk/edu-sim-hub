@@ -105,7 +105,7 @@ void testGenerator()
     vector<InputArchObj> inputArches = {inputArch}; 
     vector<OutputArchObj> outputArches = {outputArch, rekurseArch};
     
-    auto transition = shared_ptr<Transition>(new TimedTransition(engine, "Transition 1", inputArches, outputArches, 5));
+    auto transition = shared_ptr<Transition>(new TimedConstantTransition(engine, "Transition 1", inputArches, outputArches, 5));
 
     // vector<shared_ptr<SimObject>> objects = {placeOne, placeTwo, inputArch, outputArch, rekurseArch, transition};
     // auto engine = DiscreteEngine();

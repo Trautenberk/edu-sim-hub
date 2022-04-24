@@ -1,3 +1,4 @@
+import { FC } from "react";
 import { ICoordinates } from "../../Model/UtilClasses/Coordinates";
 
 export type Visibility = "visible" | "hidden";
@@ -13,6 +14,11 @@ export const ALL_DIRECTIONS = [Direction.Right, Direction.Left, Direction.Down, 
 
 export function convertToVisibility(value : boolean) : Visibility {
     return value ? "visible" : "hidden";
+}
+
+
+export const EmptyComponent : FC = () => {
+    return (<></>)
 }
 
 export type Dictionary<T> = {   // TODO zjistit proč nejde použít v custom hooks, z nějakýho důvodu to při Object.values.map tvrdí že item může být udenfined

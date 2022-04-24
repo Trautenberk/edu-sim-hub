@@ -30,25 +30,6 @@ export const TransitionEdit : FC<ObjectEditProps> = (props) => {
         }
     }
 
-    const onProbabilityChange = (e : React.ChangeEvent<HTMLInputElement>) => {
-        obj.probability = parseInt(e.target.value); //TODO pouzit něco jineho než parseInt
-        dispatchChange(obj)
-    }
-
-    const incrementProbability = () => {
-        if (obj.probability < 100) {
-            obj.probability++;
-            dispatchChange(obj)
-        }
-    }
-
-    const decrementProbability = () => {
-        if (obj.probability > 0) {
-            obj.probability--;
-            dispatchChange(obj)
-        }
-    }
-
     const onSelectChange = (e : React.ChangeEvent<HTMLSelectElement>) => {
         obj.type = e.target.value as TransitionType;
         dispatchChange(obj)
@@ -82,12 +63,12 @@ export const TransitionEdit : FC<ObjectEditProps> = (props) => {
                 <div>
                     <label>Typ přechodu:</label>
                     <select onChange={onSelectChange} value={obj.type}>
-                        <option value={TransitionType.Priority}>{TransitionType.Priority}</option>
-                        <option value={TransitionType.Timed}>{TransitionType.Timed}</option>
-                        <option value={TransitionType.Probability}>{TransitionType.Probability}</option>
+                        <option value={TransitionType.Immediate}>{TransitionType.Immediate}</option>
+                        <option value={TransitionType.Constant}>{TransitionType.Constant}</option>
+                        <option value={TransitionType.Exponential}>{TransitionType.Exponential}</option>
                     </select>
                 </div>
-                {obj.type === TransitionType.Priority &&
+                {obj.type === TransitionType.Immediate &&
                     <div>
                     <label>Priorita:</label> 
                     <input onChange={onPriorityChange} type="number" min="0" value={obj.priority}></input>
@@ -95,21 +76,11 @@ export const TransitionEdit : FC<ObjectEditProps> = (props) => {
                     <button onClick={decrementPriority} className={style.edit_button}>-</button>
                 </div>}
 
-                {obj.type === TransitionType.Probability &&
-                <div>
-                    <label>Pravděpodobnost:</label>
-                    <input onChange={onProbabilityChange} type="number" min="0" max="100" value={obj.probability}></input>
-                    <button onClick={incrementProbability} className={style.edit_button}>+</button>
-                    <button onClick={decrementProbability} className={style.edit_button}>-</button>
-                </div>}
 
-                {obj.type === TransitionType.Timed && 
+                {(obj.type === TransitionType.Exponential || obj.type === TransitionType.Constant) &&
                 <div>
-                    <label>Typ časování:</label>
-                    <select>
-                    </select>
                     <label>Hodnota:</label>
-                    <input onChange={onTimeValueChange} type="number" min="0" value={obj.timeValue}></input>
+                    <input onChange={onTimeValueChange} type="number" min="1" value={obj.timeValue}></input>
                     <button onClick={incrementTimeValue} className={style.edit_button}>+</button>
                     <button onClick={decrementTimeValue} className={style.edit_button}>-</button>
                 </div>}

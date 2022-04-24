@@ -10,7 +10,13 @@ export const ArchSVG : FC<EdgeSVGComponentProps> = (props) => {
     const { useSelector } = useStoreHooks();
     const obj = useSelector(state => selectObj(state, props.id)) as IArch;
 
-    return(
-        <EdgeSVG id={props.id} value={obj.weight} />
-    )
+    if (obj.weight == 1) {
+        return(
+            <EdgeSVG id={props.id} />
+        )
+    } else {
+        return(
+            <EdgeSVG id={props.id} value={obj.weight} />
+        )    
+    }
 }

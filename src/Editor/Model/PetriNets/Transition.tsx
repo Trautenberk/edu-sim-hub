@@ -2,9 +2,9 @@ import { IToSerializable } from "Editor/Model/UtilClasses/Coordinates";
 import { IEditorObject, EditorObject, IEditorObjectWithEndPoints, EditorObjectWithEndPoints } from "Editor/Model/EditorObject";
 
 export enum TransitionType {
-    Priority = "Prioritní",
-    Timed = "Časované",
-    Probability = "Pravděpodobnostní"
+    Immediate = "Okamžitý",
+    Constant = "Časovaný - Konstatní",
+    Exponential = "Časovaný -  Exponenciální"
 }
 
 export interface ITransition  extends IEditorObjectWithEndPoints{
@@ -12,7 +12,6 @@ export interface ITransition  extends IEditorObjectWithEndPoints{
     type : TransitionType
     priority : number
     timeValue : number
-    probability : number
 }
 
 export class Transition extends EditorObjectWithEndPoints implements IToSerializable<ITransition>{
@@ -20,7 +19,7 @@ export class Transition extends EditorObjectWithEndPoints implements IToSerializ
     public static MenuName : string = "Přechod";
     public priority : number = 0; 
     public label: string = "";
-    public type: TransitionType = TransitionType.Priority;
+    public type: TransitionType = TransitionType.Immediate;
     public timeValue: number = 0;
     public probability: number = 0;
 
@@ -30,7 +29,6 @@ export class Transition extends EditorObjectWithEndPoints implements IToSerializ
             priority : this.priority,
             label : this.label,
             timeValue : this.timeValue,
-            probability : this.probability,
             type : this.type
         }
     }

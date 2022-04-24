@@ -6,12 +6,11 @@ import { FC, FunctionComponent } from "react";
 import { EdgeSVGComponentProps } from "../Utilities/UtilComponents/EdgeSVG";
 import { ArchEdit } from "./ArchEdit";
 import { PetriNetsSimulationParamsEdit } from "./PetriNetsSimulationParamsEdit";
+import { PlaceStatistics } from "./PlaceStatistics";
+import { TransitionStatistics } from "./TransitionStatistics";
+import { EmptyComponent } from "../Utilities/UtilMethodsAndTypes";
 
 
-const emptyComponent : FC = () => {
-    return (<></>)
-
-}   // TODO vyhodit
 
 export class PetriNetsGUIComponentFactory implements IObjectGUIComponentFactory {
     getEdgeGUI(): FunctionComponent<EdgeSVGComponentProps> {
@@ -21,13 +20,13 @@ export class PetriNetsGUIComponentFactory implements IObjectGUIComponentFactory 
     getElement (object : IEditorObject): GUIComponents  {
         switch(object.className) {
             case Place.name:
-                return {SVGComponent : PlaceSVG, EditComponent : PlaceEdit};
+                return {SVGComponent : PlaceSVG, EditComponent : PlaceEdit, StatisticsComponent : PlaceStatistics};
             case Transition.name:
-                return  {SVGComponent: TransitionSVG, EditComponent : TransitionEdit};
+                return  {SVGComponent: TransitionSVG, EditComponent : TransitionEdit, StatisticsComponent : TransitionStatistics};
             case InputArch.name:
-                return {SVGComponent: ArchSVG, EditComponent: ArchEdit };
+                return {SVGComponent: ArchSVG, EditComponent: ArchEdit, StatisticsComponent : EmptyComponent}
             case OutputArch.name:
-                    return {SVGComponent: ArchSVG, EditComponent: ArchEdit }
+                    return {SVGComponent: ArchSVG, EditComponent: ArchEdit, StatisticsComponent : EmptyComponent}
             default:
                 throw new Error("Couldnt find SVG component for given object");
         }

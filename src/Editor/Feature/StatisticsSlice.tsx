@@ -1,20 +1,22 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { IPetriNetsStatistics } from "Editor/Model/PetriNets/PetriNetsSimulatorAdapter";
 
 
 type StatisticsState = {
-    statistics: any
+    petriNets: IPetriNetsStatistics | null,
 }
 
 const initialState : StatisticsState = {
- statistics : {}
+    petriNets : null,
+
 }
 
 const statisticsSlice = createSlice({
     name: "StatisticsSlice",
     initialState,
     reducers : {
-        setStatistics(state , action : PayloadAction<any>) {
-            state.statistics = action.payload;
+        setStatistics(state , action : PayloadAction<IPetriNetsStatistics>) {
+            state.petriNets = action.payload;
         }
     }
 })

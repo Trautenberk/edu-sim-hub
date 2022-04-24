@@ -125,12 +125,17 @@ export class PetriNetsSimulatorAdapter implements ISimulatorAdapter {
                 }
             }
 
-            if (transition.type === TransitionType.Priority) {
-                this._transitionsDict[transition.id] = new simulatorModule.ImmediateTransition(transition.id, this._engine, transition.label, inputArchVec, outputArchVec, transition.priority);
-            } else {
-                this._transitionsDict[transition.id] = new simulatorModule.TimedTransition(transition.id, this._engine, transition.label, inputArchVec, outputArchVec, transition.timeValue);
-            }
-
+            switch (transition.type) {
+                case TransitionType.Immediate:
+                    this._transitionsDict[transition.id] = new simulatorModule.ImmediateTransition(transition.id, this._engine, transition.label, inputArchVec, outputArchVec, transition.priority);
+                    break;
+                case TransitionType.Constant:
+                    this._transitionsDict[transition.id] = new simulatorModule.TimedConstantTransition(transition.id, this._engine, transition.label, inputArchVec, outputArchVec, transition.timeValue);
+                    break;
+                case TransitionType.Exponential:
+                    this._transitionsDict[transition.id] = new simulatorModule.TimedExponentialTransition(transition.id, this._engine, transition.label, inputArchVec, outputArchVec, transition.timeValue);
+                    break;
+            }   
         }
 
             this._engine.init(params.endTime,10);

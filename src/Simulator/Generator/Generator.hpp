@@ -9,9 +9,9 @@ using namespace std;
 class Generator {
     public:
         static unsigned Random(unsigned int mod = UINT_MAX);
-        static float Uniform();
-        static float Uniform(int a, int b);
-        static float Exponential(float rate);
+        static double Uniform();
+        static double Uniform(int a, int b);
+        static double Exponential(double rate);
     private:
         static const int _seed;
         static const int _a;

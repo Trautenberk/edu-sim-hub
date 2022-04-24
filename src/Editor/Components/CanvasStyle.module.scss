@@ -1,4 +1,7 @@
-.canvas_wrapper {
+
+
+
+.canvas_wrapper_middle {
     border: 2px black solid;
     width: 60%;
     height: 87%;
@@ -7,6 +10,19 @@
     bottom: 5%;
     left: 17%;
     right:  5%;
+    overflow: scroll;
+}
+
+
+.canvas_wrapper_left {
+    border: 2px black solid;
+    width: 60%;
+    height: 87%;
+    position: absolute;
+    top: 8%;
+    bottom: 5%;
+    left: 1%;
+    right:  10%;
     overflow: scroll;
 }
 

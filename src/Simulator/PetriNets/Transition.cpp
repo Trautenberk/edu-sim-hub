@@ -1,5 +1,7 @@
 #include "Transition.hpp"
 #include "PetriNetsObject.hpp"
+#include "../Generator/Generator.hpp"
+
 
 using namespace std;
 
@@ -187,13 +189,13 @@ string ImmediateTransition::objTypeName()
 
 const string timedTransitionTypeName = "TimedTransition";
 
-TimedTransition::TimedTransition(objectId id, PetriNetsEngineObj engine, string label, vector<InputArchObj> inputArches, vector<OutputArchObj> outputArches, int delay)
+TimedTransition::TimedTransition(objectId id, PetriNetsEngineObj engine, string label, vector<InputArchObj> inputArches, vector<OutputArchObj> outputArches, double delay)
 : Transition(id, engine, label, inputArches, outputArches)
 {
-    this->delay = delay;
+    this->_delayValue = delay;
 }
 
-TimedTransition::TimedTransition(PetriNetsEngineObj engine, std::string label, vector<InputArchObj> inputArches, vector<OutputArchObj>  outputArches, int delay)
+TimedTransition::TimedTransition(PetriNetsEngineObj engine, std::string label, vector<InputArchObj> inputArches, vector<OutputArchObj>  outputArches, double delay)
 : TimedTransition(SimObject::createId(timedTransitionTypeName), engine, label, inputArches, outputArches, delay)
 {}
 
@@ -201,7 +203,9 @@ TimedTransition::TimedTransition(PetriNetsEngineObj engine, std::string label, v
 void TimedTransition::planTransitionFiringEvent()
 {
     auto func = [this](int evenetId) {this->fire(evenetId);};
-    auto event = Event(engine->time() + this->delay, func);
+    cout << "delay: " << this->getDelay() << endl;
+    cout << "planned time: " << engine->time() + this->getDelay() << endl; 
+    auto event = Event(engine->time() + this->getDelay(), func);
     this->engine->calendar.insertEvent(event);
     this->plannedEventsId.push_back(event.id);    
 }
@@ -211,10 +215,65 @@ string TimedTransition::objTypeName()
     return timedTransitionTypeName;
 }
 
-TimedTransitionObj TimedTransition::New(PetriNetsEngineObj engine, std::string label, vector<InputArchObj> inputArches, vector<OutputArchObj>  outputArches, int delay)
+
+////////////////////////////////////////////////////////////////////////
+// TimedConstantTransition
+const string timedConstantTransitionTypeName = "TimedConstantTransition";
+
+
+TimedConstantTransition::TimedConstantTransition(objectId id, PetriNetsEngineObj engine, std::string label, vector<InputArchObj> inputArches, vector<OutputArchObj>  outputArches, double delayValue)
+: TimedTransition(id, engine, label, inputArches, outputArches, delayValue)
+{}
+
+TimedConstantTransition::TimedConstantTransition(PetriNetsEngineObj engine, std::string label, vector<InputArchObj> inputArches, vector<OutputArchObj>  outputArches, double delayValue)
+: TimedTransition(SimObject::createId(timedConstantTransitionTypeName), engine, label, inputArches, outputArches, delayValue)
+{}
+
+TimedConstantTransitionObj TimedConstantTransition::New(PetriNetsEngineObj engine, std::string label, vector<InputArchObj> inputArches, vector<OutputArchObj>  outputArches, double delayValue)
 {
-    return make_shared<TimedTransition>(engine, label, inputArches, outputArches, delay);
+    return make_shared<TimedConstantTransition>(engine, label, inputArches, outputArches, delayValue);
 }
+
+string TimedConstantTransition::objTypeName()
+{
+    return timedConstantTransitionTypeName;
+}
+
+double TimedConstantTransition::getDelay()
+{
+    return this->_delayValue;
+}
+
+
+//////////////////////////////////////////////////////////////////////////////
+/// TimedExponentialTransition
+
+const std::string timedExponentialTransitionTypeName = "TimedExponentialTransition";
+
+std::string TimedExponentialTransition::objTypeName()
+{
+    return timedExponentialTransitionTypeName;
+}
+
+TimedExponentialTransition::TimedExponentialTransition(objectId id, PetriNetsEngineObj engine, std::string label, vector<InputArchObj> inputArches, vector<OutputArchObj>  outputArches, double delayValue)
+: TimedTransition(id, engine, label, inputArches, outputArches, delayValue)
+{}
+        
+TimedExponentialTransition::TimedExponentialTransition(PetriNetsEngineObj engine, std::string label, vector<InputArchObj> inputArches, vector<OutputArchObj>  outputArches, double delayValue)
+: TimedTransition(SimObject::createId(timedExponentialTransitionTypeName) ,engine, label, inputArches, outputArches, delayValue)
+{}
+       
+       
+ TimedExponentialTransitionObj TimedExponentialTransition::New(PetriNetsEngineObj engine, std::string label, vector<InputArchObj> inputArches, vector<OutputArchObj>  outputArches, double delayValue)
+ {
+     return make_shared<TimedExponentialTransition>(engine, label, inputArches, outputArches, delayValue);
+ }
+
+double TimedExponentialTransition::getDelay()
+{
+    return Generator::Exponential(this->_delayValue);
+}
+
 
 #ifdef EMSCRIPTEN
     EMSCRIPTEN_BINDINGS(Transition) {
@@ -222,15 +281,20 @@ TimedTransitionObj TimedTransition::New(PetriNetsEngineObj engine, std::string l
         emscripten::register_vector<InputArchObj>("InputArchVec");
         emscripten::register_vector<OutputArchObj>("OutputArchVec");
 
-        emscripten::class_<TimedTransition>("TimedTransition")
-        .smart_ptr<shared_ptr<TimedTransition>>("shared_ptr<TimedTransition>")
-        // .constructor(&std::make_shared<TimedTransition, shared_ptr<PetriNetsEngine>, string, vector<InputArchObj>, vector<OutputArchObj>, int>)
-        .constructor(&std::make_shared<TimedTransition, objectId ,PetriNetsEngineObj, string, vector<InputArchObj>, vector<OutputArchObj>, int>);
+        emscripten::class_<TimedTransition>("TimedTransition");
+
+        emscripten::class_<TimedConstantTransition, emscripten::base<TimedTransition>>("TimedConstantTransition")
+        .smart_ptr<shared_ptr<TimedConstantTransition>>("shared_ptr<TimedConstantTransition>")
+        .constructor(&std::make_shared<TimedConstantTransition, objectId ,PetriNetsEngineObj, string, vector<InputArchObj>, vector<OutputArchObj>, double>);
+
+        emscripten::class_<TimedExponentialTransition, emscripten::base<TimedTransition>>("TimedExponentialTransition")
+        .smart_ptr<shared_ptr<TimedExponentialTransition>>("shared_ptr<TimedExponentialTransition>")
+        .constructor(&std::make_shared<TimedExponentialTransition, objectId ,PetriNetsEngineObj, string, vector<InputArchObj>, vector<OutputArchObj>, double>);
+
 
         emscripten::class_<ImmediateTransition>("ImmediateTransition")
         .smart_ptr<shared_ptr<ImmediateTransition>>("shared_ptr<ImmediateTransition>")
-        // .constructor(&std::make_shared<TimedTransition, shared_ptr<PetriNetsEngine>, string, vector<InputArchObj>, vector<OutputArchObj>, int>)
-        .constructor(&std::make_shared<TimedTransition, objectId, PetriNetsEngineObj, string, vector<InputArchObj>, vector<OutputArchObj>, int>);
+        .constructor(&std::make_shared<ImmediateTransition, objectId, PetriNetsEngineObj, string, vector<InputArchObj>, vector<OutputArchObj>, double>);
     
     }
 #endif
