@@ -7,7 +7,7 @@ import { Place, Transition } from "Editor/Model/PetriNets"
 import { MenuIcons } from "Editor/Components/Icons";
 import { addObject, removeAllObjects, removeObject, selectedObjectId,  setSimulationParams,  unselectObject } from 'Editor/Feature/SimObjectManagementSlice';
 import { EditWindow, CanvasSVG, IObjectGUIComponentFactory, ContBlocksGUIComponentFactory, PetriNetsGUIComponentFactory } from "Editor/Components"
-import {Add, Div, Sub, Mul, Constant, Gain} from "Editor/Model/ContBlocks"
+import {Add, Div, Sub, Mul, Constant, Gain, Integrator} from "Editor/Model/ContBlocks"
 import { PetriNetsSimulatorAdapter } from "Editor/Model/PetriNets"
 import SimulatorModule from "wasm-build/wasm_Simulator.js";
 import { defaultContBlocksSimulationParams, defaultPNSimulationParams, IPNSimulationParams } from 'Editor/Model/SimulationParams';
@@ -109,6 +109,7 @@ export const App : FC = () => {
     {name: Mul.MenuName, icon: MenuIcons.transparent, onClick: () => {dispatch(addObject(new Mul().toSerializableObj()))}},
     {name: Constant.MenuName, icon: MenuIcons.transparent, onClick: () => {dispatch(addObject(new Constant().toSerializableObj()))}},
     {name: Gain.MenuName, icon: MenuIcons.transparent, onClick: () => {dispatch(addObject(new Gain().toSerializableObj()))}},
+    {name: Integrator.MenuName, icon: MenuIcons.transparent, onClick: () => {dispatch(addObject(new Integrator().toSerializableObj()))}} 
   ];
 
 

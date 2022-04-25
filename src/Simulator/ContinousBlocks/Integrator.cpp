@@ -63,7 +63,7 @@ void Integrator::setInput(shared_ptr<ContBlock> input)
 
 IntegratorRecord Integrator::getStatisticsRecord()
 {
-    return IntegratorRecord(this->value());
+    return IntegratorRecord{this->engine->time(), this->value()};
 }
 
 

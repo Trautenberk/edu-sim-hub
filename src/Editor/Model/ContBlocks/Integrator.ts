@@ -1,12 +1,18 @@
 import { IToSerializable } from "Editor/Model/UtilClasses/Coordinates";
-import { IEditorObject, EditorObject } from "Editor/Model/EditorObject";
+import { EditorObjectWithEndPoints, IEditorObjectWithEndPoints } from "Editor/Model/EditorObject";
 
 
-export interface IIntegrator extends IEditorObject {
-
+export interface IIntegrator extends IEditorObjectWithEndPoints {
+    initialValue : number
 }
 
-export class Integrator extends EditorObject implements IToSerializable<IIntegrator> {
+export class Integrator extends EditorObjectWithEndPoints implements IToSerializable<IIntegrator> {
     public className() { return  Integrator.name; }
-    public static MenuName  = "IntegratorBlock"
+    public static MenuName  = "Integrátor";
+
+    public initialValue : number = 1;
+
+    public toSerializableObj(): IIntegrator {
+        return {...super.toSerializableObj(), initialValue: this.initialValue }
+    }
 }

@@ -56,15 +56,10 @@ ContBlockEngineObj ContBlockEngine::New(function<double(double currentState, dou
 
 void ContBlockEngine::gatherStatistics()
 {
-    auto record = ContBlockStatisticsRecord();
-    record.time = this->time();
-
     for (auto integrator : this->_allIntegrators)
     {
-        record.integratorRecords.insert(std::pair<objectId, IntegratorRecord>(integrator->id(), integrator->getStatisticsRecord()));
+        this->_statistics.integratorRecords[integrator->id()].push_back(integrator->getStatisticsRecord());
     }
-
-    this->_statistics.records.push_back(record);
 }
 
 
@@ -72,8 +67,20 @@ void ContBlockEngine::gatherStatistics()
 
 #ifdef EMSCRIPTEN
     #include <emscripten/bind.h>
-
     EMSCRIPTEN_BINDINGS(ContBlockEngine) {
+
+        emscripten::value_object<IntegratorRecord>("IntegratorRecord")
+        .field("time", &IntegratorRecord::time)
+        .field("value", &IntegratorRecord::value);
+
+        emscripten::register_vector<IntegratorRecord>("IntegratorRecordVector");
+        
+        emscripten::register_map<objectId, std::vector<IntegratorRecord>>("IntegratorRecordsMap");
+
+        emscripten::value_object<ContBlockStatistics>("ContBlockStatistics")
+        .field("simulationTime", &ContBlockStatistics::simulationTime)
+        .field("integratorRecords", & ContBlockStatistics::integratorRecords);
+
         emscripten::class_<ContBlockEngine>("ContBlockEngine")
         .smart_ptr<shared_ptr<ContBlockEngine>>("shared_ptr<ContBlockEngine>")
         .constructor(&std::make_shared<ContBlockEngine, function<double(double currentState, double derivation, double step)>>)

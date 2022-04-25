@@ -7,17 +7,13 @@
 
 
 struct IntegratorRecord {
+    double time;
     double value;
-    IntegratorRecord(double  _value) : value(_value) {} 
 };
 
-struct ContBlockStatisticsRecord {
-    double time;
-    std::map<objectId, IntegratorRecord> integratorRecords;
-};
 
 struct ContBlockStatistics {
-    std::vector<ContBlockStatisticsRecord> records = {};
+    std::map<objectId, std::vector<IntegratorRecord>> integratorRecords = {};
     double simulationTime = -1;
 };
 

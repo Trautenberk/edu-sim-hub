@@ -1,9 +1,6 @@
 import { ObjectEditProps } from "App"
-import { changeObject } from "Editor/Feature/SimObjectManagementSlice";
 import { ITransition, TransitionType } from "Editor/Model/PetriNets/Transition";
 import React, {FC} from "react"
-import { useAppDispatch, useAppSelector } from "Editor/Store/Hooks";
-import style from "./TransitionStyle.module.scss"
 import { useEditComponentUtils } from "../Utilities/CustomHooks";
 
 export const TransitionEdit : FC<ObjectEditProps> = (props) => {
@@ -18,17 +15,6 @@ export const TransitionEdit : FC<ObjectEditProps> = (props) => {
         obj.priority = parseInt(e.target.value);
         dispatchChange(obj)
     }
-    const incrementPriority = () => {
-        obj.priority++;
-        dispatchChange(obj)
-    }
-
-    const decrementPriority = () => {
-        if (obj.priority > 0) {
-            obj.priority--;
-            dispatchChange(obj)
-        }
-    }
 
     const onSelectChange = (e : React.ChangeEvent<HTMLSelectElement>) => {
         obj.type = e.target.value as TransitionType;
@@ -38,18 +24,6 @@ export const TransitionEdit : FC<ObjectEditProps> = (props) => {
     const onTimeValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         obj.timeValue = parseInt(e.target.value);
         dispatchChange(obj)
-    }
-
-    const incrementTimeValue = () => {
-        obj.timeValue++;
-        dispatchChange(obj)
-    }
-
-    const decrementTimeValue = () => {
-        if (obj.timeValue > 0) {
-            obj.timeValue--;
-            dispatchChange(obj)
-        }
     }
 
     if (obj != null) {
@@ -72,8 +46,6 @@ export const TransitionEdit : FC<ObjectEditProps> = (props) => {
                     <div>
                     <label>Priorita:</label> 
                     <input onChange={onPriorityChange} type="number" min="0" value={obj.priority}></input>
-                    <button onClick={incrementPriority} className={style.edit_button}>+</button>
-                    <button onClick={decrementPriority} className={style.edit_button}>-</button>
                 </div>}
 
 
@@ -81,8 +53,6 @@ export const TransitionEdit : FC<ObjectEditProps> = (props) => {
                 <div>
                     <label>Hodnota:</label>
                     <input onChange={onTimeValueChange} type="number" min="1" value={obj.timeValue}></input>
-                    <button onClick={incrementTimeValue} className={style.edit_button}>+</button>
-                    <button onClick={decrementTimeValue} className={style.edit_button}>-</button>
                 </div>}
             </div>
         )

@@ -13,9 +13,6 @@ import { EmptyComponent } from "../Utilities/UtilMethodsAndTypes";
 
 
 export class PetriNetsGUIComponentFactory implements IObjectGUIComponentFactory {
-    getEdgeGUI(): FunctionComponent<EdgeSVGComponentProps> {
-        return ArchSVG;
-    }
 
     getElement (object : IEditorObject): GUIComponents  {
         switch(object.className) {

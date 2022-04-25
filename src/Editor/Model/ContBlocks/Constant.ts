@@ -3,10 +3,16 @@ import { IEditorObject, EditorObject, IEditorObjectWithEndPoints, EditorObjectWi
 
 
 export interface IConstant extends IEditorObjectWithEndPoints {
-
+    value : number;
 }
 
 export class Constant extends EditorObjectWithEndPoints implements IToSerializable<IConstant> {
     public className() {return Constant.name} ;
     public static MenuName  = "Konstanta"
+
+    public value : number = 1;
+
+    public toSerializableObj(): IConstant {
+        return {...super.toSerializableObj(), value : this.value};
+    }
 }

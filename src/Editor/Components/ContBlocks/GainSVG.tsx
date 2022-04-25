@@ -22,13 +22,11 @@ export const GainSVG : FC<ObjectSVGProps> = (props) => {
     } 
     = useSVGComponentUtils<IGain>({id: props.id, initialCoordinates: {x: 30, y: 30}, endPointsBrief: ContBlockSingleEndPoints });
 
-    const value = 0;
-
 
     return (
         <g transform={`translate(${coordinates.x},${coordinates.y})`}> 
             <ContBlockSingleSVG onMouseDownDragHandler={onMouseDownHandler} onMouseUpDragHandler={onMouseUpHandler} selectedVisible={selectedVisible} />
-            <text fontSize={20} x={middleX} y={middleY}>{value}</text>
+            <text fontSize={20} x={middleX - 15} y={middleY}>{obj.gain.toFixed(2)}</text>
             {mapEndPoints()}
         </g>
     )

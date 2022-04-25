@@ -1,9 +1,6 @@
 import { ObjectEditProps } from "App";
-import { changeObject } from "Editor/Feature/SimObjectManagementSlice";
 import { IPlace  } from "Editor/Model/PetriNets/Place";
 import React, { FC} from "react"
-import { useAppDispatch, useAppSelector } from "Editor/Store/Hooks"
-import style from "./PlaceStyle.module.scss"
 import { useEditComponentUtils } from "../Utilities/CustomHooks/useEditComponentUtils";
 
 export const PlaceEdit : FC<ObjectEditProps>  = (props) => {
@@ -14,15 +11,9 @@ export const PlaceEdit : FC<ObjectEditProps>  = (props) => {
         dispatchChange(obj)
     }
 
-    const incrementCallback = () => {
-        obj.tokenCount++;
-        dispatchChange(obj)    }
-
-    const decrementCallback = () => {
-        if (obj.tokenCount > 0) {
-            obj.tokenCount--;
-            dispatchChange(obj) 
-        }
+    const onTokensChange = (e : React.ChangeEvent<HTMLInputElement>) => {
+        obj.tokenCount = parseInt(e.target.value);
+        dispatchChange(obj)
     }
 
     if (obj != null) {
@@ -35,9 +26,7 @@ export const PlaceEdit : FC<ObjectEditProps>  = (props) => {
                 </div>
                 <div>
                     <label>Tokeny:</label>
-                    <input readOnly value={obj.tokenCount}></input>
-                    <button onClick={incrementCallback} className={style.edit_button}>+</button>
-                    <button onClick={decrementCallback} className={style.edit_button}>-</button> 
+                    <input type="number" min="0" max="999" value={obj.tokenCount} onChange={onTokensChange}></input>
                 </div>
             </div>
         )

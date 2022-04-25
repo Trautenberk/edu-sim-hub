@@ -36,5 +36,4 @@ ContBlockObj Gain::New(ContBlockEngineObj engine, double gain, ContBlockObj inpu
         .smart_ptr<shared_ptr<Gain>>("shared_ptr<Gain>")
         .constructor(&std::make_shared<Gain, objectId, ContBlockEngineObj, double, ContBlockObj>);
     }
-
 #endif
