@@ -6,7 +6,7 @@ Gain::Gain(objectId id, ContBlockEngineObj engine, double _gain, ContBlockObj in
 : ContBlockSingle(id, engine, input), gain(_gain)
 {}  
 
-Gain::Gain(ContBlockEngineObj engine, double _gain, ContBlockObj input)
+Gain::Gain(ContBlockEngineObj engine, double gain, ContBlockObj input)
 : Gain(SimObject::createId(gainTypeName), engine, gain, input)
 {}
 
@@ -27,3 +27,14 @@ ContBlockObj Gain::New(ContBlockEngineObj engine, double gain, ContBlockObj inpu
 {
     return make_shared<Gain>(engine, gain, input);
 }        
+
+
+#ifdef EMSCRIPTEN
+    #include <emscripten/bind.h>
+    EMSCRIPTEN_BINDINGS(GainBlock) {
+        emscripten::class_<Gain>("Gain")
+        .smart_ptr<shared_ptr<Gain>>("shared_ptr<Gain>")
+        .constructor(&std::make_shared<Gain, objectId, ContBlockEngineObj, double, ContBlockObj>);
+    }
+
+#endif

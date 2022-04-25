@@ -8,3 +8,19 @@
 double IntegrationMethods::Euler(double currentState, double derivation, double step) {
     return currentState + (step * derivation);
 }
+
+
+
+#ifdef EMSCRIPTEN
+    #include <emscripten/bind.h>
+
+    EMSCRIPTEN_BINDINGS(IntegrationMethods) {
+        emscripten::class_<IntegrationMethods>("IntegrationMethods")
+        .class_function("Euler", &IntegrationMethods::Euler)
+        ;
+    }
+
+
+#endif
+
+

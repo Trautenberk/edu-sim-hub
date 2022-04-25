@@ -58,3 +58,12 @@ void ContinousSimEngine::statisticsStep()
 
     this->_sampleStep++;
 }
+
+#ifdef EMSCRIPTEN
+    #include "emscripten/bind.h"
+    EMSCRIPTEN_BINDINGS(ContinousSimEngine) {
+        emscripten::class_<ContinousSimEngine>("ContinousSimEngine")
+        .function("init", &ContinousSimEngine::init)
+        .function("simulate", &ContinousSimEngine::simulate);
+    }
+#endif

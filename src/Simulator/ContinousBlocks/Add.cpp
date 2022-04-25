@@ -27,3 +27,14 @@ double Add::value()
 {
     return inputFirst->value() + inputSecond->value();
 }
+
+
+#ifdef EMSCRIPTEN
+    #include <emscripten/bind.h>
+    EMSCRIPTEN_BINDINGS(AddBlock) {
+        emscripten::class_<Add>("Add")
+        .smart_ptr<shared_ptr<Add>>("shared_ptr<Add>")
+        .constructor(&std::make_shared<Add, objectId, ContBlockEngineObj, ContBlockObj, ContBlockObj>);
+    }
+
+#endif

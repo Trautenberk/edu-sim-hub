@@ -30,4 +30,5 @@ class ContBlockEngine : public ContinousSimEngine {
         function<double(double currentState, double derivation, double step)> _integrationMethod;
 };
 
+
 #endif // __CONTBLOCKENGINE_H__

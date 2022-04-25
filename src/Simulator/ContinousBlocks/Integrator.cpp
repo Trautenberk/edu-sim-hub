@@ -65,3 +65,14 @@ IntegratorRecord Integrator::getStatisticsRecord()
 {
     return IntegratorRecord(this->value());
 }
+
+
+#ifdef EMSCRIPTEN
+    #include <emscripten/bind.h>
+    EMSCRIPTEN_BINDINGS(IntegratorBlock) {
+        emscripten::class_<Integrator>("Integrator")
+        .smart_ptr<shared_ptr<Integrator>>("shared_ptr<Integrator>")
+        .constructor(&std::make_shared<Integrator, objectId, ContBlockEngineObj, ContBlockObj, double>);
+    }
+
+#endif

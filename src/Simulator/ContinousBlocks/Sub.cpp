@@ -27,3 +27,15 @@ ContBlockObj Sub::New(ContBlockEngineObj engine, ContBlockObj inputFirst, ContBl
 {
     return make_shared<Sub>(engine, inputFirst, inputSecond);
 }
+
+
+
+#ifdef EMSCRIPTEN
+    #include <emscripten/bind.h>
+    EMSCRIPTEN_BINDINGS(SubBlock) {
+        emscripten::class_<Sub>("Sub")
+        .smart_ptr<shared_ptr<Sub>>("shared_ptr<Sub>")
+        .constructor(&std::make_shared<Sub, objectId, ContBlockEngineObj, ContBlockObj, ContBlockObj>);
+    }
+
+#endif

@@ -7,6 +7,7 @@
 
 using namespace std;
 
+
 class ContinousSimEngine : public SimEngine {
     public:
         void init(double endTime, double stepSize, int sampleRate = 1);

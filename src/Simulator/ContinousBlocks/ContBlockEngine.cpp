@@ -66,3 +66,18 @@ void ContBlockEngine::gatherStatistics()
 
     this->_statistics.records.push_back(record);
 }
+
+
+
+
+#ifdef EMSCRIPTEN
+    #include <emscripten/bind.h>
+
+    EMSCRIPTEN_BINDINGS(ContBlockEngine) {
+        emscripten::class_<ContBlockEngine>("ContBlockEngine")
+        .smart_ptr<shared_ptr<ContBlockEngine>>("shared_ptr<ContBlockEngine>")
+        .constructor(&std::make_shared<ContBlockEngine, function<double(double currentState, double derivation, double step)>>)
+        ;
+    }
+
+#endif

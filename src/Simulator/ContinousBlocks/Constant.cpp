@@ -27,3 +27,13 @@ ContBlockObj Constant::New(ContBlockEngineObj engine, double value)
 {
     return make_shared<Constant>(engine, value);
 }
+
+
+#ifdef EMSCRIPTEN
+    #include <emscripten/bind.h>
+    EMSCRIPTEN_BINDINGS(ConstantBlock) {
+        emscripten::class_<Constant>("Constant")
+        .smart_ptr<shared_ptr<Constant>>("shared_ptr<Constant>")
+        .constructor(&std::make_shared<Constant, objectId, ContBlockEngineObj, double>);
+    }
+#endif
