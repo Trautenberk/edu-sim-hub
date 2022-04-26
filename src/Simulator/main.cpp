@@ -95,17 +95,17 @@ void testPriorityEvent()
 
 void testGenerator()
 {
-    auto engine = shared_ptr<PetriNetsEngine> (new PetriNetsEngine());
-    auto placeOne = shared_ptr<Place>(new Place(engine, "Place 1", 1));
-    auto placeTwo = shared_ptr<Place>(new Place(engine, "Place 2", 0));
-    auto inputArch = InputArchObj(new InputArch(engine, placeOne));
-    auto outputArch = OutputArchObj(new OutputArch(engine, placeTwo));
-    auto rekurseArch = OutputArchObj(new OutputArch(engine, placeOne));
+    auto engine = PetriNetsEngine::New();
+    auto placeOne = Place::New(engine, "Place 1", 1);
+    auto placeTwo = Place::New(engine, "Place 2", 0);
+    auto inputArch = InputArch::New(engine, placeOne);
+    auto outputArch = OutputArch::New(engine, placeTwo);
+    auto rekurseArch = OutputArch::New(engine, placeOne);
 
     vector<InputArchObj> inputArches = {inputArch}; 
     vector<OutputArchObj> outputArches = {outputArch, rekurseArch};
     
-    auto transition = shared_ptr<Transition>(new TimedConstantTransition(engine, "Transition 1", inputArches, outputArches, 5));
+    auto transition = TimedConstantTransition::New(engine, "Transition 1", inputArches, outputArches, 5);
 
     // vector<shared_ptr<SimObject>> objects = {placeOne, placeTwo, inputArch, outputArch, rekurseArch, transition};
     // auto engine = DiscreteEngine();
@@ -120,19 +120,19 @@ void testGenerator()
 
 void contBlocksSandBox()
 {
-    auto engine = make_shared<ContBlockEngine>(IntegrationMethods::Euler);
+    auto engine = ContBlockEngine::New(IntegrationMethods::Euler);
 
-    auto constantOne = make_shared<Constant>(engine,1.0);
-    auto constantTwo = make_shared<Constant>(engine, 2.0);
-    vector<shared_ptr<ContBlock>> inputs = {constantOne, constantTwo};
+    auto constantOne = Constant::New(engine, 1.0);
+    auto constantTwo = Constant::New(engine, 2.0);
+    vector<ContBlockObj> inputs = {constantOne, constantTwo};
 
-    auto add = Add(engine, constantOne, constantTwo);
-    auto sub = Sub(engine, constantOne, constantTwo);
-    auto div = Div(engine, constantOne, constantTwo);
-    auto mul = Mul(engine, constantOne, constantTwo);
-    auto gain = Gain(engine, 1, constantOne);
+    auto add = Add::New(engine, constantOne, constantTwo);
+    auto sub = Sub::New(engine, constantOne, constantTwo);
+    auto div = Div::New(engine, constantOne, constantTwo);
+    auto mul = Mul::New(engine, constantOne, constantTwo);
+    auto gain = Gain::New(engine, 1, constantOne);
     // auto integrator = Integrator();
-    auto sum = Sum(engine, inputs);
+    auto sum = Sum::New(engine, inputs);
 }
 
 class TestA {

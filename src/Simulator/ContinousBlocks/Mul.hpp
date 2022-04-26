@@ -5,8 +5,8 @@
 
 class Mul : public ContBlockDouble {
     public:
-        Mul(objectId id, ContBlockEngineObj engine, ContBlockObj inputFirst, ContBlockObj inputSecond);
-        Mul(ContBlockEngineObj engine, ContBlockObj inputFirst, ContBlockObj inputSecond);
+        Mul(objectId id, ContBlockEngineObj engine);
+        static ContBlockObj New(ContBlockEngineObj engine);
         static ContBlockObj New(ContBlockEngineObj engine, ContBlockObj inputFirst, ContBlockObj inputSecond);
 
         string objTypeName();

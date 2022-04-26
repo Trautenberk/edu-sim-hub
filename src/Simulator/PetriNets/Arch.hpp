@@ -34,7 +34,6 @@ using InputArchObj = shared_ptr<InputArch>;
 class InputArch : public Arch {
     public:
         InputArch(objectId id, PetriNetsEngineObj engine, PlaceObj targetPlace, int weight = 1);
-        InputArch(PetriNetsEngineObj engine, PlaceObj targetPlace, int weight = 1);
         static InputArchObj New(PetriNetsEngineObj engine, PlaceObj targetPlace, int weight = 1); 
         string objTypeName();
         void execute();
@@ -49,7 +48,6 @@ using OutputArchObj = shared_ptr<OutputArch>;
 class OutputArch : public Arch {
     public:
         OutputArch(objectId id, PetriNetsEngineObj engine, PlaceObj targetPlace, int weight = 1);
-        OutputArch(PetriNetsEngineObj engine, PlaceObj targetPlace, int weight = 1);
         static OutputArchObj New(PetriNetsEngineObj engine, PlaceObj targetPlace, int weight = 1);
         string objTypeName();
         void execute();

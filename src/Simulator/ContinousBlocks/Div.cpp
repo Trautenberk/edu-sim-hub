@@ -2,13 +2,9 @@
 
 const string divTypeName = "DivBlock";
 
-Div::Div(objectId id, ContBlockEngineObj engine, ContBlockObj value, ContBlockObj divider) 
-: ContBlockDouble(id, engine, value, divider) 
+Div::Div(objectId id, ContBlockEngineObj engine) 
+: ContBlockDouble(id, engine) 
 {}
-
-Div::Div(ContBlockEngineObj engine, ContBlockObj value, ContBlockObj divider) 
-: Div(SimObject::createId(divTypeName), engine, value, divider)
-{} 
 
 string Div::objTypeName()
 {
@@ -20,14 +16,21 @@ void Div::eval()
 
 double Div::value()
 {
-    return inputFirst->value() / inputSecond->value();
+    return this->_inputFirst->value() / this->_inputSecond->value();
 }
 
 ContBlockObj Div::New(ContBlockEngineObj engine, ContBlockObj value, ContBlockObj divider)
 {
-    return make_shared<Div>(engine, value, divider);
+    auto obj = make_shared<Div>(SimObject::createId(divTypeName), engine);
+    obj->setInputs(value, divider);
+    return obj;
 }
 
+
+ContBlockObj Div::New(ContBlockEngineObj engine)
+{
+    return make_shared<Div>(SimObject::createId(divTypeName), engine);
+}
 
 #ifdef EMSCRIPTEN
     #include <emscripten/bind.h>

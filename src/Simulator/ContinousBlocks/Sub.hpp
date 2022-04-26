@@ -5,8 +5,8 @@
 
 class Sub : public ContBlockDouble {
     public:
-        Sub(objectId id, ContBlockEngineObj engine, ContBlockObj inputFirst, ContBlockObj inputSecond);
-        Sub(ContBlockEngineObj engine, ContBlockObj inputFirst, ContBlockObj inputSecond);
+        Sub(objectId id, ContBlockEngineObj engine);
+        static ContBlockObj New(ContBlockEngineObj engine);
         static ContBlockObj New(ContBlockEngineObj engine, ContBlockObj inputFirst, ContBlockObj inputSecond);
         string objTypeName();
         void eval();

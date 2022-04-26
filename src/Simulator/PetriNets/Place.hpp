@@ -18,7 +18,6 @@ class Place : public PetriNetsObject {
     public :
 
         Place(objectId id, PetriNetsEngineObj engine, string label, int tokens = 0);
-        Place(PetriNetsEngineObj engine, string label, int tokens = 0);
         static PlaceObj New(PetriNetsEngineObj engine, string label, int tokens = 0);
 
         string label() { return _label; };

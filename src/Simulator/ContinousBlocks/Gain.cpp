@@ -2,13 +2,9 @@
 
 const string gainTypeName = "GainBlock";
 
-Gain::Gain(objectId id, ContBlockEngineObj engine, double _gain, ContBlockObj input)
-: ContBlockSingle(id, engine, input), gain(_gain)
+Gain::Gain(objectId id, ContBlockEngineObj engine, double gain)
+: ContBlockSingle(id, engine), _gain(gain)
 {}  
-
-Gain::Gain(ContBlockEngineObj engine, double gain, ContBlockObj input)
-: Gain(SimObject::createId(gainTypeName), engine, gain, input)
-{}
 
 string Gain::objTypeName()
 {
@@ -20,14 +16,20 @@ void Gain::eval()
 
 double Gain::value()
 {
-    return input->value() * gain;
+    return this->_input->value() * this->_gain;
 }
+
+ContBlockObj Gain::New(ContBlockEngineObj engine, double gain)
+{
+    return make_shared<Gain>(SimObject::createId(gainTypeName), engine, gain);
+}        
 
 ContBlockObj Gain::New(ContBlockEngineObj engine, double gain, ContBlockObj input)
 {
-    return make_shared<Gain>(engine, gain, input);
-}        
-
+    auto obj = make_shared<Gain>(SimObject::createId(gainTypeName), engine, gain);
+    obj->setInput(input);
+    return obj;
+}
 
 #ifdef EMSCRIPTEN
     #include <emscripten/bind.h>

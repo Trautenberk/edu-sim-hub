@@ -9,33 +9,45 @@
 class ContBlock;
 
 using ContBlockObj = std::shared_ptr<ContBlock>;
-using namespace std;
 
+template <typename T>
+ContBlockObj createContBlockObj(objectId id, ContBlockEngine engine) {
+    return make_shared<T>(id, engine);
+}
 
 class ContBlock : public ContinousSimObject {
     public:
-        ContBlock(objectId, ContBlockEngineObj engine);
+        ContBlock(objectId id, ContBlockEngineObj engine);
         virtual double value() = 0;
         ContBlockEngineObj engine;
 };
 
 class ContBlockSingle : public ContBlock {
     public: 
-        ContBlockSingle(objectId id, ContBlockEngineObj engine, shared_ptr<ContBlock> _input);
-        ContBlockObj input;
+        ContBlockSingle(objectId, ContBlockEngineObj engine);
+        void setInput(ContBlockObj input);
+
+    protected:
+        ContBlockObj _input;
 };
 
 class ContBlockDouble : public ContBlock {
     public:
-        ContBlockDouble(objectId id, ContBlockEngineObj engine, ContBlockObj inputFirst, ContBlockObj inputSecond);
-        ContBlockObj inputFirst;
-        ContBlockObj inputSecond;
+        ContBlockDouble(objectId id, ContBlockEngineObj engine);
+        void setInputs(ContBlockObj inputFirst, ContBlockObj inputSecond);
+
+    protected:
+        ContBlockObj _inputFirst;
+        ContBlockObj _inputSecond;
 };
 
 class ContBlockMulti : public ContBlock {
-    public: 
-        ContBlockMulti(objectId id, ContBlockEngineObj engine, vector<ContBlockObj> inputs);
-        vector<ContBlockObj> inputs;
+    public:
+        ContBlockMulti(objectId id, ContBlockEngineObj engine); 
+        void setInputs(vector<ContBlockObj> inputs);
+
+    protected:
+        std::vector<ContBlockObj> _inputs;
 };
 
 #endif // __CONTBLOCK_H__

@@ -2,12 +2,8 @@
 
 const string subTypeName = "SubBlock";
 
-Sub::Sub(objectId id, ContBlockEngineObj engine, ContBlockObj inputFirst, ContBlockObj inputSecond) 
-: ContBlockDouble(id, engine, inputFirst, inputSecond)
-{}
-
-Sub::Sub(ContBlockEngineObj engine, ContBlockObj inputFirst, ContBlockObj inputSecond)
-: Sub(SimObject::createId(subTypeName), engine, inputFirst, inputSecond)
+Sub::Sub(objectId id, ContBlockEngineObj engine) 
+: ContBlockDouble(id, engine)
 {}
 
 string Sub::objTypeName()
@@ -20,12 +16,19 @@ void Sub::eval()
 
 double Sub::value()
 {
-    return inputFirst->value() - inputSecond->value();
+    return this->_inputFirst->value() - this->_inputSecond->value();
 }
 
 ContBlockObj Sub::New(ContBlockEngineObj engine, ContBlockObj inputFirst, ContBlockObj inputSecond)
 {
-    return make_shared<Sub>(engine, inputFirst, inputSecond);
+    auto obj = make_shared<Sub>(SimObject::createId(subTypeName), engine);
+    obj->setInputs(inputFirst, inputSecond);
+    return obj;
+}
+
+ContBlockObj Sub::New(ContBlockEngineObj engine)
+{   
+    return make_shared<Sub>(SimObject::createId(subTypeName), engine);
 }
 
 

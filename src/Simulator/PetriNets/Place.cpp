@@ -3,9 +3,6 @@
 
 const string placeTypeName = "Place";
 
-Place::Place(PetriNetsEngineObj engine, string label, int tokens)
-: Place(SimObject::createId(placeTypeName), engine, label, tokens)
-{}
 
 Place::Place(objectId id, PetriNetsEngineObj engine, string label, int tokens) : PetriNetsObject(id, engine)
 {
@@ -17,7 +14,7 @@ Place::Place(objectId id, PetriNetsEngineObj engine, string label, int tokens) :
 
 PlaceObj Place::New(PetriNetsEngineObj engine, string label, int tokens)
 {
-    return make_shared<Place>(engine, label, tokens);
+    return make_shared<Place>(SimObject::createId(placeTypeName), engine, label, tokens);
 }
 
 string Place::objTypeName()

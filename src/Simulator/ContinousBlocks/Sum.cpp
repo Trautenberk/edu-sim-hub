@@ -2,13 +2,16 @@
 
 const string sumTypeName = "SumBlock";
 
-Sum::Sum(objectId id, ContBlockEngineObj engine, vector<ContBlockObj> &inputs) 
-: ContBlockMulti(id, engine, inputs)
+Sum::Sum(objectId id, ContBlockEngineObj engine) 
+: ContBlockMulti(id, engine)
 {}
 
-Sum::Sum(ContBlockEngineObj engine, vector<ContBlockObj> &inputs)
-: Sum(SimObject::createId(sumTypeName), engine, inputs)
-{}
+ContBlockObj Sum::New(ContBlockEngineObj engine, vector<ContBlockObj> &inputs)
+{
+    auto obj = make_shared<Sum>(SimObject::createId(sumTypeName), engine);
+    obj->setInputs(inputs);
+    return obj;
+}
 
 string Sum::objTypeName()
 {
@@ -22,7 +25,7 @@ double Sum::value()
 {
     double result = 0;
 
-    for(auto& input : inputs)
+    for(auto& input : this->_inputs)
     {
         result += input->value();
     }

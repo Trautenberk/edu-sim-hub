@@ -2,12 +2,8 @@
 
 const string addTypeName = "AddBlock";
 
-Add::Add(objectId id, ContBlockEngineObj engine, ContBlockObj inputFirst, ContBlockObj inputSecond)
-: ContBlockDouble(id, engine, inputFirst, inputSecond)
-{}
-
-Add::Add(ContBlockEngineObj engine, ContBlockObj inputFirst, ContBlockObj inputSecond)
-: Add(SimObject::createId(addTypeName) ,engine, inputFirst, inputSecond)
+Add::Add(objectId id, ContBlockEngineObj engine)
+: ContBlockDouble(id, engine)
 {}
 
 string Add::objTypeName()
@@ -17,7 +13,14 @@ string Add::objTypeName()
 
 ContBlockObj Add::New(ContBlockEngineObj engine, ContBlockObj inputFirst, ContBlockObj inputSecond)
 {
-    return make_shared<Add>(engine, inputFirst, inputSecond);
+    auto obj = make_shared<Add>(SimObject::createId(addTypeName), engine);
+    obj->setInputs(inputFirst, inputSecond);
+    return obj;
+}
+
+ContBlockObj Add::New(ContBlockEngineObj engine)
+{   
+    return make_shared<Add>(SimObject::createId(addTypeName), engine);
 }
 
 void Add::eval()
@@ -25,7 +28,7 @@ void Add::eval()
 
 double Add::value()
 {
-    return inputFirst->value() + inputSecond->value();
+    return this->_inputFirst->value() + this->_inputSecond->value();
 }
 
 

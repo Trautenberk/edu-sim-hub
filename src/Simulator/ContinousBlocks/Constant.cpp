@@ -6,10 +6,6 @@ Constant::Constant(objectId id, ContBlockEngineObj engine, double value)
 : ContBlock(id, engine), _value(value) 
 {}
 
-Constant::Constant(ContBlockEngineObj engine, double value)
-: Constant(SimObject::createId(constantTypeName), engine, value)
-{}
-
 string Constant::objTypeName()
 {
     return constantTypeName;
@@ -25,7 +21,7 @@ void Constant::eval()
 
 ContBlockObj Constant::New(ContBlockEngineObj engine, double value)
 {
-    return make_shared<Constant>(engine, value);
+    return make_shared<Constant>(SimObject::createId(constantTypeName), engine, value);
 }
 
 

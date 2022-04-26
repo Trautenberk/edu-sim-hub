@@ -10,7 +10,6 @@ class Constant : public ContBlock
 {
     public:
         Constant(objectId id, ContBlockEngineObj engine, double value);
-        Constant(ContBlockEngineObj engine, double value);
         static ContBlockObj New(ContBlockEngineObj engine, double value);
         void eval();
         double value();

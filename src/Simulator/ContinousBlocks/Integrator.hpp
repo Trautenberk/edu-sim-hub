@@ -10,12 +10,10 @@ class Integrator : public ContBlockSingle {
     public:
         // input value = f(t,y)
         Integrator(objectId id, ContBlockEngineObj engine, double initialValue);
-        Integrator(ContBlockEngineObj engine, double initialValue);
-        Integrator(objectId id, ContBlockEngineObj engine, ContBlockObj input, double initialValue);
-        Integrator(ContBlockEngineObj engine, ContBlockObj input, double initialValue);
+        static ContBlockObj New(ContBlockEngineObj engine, double initialValue);
+        static ContBlockObj New(ContBlockEngineObj engine, double initialValue, ContBlockObj input);
+        
         string objTypeName();
-
-        void setInput(shared_ptr<ContBlock> input); 
         IntegratorRecord getStatisticsRecord();
 
         void eval();

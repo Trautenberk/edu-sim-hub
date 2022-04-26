@@ -10,10 +10,10 @@
 
 TEST(SimplSimTest, BasicAssertions)
 {
-    auto engine = make_shared<ContBlockEngine>(IntegrationMethods::Euler); 
-    auto constantOne = make_shared<Constant>(engine, 1);
-    auto constantTwo = make_shared<Constant>(engine, 2);
-    auto addBlock = make_shared<Add>(engine, constantOne, constantTwo);
+    auto engine = ContBlockEngine::New(IntegrationMethods::Euler); 
+    auto constantOne = Constant::New(engine, 1);
+    auto constantTwo = Constant::New(engine, 2);
+    auto addBlock = Add::New(engine, constantOne, constantTwo);
 
     auto sample = [engine, constantOne, constantTwo, addBlock](){
         std::cout << "Time:" << engine->time() << " ConstantOne: " << constantOne->value() << " ConstantTwo: " << constantTwo->value() << " AddBlock: " << addBlock->value() << std::endl;
@@ -31,9 +31,9 @@ TEST(SimplSimTest, BasicAssertions)
 
 TEST(SimWithIntegratorOne, BasicAssertions)
 {
-    auto engine = make_shared<ContBlockEngine>(IntegrationMethods::Euler); 
-    auto constant = make_shared<Constant>(engine, 1);   // y` = 1
-    auto integrator = make_shared<Integrator>(engine, constant, 0.0); // y = x   
+    auto engine = ContBlockEngine::New(IntegrationMethods::Euler); 
+    auto constant = Constant::New(engine, 1);   // y` = 1
+    auto integrator = Integrator::New(engine, 0.0, constant); // y = x   
 
     std::cout.precision(17);
     auto sample = [engine, integrator](){
@@ -50,11 +50,11 @@ TEST(SimWithIntegratorOne, BasicAssertions)
 
 TEST(SimWithIntegratorTwo, BasicAssertions)
 {
-    auto engine = make_shared<ContBlockEngine>(IntegrationMethods::Euler); 
-    auto constant = make_shared<Constant>(engine, 2);   // 2
-    auto x = make_shared<Time>(engine);         // x
-    auto mul = make_shared<Mul>(engine, constant, x);  // x * 2
-    auto integrator = make_shared<Integrator>(engine, mul, 0.0);    // y` = x na 2
+    auto engine = ContBlockEngine::New(IntegrationMethods::Euler); 
+    auto constant = Constant::New(engine, 2);   // 2
+    auto x = Time::New(engine);         // x
+    auto mul = Mul::New(engine, constant, x);  // x * 2
+    auto integrator = Integrator::New(engine, 0.0, mul);    // y` = x na 2
 
     std::cout.precision(5);
     auto sample = [engine, integrator, x, mul](){

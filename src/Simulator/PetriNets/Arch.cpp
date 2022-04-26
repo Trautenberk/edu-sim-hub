@@ -20,10 +20,6 @@ InputArch::InputArch(objectId id, PetriNetsEngineObj engine, shared_ptr<Place> t
 : Arch(id, engine, targetPlace, weight)
 {}
 
-InputArch::InputArch(PetriNetsEngineObj engine, PlaceObj targetPlace, int weight)
-: InputArch(SimObject::createId(inputArchTypeName), engine, targetPlace, weight)
-{}
-
 string InputArch::objTypeName()
 {
     return inputArchTypeName;
@@ -42,16 +38,13 @@ int InputArch::satisfied()
 
 InputArchObj InputArch::New(PetriNetsEngineObj engine, PlaceObj targetPlace, int weight)
 {
-    return make_shared<InputArch>(engine, targetPlace, weight);
+    return make_shared<InputArch>(SimObject::createId(inputArchTypeName), engine, targetPlace, weight);
 }
 
 
 /// OutpuArch
 
 const string outputArchTypeName = "OutputArch";
-OutputArch::OutputArch(PetriNetsEngineObj engine, PlaceObj targetPlace, int weight)
-: OutputArch(SimObject::createId(outputArchTypeName), engine, targetPlace, weight)
-{}
 
 
 OutputArch::OutputArch(objectId id, PetriNetsEngineObj engine, PlaceObj targetPlace, int weight)
@@ -60,7 +53,7 @@ OutputArch::OutputArch(objectId id, PetriNetsEngineObj engine, PlaceObj targetPl
 
 OutputArchObj OutputArch::New(PetriNetsEngineObj engine, PlaceObj targetPlace, int weight)
 {
-    return make_shared<OutputArch>(engine, targetPlace, weight);
+    return make_shared<OutputArch>(SimObject::createId(outputArchTypeName), engine, targetPlace, weight);
 }
 
 string OutputArch::objTypeName()

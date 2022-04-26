@@ -162,9 +162,6 @@ ImmediateTransition::ImmediateTransition(objectId id, PetriNetsEngineObj engine,
     this->priority = priority;
 }
 
-ImmediateTransition::ImmediateTransition(PetriNetsEngineObj engine, std::string label, vector<InputArchObj> inputArches, vector<OutputArchObj> outputArches, int priority)
-: ImmediateTransition(SimObject::createId(immediateTransitionTypeName), engine, label, inputArches, outputArches)
-{}
 
 void ImmediateTransition::planTransitionFiringEvent()
 {
@@ -176,7 +173,7 @@ void ImmediateTransition::planTransitionFiringEvent()
 
 ImmediateTransitionObj ImmediateTransition::New(PetriNetsEngineObj engine, std::string label, vector<InputArchObj> inputArches, vector<OutputArchObj> outputArches, int priority)
 {
-    return make_shared<ImmediateTransition>(engine, label, inputArches, outputArches, priority);
+    return make_shared<ImmediateTransition>(SimObject::createId(immediateTransitionTypeName), engine, label, inputArches, outputArches, priority);
 }
 
 string ImmediateTransition::objTypeName()
@@ -194,10 +191,6 @@ TimedTransition::TimedTransition(objectId id, PetriNetsEngineObj engine, string 
 {
     this->_delayValue = delay;
 }
-
-TimedTransition::TimedTransition(PetriNetsEngineObj engine, std::string label, vector<InputArchObj> inputArches, vector<OutputArchObj>  outputArches, double delay)
-: TimedTransition(SimObject::createId(timedTransitionTypeName), engine, label, inputArches, outputArches, delay)
-{}
 
 
 void TimedTransition::planTransitionFiringEvent()
@@ -225,13 +218,9 @@ TimedConstantTransition::TimedConstantTransition(objectId id, PetriNetsEngineObj
 : TimedTransition(id, engine, label, inputArches, outputArches, delayValue)
 {}
 
-TimedConstantTransition::TimedConstantTransition(PetriNetsEngineObj engine, std::string label, vector<InputArchObj> inputArches, vector<OutputArchObj>  outputArches, double delayValue)
-: TimedTransition(SimObject::createId(timedConstantTransitionTypeName), engine, label, inputArches, outputArches, delayValue)
-{}
-
 TimedConstantTransitionObj TimedConstantTransition::New(PetriNetsEngineObj engine, std::string label, vector<InputArchObj> inputArches, vector<OutputArchObj>  outputArches, double delayValue)
 {
-    return make_shared<TimedConstantTransition>(engine, label, inputArches, outputArches, delayValue);
+    return make_shared<TimedConstantTransition>(SimObject::createId(timedConstantTransitionTypeName), engine, label, inputArches, outputArches, delayValue);
 }
 
 string TimedConstantTransition::objTypeName()
@@ -258,15 +247,11 @@ std::string TimedExponentialTransition::objTypeName()
 TimedExponentialTransition::TimedExponentialTransition(objectId id, PetriNetsEngineObj engine, std::string label, vector<InputArchObj> inputArches, vector<OutputArchObj>  outputArches, double delayValue)
 : TimedTransition(id, engine, label, inputArches, outputArches, delayValue)
 {}
-        
-TimedExponentialTransition::TimedExponentialTransition(PetriNetsEngineObj engine, std::string label, vector<InputArchObj> inputArches, vector<OutputArchObj>  outputArches, double delayValue)
-: TimedTransition(SimObject::createId(timedExponentialTransitionTypeName) ,engine, label, inputArches, outputArches, delayValue)
-{}
-       
+         
        
  TimedExponentialTransitionObj TimedExponentialTransition::New(PetriNetsEngineObj engine, std::string label, vector<InputArchObj> inputArches, vector<OutputArchObj>  outputArches, double delayValue)
  {
-     return make_shared<TimedExponentialTransition>(engine, label, inputArches, outputArches, delayValue);
+     return make_shared<TimedExponentialTransition>(SimObject::createId(timedExponentialTransitionTypeName), engine, label, inputArches, outputArches, delayValue);
  }
 
 double TimedExponentialTransition::getDelay()

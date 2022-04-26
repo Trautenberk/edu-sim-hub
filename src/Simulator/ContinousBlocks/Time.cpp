@@ -6,10 +6,6 @@ Time::Time(objectId id, ContBlockEngineObj engine)
 : ContBlock(id, engine)
 {}
 
-Time::Time(ContBlockEngineObj engine) 
-: Time(SimObject::createId(timeTypeName), engine)
-{}
-
 string Time::objTypeName()
 {
     return timeTypeName;
@@ -21,7 +17,7 @@ double Time::value() {return engine->time();};
 
 ContBlockObj Time::New(ContBlockEngineObj engine)
 {
-    return make_shared<Time>(engine);
+    return make_shared<Time>(SimObject::createId(timeTypeName), engine);
 }
 
 

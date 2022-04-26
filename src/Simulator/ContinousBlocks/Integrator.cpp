@@ -3,26 +3,23 @@
 
 const string integratorTypeName = "IntegratorBlock";
 
-Integrator::Integrator(objectId id, ContBlockEngineObj engine, ContBlockObj input, double initialValue)
-: ContBlockSingle(id, engine, input), _initialValue(initialValue), _currentState(initialValue) 
+Integrator::Integrator(objectId id, ContBlockEngineObj engine, double initialValue)
+: ContBlockSingle(id, engine), _initialValue(initialValue), _currentState(initialValue) 
 {
     engine->addIntegrator(this);
 }
 
-Integrator::Integrator(ContBlockEngineObj engine, ContBlockObj input, double initialValue)
-: Integrator(SimObject::createId(integratorTypeName), engine, input, initialValue)
-{}
+ContBlockObj Integrator::New(ContBlockEngineObj engine, double initialValue)
+{
+    return make_shared<Integrator>(SimObject::createId(integratorTypeName), engine, initialValue);
+}
 
-
-#define DUMMY_BLOCK make_shared<Constant>(nullptr, 0)
-
-Integrator::Integrator(objectId id, ContBlockEngineObj engine, double initialValue) 
-: Integrator(id, engine, DUMMY_BLOCK, initialValue)
-{}
-
-Integrator::Integrator(ContBlockEngineObj engine, double initialValue) 
-: Integrator(SimObject::createId(integratorTypeName), engine, DUMMY_BLOCK, initialValue)
-{}
+ContBlockObj Integrator::New(ContBlockEngineObj engine, double initialValue, ContBlockObj input)
+{
+    auto obj = make_shared<Integrator>(SimObject::createId(integratorTypeName), engine, initialValue);
+    obj->setInput(input);
+    return obj;
+}
 
 string Integrator::objTypeName()
 {
@@ -31,7 +28,7 @@ string Integrator::objTypeName()
 
 void Integrator::eval()
 {
-    this->_currentInputValue = this->input->value();
+    this->_currentInputValue = this->_input->value();
 }
 
 double Integrator::value()
@@ -56,11 +53,6 @@ double Integrator::currentInputValue()
     return this->_currentInputValue;
 }
 
-void Integrator::setInput(shared_ptr<ContBlock> input)
-{
-    this->input = input;
-} 
-
 IntegratorRecord Integrator::getStatisticsRecord()
 {
     return IntegratorRecord{this->engine->time(), this->value()};
@@ -74,5 +66,4 @@ IntegratorRecord Integrator::getStatisticsRecord()
         .smart_ptr<shared_ptr<Integrator>>("shared_ptr<Integrator>")
         .constructor(&std::make_shared<Integrator, objectId, ContBlockEngineObj, ContBlockObj, double>);
     }
-
 #endif
