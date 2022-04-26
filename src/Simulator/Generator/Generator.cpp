@@ -1,9 +1,9 @@
 #include "Generator.hpp"
 
-const int Generator::_seed = 10101010101;
-const int Generator::_a = 69069;
-const int Generator::_b = 1;
-int Generator::_ix = Generator::_seed;
+const unsigned int Generator::_seed = 1523548434;
+const unsigned int Generator::_a = 69069;
+const unsigned int Generator::_b = 1;
+unsigned int Generator::_ix = Generator::_seed;
 
 // Generátor náhodných čísel
 unsigned int Generator::Random(unsigned int mod)
@@ -25,12 +25,12 @@ double Generator::Uniform(int a, int b)
 }
 
 
-double Generator::Exponential(double rate)
+double Generator::Exponential(double mean)
 {
-    // rate = 1/lambda
+    // mean = 1/lambda
     // x = -ln(u)/(λ)
     // x = -ln(u) * rate
     const auto u = Uniform();
     // return log(1 - u) / (-rate);
-    return -log2(u) * rate;
+    return  -mean * std::log2(u);
 }
