@@ -37,7 +37,7 @@ double Add::value()
     EMSCRIPTEN_BINDINGS(AddBlock) {
         emscripten::class_<Add>("Add")
         .smart_ptr<shared_ptr<Add>>("shared_ptr<Add>")
-        .constructor(&std::make_shared<Add, objectId, ContBlockEngineObj, ContBlockObj, ContBlockObj>);
+        .constructor(&std::make_shared<Add, objectId, ContBlockEngineObj>);
     }
 
 #endif

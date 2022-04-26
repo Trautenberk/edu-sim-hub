@@ -266,13 +266,11 @@ double TimedExponentialTransition::getDelay()
         emscripten::register_vector<InputArchObj>("InputArchVec");
         emscripten::register_vector<OutputArchObj>("OutputArchVec");
 
-        emscripten::class_<TimedTransition>("TimedTransition");
-
-        emscripten::class_<TimedConstantTransition, emscripten::base<TimedTransition>>("TimedConstantTransition")
+        emscripten::class_<TimedConstantTransition>("TimedConstantTransition")
         .smart_ptr<shared_ptr<TimedConstantTransition>>("shared_ptr<TimedConstantTransition>")
         .constructor(&std::make_shared<TimedConstantTransition, objectId ,PetriNetsEngineObj, string, vector<InputArchObj>, vector<OutputArchObj>, double>);
 
-        emscripten::class_<TimedExponentialTransition, emscripten::base<TimedTransition>>("TimedExponentialTransition")
+        emscripten::class_<TimedExponentialTransition>("TimedExponentialTransition")
         .smart_ptr<shared_ptr<TimedExponentialTransition>>("shared_ptr<TimedExponentialTransition>")
         .constructor(&std::make_shared<TimedExponentialTransition, objectId ,PetriNetsEngineObj, string, vector<InputArchObj>, vector<OutputArchObj>, double>);
 
@@ -280,6 +278,5 @@ double TimedExponentialTransition::getDelay()
         emscripten::class_<ImmediateTransition>("ImmediateTransition")
         .smart_ptr<shared_ptr<ImmediateTransition>>("shared_ptr<ImmediateTransition>")
         .constructor(&std::make_shared<ImmediateTransition, objectId, PetriNetsEngineObj, string, vector<InputArchObj>, vector<OutputArchObj>, double>);
-    
     }
 #endif

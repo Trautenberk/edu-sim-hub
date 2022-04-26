@@ -1,18 +1,32 @@
 #include "ContBlock.hpp"
-
+#include <iostream>
 
 ////////////////////////////////////////////////////////////////////////
 //// ContBlock
 ContBlock::ContBlock(objectId id, ContBlockEngineObj _engine)
 : ContinousSimObject(id), engine(_engine)
-{}
+{
+        this->engine->addContSimObject(this);
+}
 
+void ContBlock::initialize()
+{
+    return;
+}
 
 ////////////////////////////////////////////////////////////////////////
 /// ContBlockSingle
 ContBlockSingle::ContBlockSingle(objectId id, ContBlockEngineObj engine) 
 : ContBlock(id, engine)
 {}
+
+void ContBlockSingle::initialize()
+{
+    if (this->_input == nullptr) {
+        std::cerr << "Error: uninitialized input in block " << this->id() << std::endl;
+        throw new exception();
+    }
+}
 
 void ContBlockSingle::setInput(ContBlockObj input)
 {
@@ -25,12 +39,21 @@ void ContBlockSingle::setInput(ContBlockObj input)
 
 ContBlockDouble::ContBlockDouble(objectId id, ContBlockEngineObj engine) 
 : ContBlock(id , engine)
-{}
+{
+}
 
 void ContBlockDouble::setInputs(ContBlockObj inputFirst, ContBlockObj inputSecond)
 {
     this->_inputFirst = inputFirst;
     this->_inputSecond = inputSecond;
+}
+
+void ContBlockDouble::initialize()
+{
+    if (this->_inputFirst == nullptr || this->_inputSecond == nullptr) {
+        std::cerr << "Error: uninitialized first or second input in block " << this->id() << std::endl;
+        throw  exception();
+    }
 }
 
 /////////////////////////////////////////////////////////////////////////////////
@@ -45,3 +68,18 @@ void ContBlockMulti::setInputs(std::vector<ContBlockObj> inputs)
     this->_inputs =inputs;
 }
 
+
+#ifdef EMSCRIPTEN
+    #include <emscripten/bind.h>
+    EMSCRIPTEN_BINDINGS(ContBlock) {
+        emscripten::class_<ContBlock>("ContBlock");
+
+        emscripten::class_<ContBlockSingle>("ContBlockSingle")
+        .function("setInput", &ContBlockSingle::setInput)
+        ;
+
+        emscripten::class_<ContBlockDouble>("ContBlockDouble")
+        .function("setInputs", &ContBlockDouble::setInputs)
+        ;
+    }
+#endif

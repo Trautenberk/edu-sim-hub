@@ -68,7 +68,7 @@ class TimedTransition : public Transition {
         virtual double getDelay() = 0;
         std::string objTypeName() override;
         TimedTransition(objectId id, PetriNetsEngineObj engine, std::string label, vector<InputArchObj> inputArches, vector<OutputArchObj>  outputArches, double delayValue);
-        void planTransitionFiringEvent();
+        void planTransitionFiringEvent() override;
 
     protected:
         double _delayValue;

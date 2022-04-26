@@ -8,6 +8,16 @@
 #include "../../ContinousBlocks/Time.hpp"
 #include "../../ContinousBlocks/Mul.hpp"
 
+
+TEST(CheckInititialisationError, BasicAssertions)
+{
+    auto engine = ContBlockEngine::New(IntegrationMethods::Euler);
+    auto add = Add::New(engine);
+
+    ASSERT_FALSE(engine->init(10, 0.1));
+    ASSERT_NO_THROW(engine->simulate());
+}
+
 TEST(SimplSimTest, BasicAssertions)
 {
     auto engine = ContBlockEngine::New(IntegrationMethods::Euler); 
@@ -72,5 +82,6 @@ TEST(SimWithIntegratorTwo, BasicAssertions)
     std::cout << "Simulation begin" << std::endl;
     engine->simulate();
     std::cout << "Simulation end" << std::endl;
-
 }
+
+

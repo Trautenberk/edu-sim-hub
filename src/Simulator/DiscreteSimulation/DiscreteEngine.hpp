@@ -6,7 +6,6 @@
 #include <vector>
 #include <iostream>
 #include <memory>
-#include "../Generator/Generator.hpp"
 #include <ctime>
 #include "../SimEngine.hpp"
 
@@ -28,8 +27,7 @@ class DiscreteEngine : public SimEngine {
         virtual void gatherStatistics() = 0;
 
         Calendar calendar = Calendar();
-        Generator generator = Generator();
-    
+
     private:
         int _maxIteration;
         int _iteration;

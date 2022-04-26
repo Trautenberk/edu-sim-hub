@@ -36,6 +36,7 @@ ContBlockObj Gain::New(ContBlockEngineObj engine, double gain, ContBlockObj inpu
     EMSCRIPTEN_BINDINGS(GainBlock) {
         emscripten::class_<Gain>("Gain")
         .smart_ptr<shared_ptr<Gain>>("shared_ptr<Gain>")
-        .constructor(&std::make_shared<Gain, objectId, ContBlockEngineObj, double, ContBlockObj>);
+        .constructor(&std::make_shared<Gain, objectId, ContBlockEngineObj, double>)
+        ;
     }
 #endif

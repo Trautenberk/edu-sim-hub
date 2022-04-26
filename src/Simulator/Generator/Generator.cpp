@@ -32,5 +32,5 @@ double Generator::Exponential(double mean)
     // x = -ln(u) * rate
     const auto u = Uniform();
     // return log(1 - u) / (-rate);
-    return  -mean * std::log2(u);
+    return  -mean * log(u);
 }

@@ -36,7 +36,7 @@ ContBlockObj Mul::New(ContBlockEngineObj engine, ContBlockObj inputFirst, ContBl
     EMSCRIPTEN_BINDINGS(MulBlock) {
         emscripten::class_<Mul>("Mul")
         .smart_ptr<shared_ptr<Mul>>("shared_ptr<Mul>")
-        .constructor(&std::make_shared<Mul, objectId, ContBlockEngineObj, ContBlockObj, ContBlockObj>);
+        .constructor(&std::make_shared<Mul, objectId, ContBlockEngineObj>);
     }
 
 #endif

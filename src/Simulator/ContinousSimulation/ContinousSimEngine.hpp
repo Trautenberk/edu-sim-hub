@@ -10,7 +10,7 @@ using namespace std;
 
 class ContinousSimEngine : public SimEngine {
     public:
-        void init(double endTime, double stepSize, int sampleRate = 1);
+        bool init(double endTime, double stepSize, int sampleRate = 1);
         virtual void simStep() = 0;   // krok simulace
         void simulate() override;
         virtual void simulationBegin() override;
@@ -18,7 +18,6 @@ class ContinousSimEngine : public SimEngine {
         void addContSimObject(ContinousSimObject* object);
         virtual void gatherStatistics() = 0;
         void statisticsStep();
-
         double stepSize();
 
     protected:
@@ -26,6 +25,7 @@ class ContinousSimEngine : public SimEngine {
         double _stepSize = -1;
         int _sampleRate = 1;     // kolikaty kazdy krok se ma zaznamenat
         int _sampleStep = 0;
+        bool _initializedCorrectly = false;
 
 };
 

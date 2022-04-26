@@ -22,7 +22,6 @@ class Integrator : public ContBlockSingle {
         double currentState();
         double currentInputValue(); 
     private:
-        shared_ptr<ContBlock> _input;
         double _currentState;  
         double _prevState; 
         double _currentInputValue;

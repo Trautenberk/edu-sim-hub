@@ -53,7 +53,7 @@ TEST(SimpleSimWithTimedExponenetialTransition, BasicAssertions)
     engine->simulate();
     EXPECT_EQ(placeOne->tokens(), 0);
     EXPECT_EQ(placeTwo->tokens(), 1);
-    EXPECT_EQ(engine->time(), 100);
+    EXPECT_TRUE(engine->time() > 0);
 }
 
 

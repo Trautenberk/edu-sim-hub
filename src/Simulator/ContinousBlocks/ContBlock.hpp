@@ -20,25 +20,28 @@ class ContBlock : public ContinousSimObject {
         ContBlock(objectId id, ContBlockEngineObj engine);
         virtual double value() = 0;
         ContBlockEngineObj engine;
+        void initialize() override;
 };
 
 class ContBlockSingle : public ContBlock {
     public: 
         ContBlockSingle(objectId, ContBlockEngineObj engine);
         void setInput(ContBlockObj input);
+        void initialize() override;
 
     protected:
-        ContBlockObj _input;
+        ContBlockObj _input = nullptr;
 };
 
 class ContBlockDouble : public ContBlock {
     public:
         ContBlockDouble(objectId id, ContBlockEngineObj engine);
         void setInputs(ContBlockObj inputFirst, ContBlockObj inputSecond);
+        void initialize() override;
 
     protected:
-        ContBlockObj _inputFirst;
-        ContBlockObj _inputSecond;
+        ContBlockObj _inputFirst = nullptr;
+        ContBlockObj _inputSecond = nullptr;
 };
 
 class ContBlockMulti : public ContBlock {
@@ -47,7 +50,7 @@ class ContBlockMulti : public ContBlock {
         void setInputs(vector<ContBlockObj> inputs);
 
     protected:
-        std::vector<ContBlockObj> _inputs;
+        std::vector<ContBlockObj> _inputs = {};
 };
 
 #endif // __CONTBLOCK_H__

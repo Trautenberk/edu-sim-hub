@@ -64,6 +64,6 @@ IntegratorRecord Integrator::getStatisticsRecord()
     EMSCRIPTEN_BINDINGS(IntegratorBlock) {
         emscripten::class_<Integrator>("Integrator")
         .smart_ptr<shared_ptr<Integrator>>("shared_ptr<Integrator>")
-        .constructor(&std::make_shared<Integrator, objectId, ContBlockEngineObj, ContBlockObj, double>);
+        .constructor(&std::make_shared<Integrator, objectId, ContBlockEngineObj, double>);
     }
 #endif

@@ -37,7 +37,7 @@ ContBlockObj Div::New(ContBlockEngineObj engine)
     EMSCRIPTEN_BINDINGS(DivBlock) {
         emscripten::class_<Div>("Div")
         .smart_ptr<shared_ptr<Div>>("shared_ptr<Div>")
-        .constructor(&std::make_shared<Div, objectId, ContBlockEngineObj, ContBlockObj, ContBlockObj>);
+        .constructor(&std::make_shared<Div, objectId, ContBlockEngineObj>);
     }
 
 #endif

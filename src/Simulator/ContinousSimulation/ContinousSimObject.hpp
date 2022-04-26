@@ -8,6 +8,7 @@ class ContinousSimObject : public SimObject
     public:
         ContinousSimObject(objectId id) : SimObject(id) {};
         virtual void eval() = 0;
+        virtual void initialize() = 0;
 };
 
 #endif // __CONTINOUSSIMOBJECT_H__
