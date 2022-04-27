@@ -12,10 +12,29 @@ export class ContBlocksAdapter {
 
     private _allSimObjects : {[key : string] : any} = {}
 
+    private _integratorIds : string[] = []
+
     public statistics : any
 
-    private convertStatistics() : any {
+    private convertStatistics(rawStatistics : any) : IContBlockStatistics {
+        const statistics : IContBlockStatistics = {
+            simulationTime : rawStatistics.simulationTime,
+            integratorRecords: {}
+        };
 
+        for (const objId of this._integratorIds) {
+            const recordsArray : IntegratorRecord[] = [];
+            const rawRecordsArray : any = rawStatistics.integratorRecords.get(objId);
+            
+            for (let i = 0; i < rawRecordsArray.size(); i++) {
+                const rawRecord = rawRecordsArray.get(i);
+                recordsArray.push({time: rawRecord.time, value: rawRecord.value});
+            }
+
+            statistics.integratorRecords[objId] = recordsArray;
+        }
+
+        return statistics;
     }
 
     private clear() : void {
@@ -44,7 +63,9 @@ export class ContBlocksAdapter {
                 case Gain.name:
                     simObj = new simulatorModule.Gain(obj.id, this._engine, (obj as IGain).gain); break;
                 case Integrator.name:
-                    simObj = new simulatorModule.Integrator(obj.id, this._engine, (obj as IIntegrator).initialValue); break;
+                    this._integratorIds.push(obj.id);
+                    simObj = new simulatorModule.Integrator(obj.id, this._engine, (obj as IIntegrator).initialValue);
+                    break;
                 case Signal.name:
                     signals.push(obj as ISignal); break;
             }
@@ -77,7 +98,8 @@ export class ContBlocksAdapter {
         }
 
         if (this._engine.init(params.endTime, params.simStepSize, params.statisticsInterval)) {
-            this._engine.simulate();
+            this._engine.simulate()
+           this.statistics = this.convertStatistics(this._engine.statistics());
         } else {
             console.error("Error during engine initialization");
         }
@@ -88,7 +110,7 @@ export class ContBlocksAdapter {
 
 export interface IContBlockStatistics {
     simulationTime : number
-
+    integratorRecords : {[key : string] : IntegratorRecord[]}
 }
 
 

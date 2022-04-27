@@ -28,6 +28,7 @@ class ContBlockEngine : public ContinousSimEngine {
         void integrate();   // provedu integraci na vsech integratorech
         function<double(double currentState, double derivation, double step)> integrationMethod();
         void gatherStatistics();
+        ContBlockStatistics statistics();
 
     private:
         std::vector<Integrator*> _allIntegrators;

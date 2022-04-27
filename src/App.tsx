@@ -77,13 +77,14 @@ export const App : FC = () => {
 
   const simulatePNets = () => {
     const adapter = new PetriNetsSimulatorAdapter(simulatorModule, Object.values(simObjects), simulationParams as IPNSimulationParams);
-    adapter.statistics;
     dispatch(setStatistics(adapter.statistics));
     setShowStatistics(true);
   }
 
   const simulateContBlocks = () => {
     const adapter = new ContBlocksAdapter(simulatorModule, simObjects, simulationParams as IContBlocksSimulationParams);
+    dispatch(setStatistics(adapter.statistics));
+    setShowStatistics(true);
   }
 
   //////////////////////////////////////////////////////////////// 

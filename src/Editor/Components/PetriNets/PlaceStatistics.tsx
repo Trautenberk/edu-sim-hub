@@ -8,7 +8,7 @@ import { useStoreHooks } from "../Utilities/CustomHooks";
 
 export const PlaceStatistics : FC<StatisticsComponentProps> = (props) => {
         
-    const values = props.statistics.placeRecords[props.id];
+    const values = (props.statistics as IPetriNetsStatistics).placeRecords[props.id];
 
     return (
         <div>

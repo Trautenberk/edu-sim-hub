@@ -1,19 +1,16 @@
-import { NULL_OBJ_ID } from "Editor/Model/EditorObject";
-import { IPetriNetsStatistics } from "Editor/Model/PetriNets/PetriNetsSimulatorAdapter";
 import { FC } from "react";
 import { LineChart, XAxis, YAxis, Tooltip, Line } from "recharts";
 import { StatisticsComponentProps } from "../ObjectGUIComponentFactory";
-import { useStoreHooks } from "../Utilities/CustomHooks";
+import { IContBlockStatistics } from "./ContBlocksAdapter";
 
 
-
-export  const TransitionStatistics : FC<StatisticsComponentProps> = (props) => {
-
-    const values = (props.statistics as IPetriNetsStatistics).transitionRecords[props.id];
+export const IntegratorStatistics : FC<StatisticsComponentProps> = (props) => {
+        
+    const values = (props.statistics as IContBlockStatistics).integratorRecords[props.id];
 
     return (
         <div>
-            <p>Transition record</p>
+            <p>Integrator record</p>
             <div className="line-chart-wrapper">
                 <LineChart
                     width={700} height={700} data={values}
@@ -21,7 +18,7 @@ export  const TransitionStatistics : FC<StatisticsComponentProps> = (props) => {
                     <XAxis dataKey="time" />
                     <YAxis type="number" />
                     <Tooltip />
-                    <Line type="stepAfter" dataKey="fired" stroke="#ff7300" />
+                    <Line type="linear" dataKey="value" stroke="#ff7300" />
                 </LineChart>
             </div>
         </div>

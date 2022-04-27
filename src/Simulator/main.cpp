@@ -110,7 +110,7 @@ void contBlocksSandBox()
         .function("setInput", &ContBlockSingle::setInput)
         ;
 
-        emscripten::class_<ContBlockDouble, emscripten::base<ContBlock>("ContBlockDouble")
+        emscripten::class_<ContBlockDouble, emscripten::base<ContBlock>>("ContBlockDouble")
         .smart_ptr<shared_ptr<ContBlockDouble>>("shared_ptr<ContBlockDouble>")
         .function("setInputFirst", &ContBlockDouble::setInputFirst)
         .function("setInputSecond", &ContBlockDouble::setInputSecond)

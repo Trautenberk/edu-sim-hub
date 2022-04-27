@@ -12,6 +12,7 @@ import { ConstantEdit } from "./ConstantEdit";
 import { GainEdit } from "./GaintEdit";
 import { IntegratorSVG } from "./IntegratorSVG";
 import { IntegratorEdit } from "./IntegratorEdit";
+import { IntegratorStatistics } from "./IntegratorStatistics";
 
 
 
@@ -34,7 +35,7 @@ export class ContBlocksGUIComponentFactory implements IObjectGUIComponentFactory
             case Signal.name:
                     return {SVGComponent: SignalSVG, EditComponent : EmptyComponent, StatisticsComponent: EmptyComponent};
             case Integrator.name:
-                    return {SVGComponent: IntegratorSVG, EditComponent : IntegratorEdit, StatisticsComponent: EmptyComponent};
+                    return {SVGComponent: IntegratorSVG, EditComponent : IntegratorEdit, StatisticsComponent: IntegratorStatistics};
             default:
                 throw new Error("Couldnt find SVG component for given object");
         }

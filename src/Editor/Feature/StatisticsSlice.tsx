@@ -1,9 +1,10 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { IContBlockStatistics } from "Editor/Components/ContBlocks/ContBlocksAdapter";
 import { IPetriNetsStatistics } from "Editor/Model/PetriNets/PetriNetsSimulatorAdapter";
 
 
 type StatisticsState = {
-    petriNets: IPetriNetsStatistics | null,
+    petriNets: IPetriNetsStatistics | IContBlockStatistics | null,
 }
 
 const initialState : StatisticsState = {
@@ -15,7 +16,7 @@ const statisticsSlice = createSlice({
     name: "StatisticsSlice",
     initialState,
     reducers : {
-        setStatistics(state , action : PayloadAction<IPetriNetsStatistics>) {
+        setStatistics(state , action : PayloadAction<IPetriNetsStatistics | IContBlockStatistics>) {
             state.petriNets = action.payload;
         }
     }

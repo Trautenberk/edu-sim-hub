@@ -3,11 +3,12 @@ import { IEditorObject } from "../Model/EditorObject";
 import { ObjectEditProps, ObjectSVGProps } from "App";
 import { EdgeSVGComponentProps } from "./Utilities/UtilComponents/EdgeSVG";
 import { IPetriNetsStatistics } from "Editor/Model/PetriNets/PetriNetsSimulatorAdapter";
+import { IContBlockStatistics } from "./ContBlocks/ContBlocksAdapter";
 
 
 export type StatisticsComponentProps = {
     id : string;
-    statistics: IPetriNetsStatistics
+    statistics: IPetriNetsStatistics | IContBlockStatistics
 }
 
 export type GUIComponents = {

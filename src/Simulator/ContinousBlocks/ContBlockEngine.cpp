@@ -1,8 +1,6 @@
 #include "ContBlockEngine.hpp"
 #include "Integrator.hpp"
-
-
-
+#include <iostream>
 
 ContBlockEngine::ContBlockEngine(function<double(double currentState, double derivation, double step)> integrationMethod)
 : ContinousSimEngine()
@@ -69,19 +67,17 @@ void ContBlockEngine::gatherStatistics()
     }
 }
 
+ContBlockStatistics ContBlockEngine::statistics() 
+{
+    std::cout << "statistics report: " << this->_statistics.simulationTime << "  " << this->_statistics.integratorRecords.size() << std::endl;
+    return this->_statistics;
+}
 
-class TestanContBlockEngine {
-    public:
-        TestanContBlockEngine() {};
-};
 
 
 #ifdef EMSCRIPTEN
     EMSCRIPTEN_BINDINGS(ContBlockEngine) {
 
-        emscripten::class_<TestanContBlockEngine>("TestanContBlockEngine")
-        .constructor<>()
-        ;
 
         emscripten::value_object<IntegratorRecord>("IntegratorRecord")
         .field("time", &IntegratorRecord::time)
@@ -102,6 +98,7 @@ class TestanContBlockEngine {
         .constructor(&std::make_shared<ContBlockEngine>)
         .function("simulate", &ContBlockEngine::simulate)
         .function("init", &ContBlockEngine::init)
+        .function("statistics", &ContBlockEngine::statistics)
         ;
     }
 
