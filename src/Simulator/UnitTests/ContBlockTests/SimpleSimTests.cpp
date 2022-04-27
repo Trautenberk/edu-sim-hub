@@ -7,6 +7,7 @@
 #include "../../ContinousBlocks/Integrator.hpp"
 #include "../../ContinousBlocks/Time.hpp"
 #include "../../ContinousBlocks/Mul.hpp"
+#include "../../ContinousBlocks/Gain.hpp"
 
 
 TEST(CheckInititialisationError, BasicAssertions)
@@ -85,3 +86,25 @@ TEST(SimWithIntegratorTwo, BasicAssertions)
 }
 
 
+
+TEST(test, BasicAssertions)
+{
+    auto engine = ContBlockEngine::New(IntegrationMethods::Euler); 
+    auto constant = Constant::New(engine, 2);  
+    auto gain = Gain::New(engine, 3, constant);
+
+
+
+
+    auto constantTwo = Constant::New(engine, 5);
+
+    // auto add = Add::New(engine, gain, constantTwo);
+    auto add = make_shared<Add>("aaa",engine);
+    
+    auto test = Gain::New(engine, 5, add);
+
+    engine->init(10.0, 0.01, 20);
+    std::cout << "Simulation begin" << std::endl;
+    engine->simulate();
+    std::cout << "Simulation end" << std::endl;
+}

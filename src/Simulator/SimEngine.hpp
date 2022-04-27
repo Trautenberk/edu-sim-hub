@@ -4,7 +4,7 @@
 #include <functional>
 
 #ifdef EMSCRIPTEN
-    #include <emscripten/bind.h>
+    #include "emscripten/bind.h"
 #endif
 
 class SimEngine {
@@ -16,10 +16,9 @@ class SimEngine {
         virtual void simulationEnd() = 0;
         std::function<void(void)> Sample = [](){};
 
-
     protected:
         double _endTime = 0.0;
-        double _time = 0.0;      // TODO cas by se dal vytahnout do spolecneho predka pro oba engine
+        double _time = 0.0;
 
 };
 #endif // __SIMENGINE_H__

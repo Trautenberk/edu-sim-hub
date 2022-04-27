@@ -15,14 +15,14 @@ if (NOT (${CMAKE_SYSTEM_NAME} MATCHES "Emscripten"))
     add_subdirectory(UnitTests)
 endif()
 
+add_subdirectory(ContinousSimulation)
+add_subdirectory(ContinousBlocks)
 add_subdirectory(Generator)
 add_subdirectory(PetriNets)
 add_subdirectory(DiscreteSimulation)
-add_subdirectory(ContinousSimulation)
-add_subdirectory(ContinousBlocks)
 add_subdirectory(IntegrationMethods)
 
 add_executable(${PROJECT_NAME} main.cpp)
 
 
-target_link_libraries(${PROJECT_NAME} ${PETRI_NETS_LIB} ${DISCRETE_SIMULATION_LIB} ${CONTINOUS_SIMULATION_LIB} ${CONTINOUS_BLOCK_LIB})  
+target_link_libraries(${PROJECT_NAME} ${PETRI_NETS_LIB} ${CONTINOUS_BLOCK_LIB})  

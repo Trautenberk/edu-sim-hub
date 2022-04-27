@@ -32,13 +32,5 @@ class Place : public PetriNetsObject {
         int _tokens;
 };
 
-class TestClass {
-    public:
-        void hello() { cout << "hello from class" << endl;}
-};
-
-void bbb();
-
-
 
 #endif

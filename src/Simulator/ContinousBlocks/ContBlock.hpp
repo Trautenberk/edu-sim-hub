@@ -37,6 +37,9 @@ class ContBlockDouble : public ContBlock {
     public:
         ContBlockDouble(objectId id, ContBlockEngineObj engine);
         void setInputs(ContBlockObj inputFirst, ContBlockObj inputSecond);
+        void setInputFirst(ContBlockObj inputFirst);
+        void setInputSecond(ContBlockObj inputSecond);
+
         void initialize() override;
 
     protected:

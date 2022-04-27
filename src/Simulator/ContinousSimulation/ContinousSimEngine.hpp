@@ -5,6 +5,9 @@
 #include "ContinousSimObject.hpp"
 #include "../SimEngine.hpp"
 
+#ifdef EMSCRIPTEN
+    #include <emscripten/bind.h>
+#endif
 using namespace std;
 
 
@@ -26,7 +29,6 @@ class ContinousSimEngine : public SimEngine {
         int _sampleRate = 1;     // kolikaty kazdy krok se ma zaznamenat
         int _sampleStep = 0;
         bool _initializedCorrectly = false;
-
 };
 
 #endif

@@ -52,6 +52,9 @@ PetriNetsStatistics PetriNetsEngine::statistics() {
     return this->_statistics;
 }
 
+
+
+
 #ifdef EMSCRIPTEN
  EMSCRIPTEN_BINDINGS(PetriNetsEngine) {
 
@@ -74,9 +77,14 @@ PetriNetsStatistics PetriNetsEngine::statistics() {
             .field("placeRecords", &PetriNetsStatistics::placeRecords)
             .field("transitionRecords", &PetriNetsStatistics::transitionRecords);
 
+
+        emscripten::class_<DiscreteEngine>("DiscreteEngine");
+        
         emscripten::class_<PetriNetsEngine, emscripten::base<DiscreteEngine>>("PetriNetsEngine")
             .smart_ptr_constructor<shared_ptr<PetriNetsEngine>>("shared_ptr<PetriNetsEngine>", &std::make_shared<PetriNetsEngine>)
             .function("statistics", &PetriNetsEngine::statistics)
+            .function("simulate", &PetriNetsEngine::simulate)
+            .function("init", &PetriNetsEngine::init)
         ;
  }
 #endif

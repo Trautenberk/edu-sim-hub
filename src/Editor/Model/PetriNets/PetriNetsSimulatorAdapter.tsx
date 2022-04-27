@@ -13,10 +13,10 @@ export class PetriNetsSimulatorAdapter implements ISimulatorAdapter {
 
     private _engine : any;
 
-    private _placesDict : {[key : string] : IPlace } = {};
-    private _inputArchesDict : {[key : string] : IArch } = {};
-    private _outputArchesDict : {[key : string] : IArch } = {};
-    private _transitionsDict : {[key : string] : ITransition } = {};
+    private _placesDict : {[key : string] : any } = {};
+    private _inputArchesDict : {[key : string] : any } = {};
+    private _outputArchesDict : {[key : string] : any } = {};
+    private _transitionsDict : {[key : string] : any } = {};
 
     public statistics : IPetriNetsStatistics;
     
@@ -31,8 +31,8 @@ export class PetriNetsSimulatorAdapter implements ISimulatorAdapter {
     public clear() : void {
         const allObjects = {...this._placesDict, ...this._inputArchesDict, ...this._outputArchesDict, ...this._transitionsDict };
 
-        for (const simObjectKey of Object.keys(allObjects))
-            delete allObjects[simObjectKey];
+        for (const simObject of Object.values(allObjects))
+            simObject.delete();
     }
 
     private convertStatistics(rawStatistics : any) : IPetriNetsStatistics {

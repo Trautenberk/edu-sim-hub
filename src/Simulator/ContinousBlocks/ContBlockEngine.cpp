@@ -2,18 +2,25 @@
 #include "Integrator.hpp"
 
 
-ContBlockEngine::ContBlockEngine(function<double(double currentState, double derivation, double step)> integrationMethod) 
+
+
+ContBlockEngine::ContBlockEngine(function<double(double currentState, double derivation, double step)> integrationMethod)
 : ContinousSimEngine()
 {
     this->_integrationMethod = integrationMethod;
 }
+
+
+ContBlockEngine::ContBlockEngine()
+: ContBlockEngine(IntegrationMethods::Euler)
+{}
 
 void ContBlockEngine::addIntegrator(Integrator *integrator)
 {
     this->_allIntegrators.push_back(integrator);
 }
 
-void ContBlockEngine::simStep() 
+void ContBlockEngine::simStep()
 {
     this->dynamic();    // aktualizace stavu modelu
     this->integrate();  // provedu integraci na vsech integratorech
@@ -25,7 +32,7 @@ void ContBlockEngine::dynamic()
 {
     if (this->_allIntegrators.empty())
         return;
-        
+
     for (auto integratorPtr : this->_allIntegrators)
     {
         integratorPtr->eval(); // nactu vstupy integratoru
@@ -63,27 +70,38 @@ void ContBlockEngine::gatherStatistics()
 }
 
 
+class TestanContBlockEngine {
+    public:
+        TestanContBlockEngine() {};
+};
 
 
 #ifdef EMSCRIPTEN
-    #include <emscripten/bind.h>
     EMSCRIPTEN_BINDINGS(ContBlockEngine) {
+
+        emscripten::class_<TestanContBlockEngine>("TestanContBlockEngine")
+        .constructor<>()
+        ;
 
         emscripten::value_object<IntegratorRecord>("IntegratorRecord")
         .field("time", &IntegratorRecord::time)
         .field("value", &IntegratorRecord::value);
 
         emscripten::register_vector<IntegratorRecord>("IntegratorRecordVector");
-        
+
         emscripten::register_map<objectId, std::vector<IntegratorRecord>>("IntegratorRecordsMap");
 
         emscripten::value_object<ContBlockStatistics>("ContBlockStatistics")
         .field("simulationTime", &ContBlockStatistics::simulationTime)
         .field("integratorRecords", & ContBlockStatistics::integratorRecords);
 
-        emscripten::class_<ContBlockEngine>("ContBlockEngine")
+        emscripten::class_<ContinousSimEngine>("ContinousSimEngine");
+
+        emscripten::class_<ContBlockEngine, emscripten::base<ContinousSimEngine>>("ContBlockEngine")
         .smart_ptr<shared_ptr<ContBlockEngine>>("shared_ptr<ContBlockEngine>")
-        .constructor(&std::make_shared<ContBlockEngine, function<double(double currentState, double derivation, double step)>>)
+        .constructor(&std::make_shared<ContBlockEngine>)
+        .function("simulate", &ContBlockEngine::simulate)
+        .function("init", &ContBlockEngine::init)
         ;
     }
 

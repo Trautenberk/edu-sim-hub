@@ -10,10 +10,11 @@ import { EditWindow, CanvasSVG, IObjectGUIComponentFactory, ContBlocksGUICompone
 import {Add, Div, Sub, Mul, Constant, Gain, Integrator} from "Editor/Model/ContBlocks"
 import { PetriNetsSimulatorAdapter } from "Editor/Model/PetriNets"
 import SimulatorModule from "wasm-build/wasm_Simulator.js";
-import { defaultContBlocksSimulationParams, defaultPNSimulationParams, IPNSimulationParams } from 'Editor/Model/SimulationParams';
+import { defaultContBlocksSimulationParams, defaultPNSimulationParams, IContBlocksSimulationParams, IPNSimulationParams } from 'Editor/Model/SimulationParams';
 import { setStatistics } from 'Editor/Feature/StatisticsSlice';
 import { useStoreHooks } from 'Editor/Components/Utilities/CustomHooks';
 import { StatisticsWindow } from 'Editor/Components/StatisticsWindow';
+import { ContBlocksAdapter } from 'Editor/Components/ContBlocks/ContBlocksAdapter';
 
 /**
  * @author Jaromír Březina
@@ -43,6 +44,11 @@ type CanvasElementType = {
 }
 
 
+enum ChosenArea {
+  PetriNets,
+  ContBlocks
+}
+
 /**
  *  Komponenta reprezentující aplikaci
  * @component
@@ -59,7 +65,49 @@ export const App : FC = () => {
   const simObjects = useSelector(state => state.simObjectManagement.objects);
   const selectedId = useSelector(state => selectedObjectId(state));
   const simulationParams = useSelector(state => state.simObjectManagement.simulationParams); 
-  
+  const [chosenArea, setChosenArea] = useState<ChosenArea>(ChosenArea.PetriNets);
+
+
+  const simulate = () => {
+    if (chosenArea == ChosenArea.PetriNets)
+      simulatePNets();
+    else 
+      simulateContBlocks();
+  }
+
+  const simulatePNets = () => {
+    const adapter = new PetriNetsSimulatorAdapter(simulatorModule, Object.values(simObjects), simulationParams as IPNSimulationParams);
+    adapter.statistics;
+    dispatch(setStatistics(adapter.statistics));
+    setShowStatistics(true);
+  }
+
+  const simulateContBlocks = () => {
+    const adapter = new ContBlocksAdapter(simulatorModule, simObjects, simulationParams as IContBlocksSimulationParams);
+  }
+
+  //////////////////////////////////////////////////////////////// 
+  /// Inicializace Petriho sítí
+  const initializePetriNets = () => {
+    dispatch(removeAllObjects())
+    dispatch(setSimulationParams(defaultPNSimulationParams));
+    setCanvasElementTypes(petriNetsCanvasElementsTypes);
+    setobjectGUIComponentFactory(new PetriNetsGUIComponentFactory());
+    setChosenArea(ChosenArea.PetriNets);
+    setShowMenu(false);
+  }
+
+  ////////////////////////////////////////////////////////////////
+  /// Inicializace Spojitých bloků
+  const initializeContBlocks = () => {
+    dispatch(removeAllObjects())
+    dispatch(setSimulationParams(defaultContBlocksSimulationParams));
+    setCanvasElementTypes(contBlocksCanvasElementsTypes)
+    setobjectGUIComponentFactory(new ContBlocksGUIComponentFactory());
+    setChosenArea(ChosenArea.ContBlocks)
+    setShowMenu(false);
+  }
+
   const showMainMenu = useCallback<()=>void>(() => {
     setShowStatistics(false);
     setShowMenu(true)
@@ -69,12 +117,6 @@ export const App : FC = () => {
     dispatch(removeAllObjects());
   },[dispatch])
   
-  const initializePNEngine = () => {
-    const adapter = new PetriNetsSimulatorAdapter(simulatorModule, Object.values(simObjects), simulationParams as IPNSimulationParams);
-    adapter.statistics;
-    dispatch(setStatistics(adapter.statistics));
-    setShowStatistics(true);
-  }
 
   const goBackToNormalMode = () => {
     setShowStatistics(false);
@@ -89,7 +131,7 @@ export const App : FC = () => {
   if (showStatistics) {
     topMenuActions.push({name : "Zpět k modelování", actionMethod: goBackToNormalMode })
   } else {
-    topMenuActions.push({name : "Provést simulaci a zobrazit statistiky", actionMethod: initializePNEngine })
+    topMenuActions.push({name : "Provést simulaci a zobrazit statistiky", actionMethod: simulate })
   }
 
 ////////////////////////////////////////////////////////////////
@@ -115,25 +157,6 @@ export const App : FC = () => {
 
   const [canvasElementTypes, setCanvasElementTypes] = useState<CanvasElementType[]>(petriNetsCanvasElementsTypes)
 
-  //////////////////////////////////////////////////////////////// 
-  /// Inicializace Petriho sítí
-  const initializePetriNets = () => {
-    dispatch(removeAllObjects())
-    dispatch(setSimulationParams(defaultPNSimulationParams));
-    setCanvasElementTypes(petriNetsCanvasElementsTypes);
-    setobjectGUIComponentFactory(new PetriNetsGUIComponentFactory());
-    setShowMenu(false);
-  }
-
-  ////////////////////////////////////////////////////////////////
-  /// Inicializace Spojitých bloků
-  const initializeContBlocks = () => {
-    dispatch(removeAllObjects())
-    dispatch(setSimulationParams(defaultContBlocksSimulationParams));
-    setCanvasElementTypes(contBlocksCanvasElementsTypes)
-    setobjectGUIComponentFactory(new ContBlocksGUIComponentFactory());
-    setShowMenu(false);
-  }
 
   ////////////////////////////////////////////////////////////////
   /// Funkčnost dostupná v hlavním menu
@@ -180,7 +203,7 @@ export const App : FC = () => {
       const loadSimulatorModule = async () => {
         console.log("Loading simulator module...");
         const simulator =  await SimulatorModule();
-        simulator.hello();
+        // simulator.hello();
         setSimulatorModule(simulator);
         console.log("Simulator loaded...");
       }

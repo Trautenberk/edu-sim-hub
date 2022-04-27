@@ -9,10 +9,6 @@
 #include <ctime>
 #include "../SimEngine.hpp"
 
-#ifdef EMSCRIPTEN
-    #include <emscripten/bind.h>
-#endif
-
 using namespace std;
 
 class DiscreteEngine : public SimEngine {

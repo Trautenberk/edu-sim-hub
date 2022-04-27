@@ -42,9 +42,6 @@ PlaceRecord Place::getStatisticsRecord()
     return PlaceRecord { this->engine->time(), this->_tokens };
 }
 
-void bbb() { 
-    cout << "bbb" << endl;
-}
 
 
 
@@ -53,14 +50,7 @@ void bbb() {
 
         emscripten::class_<Place>("Place")
         .smart_ptr<shared_ptr<Place>>("shared_ptr<Place>")
-        // .constructor(&std::make_shared<Place, shared_ptr<PetriNetsEngine>, string, int>)
         .constructor(&std::make_shared<Place, objectId, PetriNetsEngineObj, string, int>)
         .function("tokens", &Place::tokens);
-
-        emscripten::class_<TestClass>("TestClassX")
-        .constructor()
-        .function("hello", &TestClass::hello);
-
-        emscripten::function("bbb", &bbb);  // TODO smazat
     }
 #endif

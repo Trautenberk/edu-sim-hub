@@ -75,11 +75,3 @@ void DiscreteEngine::simulationEnd()
 {
     this->gatherStatistics();
 }
-
-#ifdef EMSCRIPTEN
-    EMSCRIPTEN_BINDINGS(DiscreteEngine) {
-        emscripten::class_<DiscreteEngine>("DiscreteEngine")
-        .function("init", &DiscreteEngine::init)
-        .function("simulate", &DiscreteEngine::simulate);
-    }
-#endif

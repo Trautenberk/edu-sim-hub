@@ -1,16 +1,35 @@
-import  React, { FC, useRef } from "react"
+import  React, { FC, useCallback, useRef } from "react"
 import { Coordinates, DraggableHandlers } from "Editor/Components/Utilities"
 import { EndPointSVG } from "Editor/Components/Utilities/UtilComponents"
 import { Direction, Visibility } from "../Utilities/UtilMethodsAndTypes"
-import { EndPointType, GroupPoint, IEndPointBrief } from "../../Model/UtilClasses/Point"
+import { EndPointType, GroupPoint, IEndPointBrief, IPoint } from "../../Model/UtilClasses/Point"
 import { ObjectSVGProps } from "App"
 import { ICoordinates } from "../../Model/UtilClasses/Coordinates"
 import styles from "./ContBlockStyles.module.scss"
+import { addEdgeObject } from "Editor/Feature/SimObjectManagementSlice"
+import { Signal } from "Editor/Model/ContBlocks/Signal"
+import { useStoreHooks } from "../Utilities/CustomHooks"
+import { IEditorObject } from "Editor/Model/EditorObject"
 
 
 type ContBlockProps = DraggableHandlers & {
     selectedVisible : Visibility
 }
+
+
+export const useAddSignal = (obj : IEditorObject) => {
+    const { dispatch } = useStoreHooks();
+
+    return  useCallback(
+        (firstPoint : IPoint, secondPoint : IPoint) => {
+            const signal = new Signal({objId: obj.id, pointId: firstPoint.id});
+            signal.pointsId = [firstPoint.id, secondPoint.id];
+            dispatch(addEdgeObject({point : secondPoint, obj : signal.toSerializableObj()}))
+        }
+        ,[obj]
+    )
+}
+
 
 export const ContBlockFoundationSVG : FC<ContBlockProps> = (props) => {    
     return (

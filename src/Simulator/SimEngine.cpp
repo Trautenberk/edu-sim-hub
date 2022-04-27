@@ -13,9 +13,18 @@ double SimEngine::endTime()
 }
 
 
+
+class TestanA {
+    public:
+        TestanA() {};
+};
+
+
 #ifdef EMSCRIPTEN
     EMSCRIPTEN_BINDINGS(SimEngine) {
-        emscripten::class_<SimEngine>("SimEngine")
-        .function("simulate", &SimEngine::simulate);
+        emscripten::class_<TestanA>("TestanA")
+        .constructor<>()
+        ;
     }
+
 #endif

@@ -49,6 +49,7 @@ void ContinousSimEngine::simulate()
         return;
     }
 
+    std::cout << "Cont sim begin" << std::endl;
     int cnt = 0;
     this->simulationBegin();
     while(this->time() <= this->endTime())
@@ -56,7 +57,7 @@ void ContinousSimEngine::simulate()
         this->statisticsStep(); // sber statistik
         this->simStep(); // krok simulace
     }
-
+    std::cout << "Cont sim end" << std::endl;
     this->simulationEnd(); 
 }
 
@@ -91,11 +92,3 @@ void ContinousSimEngine::statisticsStep()
     this->_sampleStep++;
 }
 
-#ifdef EMSCRIPTEN
-    #include "emscripten/bind.h"
-    EMSCRIPTEN_BINDINGS(ContinousSimEngine) {
-        emscripten::class_<ContinousSimEngine>("ContinousSimEngine")
-        .function("init", &ContinousSimEngine::init)
-        .function("simulate", &ContinousSimEngine::simulate);
-    }
-#endif

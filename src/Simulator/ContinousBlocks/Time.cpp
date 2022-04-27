@@ -24,9 +24,9 @@ ContBlockObj Time::New(ContBlockEngineObj engine)
 #ifdef EMSCRIPTEN
     #include <emscripten/bind.h>
     EMSCRIPTEN_BINDINGS(TimeBlock) {
-        emscripten::class_<Time>("Time")
-        .smart_ptr<shared_ptr<Time>>("shared_ptr<Time>")
-        .constructor(&std::make_shared<Time, objectId, ContBlockEngineObj>);
+        // emscripten::class_<Time>("Time")
+        // .smart_ptr<shared_ptr<Time>>("shared_ptr<Time>")
+        // .constructor(&std::make_shared<Time, objectId, ContBlockEngineObj>);
     }
 
 #endif

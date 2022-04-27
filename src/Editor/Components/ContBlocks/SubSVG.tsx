@@ -1,6 +1,6 @@
 import { FC } from "react"
 import { ObjectSVGProps } from "App"
-import { ContBlockDoubleEndPoints, ContBlockDoubleSVG } from "./ContBlocksSVG"
+import { ContBlockDoubleEndPoints, ContBlockDoubleSVG, useAddSignal } from "./ContBlocksSVG"
 import styles from "./ContBlockStyles.module.scss"
 import { useSVGComponentUtils } from "../Utilities/CustomHooks"
 import { ISub } from "Editor/Model/ContBlocks/Sub"
@@ -22,6 +22,8 @@ export const SubSVG : FC<ObjectSVGProps> = (props) => {
     } 
     = useSVGComponentUtils<ISub>({id: props.id, initialCoordinates: {x: 30, y: 30}, endPointsBrief: ContBlockDoubleEndPoints });
 
+    const addSignal =   useAddSignal(obj);
+
     return (
         <g transform={`translate(${coordinates.x},${coordinates.y})`}> 
             <ContBlockDoubleSVG onMouseDownDragHandler={onMouseDownHandler} onMouseUpDragHandler={onMouseUpHandler} selectedVisible={selectedVisible} />
@@ -31,7 +33,7 @@ export const SubSVG : FC<ObjectSVGProps> = (props) => {
                 height="8"
                 x={middleX - 15}
                 y={middleY - 4} />
-                {mapEndPoints()}
+                {mapEndPoints(addSignal)}
         </g>
     )
 }

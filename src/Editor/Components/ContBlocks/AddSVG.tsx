@@ -9,7 +9,7 @@ import {  useSelectable } from "../Utilities"
 import { useSVGComponentUtils } from "../Utilities/CustomHooks"
 import { EndPointSVG } from "../Utilities/UtilComponents"
 import { ALL_DIRECTIONS, Direction } from "../Utilities/UtilMethodsAndTypes"
-import { ContBlockDoubleEndPoints, ContBlockDoubleSVG } from "./ContBlocksSVG"
+import { ContBlockDoubleEndPoints, ContBlockDoubleSVG, useAddSignal } from "./ContBlocksSVG"
 import styles from "./ContBlockStyles.module.scss"
 
 const middleX = 35
@@ -28,16 +28,7 @@ export const AddSVG : FC<ObjectSVGProps> = (props) => {
     } 
     = useSVGComponentUtils<IAdd>({id: props.id, initialCoordinates: {x: 30, y: 30}, endPointsBrief: ContBlockDoubleEndPoints });
 
-
-    const addSignal = useCallback(
-        (firstPoint : IPoint, secondPoint : IPoint) => {
-            console.log("AAA");
-            const signal = new Signal({objId: obj.id, pointId: firstPoint.id});
-            signal.pointsId = [firstPoint.id, secondPoint.id];
-            dispatch(addEdgeObject({point : secondPoint, obj : signal.toSerializableObj()}))
-        }
-        ,[obj]
-    )
+    const addSignal = useAddSignal(obj);
 
     return (
         <g transform={`translate(${coordinates.x},${coordinates.y})`}> 
@@ -60,3 +51,4 @@ export const AddSVG : FC<ObjectSVGProps> = (props) => {
             
     )
 }
+

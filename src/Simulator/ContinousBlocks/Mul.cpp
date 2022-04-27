@@ -31,12 +31,12 @@ ContBlockObj Mul::New(ContBlockEngineObj engine, ContBlockObj inputFirst, ContBl
     return obj;
 }
 
+
 #ifdef EMSCRIPTEN
-    #include <emscripten/bind.h>
     EMSCRIPTEN_BINDINGS(MulBlock) {
-        emscripten::class_<Mul>("Mul")
-        .smart_ptr<shared_ptr<Mul>>("shared_ptr<Mul>")
-        .constructor(&std::make_shared<Mul, objectId, ContBlockEngineObj>);
+        // emscripten::class_<Mul>("Mul")
+        // .smart_ptr<shared_ptr<Mul>>("shared_ptr<Mul>")
+        // .constructor(&std::make_shared<Mul, objectId, ContBlockEngineObj>);
     }
 
 #endif
