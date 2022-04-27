@@ -4,13 +4,13 @@
 
 bool ContinousSimEngine::init(double endTime, double stepSize, int sampleRate)
 {
-    if (stepSize <= 0) 
+    if (stepSize <= 0.0) 
     {
         std::cerr << "Step cannot be smaller then zero" << std::endl;
         return false;
     }
 
-    if (endTime <= 0)
+    if (endTime <= 0.0)
     {
         std::cerr <<  "endTime cannost be smaller than zero" << std::endl;
         return false;

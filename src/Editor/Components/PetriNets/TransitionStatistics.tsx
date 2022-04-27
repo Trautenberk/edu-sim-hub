@@ -1,9 +1,7 @@
-import { NULL_OBJ_ID } from "Editor/Model/EditorObject";
 import { IPetriNetsStatistics } from "Editor/Model/PetriNets/PetriNetsSimulatorAdapter";
 import { FC } from "react";
-import { LineChart, XAxis, YAxis, Tooltip, Line } from "recharts";
 import { StatisticsComponentProps } from "../ObjectGUIComponentFactory";
-import { useStoreHooks } from "../Utilities/CustomHooks";
+import { DiscreteGraph } from "../Utilities/UtilComponents/DiscreteGraph";
 
 
 
@@ -13,17 +11,11 @@ export  const TransitionStatistics : FC<StatisticsComponentProps> = (props) => {
 
     return (
         <div>
-            <p>Transition record</p>
-            <div className="line-chart-wrapper">
-                <LineChart
-                    width={700} height={700} data={values}
-                    margin={{ top: 20, right: 20, bottom: 20, left: 20 }}>
-                    <XAxis dataKey="time" />
-                    <YAxis type="number" />
-                    <Tooltip />
-                    <Line type="stepAfter" dataKey="fired" stroke="#ff7300" />
-                </LineChart>
+            <p>Statistiky přechodu: {props.id}</p>
+            <div>
+                <DiscreteGraph  data={values} xKey={"time"} yKey={"fired"}  />
             </div>
         </div>
     )
   }
+

@@ -10,7 +10,7 @@ export class Integrator extends EditorObjectWithEndPoints implements IToSerializ
     public className() { return  Integrator.name; }
     public static MenuName  = "Integrátor";
 
-    public initialValue : number = 1;
+    public initialValue : number = 0;
 
     public toSerializableObj(): IIntegrator {
         return {...super.toSerializableObj(), initialValue: this.initialValue }

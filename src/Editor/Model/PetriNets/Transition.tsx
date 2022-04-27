@@ -20,7 +20,7 @@ export class Transition extends EditorObjectWithEndPoints implements IToSerializ
     public priority : number = 0; 
     public label: string = "";
     public type: TransitionType = TransitionType.Immediate;
-    public timeValue: number = 0;
+    public timeValue: number = 1;
     public probability: number = 0;
 
     public toSerializableObj() : ITransition {

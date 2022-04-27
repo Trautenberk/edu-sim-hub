@@ -1,6 +1,6 @@
 import { FC } from "react";
-import { LineChart, XAxis, YAxis, Tooltip, Line } from "recharts";
 import { StatisticsComponentProps } from "../ObjectGUIComponentFactory";
+import { ContGraph } from "../Utilities/UtilComponents/ContGraph";
 import { IContBlockStatistics } from "./ContBlocksAdapter";
 
 
@@ -10,16 +10,9 @@ export const IntegratorStatistics : FC<StatisticsComponentProps> = (props) => {
 
     return (
         <div>
-            <p>Integrator record</p>
-            <div className="line-chart-wrapper">
-                <LineChart
-                    width={700} height={700} data={values}
-                    margin={{ top: 20, right: 20, bottom: 20, left: 20 }}>
-                    <XAxis dataKey="time" />
-                    <YAxis type="number" />
-                    <Tooltip />
-                    <Line type="linear" dataKey="value" stroke="#ff7300" />
-                </LineChart>
+            <p>Statistiky integrátoru: {props.id}</p>
+            <div>
+                <ContGraph data={values} xKey={"time"} yKey={"value"} />
             </div>
         </div>
     )

@@ -3,6 +3,7 @@ import { Constant, IConstant } from "Editor/Model/ContBlocks/Constant";
 import { IGain } from "Editor/Model/ContBlocks/Gain";
 import { IIntegrator } from "Editor/Model/ContBlocks/Integrator";
 import { ISignal, Signal } from "Editor/Model/ContBlocks/Signal";
+import { Time } from "Editor/Model/ContBlocks/Time";
 import { IEditorObject, IEditorObjectWithEndPoints } from "Editor/Model/EditorObject";
 import { IContBlocksSimulationParams } from "Editor/Model/SimulationParams";
 
@@ -66,6 +67,8 @@ export class ContBlocksAdapter {
                     this._integratorIds.push(obj.id);
                     simObj = new simulatorModule.Integrator(obj.id, this._engine, (obj as IIntegrator).initialValue);
                     break;
+                case Time.name:
+                    simObj = new simulatorModule.Time(obj.id, this._engine); break;
                 case Signal.name:
                     signals.push(obj as ISignal); break;
             }

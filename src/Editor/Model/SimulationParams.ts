@@ -6,7 +6,7 @@ export interface IPNSimulationParams {
 
 
 export const defaultPNSimulationParams : IPNSimulationParams = {
-    endTime: 100
+    endTime: 10
 }
 
 export interface IContBlocksSimulationParams {
@@ -21,7 +21,7 @@ export function isIContBlocksSimulationParams(obj : any) : obj is IContBlocksSim
 
 
 export const defaultContBlocksSimulationParams : IContBlocksSimulationParams = {
-    endTime: 100,
-    simStepSize: 0.1,
-    statisticsInterval: 10
+    endTime: 10,
+    simStepSize: 0.01,
+    statisticsInterval: 100
 }

@@ -15,6 +15,7 @@ import { setStatistics } from 'Editor/Feature/StatisticsSlice';
 import { useStoreHooks } from 'Editor/Components/Utilities/CustomHooks';
 import { StatisticsWindow } from 'Editor/Components/StatisticsWindow';
 import { ContBlocksAdapter } from 'Editor/Components/ContBlocks/ContBlocksAdapter';
+import { Time } from 'Editor/Model/ContBlocks/Time';
 
 /**
  * @author Jaromír Březina
@@ -152,7 +153,8 @@ export const App : FC = () => {
     {name: Mul.MenuName, icon: MenuIcons.transparent, onClick: () => {dispatch(addObject(new Mul().toSerializableObj()))}},
     {name: Constant.MenuName, icon: MenuIcons.transparent, onClick: () => {dispatch(addObject(new Constant().toSerializableObj()))}},
     {name: Gain.MenuName, icon: MenuIcons.transparent, onClick: () => {dispatch(addObject(new Gain().toSerializableObj()))}},
-    {name: Integrator.MenuName, icon: MenuIcons.transparent, onClick: () => {dispatch(addObject(new Integrator().toSerializableObj()))}} 
+    {name: Integrator.MenuName, icon: MenuIcons.transparent, onClick: () => {dispatch(addObject(new Integrator().toSerializableObj()))}},
+    {name: Time.MenuName, icon: MenuIcons.transparent, onClick: () => {dispatch(addObject((new Time).toSerializableObj()))}},
   ];
 
 

@@ -10,17 +10,17 @@ export const ContBlockSimulationParamsEdit  : FC = () => {
     const params = {...useSelector(state => state.simObjectManagement.simulationParams)} as IContBlocksSimulationParams;
 
     const onEndTimeChange = (e : React.ChangeEvent<HTMLInputElement>) => {
-        params.endTime = checkMinValueAndSetDefault(parseInt(e.currentTarget.value));
+        params.endTime = parseFloat(e.currentTarget.value);
         dispatch(setSimulationParams(params));
     }
 
     const onSimStepSizeChange = (e : React.ChangeEvent<HTMLInputElement>) => {
-        params.simStepSize = checkMinValueAndSetDefault(parseInt(e.currentTarget.value));
+        params.simStepSize = parseFloat(e.currentTarget.value);
         dispatch(setSimulationParams(params));
     }
 
     const onStatisticsIntervalChange = (e : React.ChangeEvent<HTMLInputElement>) => {
-        params.statisticsInterval = checkMinValueAndSetDefault(parseInt(e.currentTarget.value));;
+        params.statisticsInterval = parseInt(e.currentTarget.value);
         dispatch(setSimulationParams(params));
     }
 
@@ -33,11 +33,11 @@ export const ContBlockSimulationParamsEdit  : FC = () => {
         </div>
         <div>
             <label>Délka kroku simulace:</label>
-            <input value={params.simStepSize} type="number" min={1} max={Number.MAX_SAFE_INTEGER} onChange={onSimStepSizeChange}></input>        
+            <input value={params.simStepSize} type="number" step={0.001} max={Number.MAX_SAFE_INTEGER} onChange={onSimStepSizeChange}></input>        
         </div>
         <div>
             <label>Interval sběru statistik:</label>
-            <input value={params.statisticsInterval} type="number" min={1} max={Number.MAX_SAFE_INTEGER} onChange={onStatisticsIntervalChange}></input>        
+            <input value={params.statisticsInterval} type="number" min={1} step={0.001} max={Number.MAX_SAFE_INTEGER} onChange={onStatisticsIntervalChange}></input>        
         </div>
     </div>
     )

@@ -15,6 +15,8 @@
 #include "ContinousBlocks/Integrator.hpp"
 #include "ContinousBlocks/Sub.hpp"
 #include "ContinousBlocks/Sum.hpp"
+#include "ContinousBlocks/Time.hpp"
+
 #include "ContinousBlocks/ContBlockEngine.hpp"
 #include "IntegrationMethods/IntegrationMethods.hpp"
 #include <functional>
@@ -140,6 +142,10 @@ void contBlocksSandBox()
         emscripten::class_<Constant, emscripten::base<ContBlock>>("Constant")
         .smart_ptr<shared_ptr<Constant>>("shared_ptr<Constant>")
         .constructor(&std::make_shared<Constant, objectId, ContBlockEngineObj, double>);
+
+        emscripten::class_<Time, emscripten::base<ContBlock>>("Time")
+        .smart_ptr<shared_ptr<Time>>("shared_ptr<Time>")
+        .constructor(&std::make_shared<Time, objectId, ContBlockEngineObj>);
 
 
         emscripten::class_<Gain, emscripten::base<ContBlockSingle>>("Gain")

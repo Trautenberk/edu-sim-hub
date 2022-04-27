@@ -60,7 +60,7 @@ export const CanvasSVG : FC<{middle : boolean}> = (props) => {
                     <g transform={convertMatrixToString(mainGroupTransformMatrix)} 
                     onMouseDown={onMouseDownHandler} onMouseUp={onMouseUpHandler}
                     >  
-                        <rect width={1201} height={1201} onClick={onGridClickHandler} className={styles.canvas_svg__grid} fill="url(#grid)" />  {/* Grid element*/}
+                        <rect width={3600} height={3600} onClick={onGridClickHandler} className={styles.canvas_svg__grid} fill="url(#grid)" />  Grid element
                             {props.children}
                     </g>
                 </svg>
