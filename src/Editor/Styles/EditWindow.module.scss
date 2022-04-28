@@ -86,13 +86,14 @@
 
     li{
         width: 100%;
-        height:60px;
+        height: 60px;
     }
 
     button {
+        @extend .no-offset;
         @extend .max-size;
         background-color: $background-blue;
-        font-weight: bold;
+        font-weight: bolder;
     }
 
     button:hover {
@@ -100,8 +101,22 @@
     }
 
     img {
-        width: 50%;
+        float: left;
+        width: 20%;
+        margin-left: 15%;
+        @extend .no-offset; 
         @extend .max-height;
+    }
+
+    div {
+        @extend .max-height;
+        line-height: 20px;
+        text-align: center;
+        align-items: center;
+    }
+
+    p {
+        padding-top: 3%;
     }
 }
 

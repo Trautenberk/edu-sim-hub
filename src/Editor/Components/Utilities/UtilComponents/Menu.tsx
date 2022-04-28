@@ -38,10 +38,12 @@ export const MenuItemButton : FC<MenuItemButtonProps> = (props) => {
 
     return(
         <li className={props.listItemClass}>
-                <button className={props.buttonClass} onClick={onClickHandler} >
+            <button className={props.buttonClass} onClick={onClickHandler}>
+                <div>  
                     {props.children}
-                    {props.buttonText}
-                </button>
+                    <p>{props.buttonText}</p>
+                </div>
+            </button>
         </li>
     )
 }

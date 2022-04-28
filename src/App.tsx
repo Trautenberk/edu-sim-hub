@@ -16,6 +16,7 @@ import { StatisticsWindow } from 'Editor/Components/StatisticsWindow';
 import { ContBlocksAdapter } from 'Editor/Components/ContBlocks/ContBlocksAdapter';
 import { Time } from 'Editor/Model/ContBlocks/Time';
 import { ICoordinates } from 'Editor/Model/UtilClasses/Coordinates';
+import { TransitionType } from 'Editor/Model/PetriNets/Transition';
 
 /**
  * @author Jaromír Březina
@@ -142,7 +143,9 @@ export const App : FC = () => {
 
   const petriNetsCanvasElementsTypes : CanvasElementType[] = [
     {name: Place.MenuName, icon : MenuIcons.place, onClick: () => {dispatch(addObject(new Place().toSerializableObj()))}},
-    {name: Transition.MenuName, icon : MenuIcons.transition, onClick: () => {dispatch(addObject(new Transition().toSerializableObj()))}}
+    {name: TransitionType.Immediate, icon : MenuIcons.transition, onClick: () => {dispatch(addObject(new Transition(TransitionType.Immediate).toSerializableObj()))}},
+    {name: TransitionType.Constant, icon : MenuIcons.transition, onClick: () => {dispatch(addObject(new Transition(TransitionType.Constant).toSerializableObj()))}},
+    {name: TransitionType.Exponential, icon : MenuIcons.transition, onClick: () => {dispatch(addObject(new Transition(TransitionType.Exponential).toSerializableObj()))}}
   ];
 
   ////////////////////////////////////////////////////////////////
@@ -234,7 +237,7 @@ export const App : FC = () => {
           {
             canvasElementTypes.map(item => 
               (<MenuItemButton  key={item.name} buttonText={item.name} iconPath={item.icon} onItemSelected={item.onClick}>
-                  <img src={item.icon} alt={""}/>
+                  <img  src={item.icon} alt={""}/>
                 </MenuItemButton>)
             )
           }

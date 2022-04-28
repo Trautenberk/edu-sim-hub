@@ -2,9 +2,9 @@ import { IToSerializable } from "Editor/Model/UtilClasses/Coordinates";
 import { IEditorObject, EditorObject, IEditorObjectWithEndPoints, EditorObjectWithEndPoints } from "Editor/Model/EditorObject";
 
 export enum TransitionType {
-    Immediate = "Okamžitý",
-    Constant = "Časovaný - Konstatní",
-    Exponential = "Časovaný -  Exponenciální"
+    Immediate = "Okamžitý přechod",
+    Constant = "Časovaný přechod - Konstatní",
+    Exponential = "Časovaný přechod -  Exponenciální"
 }
 
 export interface ITransition  extends IEditorObjectWithEndPoints{
@@ -22,6 +22,12 @@ export class Transition extends EditorObjectWithEndPoints implements IToSerializ
     public type: TransitionType = TransitionType.Immediate;
     public timeValue: number = 1;
     public probability: number = 0;
+
+    constructor(type? : TransitionType) {
+        super();
+        if (type != null)
+            this.type = type;
+    }
 
     public toSerializableObj() : ITransition {
         return {
