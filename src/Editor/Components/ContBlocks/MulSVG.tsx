@@ -1,7 +1,6 @@
 import { FC } from "react"
 import { ObjectSVGProps } from "App"
 import { ContBlockDoubleEndPoints, ContBlockDoubleSVG, useAddSignal } from "./ContBlocksSVG"
-import styles from "./ContBlockStyles.module.scss"
 import { useSVGComponentUtils } from "../Utilities/CustomHooks"
 import { IMul } from "Editor/Model/ContBlocks/Mul"
 import { INITIAL_COORDINATES } from "../Utilities/UtilMethodsAndTypes"

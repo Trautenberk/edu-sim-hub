@@ -1,7 +1,6 @@
 import { FC } from "react"
 import { ObjectSVGProps } from "App"
 import { ContBlockSingleEndPoints, ContBlockSingleSVG, useAddSignal } from "./ContBlocksSVG"
-import styles from "./ContBlockStyles.module.scss"
 import { useSVGComponentUtils } from "../Utilities/CustomHooks"
 import { IGain } from "Editor/Model/ContBlocks/Gain"
 import { INITIAL_COORDINATES } from "../Utilities/UtilMethodsAndTypes"

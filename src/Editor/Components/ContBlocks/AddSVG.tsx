@@ -5,7 +5,7 @@ import { FC } from "react"
 import { useSVGComponentUtils } from "../Utilities/CustomHooks"
 import { INITIAL_COORDINATES } from "../Utilities/UtilMethodsAndTypes"
 import { ContBlockDoubleEndPoints, ContBlockDoubleSVG, useAddSignal } from "./ContBlocksSVG"
-import styles from "./ContBlockStyles.module.scss"
+import styles from "Editor/Styles/ContBlockStyles.module.scss"
 
 const middleX = 35
 const middleY = 35

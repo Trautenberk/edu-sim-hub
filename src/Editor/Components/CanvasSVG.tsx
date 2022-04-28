@@ -1,11 +1,9 @@
 import React, { useRef, useEffect,  useState, FC, useCallback } from "react"; 
-import { DraggableHandlers, useDragable } from "./Utilities/CustomHooks/useDraggable";
-import styles from "./CanvasStyle.module.scss";
-import { useAppDispatch, useAppSelector} from "../Store/Hooks"
+import { useDragable } from "./Utilities/CustomHooks/useDraggable";
+import styles from "Editor/Styles/CanvasStyle.module.scss";
 import { zoom, selelctCurrentZoom } from "../Feature/ZoomSlice";
 import { convertMatrixToString, TransormMatrix } from "./Utilities/UtilMethodsAndTypes";
 import { updateCanvasBoundaries} from "../Feature/CanvasContextSlice"
-import { Coordinates, ICoordinates } from "../Model/UtilClasses/Coordinates";
 import { unselectObject } from "Editor/Feature/SimObjectManagementSlice";
 import { useStoreHooks } from "./Utilities/CustomHooks";
 

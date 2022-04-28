@@ -1,15 +1,12 @@
-import  React, { FC, useCallback, useRef } from "react"
-import { Coordinates, DraggableHandlers } from "Editor/Components/Utilities"
-import { EndPointSVG } from "Editor/Components/Utilities/UtilComponents"
+import { FC, useCallback } from "react"
+import { DraggableHandlers } from "Editor/Components/Utilities"
 import { Direction, Visibility } from "../Utilities/UtilMethodsAndTypes"
 import { EndPointType, GroupPoint, IEndPointBrief, IPoint } from "../../Model/UtilClasses/Point"
-import { ObjectSVGProps } from "App"
-import { ICoordinates } from "../../Model/UtilClasses/Coordinates"
-import styles from "./ContBlockStyles.module.scss"
 import { addEdgeObject } from "Editor/Feature/SimObjectManagementSlice"
 import { Signal } from "Editor/Model/ContBlocks/Signal"
 import { useStoreHooks } from "../Utilities/CustomHooks"
 import { IEditorObject } from "Editor/Model/EditorObject"
+import styles from "Editor/Styles/ContBlockStyles.module.scss"
 
 
 type ContBlockProps = DraggableHandlers & {
