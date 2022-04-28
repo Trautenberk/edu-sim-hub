@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Coordinates, NotImplementedException } from "Editor/Components/Utilities";
-import { IEditorObject } from "Editor/Model/EditorObject";
+import { IEditorObject, NULL_OBJ_ID } from "Editor/Model/EditorObject";
 import { IContBlocksSimulationParams, IPNSimulationParams } from "Editor/Model/SimulationParams";
 import { ICoordinates } from "Editor/Model/UtilClasses/Coordinates";
 import { IEdge, isEdge } from "Editor/Model/UtilClasses/Edge";
@@ -32,15 +32,17 @@ const initialState : SimObjectManagementState = {
     distanceThreshold : 30,
 }
 
-function addObjectFnc(state : SimObjectManagementState, obj : IEditorObject) {
+function addObjectFnc(state : SimObjectManagementState, obj : IEditorObject) : string {
     if (!Object.keys(state.objects).includes(obj.id)) {
         state.objects[obj.id] = obj
         if (isEdge(obj)) {
             obj.from && state.endPoints[obj.from.pointId].spawnedObjCnt++;
             state.edgeObjectsIds.push(obj.id);
         }
+        return obj.id;
     } else {
-        console.error(`Object with id ${obj.id} is already in`)
+        console.error(`Object with id ${obj.id} is already in`);
+        return NULL_OBJ_ID;
     }
 }
 
@@ -93,10 +95,10 @@ const simObjectManagementSlice = createSlice({
     initialState,
     reducers: {
         addObject (state, action : PayloadAction<IEditorObject>) {
-            addObjectFnc(state, action.payload);
+            state.selectedObjectId = addObjectFnc(state, action.payload);
         },
         addEdgeObject(state, action : PayloadAction<{obj : IEdge, point : IPoint}>) {
-            addObjectFnc(state, action.payload.obj);
+            state.selectedObjectId = addObjectFnc(state, action.payload.obj);
             addPointFnc(state, action.payload.point);
         },
         removeObject (state, action: PayloadAction<string>) {   
@@ -129,6 +131,7 @@ const simObjectManagementSlice = createSlice({
             state.selectedObjectId = action.payload;
         },
         unselectObject(state) {
+            state.isLastPointMoving = false;
             state.selectedObjectId = null;
         },
          // registrace endPointu

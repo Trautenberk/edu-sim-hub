@@ -1,22 +1,149 @@
+@import "Variables.scss";
+@import  "Mixins.scss" ;
 
+.max-size {
+    width: 100%;
+    height: 100%;
+}
 
-.edit_window {
-    width: 20%;
-    height: 87%;
-    border: solid black 1px;
+.max-width {
+    width: 100%;
+}
+
+.max-height {
+    height: 100%;
+}
+
+.no-offset {
+    margin: 0;
+    padding: 0;
+}
+
+.window {
     position: absolute;
-    left: 80%;
-    top: 8%;
-    background-color: white;
+    top: $window-top-offset;
+    border: solid black 1px;
+    background-color: $window-bg-color;
+    height: $window-height; 
 }
 
 
+.edit_window {
+    @extend  .window;
+    width: 21%;
+    left: 79%;
+    padding: 1%;
+
+    p {
+        font-size: large;
+        font-weight: bold;
+        background-color: white;
+        padding: 10px;
+        border: 1px solid black;
+    }
+
+    label {
+        @extend .max-width;
+        font-weight: bolder; 
+    }
+
+    input {
+        border: solid black 1px;
+    }
+
+    div > div {
+        padding: 10px;
+        background-color: white;
+        border: 1px solid black;
+        margin-bottom: 10px;
+    }
+}
+
 .statistics_window {
+    @extend .window;
+    @extend .max-width;
     width: 38%;
-    height: 87%;
-    border: solid black 1px;
-    position: absolute;
     left: 62%;
-    top: 8%;
-    background-color: white;
+    padding: 1%;
+
+    p {
+        font-weight: bold;
+        font-size: medium;
+        background-color: white;
+        border: solid 1px black;
+        padding: 1%;
+    }
+}
+
+.blocks_menu {
+    @extend .window;
+    width: 15%;
+
+    ul{
+        list-style: none;
+        @extend .no-offset;
+    }
+
+    li{
+        width: 100%;
+        height:60px;
+    }
+
+    button {
+        @extend .max-size;
+        background-color: $background-blue;
+        font-weight: bold;
+    }
+
+    button:hover {
+        background-color: $background-blue-hover;
+    }
+
+    img {
+        width: 50%;
+        @extend .max-height;
+    }
+}
+
+.top_menu {
+    @extend .no-offset;
+    @extend .max-width;
+    display: inline-block;
+    border-top: 2px solid black;
+    border-bottom: 2px solid black;
+    height: $top-menu-height;
+    background-color: $background-blue;
+    position:absolute;
+    
+    ul {
+        width: 40%;
+        @extend .max-height;
+        margin: 0 30%;
+    }
+
+    li {
+        @extend .no-offset;
+        list-style: none;
+        display: inline;
+        border-left: solid black 2px ;
+    }
+
+    li:nth-child(1){
+        border: none;
+    }
+
+    button{
+        padding: 0 20px 0 20px;
+        border: none;
+        margin: 0;
+        @extend .max-height;
+        font-weight: bold;
+        font-size: 30;
+        background-color: $background-blue;
+     }
+
+     button:hover {
+        background-color:  $background-blue-hover;
+        @include default-shadow-hover;
+    }
 }

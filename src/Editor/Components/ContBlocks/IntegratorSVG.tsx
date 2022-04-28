@@ -3,6 +3,7 @@ import { ObjectSVGProps } from "App"
 import { IIntegrator } from "Editor/Model/ContBlocks/Integrator";
 import { useSVGComponentUtils } from "../Utilities/CustomHooks";
 import { ContBlockSingleEndPoints, ContBlockSingleSVG, useAddSignal } from "./ContBlocksSVG";
+import { INITIAL_COORDINATES } from "../Utilities/UtilMethodsAndTypes";
 
 const middleX = 35
 const middleY = 35
@@ -17,7 +18,7 @@ export const IntegratorSVG : FC<ObjectSVGProps> = (props) => {
         obj,
         mapEndPoints
     } 
-    = useSVGComponentUtils<IIntegrator>({id: props.id, initialCoordinates: {x: 30, y: 30}, endPointsBrief: ContBlockSingleEndPoints });
+    = useSVGComponentUtils<IIntegrator>({id: props.id, initialCoordinates: INITIAL_COORDINATES, endPointsBrief: ContBlockSingleEndPoints });
 
     const addSignal = useAddSignal(obj);
 

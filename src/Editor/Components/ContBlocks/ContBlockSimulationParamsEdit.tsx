@@ -26,7 +26,7 @@ export const ContBlockSimulationParamsEdit  : FC = () => {
 
     return (
         <div>
-            <p> Parametry simulace pro spojitá bloková schémata: </p>
+            <p> Parametry simulace: </p>
         <div>
             <label>Čas konce simulace: </label>
             <input value={params.endTime} type="number" min={1} max={Number.MAX_SAFE_INTEGER} onChange={onEndTimeChange}></input>        

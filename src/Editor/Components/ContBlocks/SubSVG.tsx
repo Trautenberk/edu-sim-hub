@@ -4,6 +4,7 @@ import { ContBlockDoubleEndPoints, ContBlockDoubleSVG, useAddSignal } from "./Co
 import styles from "./ContBlockStyles.module.scss"
 import { useSVGComponentUtils } from "../Utilities/CustomHooks"
 import { ISub } from "Editor/Model/ContBlocks/Sub"
+import { INITIAL_COORDINATES } from "../Utilities/UtilMethodsAndTypes"
 
 
 const middleX = 35
@@ -20,7 +21,7 @@ export const SubSVG : FC<ObjectSVGProps> = (props) => {
         endPoints,
         mapEndPoints
     } 
-    = useSVGComponentUtils<ISub>({id: props.id, initialCoordinates: {x: 30, y: 30}, endPointsBrief: ContBlockDoubleEndPoints });
+    = useSVGComponentUtils<ISub>({id: props.id, initialCoordinates: INITIAL_COORDINATES, endPointsBrief: ContBlockDoubleEndPoints });
 
     const addSignal =   useAddSignal(obj);
 

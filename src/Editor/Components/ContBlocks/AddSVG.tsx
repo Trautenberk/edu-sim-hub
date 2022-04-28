@@ -1,14 +1,9 @@
 import { ObjectSVGProps } from "App"
 import { addEdgeObject } from "Editor/Feature/SimObjectManagementSlice"
 import { IAdd } from "Editor/Model/ContBlocks/Add"
-import { Signal } from "Editor/Model/ContBlocks/Signal"
-import { ICoordinates } from "Editor/Model/UtilClasses/Coordinates"
-import { IPoint } from "Editor/Model/UtilClasses/Point"
-import { FC, useCallback, useRef } from "react"
-import {  useSelectable } from "../Utilities"
+import { FC } from "react"
 import { useSVGComponentUtils } from "../Utilities/CustomHooks"
-import { EndPointSVG } from "../Utilities/UtilComponents"
-import { ALL_DIRECTIONS, Direction } from "../Utilities/UtilMethodsAndTypes"
+import { INITIAL_COORDINATES } from "../Utilities/UtilMethodsAndTypes"
 import { ContBlockDoubleEndPoints, ContBlockDoubleSVG, useAddSignal } from "./ContBlocksSVG"
 import styles from "./ContBlockStyles.module.scss"
 
@@ -26,7 +21,7 @@ export const AddSVG : FC<ObjectSVGProps> = (props) => {
         endPoints,
         mapEndPoints
     } 
-    = useSVGComponentUtils<IAdd>({id: props.id, initialCoordinates: {x: 30, y: 30}, endPointsBrief: ContBlockDoubleEndPoints });
+    = useSVGComponentUtils<IAdd>({id: props.id, initialCoordinates: INITIAL_COORDINATES, endPointsBrief: ContBlockDoubleEndPoints });
 
     const addSignal = useAddSignal(obj);
 

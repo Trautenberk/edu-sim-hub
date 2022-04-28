@@ -5,6 +5,7 @@ import { ContBlockDoubleEndPoints, ContBlockDoubleSVG, useAddSignal } from "./Co
 import styles from "./ContBlockStyles.module.scss"
 import { useSVGComponentUtils } from "../Utilities/CustomHooks";
 import { IDiv } from "Editor/Model/ContBlocks/Div";
+import { INITIAL_COORDINATES } from "../Utilities/UtilMethodsAndTypes";
 
 const circleDiameter = 5
 const middleX = 35
@@ -21,7 +22,7 @@ export const DivSVG : FC<ObjectSVGProps> = (props) => {
         endPoints,
         mapEndPoints
     } 
-    = useSVGComponentUtils<IDiv>({id: props.id, initialCoordinates: {x: 30, y: 30}, endPointsBrief: ContBlockDoubleEndPoints });
+    = useSVGComponentUtils<IDiv>({id: props.id, initialCoordinates: INITIAL_COORDINATES, endPointsBrief: ContBlockDoubleEndPoints });
 
     const addSignal = useAddSignal(obj);
 

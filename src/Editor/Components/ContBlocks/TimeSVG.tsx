@@ -3,6 +3,7 @@ import { ObjectSVGProps } from "App"
 import { ContBlockWithSingleOutputEndPoints, ContBlockWithSingleOutputSVG, useAddSignal } from "./ContBlocksSVG"
 import { IConstant } from "Editor/Model/ContBlocks/Constant"
 import { useSVGComponentUtils } from "../Utilities/CustomHooks"
+import { INITIAL_COORDINATES } from "../Utilities/UtilMethodsAndTypes"
 
 const middleX = 35
 const middleY = 35
@@ -17,7 +18,7 @@ export const TimeSVG : FC<ObjectSVGProps> = (props) => {
         obj,
         mapEndPoints
     } 
-    = useSVGComponentUtils<IConstant>({id: props.id, initialCoordinates: {x: 30, y: 30}, endPointsBrief: ContBlockWithSingleOutputEndPoints });
+    = useSVGComponentUtils<IConstant>({id: props.id, initialCoordinates: INITIAL_COORDINATES, endPointsBrief: ContBlockWithSingleOutputEndPoints });
 
     const addSignal = useAddSignal(obj);
 

@@ -3,7 +3,7 @@ import { ObjectEditProps } from "App";
 import { IArch } from "Editor/Model/PetriNets";
 import { FC } from "react";
 import { useEditComponentUtils } from "../Utilities/CustomHooks";
-import style from "./TransitionStyle.module.scss"
+import styles from "Editor/Styles/PetriNetsStyles.module.scss";
 
 
 export const ArchEdit : FC<ObjectEditProps> = (props) => {
@@ -31,8 +31,6 @@ export const ArchEdit : FC<ObjectEditProps> = (props) => {
                 <p> Je vybrán element {props.id} </p>
                 <label>Váha:</label>
                     <input onChange={onWeightInputChange} type="number" min="0" value={obj.weight}></input>
-                    <button onClick={incrementWeight} className={style.edit_button}>+</button>
-                    <button onClick={decrementWeight} className={style.edit_button}>-</button>
             </div>
         )
     } else {

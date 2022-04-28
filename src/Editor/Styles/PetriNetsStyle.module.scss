@@ -1,0 +1,33 @@
+@import "Variables.scss";
+@import  "Mixins.scss" ;
+
+
+.foundation {
+    fill: white;
+    stroke-width: 2px;
+    stroke:rgb(0, 0, 0);
+    stroke-miterlimit: 10;
+    cursor: move;
+}
+
+.transition {
+    @extend .foundation;
+    margin: 30px;
+}
+
+.selected {
+    @include selected-svg;
+}
+
+.spot {
+    @extend .foundation;
+    pointer-events: visible;
+    cursor: move;
+}
+
+.spot_roof {
+    pointer-events: visible;
+    fill: none;
+}
+
+

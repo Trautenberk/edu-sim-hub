@@ -16,12 +16,12 @@ export const PetriNetsSimulationParamsEdit  : FC = () => {
 
     return (
         <div>
-            <p> Parametry simulace pro petriho sítě: </p>
-        <div>
-            <label>Čas konce simulace: </label>
-            <input value={params.endTime} type="number" min={50} max={Number.MAX_SAFE_INTEGER} onChange={onEndTimeChange}></input>        
+            <p> Parametry simulace: </p>
+            <div>
+                <label>Čas konce simulace: </label>
+                <input value={params.endTime} type="number" min={50} max={Number.MAX_SAFE_INTEGER} onChange={onEndTimeChange}></input>        
+            </div>
         </div>
-    </div>
     )
 }
 

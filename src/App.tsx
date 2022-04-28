@@ -1,8 +1,7 @@
 import React, {FC, useCallback, useEffect, useState} from 'react';
 import {Menu, MenuItemButton, Loader } from "Editor/Components/Utilities/UtilComponents"
 import styles from "AppStyle.module.scss"
-import editorStyles from "Editor/Styles/EditorStyle.module.scss"
-import TopMenuStyle from "Editor/Styles/TopMenuStyle.module.scss";
+import windowStyles from "Editor/Styles/EditWindow.module.scss"
 import { Place, Transition } from "Editor/Model/PetriNets" 
 import { MenuIcons } from "Editor/Components/Icons";
 import { addObject, removeAllObjects, removeObject, selectedObjectId,  setSimulationParams,  unselectObject } from 'Editor/Feature/SimObjectManagementSlice';
@@ -16,6 +15,7 @@ import { useStoreHooks } from 'Editor/Components/Utilities/CustomHooks';
 import { StatisticsWindow } from 'Editor/Components/StatisticsWindow';
 import { ContBlocksAdapter } from 'Editor/Components/ContBlocks/ContBlocksAdapter';
 import { Time } from 'Editor/Model/ContBlocks/Time';
+import { ICoordinates } from 'Editor/Model/UtilClasses/Coordinates';
 
 /**
  * @author Jaromír Březina
@@ -49,6 +49,7 @@ enum ChosenArea {
   PetriNets,
   ContBlocks
 }
+
 
 /**
  *  Komponenta reprezentující aplikaci
@@ -226,10 +227,10 @@ export const App : FC = () => {
   } else {
     return (
       <div className={styles.main_page}>
-        <Menu clasName={TopMenuStyle.top_menu}>
+        <Menu clasName={windowStyles.top_menu}>
             {topMenuActions.map(item => <MenuItemButton key={item.name} buttonText={item.name} onItemSelected={item.actionMethod}/>)}
         </Menu>
-        {!showStatistics &&  <Menu clasName={editorStyles.editor_menu} >
+        {!showStatistics &&  <Menu clasName={windowStyles.blocks_menu} >
           {
             canvasElementTypes.map(item => 
               (<MenuItemButton  key={item.name} buttonText={item.name} iconPath={item.icon} onItemSelected={item.onClick}>

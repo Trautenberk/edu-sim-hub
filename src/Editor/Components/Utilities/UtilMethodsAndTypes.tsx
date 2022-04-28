@@ -60,6 +60,7 @@ export function convertDirectionToOffset (direction : Direction) : ICoordinates 
 export function logNotImplemented(name : string) {
     console.error(`Error: method call but not implemented ${name}`)
 }
+export const INITIAL_COORDINATES : ICoordinates = {x: 150, y: 150}; 
 
 export function checkMinValueAndSetDefault(value : number, defaultValue : number = 1, minValue : number = 1 ) {
     if (value <= minValue) {

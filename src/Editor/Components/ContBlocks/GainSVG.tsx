@@ -4,6 +4,7 @@ import { ContBlockSingleEndPoints, ContBlockSingleSVG, useAddSignal } from "./Co
 import styles from "./ContBlockStyles.module.scss"
 import { useSVGComponentUtils } from "../Utilities/CustomHooks"
 import { IGain } from "Editor/Model/ContBlocks/Gain"
+import { INITIAL_COORDINATES } from "../Utilities/UtilMethodsAndTypes"
 
 
 const middleX = 35
@@ -20,7 +21,7 @@ export const GainSVG : FC<ObjectSVGProps> = (props) => {
         endPoints,
         mapEndPoints
     } 
-    = useSVGComponentUtils<IGain>({id: props.id, initialCoordinates: {x: 30, y: 30}, endPointsBrief: ContBlockSingleEndPoints });
+    = useSVGComponentUtils<IGain>({id: props.id, initialCoordinates: INITIAL_COORDINATES, endPointsBrief: ContBlockSingleEndPoints });
     const addSignal = useAddSignal(obj);
 
 

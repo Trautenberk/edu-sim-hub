@@ -1,14 +1,12 @@
-import { FunctionComponent,  MouseEventHandler, useCallback, useMemo, useRef } from "react";
-import styles from "./TransitionStyle.module.scss"
-import {ALL_DIRECTIONS, Direction } from "Editor/Components/Utilities/UtilMethodsAndTypes";
+import { FunctionComponent, useCallback } from "react";
+import { Direction, INITIAL_COORDINATES } from "Editor/Components/Utilities/UtilMethodsAndTypes";
 import { ObjectSVGProps } from "App"
 import { ITransition, TransitionType } from "Editor/Model/PetriNets/Transition";
-import { Coordinates, ICoordinates } from "Editor/Model/UtilClasses/Coordinates";
-import { EndPoint, EndPointType, GroupPoint, IEndPointBrief, IPoint, Point } from "Editor/Model/UtilClasses/Point";
-import { EndPointSVG } from "Editor/Components/Utilities/UtilComponents";
+import { EndPointType, IEndPointBrief, IPoint } from "Editor/Model/UtilClasses/Point";
 import { addEdgeObject } from "Editor/Feature/SimObjectManagementSlice";
 import { OutputArch } from "Editor/Model/PetriNets";
 import { useSVGComponentUtils } from "../Utilities/CustomHooks/useSVGComponentUtils";
+import styles from "Editor/Styles/PetriNetsStyle.module.scss";
 
 
 const width = 30;
@@ -31,7 +29,7 @@ export const TransitionSVG : FunctionComponent<ObjectSVGProps> = (props) => {
         selectedVisible,
         obj,
         mapEndPoints
-    } = useSVGComponentUtils<ITransition>({id: props.id, initialCoordinates: {x: 30, y: 30}, endPointsBrief: transitionEndPointsBrief });
+    } = useSVGComponentUtils<ITransition>({id: props.id, initialCoordinates: INITIAL_COORDINATES, endPointsBrief: transitionEndPointsBrief });
 
     const addOutputArch = useCallback(
         (firstPoint : IPoint, secondPoint : IPoint) => {
@@ -44,7 +42,7 @@ export const TransitionSVG : FunctionComponent<ObjectSVGProps> = (props) => {
     return(
         <g transform={`translate(${coordinates.x},${coordinates.y})`}> 
             <rect className={styles.transition} width={width} height={height} onMouseDown={onMouseDownHandler} onMouseUp={onMouseUpHandler}/>  
-            <rect className={styles.transition_selected} visibility={selectedVisible} width={width} height={height}/> 
+            <rect className={styles.selected} visibility={selectedVisible} width={width} height={height}/> 
             {mapEndPoints(addOutputArch)}
             <text x="-10" y="-10">{obj.label}</text>
             {obj.type === TransitionType.Immediate && <text x="0" y="100"> {obj.priority > 0 ? `p = ${obj.priority}` : ""} </text>  }

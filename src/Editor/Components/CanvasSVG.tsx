@@ -16,7 +16,7 @@ export const CanvasSVG : FC<{middle : boolean}> = (props) => {
 
     const [svgSize, setSvgSize] = useState({width : 0, height: 0})
     const canvasBoundingElementRef = useRef<HTMLDivElement>(null);
-    const {coordinates, onMouseDownHandler, onMouseUpHandler } = useDragable({initialCoordinates: {x: 30, y: 30}});
+    const {coordinates, onMouseDownHandler, onMouseUpHandler } = useDragable({initialCoordinates: {x: 0, y: 0}});
     
     const mainGroupTransformMatrix : TransormMatrix = ( { scaleX: scale, skewY : 0 , skewX : 0, scaleY : scale, translateX : coordinates.x, transalteY : coordinates.y } )
 
@@ -57,11 +57,12 @@ export const CanvasSVG : FC<{middle : boolean}> = (props) => {
                             <path d="M 0 0 L 8 5 L 0 10 z" />
                         </marker>
                     </defs>
-                    <g transform={convertMatrixToString(mainGroupTransformMatrix)} 
-                    onMouseDown={onMouseDownHandler} onMouseUp={onMouseUpHandler}
-                    >  
-                        <rect width={3600} height={3600} onClick={onGridClickHandler} className={styles.canvas_svg__grid} fill="url(#grid)" />  Grid element
-                            {props.children}
+
+                    <g width="100%" height="100%" transform={convertMatrixToString(mainGroupTransformMatrix)} 
+                    onMouseDown={onMouseDownHandler} onMouseUp={onMouseUpHandler}>
+                        <rect width={"100%"} height={"100%"} onClick={onGridClickHandler} className={styles.canvas_svg__grid} fill="url(#grid)" /> 
+
+                        {props.children}
                     </g>
                 </svg>
         </div>
