@@ -24,7 +24,10 @@ export const EndPointSVG : FC<EndPointProps> = (props) => {
 
     const spawnedObjCnt = useSelector(state => state.simObjectManagement.endPoints[props.endPoint.id].spawnedObjCnt);
 
-    const visible = convertToVisibility(useSelector(state => selectedObjectId(state) === props.endPoint.ownerId));
+    const selectedVisible = useSelector(state => selectedObjectId(state) === props.endPoint.ownerId);
+
+    
+    const lastPointMovingVisible = useSelector(state => state.simObjectManagement.isLastPointMoving);
    
     const higlihghtVisible = convertToVisibility(useSelector(state => state.simObjectManagement.highlightedEndPoint) === props.endPoint.id);
 
@@ -40,10 +43,10 @@ export const EndPointSVG : FC<EndPointProps> = (props) => {
 
     return(
         <g transform={`translate(${props.coordinates.x} ${props.coordinates.y})`}>
-            <circle visibility={visible} className={styles.end_point} r={5}/>
+            <circle visibility={convertToVisibility(selectedVisible || lastPointMovingVisible)} className={styles.end_point} r={5}/>
             <circle visibility={higlihghtVisible} className={styles.helper_circle} r={15}/>
             { ((props.endPoint.type === EndPointType.Infinite || (props.endPoint.type === EndPointType.Restricted && isRestrictionMet(props.endPoint, spawnedObjCnt)))) && props.endPoint.arrowDirection != null 
-            && <ArrowSVG onClick={onArrowClick}  visible={visible} direction={props.endPoint.arrowDirection} scale={1} />}
+            && <ArrowSVG onClick={onArrowClick}  visible={convertToVisibility(selectedVisible)} direction={props.endPoint.arrowDirection} scale={1} />}
         </g>
     )   
 }

@@ -4,11 +4,11 @@ import { IEditorObject, NULL_OBJ_ID } from "Editor/Model/EditorObject";
 import { IContBlocksSimulationParams, IPNSimulationParams } from "Editor/Model/SimulationParams";
 import { ICoordinates } from "Editor/Model/UtilClasses/Coordinates";
 import { IEdge, isEdge } from "Editor/Model/UtilClasses/Edge";
-import { IEndPoint, IPoint, Point } from "Editor/Model/UtilClasses/Point";
+import { EndPointType, IEndPoint, IPoint, Point } from "Editor/Model/UtilClasses/Point";
 import { RootState } from "Editor/Store/Store";
 
 
-type SimObjectManagementState = {
+export type SimObjectManagementState = {
     simulationParams : IPNSimulationParams | IContBlocksSimulationParams | null
     objects : {[id : string] : IEditorObject}
     edgeObjectsIds : string[];
@@ -94,6 +94,14 @@ const simObjectManagementSlice = createSlice({
     name : "SimObjectManagement",
     initialState,
     reducers: {
+        setState (state, action: PayloadAction<SimObjectManagementState>) {
+            const newState = action.payload;
+            state.edgeObjectsIds = newState.edgeObjectsIds;
+            state.endPoints = newState.endPoints;
+            state.objects = newState.objects;
+            state.points = newState.points;
+            state.simulationParams = newState.simulationParams;
+        },
         addObject (state, action : PayloadAction<IEditorObject>) {
             state.selectedObjectId = addObjectFnc(state, action.payload);
         },
@@ -137,9 +145,7 @@ const simObjectManagementSlice = createSlice({
          // registrace endPointu
         registerEndPoint (state, action : PayloadAction<IEndPoint>){
             const endPoint = action.payload;
-            if (Object.keys(state.endPoints).includes(endPoint.id)) {
-                throw new Error(`Registering already registered endPoint ${endPoint.id} `)
-            } else {
+            if (!Object.keys(state.endPoints).includes(endPoint.id)) {
                 state.endPoints[endPoint.id] = endPoint;
             }
         },
@@ -164,7 +170,7 @@ const simObjectManagementSlice = createSlice({
                 if (state.isLastPointMoving) {
                     const lastPoint = state.points[id];
                     for (const endPoint of Object.keys(state.endPoints).map(id => state.endPoints[id])) {
-                        if (Coordinates.getDistance(lastPoint.coords, endPoint.coords) < state.distanceThreshold) {
+                        if (endPoint.connectable && Coordinates.getDistance(lastPoint.coords, endPoint.coords) < state.distanceThreshold) {
                             state.highlightedEndPoint = endPoint.id;
                             return;
                         }
@@ -271,6 +277,7 @@ export const {
     toggleIsLastPointMoving,
     selectObject,
     unselectObject,
-    setSimulationParams
+    setSimulationParams,
+    setState
 } = simObjectManagementSlice.actions;
 export default simObjectManagementSlice.reducer;
