@@ -65,6 +65,8 @@ export type IEndPointBrief = {
     maxSpawnedObj?: number
 
     arrowDirection? : Direction
+
+    connectable?: boolean
 } 
 
 export interface IEndPoint extends IPoint {
@@ -74,12 +76,13 @@ export interface IEndPoint extends IPoint {
     spawnedObjCnt : number
     maxSpawnedObj?: number
     arrowDirection? : Direction,
+    connectable: boolean // jestli do něj může vést hrana
 }
 
 export enum EndPointType {
     Input,  // nemuze vytvaret dalsi objekty
     Infinite,   // muze vytvorit nekonecno dalsich objektu
-    Restricted  // omezeni definovane dalsi parametrem
+    Restricted,  // omezeni definovane dalsi parametrem
 }
 
 export class EndPoint  extends Point implements IToSerializable<IEndPoint> {
@@ -95,11 +98,14 @@ export class EndPoint  extends Point implements IToSerializable<IEndPoint> {
 
     public arrowDirection? : Direction
 
-    constructor(value : ICoordinates, ownerId : string, type : EndPointType, maxSpawnedObj? : number, arrowDirection? : Direction ) {
+    public connectable : boolean
+
+    constructor(value : ICoordinates, ownerId : string, type : EndPointType, maxSpawnedObj? : number, arrowDirection? : Direction, connectable: boolean = true ) {
         super(value);
         this.ownerId = ownerId;
         this.type = type;
         this.arrowDirection = arrowDirection;
+        this.connectable = connectable;
 
         if (maxSpawnedObj) {
             if (maxSpawnedObj >= 1)
@@ -118,7 +124,8 @@ export class EndPoint  extends Point implements IToSerializable<IEndPoint> {
             bindings : this.bindings,
             type : this.type,
             arrowDirection: this.arrowDirection,
-            maxSpawnedObj: this.maxSpawnedObj
+            maxSpawnedObj: this.maxSpawnedObj,
+            connectable: this.connectable
         }
     }
 }
