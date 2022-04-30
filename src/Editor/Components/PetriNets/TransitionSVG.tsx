@@ -44,7 +44,7 @@ export const TransitionSVG : FunctionComponent<ObjectSVGProps> = (props) => {
             <rect className={styles.transition} width={width} height={height} onMouseDown={onMouseDownHandler} onMouseUp={onMouseUpHandler}/>  
             <rect className={styles.selected} visibility={selectedVisible} width={width} height={height}/> 
             {mapEndPoints(addOutputArch)}
-            <text x="-10" y="-10">{obj.label}</text>
+            <text className={styles.text} x="-20" y="-10">{obj.label}</text>
             {obj.type === TransitionType.Immediate && <text x="0" y="100"> {obj.priority > 0 ? `p = ${obj.priority}` : ""} </text>  }
             {obj.type === TransitionType.Constant && <text x="0" y="100"> { `D(${obj.timeValue})`} </text>}
             {obj.type === TransitionType.Exponential && <text x="-15" y="100"> {`Exp(${obj.timeValue})`} </text>}

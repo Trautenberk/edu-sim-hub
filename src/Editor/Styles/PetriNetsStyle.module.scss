@@ -10,6 +10,20 @@
     cursor: move;
 }
 
+
+.text_wrapper {
+    fill: white;
+}
+
+.text {
+    fill: black;
+    pointer-events: none;
+    user-select: none;
+    font-weight: bolder;
+    font-size: medium;
+}
+
+
 .transition {
     @extend .foundation;
     margin: 30px;
@@ -22,7 +36,6 @@
 .spot {
     @extend .foundation;
     pointer-events: visible;
-    cursor: move;
 }
 
 .spot_roof {

@@ -42,7 +42,7 @@ export const PlaceSVG : FunctionComponent<ObjectSVGProps> = (props) => {
             <circle className={styles.spot} onMouseDown={onMouseDownHandler} onMouseUp={onMouseUpHandler} r="30"/>
             <circle visibility={selectedVisible} className={styles.selected} r="30"/>
             {mapEndPoints(addInputArch)}
-            <text x="-50" y="-50">{obj.label}</text>
+            <text className={styles.text} x="-50" y="-50">{obj.label}</text>
             <text x="-10" y="5">{obj.tokenCount > 0 ? `${obj.tokenCount} x` : ""}</text>
         </g>
     )

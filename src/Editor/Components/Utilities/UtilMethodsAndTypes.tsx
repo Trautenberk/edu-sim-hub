@@ -68,3 +68,6 @@ export function checkMinValueAndSetDefault(value : number, defaultValue : number
     }
     return value;
 }
+
+
+export const EMPTY_STRING = "";
