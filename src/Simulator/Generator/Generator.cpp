@@ -5,32 +5,22 @@ const unsigned int Generator::_a = 69069;
 const unsigned int Generator::_b = 1;
 unsigned int Generator::_ix = Generator::_seed;
 
-// Generátor náhodných čísel
-unsigned int Generator::Random(unsigned int mod)
+// Generátor pseudo-náhodných čísel v rozsahu 0 - 0.999999
+unsigned int Generator::Random()
 {
     _ix = (_ix * _a) + _b;
-    return  _ix % mod;
+    return  _ix % UINT_MAX;
 }
 
-// Generátor normálního rozložení v rozsahu 0-1
-double Generator::Uniform()
+// Generátor normálního rozložení v rozsahu a - b
+double Generator::Uniform(double a, double b)
 {
-    return Random() / (double) UINT_MAX;
-}
-
-// Generátor normálního rozložení
-double Generator::Uniform(int a, int b)
-{
-    return (Uniform() * (b - a)) + a;
+    return a +(b - a) * Random();
 }
 
 
 double Generator::Exponential(double mean)
 {
-    // mean = 1/lambda
-    // x = -ln(u)/(λ)
-    // x = -ln(u) * rate
-    const auto u = Uniform();
-    // return log(1 - u) / (-rate);
+    const auto u = Random();
     return  -mean * log(u);
 }

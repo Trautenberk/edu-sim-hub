@@ -8,9 +8,8 @@
 using namespace std;
 class Generator {
     public:
-        static unsigned int Random(unsigned int mod = UINT_MAX);
-        static double Uniform();
-        static double Uniform(int a, int b);
+        static unsigned int Random();
+        static double Uniform(double a, double b);
         static double Exponential(double rate);
     private:
         static const unsigned int _seed;
