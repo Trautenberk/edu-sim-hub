@@ -7,9 +7,8 @@ export interface IEdge extends IEditorObject {
     pointsId : string[]
     from : ConnectionInfo | null,
     to : ConnectionInfo | null,
+    allowedClassNames: string[] // kolekce typu objektu, jenž můžou být na konci hrany
 }
-
-
 
 export function isEdge(obj : any): obj is IEdge{
     return (obj as IEdge).pointsId != undefined;
@@ -26,13 +25,17 @@ export abstract class Edge extends EditorObject implements IToSerializable<IEdge
     public from : ConnectionInfo | null = null
     public to : ConnectionInfo | null = null;
 
-    constructor(from : ConnectionInfo) {
+    public  allowedClassNames : string[] = [] 
+
+    constructor(from : ConnectionInfo, allowedTypes? : string[]) {
         super();
         this.from = from;
+        if (allowedTypes != null)
+            this. allowedClassNames = allowedTypes;
     }
 
     toSerializableObj(): IEdge {
-        return { ...super.toSerializableObj(), pointsId: this.pointsId, from: this.from, to: this.to }
+        return { ...super.toSerializableObj(), pointsId: this.pointsId, from: this.from, to: this.to,  allowedClassNames: this.allowedClassNames }
     }
 
     public static getPathDescription (points: IPoint[]) : string {

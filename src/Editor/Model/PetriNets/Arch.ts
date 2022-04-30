@@ -2,6 +2,8 @@ import { IToSerializable } from "Editor/Model/UtilClasses/Coordinates";
 import { IEditorObject, EditorObject, NULL_OBJ_ID } from "Editor/Model/EditorObject";
 import { ConnectionInfo, Edge, IEdge } from "../UtilClasses/Edge";
 import { IPoint } from "../UtilClasses/Point";
+import { Transition } from "./Transition";
+import { Place } from "./Place";
 
 export interface IArch extends IEdge {
     placeId: string;
@@ -28,6 +30,7 @@ export class InputArch extends Arch implements IToSerializable<IArch> {
             return this.to.objId;
         else
             return NULL_OBJ_ID;
+
     }
 
     public get placeId() : string {
@@ -39,6 +42,7 @@ export class InputArch extends Arch implements IToSerializable<IArch> {
 
     constructor(from : ConnectionInfo) {
         super(from);
+        this.allowedClassNames = [Transition.name];
     }
 }
 
@@ -61,5 +65,6 @@ export class OutputArch extends Arch {
 
     constructor(from : ConnectionInfo) {
         super(from);
+        this.allowedClassNames = [Place.name];
     }
 }
