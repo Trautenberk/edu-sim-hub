@@ -90,6 +90,17 @@ function removeBoundedEdgeObjects(state : SimObjectManagementState, obj : IEdito
     }
 }
 
+function isOwnerClassAllowed(state : SimObjectManagementState, endPoint : IEndPoint) {
+    const ownerObj = state.objects[endPoint.ownerId];
+    const selectedEdgeObj = state.objects[state.selectedObjectId ?? NULL_OBJ_ID] as IEdge;
+    
+    if (selectedEdgeObj.allowedClassNames.length > 0)
+        return selectedEdgeObj.allowedClassNames.includes(ownerObj.className);
+        
+    return true;
+}
+
+
 const simObjectManagementSlice = createSlice({
     name : "SimObjectManagement",
     initialState,
@@ -170,7 +181,7 @@ const simObjectManagementSlice = createSlice({
                 if (state.isLastPointMoving) {
                     const lastPoint = state.points[id];
                     for (const endPoint of Object.keys(state.endPoints).map(id => state.endPoints[id])) {
-                        if (endPoint.connectable && Coordinates.getDistance(lastPoint.coords, endPoint.coords) < state.distanceThreshold) {
+                        if (endPoint.connectable && isOwnerClassAllowed(state, endPoint) && Coordinates.getDistance(lastPoint.coords, endPoint.coords) < state.distanceThreshold) {
                             state.highlightedEndPoint = endPoint.id;
                             return;
                         }
@@ -254,7 +265,6 @@ export const selectObj = (state : RootState, id: string) : IEditorObject | null 
     }
 }
 export const selectPoints = (state: RootState, ids : string[]) : IPoint[] => ids.map(item => {
-    
     const point = state.simObjectManagement.points[item];
     if (point != null) {
         return point;
@@ -262,6 +272,18 @@ export const selectPoints = (state: RootState, ids : string[]) : IPoint[] => ids
         return state.simObjectManagement.endPoints[item];
     }
 });
+
+
+export const visibleForConnection = (state: RootState, endPointId : string) => {
+    const endPoint = state.simObjectManagement.endPoints[endPointId];
+    const selectedId = state.simObjectManagement.selectedObjectId
+
+    if (!state.simObjectManagement.isLastPointMoving || !endPoint.connectable || selectedId == null)
+        return false;
+
+    return isOwnerClassAllowed(state.simObjectManagement, endPoint);
+}
+
 
 export const {
     addObject,

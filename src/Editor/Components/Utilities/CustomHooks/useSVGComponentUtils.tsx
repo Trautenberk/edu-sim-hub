@@ -19,22 +19,22 @@ type UseSVGComponentUtilsParams = {
 
 export const useSVGComponentUtils = <T extends IEditorObjectWithEndPoints,>(params : UseSVGComponentUtilsParams) => {
     const { dispatch, useSelector } = useStoreHooks();
+    const obj = {...useSelector(state => selectObj(state, params.id))} as T;    // TODO tady to pretypovani vyresit
 
     const { onMouseDown } = useSelectable(params.id);
-    const { coordinates, onMouseDownHandler, onMouseUpHandler } = useDragable({initialCoordinates: params.initialCoordinates, onMouseDown: onMouseDown});
+    const { coordinates, onMouseDownHandler, onMouseUpHandler } = useDragable({initialCoordinates: obj.coordinates, onMouseDown: onMouseDown});
 
     const selectedVisible = convertToVisibility(useSelector(state => selectedObjectId(state) === params.id));
-    const obj = useSelector(state => selectObj(state, params.id)) as T;    // TODO tady to pretypovani vyresit
     
     const [endPoints, setEndPoints] = useState<EndPoint[]>([]);
 
     const mapEndPoints = (onAddObject? : (firstPoint : IPoint, secondPoint : IPoint) => void) => {
-        return endPoints.map((item, index) => <EndPointSVG onAddObject={onAddObject} key={item.id} coordinates={params.endPointsBrief[index].coords}  endPoint={item.toSerializableObj()}/> )
+        return endPoints.map((item, index) => <EndPointSVG onAddObject={onAddObject} key={item.id} coordinates={params.endPointsBrief[index].coords}  endPointId={item.id}/> )
     }
 
     useEffect(
         () => {
-            const endPoints = params.endPointsBrief.map((item, index) => new EndPoint(new Coordinates(item.coords).add(coordinates), params.id, item.type, item.maxSpawnedObj ,item.arrowDirection))
+            const endPoints = params.endPointsBrief.map((item, index) => new EndPoint(new Coordinates(item.coords).add(coordinates), params.id, item.type, item.maxSpawnedObj ,item.arrowDirection, item.connectable))
             setEndPoints(endPoints);
             endPoints.forEach(item => dispatch(registerEndPoint(item.toSerializableObj())))
             endPoints.forEach(item => obj.endPointIds = [...obj.endPointIds, item.id]);
@@ -64,6 +64,9 @@ export const useSVGComponentUtils = <T extends IEditorObjectWithEndPoints,>(para
     useEffect(
         () => {
             endPoints.forEach(item => dispatch(updatePointCoords({id: item.id,  newCoords: item.coords.toSerializableObj()})));
+            const tmpObj = {...obj};
+            tmpObj.coordinates = {x: coordinates.x, y: coordinates.y};
+            dispatch(changeObject(tmpObj));
         }
         ,[coordinates]
     )
