@@ -1,0 +1,30 @@
+{
+  "files": {
+    "main.css": "/edu-sim-hub/static/css/main.48fd50ca.chunk.css",
+    "main.js": "/edu-sim-hub/static/js/main.8837c243.chunk.js",
+    "main.js.map": "/edu-sim-hub/static/js/main.8837c243.chunk.js.map",
+    "runtime-main.js": "/edu-sim-hub/static/js/runtime-main.92c40083.js",
+    "runtime-main.js.map": "/edu-sim-hub/static/js/runtime-main.92c40083.js.map",
+    "static/css/2.0a9ec390.chunk.css": "/edu-sim-hub/static/css/2.0a9ec390.chunk.css",
+    "static/js/2.8f63848d.chunk.js": "/edu-sim-hub/static/js/2.8f63848d.chunk.js",
+    "static/js/2.8f63848d.chunk.js.map": "/edu-sim-hub/static/js/2.8f63848d.chunk.js.map",
+    "static/js/3.4eeb6ed5.chunk.js": "/edu-sim-hub/static/js/3.4eeb6ed5.chunk.js",
+    "static/js/3.4eeb6ed5.chunk.js.map": "/edu-sim-hub/static/js/3.4eeb6ed5.chunk.js.map",
+    "index.html": "/edu-sim-hub/index.html",
+    "static/css/2.0a9ec390.chunk.css.map": "/edu-sim-hub/static/css/2.0a9ec390.chunk.css.map",
+    "static/css/main.48fd50ca.chunk.css.map": "/edu-sim-hub/static/css/main.48fd50ca.chunk.css.map",
+    "static/js/2.8f63848d.chunk.js.LICENSE.txt": "/edu-sim-hub/static/js/2.8f63848d.chunk.js.LICENSE.txt",
+    "static/media/blank.f7a9f9f4.png": "/edu-sim-hub/static/media/blank.f7a9f9f4.png",
+    "static/media/div.06214292.svg": "/edu-sim-hub/static/media/div.06214292.svg",
+    "static/media/AppStyle.module.scss": "/edu-sim-hub/static/media/page-background.061ad514.jpg",
+    "static/media/petri-place.c944e49b.svg": "/edu-sim-hub/static/media/petri-place.c944e49b.svg",
+    "static/media/petri-transition.aac8ee3d.svg": "/edu-sim-hub/static/media/petri-transition.aac8ee3d.svg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.92c40083.js",
+    "static/css/2.0a9ec390.chunk.css",
+    "static/js/2.8f63848d.chunk.js",
+    "static/css/main.48fd50ca.chunk.css",
+    "static/js/main.8837c243.chunk.js"
+  ]
+}
