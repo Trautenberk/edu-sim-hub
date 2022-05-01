@@ -4,11 +4,11 @@ import { IPetriNetsStatistics } from "Editor/Model/PetriNets/PetriNetsSimulatorA
 
 
 type StatisticsState = {
-    petriNets: IPetriNetsStatistics | IContBlockStatistics | null,
+    statistics: IPetriNetsStatistics | IContBlockStatistics | null,
 }
 
 const initialState : StatisticsState = {
-    petriNets : null,
+    statistics : null,
 
 }
 
@@ -17,14 +17,18 @@ const statisticsSlice = createSlice({
     initialState,
     reducers : {
         setStatistics(state , action : PayloadAction<IPetriNetsStatistics | IContBlockStatistics>) {
-            state.petriNets = action.payload;
+            state.statistics = action.payload;
+        },
+        clearStatistics(state) {
+            state.statistics = null;
         }
     }
 })
 
 
 export const {
-    setStatistics
+    setStatistics,
+    clearStatistics
 } = statisticsSlice.actions;
 
 export default statisticsSlice.reducer;

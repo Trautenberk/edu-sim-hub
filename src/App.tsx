@@ -4,19 +4,20 @@ import styles from "AppStyle.module.scss"
 import windowStyles from "Editor/Styles/EditWindow.module.scss"
 import { Place, Transition } from "Editor/Model/PetriNets" 
 import { MenuIcons } from "Editor/Components/Icons";
-import { addObject, removeAllObjects, removeObject, selectedObjectId,  setSimulationParams,  unselectObject } from 'Editor/Feature/SimObjectManagementSlice';
+import { addObject, Example, removeAllObjects, removeObject, selectedObjectId,  setSimulationParams,  setState,  SimObjectManagementState,  unselectObject } from 'Editor/Feature/SimObjectManagementSlice';
 import { EditWindow, CanvasSVG, IObjectGUIComponentFactory, ContBlocksGUIComponentFactory, PetriNetsGUIComponentFactory } from "Editor/Components"
 import {Add, Div, Sub, Mul, Constant, Gain, Integrator} from "Editor/Model/ContBlocks"
 import { PetriNetsSimulatorAdapter } from "Editor/Model/PetriNets"
 import SimulatorModule from "wasm-build/wasm_Simulator.js";
 import { defaultContBlocksSimulationParams, defaultPNSimulationParams, IContBlocksSimulationParams, IPNSimulationParams } from 'Editor/Model/SimulationParams';
-import { setStatistics } from 'Editor/Feature/StatisticsSlice';
+import { clearStatistics, setStatistics } from 'Editor/Feature/StatisticsSlice';
 import { useStoreHooks } from 'Editor/Components/Utilities/CustomHooks';
 import { StatisticsWindow } from 'Editor/Components/StatisticsWindow';
 import { ContBlocksAdapter } from 'Editor/Components/ContBlocks/ContBlocksAdapter';
 import { Time } from 'Editor/Model/ContBlocks/Time';
-import { ICoordinates } from 'Editor/Model/UtilClasses/Coordinates';
 import { TransitionType } from 'Editor/Model/PetriNets/Transition';
+import { ModalWindow } from 'Editor/Components/Utilities/UtilComponents/ModalWindow';
+import { CONT_EXAMPLES_MAP, PN_EXAMPLES_MAP } from 'Editor/Model/Examples/ExampleMap';
 
 /**
  * @author Jaromír Březina
@@ -30,6 +31,13 @@ export type ObjectSVGProps = {
 export type ObjectEditProps = {
   id : string
 }
+
+
+type ExamplePair = {
+  text: string,
+  onClick : () => void;
+}
+
 
 
 
@@ -52,6 +60,7 @@ enum ChosenArea {
 }
 
 
+
 /**
  *  Komponenta reprezentující aplikaci
  * @component
@@ -59,8 +68,6 @@ enum ChosenArea {
  */
 export const App : FC = () => {
   const { dispatch, useSelector } = useStoreHooks();
-
-
   const [showMenu, setShowMenu] = useState(true);
   const [showStatistics, setShowStatistics] = useState(false);
   const [simulatorModule, setSimulatorModule] = useState(null);
@@ -69,13 +76,23 @@ export const App : FC = () => {
   const selectedId = useSelector(state => selectedObjectId(state));
   const simulationParams = useSelector(state => state.simObjectManagement.simulationParams); 
   const [chosenArea, setChosenArea] = useState<ChosenArea>(ChosenArea.PetriNets);
+  const [showModal, setShowModal] = useState<boolean>(false);
+  const [examples, setExamples] = useState<ExamplePair[]>([]);
 
+
+  function mapExamples(exampleObject : {[key : string] : Example}) : ExamplePair[] {
+    return Object.keys(exampleObject).map(item => ({text : item, onClick : () => {showExample(exampleObject[item])}}))
+  }
 
   const simulate = () => {
     if (chosenArea == ChosenArea.PetriNets)
       simulatePNets();
     else 
       simulateContBlocks();
+  }
+
+  const showExamples = () => {
+    setShowModal(true);
   }
 
   const simulatePNets = () => {
@@ -99,6 +116,7 @@ export const App : FC = () => {
     setobjectGUIComponentFactory(new PetriNetsGUIComponentFactory());
     setChosenArea(ChosenArea.PetriNets);
     setShowMenu(false);
+    setExamples(mapExamples(PN_EXAMPLES_MAP));
   }
 
   ////////////////////////////////////////////////////////////////
@@ -110,6 +128,7 @@ export const App : FC = () => {
     setobjectGUIComponentFactory(new ContBlocksGUIComponentFactory());
     setChosenArea(ChosenArea.ContBlocks)
     setShowMenu(false);
+    setExamples(mapExamples(CONT_EXAMPLES_MAP));
   }
 
   const showMainMenu = useCallback<()=>void>(() => {
@@ -123,6 +142,7 @@ export const App : FC = () => {
   
 
   const goBackToNormalMode = () => {
+    dispatch(clearStatistics());
     setShowStatistics(false);
   }
 
@@ -130,6 +150,7 @@ export const App : FC = () => {
   const topMenuActions : Action[] = [
     {name : "Do hlavního menu", actionMethod : showMainMenu},
     {name : "Smazat vše", actionMethod : clearAllAction },
+    {name : "Příklady", actionMethod : showExamples}
   ]
 
   if (showStatistics) {
@@ -217,6 +238,14 @@ export const App : FC = () => {
       loadSimulatorModule();
     },[])
 
+
+    const showExample = (exampleState : Example) => {
+        dispatch(setState(exampleState));
+        setShowModal(false);
+    }
+
+
+
   if(showMenu){
     return(
       <div className={styles.main_page}>
@@ -233,16 +262,17 @@ export const App : FC = () => {
         <Menu clasName={windowStyles.top_menu}>
             {topMenuActions.map(item => <MenuItemButton key={item.name} buttonText={item.name} onItemSelected={item.actionMethod}/>)}
         </Menu>
-        {!showStatistics &&  <Menu clasName={windowStyles.blocks_menu} >
-          {
-            canvasElementTypes.map(item => 
-              (<MenuItemButton  key={item.name} buttonText={item.name} iconPath={item.icon} onItemSelected={item.onClick}>
-                  <img  src={item.icon} alt={""}/>
-                </MenuItemButton>)
-            )
-          }
-         </Menu>}
-
+        {!showStatistics &&  
+          <Menu clasName={windowStyles.blocks_menu} >
+            {
+              canvasElementTypes.map(item => 
+                (<MenuItemButton  key={item.name} buttonText={item.name} iconPath={item.icon} onItemSelected={item.onClick}>
+                    <img  src={item.icon} alt={""}/>
+                  </MenuItemButton>)
+              )
+            }
+          </Menu>
+        }
           <CanvasSVG middle={!showStatistics}>
             {Object.values(simObjects).map(item => 
                 (React.createElement(objectGUIComponentFactory.getElement(item).SVGComponent, 
@@ -256,13 +286,16 @@ export const App : FC = () => {
           {showStatistics &&  <StatisticsWindow factory={objectGUIComponentFactory} />}
 
         <Loader visibile={false} ></Loader>
+        <ModalWindow hide={!showModal} cancelAction={()=>{setShowModal(false)}}>
+          <Menu clasName={windowStyles.examples_menu}>
+            {examples.map(item => <MenuItemButton key={item.text} buttonText={item.text} onItemSelected={item.onClick}/>)}
+          </Menu>
+        </ModalWindow>
       </div>
     )
   }
   
 }
-
-
 
 
 

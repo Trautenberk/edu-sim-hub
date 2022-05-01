@@ -34,11 +34,20 @@ export const useSVGComponentUtils = <T extends IEditorObjectWithEndPoints,>(para
 
     useEffect(
         () => {
-            const endPoints = params.endPointsBrief.map((item, index) => new EndPoint(new Coordinates(item.coords).add(coordinates), params.id, item.type, item.maxSpawnedObj ,item.arrowDirection, item.connectable))
-            setEndPoints(endPoints);
-            endPoints.forEach(item => dispatch(registerEndPoint(item.toSerializableObj())))
-            endPoints.forEach(item => obj.endPointIds = [...obj.endPointIds, item.id]);
-            dispatch(changeObject(obj));
+            if (obj.endPointIds.length == 0) {
+                const endPoints = params.endPointsBrief.map((item, index) => new EndPoint(new Coordinates(item.coords).add(coordinates), params.id, item.type, item.maxSpawnedObj ,item.arrowDirection, item.connectable))
+                setEndPoints(endPoints);
+                endPoints.forEach(item => dispatch(registerEndPoint(item.toSerializableObj())));
+                endPoints.forEach(item => obj.endPointIds = [...obj.endPointIds, item.id]);
+                dispatch(changeObject(obj));
+            } else {
+                const endPoints = params.endPointsBrief.map((item, index) => {
+                    const endPoint = new EndPoint(new Coordinates(item.coords).add(coordinates), params.id, item.type, item.maxSpawnedObj ,item.arrowDirection, item.connectable)
+                    endPoint.id = obj.endPointIds[index];
+                    return endPoint;
+                })
+                setEndPoints(endPoints);
+            }
         }
         ,[]
     )

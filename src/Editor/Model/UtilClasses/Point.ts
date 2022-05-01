@@ -10,6 +10,12 @@ export interface IGroupPoint extends IPoint {
     groupCoords : ICoordinates;
 }
 
+let POINT_COUNTER = 0;
+
+export function SetPointCounter(value : number) {
+    POINT_COUNTER = value;
+}
+
 export class Point implements IPoint, IToSerializable<IPoint> {
     public id : string  // identifikátor
     public coords : Coordinates    // absolutní souřadnice
@@ -17,7 +23,7 @@ export class Point implements IPoint, IToSerializable<IPoint> {
     private static _cnt : number = 0;
 
     public static get cnt() {
-        return Point._cnt++;
+        return POINT_COUNTER++;
     }
 
     public static getId() {

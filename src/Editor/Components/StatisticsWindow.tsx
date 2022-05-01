@@ -14,7 +14,7 @@ export const StatisticsWindow : FC<{factory : IObjectGUIComponentFactory}> = (pr
 
     const selectedObjectId = useSelector(state => state.simObjectManagement.selectedObjectId); 
     const object =  useSelector(state => selectObj(state, selectedObjectId ?? NULL_OBJ_ID)); // TODO odstanit ten empty string, mozna to udelat tak ze se bude predavat celej ten objekt
-    const statistics = useSelector(state => state.statistics.petriNets);
+    const statistics = useSelector(state => state.statistics.statistics);
  
     return (
         <div className={style.statistics_window}>

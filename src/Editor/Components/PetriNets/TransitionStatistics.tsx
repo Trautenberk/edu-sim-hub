@@ -12,7 +12,7 @@ export  const TransitionStatistics : FC<StatisticsComponentProps> = (props) => {
     return (
         <div>
             <p>Statistiky přechodu: {props.id}</p>
-            <div>
+            <div >
                 <DiscreteGraph  data={values} xKey={"time"} yKey={"fired"}  />
             </div>
         </div>

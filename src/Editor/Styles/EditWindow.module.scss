@@ -73,7 +73,13 @@
         border: solid 1px black;
         padding: 1%;
     }
+    p + div {
+        @extend .max-size;
+        padding-top: 1%;
+        background-color: white;
+    }
 }
+
 
 .blocks_menu {
     @extend .window;
@@ -148,7 +154,7 @@
     }
 
     button{
-        padding: 0 20px 0 20px;
+        padding: 12px 20px 0 20px;
         border: none;
         margin: 0;
         @extend .max-height;
@@ -163,4 +169,40 @@
     }
 }
 
+
+.examples_menu {
+    @extend .max-size;
+
+    ul{
+        list-style: none;
+        @extend .no-offset;
+    }
+
+    li{
+        width: 100%;
+        height: 60px;
+    }
+
+    button {
+        @extend .no-offset;
+        @extend .max-size;
+        background-color: $background-blue;
+        font-weight: bolder;
+    }
+
+    button:hover {
+        background-color: $background-blue-hover;
+    }
+
+    div {
+        @extend .max-height;
+        line-height: 20px;
+        text-align: center;
+        align-items: center;
+    }
+
+    p {
+        padding-top: 3%;
+    }
+}
 

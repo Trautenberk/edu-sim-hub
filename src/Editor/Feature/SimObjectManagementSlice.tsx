@@ -1,20 +1,28 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Coordinates, NotImplementedException } from "Editor/Components/Utilities";
-import { IEditorObject, NULL_OBJ_ID } from "Editor/Model/EditorObject";
+import { IEditorObject, NULL_OBJ_ID, SetEditorObjectCounter } from "Editor/Model/EditorObject";
 import { IContBlocksSimulationParams, IPNSimulationParams } from "Editor/Model/SimulationParams";
 import { ICoordinates } from "Editor/Model/UtilClasses/Coordinates";
 import { IEdge, isEdge } from "Editor/Model/UtilClasses/Edge";
-import { EndPointType, IEndPoint, IPoint, Point } from "Editor/Model/UtilClasses/Point";
+import { EndPointType, IEndPoint, IPoint, Point, SetPointCounter } from "Editor/Model/UtilClasses/Point";
 import { RootState } from "Editor/Store/Store";
 
 
-export type SimObjectManagementState = {
-    simulationParams : IPNSimulationParams | IContBlocksSimulationParams | null
+type SimObjectManagementCore = {
     objects : {[id : string] : IEditorObject}
     edgeObjectsIds : string[];
     selectedObjectId: string | null
     endPoints :  {[id : string] : IEndPoint}  // koncove body
     points : {[id : string] : IPoint} // vsechny body
+}
+
+export type Example = SimObjectManagementCore & {
+    editorObjectCounter : number
+    pointCounter : number
+}
+
+export type SimObjectManagementState =  SimObjectManagementCore & {
+    simulationParams : IPNSimulationParams | IContBlocksSimulationParams | null
     isLastPointMoving : boolean
     highlightedEndPoint : null | string,
     distanceThreshold : number
@@ -100,18 +108,31 @@ function isOwnerClassAllowed(state : SimObjectManagementState, endPoint : IEndPo
     return true;
 }
 
+function setIdCounters(editorObjectVal : number, pointVal : number) {
+    SetEditorObjectCounter(editorObjectVal);    
+    SetPointCounter(pointVal);}
+
+function removeAllFnc(state : SimObjectManagementState) {
+    state.objects = {};
+    state.points = {};
+    state.edgeObjectsIds = [];
+    state.selectedObjectId = null;
+    state.endPoints = {};
+    setIdCounters(0,0);
+}   
 
 const simObjectManagementSlice = createSlice({
     name : "SimObjectManagement",
     initialState,
     reducers: {
-        setState (state, action: PayloadAction<SimObjectManagementState>) {
-            const newState = action.payload;
-            state.edgeObjectsIds = newState.edgeObjectsIds;
-            state.endPoints = newState.endPoints;
-            state.objects = newState.objects;
-            state.points = newState.points;
-            state.simulationParams = newState.simulationParams;
+        setState (state, action: PayloadAction<Example>) {
+            removeAllFnc(state);
+            const example = action.payload;
+            setIdCounters(example.editorObjectCounter, example.pointCounter);
+            state.edgeObjectsIds = example.edgeObjectsIds;
+            state.endPoints = example.endPoints;
+            state.objects = example.objects;
+            state.points = example.points;
         },
         addObject (state, action : PayloadAction<IEditorObject>) {
             state.selectedObjectId = addObjectFnc(state, action.payload);
@@ -136,11 +157,7 @@ const simObjectManagementSlice = createSlice({
             }
         },
         removeAllObjects (state) {
-            state.objects = {};
-            state.points = {};
-            state.edgeObjectsIds = [];
-            state.selectedObjectId = null;
-            state.endPoints = {};
+            removeAllFnc(state);
         },
         changeObject (state, action : PayloadAction<IEditorObject>) {
             const obj = action.payload;

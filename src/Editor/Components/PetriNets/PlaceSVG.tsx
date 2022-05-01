@@ -24,7 +24,6 @@ export const PlaceSVG : FunctionComponent<ObjectSVGProps> = (props) => {
         dispatch,
         selectedVisible,
         obj,
-        endPoints,
         mapEndPoints
     } 
     = useSVGComponentUtils<IPlace>({id: props.id, initialCoordinates: INITIAL_COORDINATES, endPointsBrief: placeEndPointsBrief});

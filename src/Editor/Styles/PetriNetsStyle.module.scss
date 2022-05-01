@@ -3,7 +3,6 @@
 
 
 .foundation {
-    fill: white;
     stroke-width: 2px;
     stroke:rgb(0, 0, 0);
     stroke-miterlimit: 10;
@@ -23,10 +22,19 @@
     font-size: medium;
 }
 
-
-.transition {
+.transition_foundation {
     @extend .foundation;
     margin: 30px;
+}
+
+.timed_transition {
+    @extend .transition_foundation;
+    fill: white;
+}
+
+.immediate_transition {
+    @extend .transition_foundation;
+    fill: rgb(0, 0, 0);
 }
 
 .selected {
@@ -36,6 +44,7 @@
 .spot {
     @extend .foundation;
     pointer-events: visible;
+    fill: white;
 }
 
 .spot_roof {

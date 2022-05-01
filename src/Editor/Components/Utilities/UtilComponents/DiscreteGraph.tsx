@@ -13,10 +13,9 @@ export const GRAPH_COLOR = "#0088FE";
 export  const DiscreteGraph : FC<GraphProps> = (props) => {
 
   return (
-      <div style={{background: "white"}}>
           <AreaChart
-              width={700} height={700} data={props.data}
-              margin={{ left: -30 }}
+              width={680} height={700} data={props.data}
+              margin={{ left: -40 }}
               >
               <defs>
               <linearGradient id="Gradient" x1="0" y1="0" x2="0" y2="1">
@@ -43,6 +42,5 @@ export  const DiscreteGraph : FC<GraphProps> = (props) => {
                   </AreaChart>
               </Brush>
           </AreaChart>
-      </div>
-  )
+    )
 }
