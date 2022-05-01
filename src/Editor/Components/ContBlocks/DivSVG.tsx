@@ -47,6 +47,7 @@ export const DivSVG : FC<ObjectSVGProps> = (props) => {
                 x={middleX - 15}
                 y={middleY - 4} />
             {mapEndPoints(addSignal)}
+            <text className={styles.label} x={5} y={-15}>{obj.label}</text>
         </g>
     )
 }

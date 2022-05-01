@@ -4,6 +4,7 @@ import { ContBlockWithSingleOutputEndPoints, ContBlockWithSingleOutputSVG, useAd
 import { IConstant } from "Editor/Model/ContBlocks/Constant"
 import { useSVGComponentUtils } from "../Utilities/CustomHooks"
 import { INITIAL_COORDINATES } from "../Utilities/UtilMethodsAndTypes"
+import styles from "Editor/Styles/ContBlockStyles.module.scss"
 
 const middleX = 35
 const middleY = 35
@@ -26,8 +27,9 @@ export const ConstantSVG : FC<ObjectSVGProps> = (props) => {
     return (
         <g transform={`translate(${coordinates.x},${coordinates.y})`}> 
             <ContBlockWithSingleOutputSVG onMouseDownDragHandler={onMouseDownHandler} onMouseUpDragHandler={onMouseUpHandler} selectedVisible={selectedVisible} />
-            <text fontSize={20} x={middleX} y={middleY}>{obj.value}</text>
+            <text fontSize={20} className={styles.text} x={middleX} y={middleY}>{obj.value}</text>
             {mapEndPoints(addSignal)}
+            <text className={styles.label} x={5} y={-15}>{obj.label}</text>
         </g>
     )
 }

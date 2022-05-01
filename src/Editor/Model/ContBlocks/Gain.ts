@@ -1,12 +1,13 @@
 import { IToSerializable } from "Editor/Model/UtilClasses/Coordinates";
 import { IEditorObjectWithEndPoints, EditorObjectWithEndPoints } from "Editor/Model/EditorObject";
+import { ContBlock, IContBlock } from "./ContBlock";
 
 
-export interface IGain extends IEditorObjectWithEndPoints {
+export interface IGain extends IContBlock {
     gain : number
 }
 
-export class Gain extends EditorObjectWithEndPoints implements IToSerializable<IGain> {
+export class Gain extends ContBlock implements IToSerializable<IGain> {
     public className() { return Gain.name; }
     public static MenuName = "Gain";
 

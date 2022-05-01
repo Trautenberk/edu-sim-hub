@@ -295,7 +295,7 @@ export const visibleForConnection = (state: RootState, endPointId : string) => {
     const endPoint = state.simObjectManagement.endPoints[endPointId];
     const selectedId = state.simObjectManagement.selectedObjectId
 
-    if (!state.simObjectManagement.isLastPointMoving || !endPoint.connectable || selectedId == null)
+    if (!state.simObjectManagement.isLastPointMoving ||  endPoint == null || !endPoint.connectable || selectedId == null)
         return false;
 
     return isOwnerClassAllowed(state.simObjectManagement, endPoint);

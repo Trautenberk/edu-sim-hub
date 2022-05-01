@@ -9,12 +9,12 @@ Integrator::Integrator(objectId id, ContBlockEngineObj engine, double initialVal
     engine->addIntegrator(this);
 }
 
-ContBlockObj Integrator::New(ContBlockEngineObj engine, double initialValue)
+ContBlockSingleObj Integrator::New(ContBlockEngineObj engine, double initialValue)
 {
     return make_shared<Integrator>(SimObject::createId(integratorTypeName), engine, initialValue);
 }
 
-ContBlockObj Integrator::New(ContBlockEngineObj engine, double initialValue, ContBlockObj input)
+ContBlockSingleObj Integrator::New(ContBlockEngineObj engine, double initialValue, ContBlockObj input)
 {
     auto obj = make_shared<Integrator>(SimObject::createId(integratorTypeName), engine, initialValue);
     obj->setInput(input);

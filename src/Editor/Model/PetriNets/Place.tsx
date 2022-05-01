@@ -15,7 +15,6 @@ export class Place extends EditorObjectWithEndPoints implements IToSerializable<
     public label: string = "";
 
     public toSerializableObj(): IPlace {
-        const superObj = super.toSerializableObj();
-        return {...superObj, label : this.label, tokenCount : this.tokenCount}
+        return {...super.toSerializableObj(), label : this.label, tokenCount : this.tokenCount}
     }
 }

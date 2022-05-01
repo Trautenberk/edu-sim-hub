@@ -39,7 +39,7 @@ export const ContBlockFoundationSVG : FC<ContBlockProps> = (props) => {
 
 // TODO jsou to konstanty, takze prepsat na velka pismena
 export const ContBlockWithSingleOutputEndPoints : IEndPointBrief[] = [
-    { coords : {x: 70, y: 35}, type: EndPointType.Restricted, maxSpawnedObj: 1 ,arrowDirection: Direction.Right, connectable : false }
+    { coords : {x: 70, y: 35}, type: EndPointType.Restricted, maxSpawnedObj: 3, arrowDirection: Direction.Right, connectable : false }
 ]
 
 export const ContBlockWithSingleOutputSVG : FC<ContBlockProps> = (props) => {

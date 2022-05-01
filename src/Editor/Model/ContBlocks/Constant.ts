@@ -1,12 +1,12 @@
 import { IToSerializable } from "Editor/Model/UtilClasses/Coordinates";
-import { IEditorObject, EditorObject, IEditorObjectWithEndPoints, EditorObjectWithEndPoints } from "Editor/Model/EditorObject";
+import { IContBlock, ContBlock } from "./ContBlock";
 
 
-export interface IConstant extends IEditorObjectWithEndPoints {
+export interface IConstant extends IContBlock {
     value : number;
 }
 
-export class Constant extends EditorObjectWithEndPoints implements IToSerializable<IConstant> {
+export class Constant extends ContBlock implements IToSerializable<IConstant> {
     public className() {return Constant.name} ;
     public static MenuName  = "Konstanta"
 

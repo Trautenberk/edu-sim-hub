@@ -23,7 +23,7 @@ export const SubSVG : FC<ObjectSVGProps> = (props) => {
     } 
     = useSVGComponentUtils<ISub>({id: props.id, initialCoordinates: INITIAL_COORDINATES, endPointsBrief: ContBlockDoubleEndPoints });
 
-    const addSignal =   useAddSignal(obj);
+    const addSignal = useAddSignal(obj);
 
     return (
         <g transform={`translate(${coordinates.x},${coordinates.y})`}> 
@@ -35,6 +35,7 @@ export const SubSVG : FC<ObjectSVGProps> = (props) => {
                 x={middleX - 15}
                 y={middleY - 4} />
                 {mapEndPoints(addSignal)}
+                <text className={styles.label} x={5} y={-15}>{obj.label}</text>
         </g>
     )
 }

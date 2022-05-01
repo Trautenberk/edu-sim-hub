@@ -10,6 +10,7 @@ class ContBlock;
 
 using ContBlockObj = std::shared_ptr<ContBlock>;
 
+
 template <typename T>
 ContBlockObj createContBlockObj(objectId id, ContBlockEngine engine) {
     return make_shared<T>(id, engine);
@@ -33,6 +34,8 @@ class ContBlockSingle : public ContBlock {
         ContBlockObj _input = nullptr;
 };
 
+using ContBlockSingleObj = shared_ptr<ContBlockSingle>;
+
 class ContBlockDouble : public ContBlock {
     public:
         ContBlockDouble(objectId id, ContBlockEngineObj engine);
@@ -46,6 +49,8 @@ class ContBlockDouble : public ContBlock {
         ContBlockObj _inputFirst = nullptr;
         ContBlockObj _inputSecond = nullptr;
 };
+
+using ContBlockDoubleObj = shared_ptr<ContBlockDouble>;
 
 class ContBlockMulti : public ContBlock {
     public:

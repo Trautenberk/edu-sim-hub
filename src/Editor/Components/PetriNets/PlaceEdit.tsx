@@ -21,7 +21,7 @@ export const PlaceEdit : FC<ObjectEditProps>  = (props) => {
             <div>
                 <p> Je vybrán element {props.id} </p>
                 <div>
-                    <label>Nadpis: </label>
+                    <label>Štítek: </label>
                     <input value={obj.label} type="text" onChange={onLabelInputChange}></input>        
                 </div>
                 <div>

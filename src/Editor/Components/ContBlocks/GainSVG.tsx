@@ -4,6 +4,7 @@ import { ContBlockSingleEndPoints, ContBlockSingleSVG, useAddSignal } from "./Co
 import { useSVGComponentUtils } from "../Utilities/CustomHooks"
 import { IGain } from "Editor/Model/ContBlocks/Gain"
 import { INITIAL_COORDINATES } from "../Utilities/UtilMethodsAndTypes"
+import styles from "Editor/Styles/ContBlockStyles.module.scss"
 
 
 const middleX = 35
@@ -27,8 +28,9 @@ export const GainSVG : FC<ObjectSVGProps> = (props) => {
     return (
         <g transform={`translate(${coordinates.x},${coordinates.y})`}> 
             <ContBlockSingleSVG onMouseDownDragHandler={onMouseDownHandler} onMouseUpDragHandler={onMouseUpHandler} selectedVisible={selectedVisible} />
-            <text fontSize={20} x={middleX - 15} y={middleY}>{obj.gain.toFixed(2)}</text>
+            <text className={styles.text} fontSize={20} x={middleX - 15} y={middleY}>{obj.gain.toFixed(2)}</text>
             {mapEndPoints(addSignal)}
+            <text className={styles.label} x={5} y={-15}>{obj.label}</text>
         </g>
     )
 }

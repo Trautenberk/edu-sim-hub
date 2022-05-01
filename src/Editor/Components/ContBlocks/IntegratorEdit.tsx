@@ -12,10 +12,19 @@ export const IntegratorEdit : FC<ObjectEditProps>  = (props) => {
         dispatchChange(obj)
     }
 
+    const onLabelInputChange = (e : React.ChangeEvent<HTMLInputElement>) => {
+        obj.label = e.currentTarget.value;
+        dispatchChange(obj)
+    }
+
     if (obj != null) {
         return (
             <div>
                 <p> Je vybrán element {props.id} </p>
+                <div>
+                    <label>Štítek:</label>
+                    <input value={obj.label} type="text" onChange={onLabelInputChange}></input>        
+                </div>
                 <div>
                     <label>Počáteční hodnota:</label>
                     <input type="number" value={obj.initialValue} onChange={onValueChange}></input>

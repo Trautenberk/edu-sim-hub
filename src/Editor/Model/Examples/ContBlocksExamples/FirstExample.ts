@@ -2,6 +2,7 @@ import { Example } from "Editor/Feature/SimObjectManagementSlice";
 import { IEditorObject } from "Editor/Model/EditorObject";
 
 
+
 export const FIRST_EXAMPLE : Example = {
     editorObjectCounter : 5,
     pointCounter : 5,

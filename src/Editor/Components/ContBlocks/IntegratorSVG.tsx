@@ -4,6 +4,7 @@ import { IIntegrator } from "Editor/Model/ContBlocks/Integrator";
 import { useSVGComponentUtils } from "../Utilities/CustomHooks";
 import { ContBlockSingleEndPoints, ContBlockSingleSVG, useAddSignal } from "./ContBlocksSVG";
 import { INITIAL_COORDINATES } from "../Utilities/UtilMethodsAndTypes";
+import styles from "Editor/Styles/ContBlockStyles.module.scss";
 
 const middleX = 35
 const middleY = 35
@@ -30,6 +31,7 @@ export const IntegratorSVG : FC<ObjectSVGProps> = (props) => {
             </g>
 
             {mapEndPoints(addSignal)}
+            <text className={styles.label} x={5} y={-15}>{obj.label}</text>
         </g>
     )
 }

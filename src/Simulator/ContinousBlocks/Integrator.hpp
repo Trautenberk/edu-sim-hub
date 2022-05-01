@@ -10,8 +10,8 @@ class Integrator : public ContBlockSingle {
     public:
         // input value = f(t,y)
         Integrator(objectId id, ContBlockEngineObj engine, double initialValue);
-        static ContBlockObj New(ContBlockEngineObj engine, double initialValue);
-        static ContBlockObj New(ContBlockEngineObj engine, double initialValue, ContBlockObj input);
+        static ContBlockSingleObj New(ContBlockEngineObj engine, double initialValue);
+        static ContBlockSingleObj New(ContBlockEngineObj engine, double initialValue, ContBlockObj input);
         
         string objTypeName();
         IntegratorRecord getStatisticsRecord();

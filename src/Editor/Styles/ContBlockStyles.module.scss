@@ -26,3 +26,14 @@
     stroke-opacity: 1;
     pointer-events: none;
 }
+
+.text {
+    pointer-events: none;
+    user-select: none;
+}
+
+.label {
+    @extend .text;
+    font-weight: bolder;
+
+}

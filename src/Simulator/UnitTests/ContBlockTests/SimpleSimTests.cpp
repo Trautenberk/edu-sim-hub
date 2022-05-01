@@ -91,10 +91,10 @@ TEST(test, BasicAssertions)
 {
     auto engine = ContBlockEngine::New(IntegrationMethods::Euler); 
     auto constant = Constant::New(engine, 2);  
+    auto integrator_one = Integrator::New(engine, 0);
+    auto integrator_two = Integrator::New(engine, 0);
+    
     auto gain = Gain::New(engine, 3, constant);
-
-
-
 
     auto constantTwo = Constant::New(engine, 5);
 

@@ -1,12 +1,12 @@
 import { IToSerializable } from "Editor/Model/UtilClasses/Coordinates";
-import { EditorObjectWithEndPoints, IEditorObjectWithEndPoints } from "Editor/Model/EditorObject";
+import { IContBlock, ContBlock } from "./ContBlock";
 
 
-export interface IDiv extends IEditorObjectWithEndPoints {
+export interface IDiv extends IContBlock {
 
 }
 
-export class Div extends EditorObjectWithEndPoints implements IToSerializable<IDiv> {
+export class Div extends ContBlock implements IToSerializable<IDiv> {
     public className() { return Div.name; }
     public static MenuName = "Dělení"
     

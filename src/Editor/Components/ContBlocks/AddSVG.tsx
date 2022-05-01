@@ -42,6 +42,7 @@ export const AddSVG : FC<ObjectSVGProps> = (props) => {
                 height="30"
                 x={middleX - 4}
                 y={middleY - 15} />
+                <text className={styles.label} x={5} y={-15}>{obj.label}</text>
         </g>
             
     )
