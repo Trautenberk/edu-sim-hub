@@ -1,7 +1,7 @@
 #ifndef TRANSITION_H
 #define TRANSITION_H
 
-#include "Arch.hpp"
+#include "Arc.hpp"
 #include <vector>
 #include <iostream>
 #include <limits>
@@ -18,14 +18,14 @@ class Transition : public PetriNetsObject
 {
     public:
         std::string label;
-        vector<InputArchObj> inputArches = {};
-        vector<OutputArchObj> outputArches = {};
-        vector<ArchObj> allArches = {};
+        vector<InputArcObj> inputArcs = {};
+        vector<OutputArcObj> outputArcs = {};
+        vector<ArcObj> allArcs = {};
         deque<int> plannedEventsId = {};
 
-        Transition(objectId id, PetriNetsEngineObj engine, std::string label, vector<InputArchObj> inputArches, vector<OutputArchObj> outputArches);
+        Transition(objectId id, PetriNetsEngineObj engine, std::string label, vector<InputArcObj> inputArcs, vector<OutputArcObj> outputArcs);
         void initialize();
-        int allInputArchSsatisfied();
+        int allInputArcSsatisfied();
         virtual void planTransitionFiringEvent() = 0;
         void removeTransitionFiringEvent();
         void rePlanTransition();
@@ -50,8 +50,8 @@ class ImmediateTransition : public Transition {
     public:
         int priority;
         std::string objTypeName();
-        ImmediateTransition(objectId id, PetriNetsEngineObj engine, std::string label, vector<InputArchObj> inputArches, vector<OutputArchObj> outputArches, int priority = 0);
-        static ImmediateTransitionObj New(PetriNetsEngineObj engine, std::string label, vector<InputArchObj> inputArches, vector<OutputArchObj> outputArches, int priority = 0);
+        ImmediateTransition(objectId id, PetriNetsEngineObj engine, std::string label, vector<InputArcObj> inputArcs, vector<OutputArcObj> outputArcs, int priority = 0);
+        static ImmediateTransitionObj New(PetriNetsEngineObj engine, std::string label, vector<InputArcObj> inputArcs, vector<OutputArcObj> outputArcs, int priority = 0);
         
         void planTransitionFiringEvent();
 };
@@ -67,7 +67,7 @@ class TimedTransition : public Transition {
     public:
         virtual double getDelay() = 0;
         std::string objTypeName() override;
-        TimedTransition(objectId id, PetriNetsEngineObj engine, std::string label, vector<InputArchObj> inputArches, vector<OutputArchObj>  outputArches, double delayValue);
+        TimedTransition(objectId id, PetriNetsEngineObj engine, std::string label, vector<InputArcObj> inputArcs, vector<OutputArcObj>  outputArcs, double delayValue);
         void planTransitionFiringEvent() override;
 
     protected:
@@ -88,8 +88,8 @@ class TimedConstantTransition : public TimedTransition {
         double getDelay() override;
         std::string objTypeName() override;
 
-        TimedConstantTransition(objectId id, PetriNetsEngineObj engine, std::string label, vector<InputArchObj> inputArches, vector<OutputArchObj>  outputArches, double delayValue);
-        static TimedConstantTransitionObj New(PetriNetsEngineObj engine, std::string label, vector<InputArchObj> inputArches, vector<OutputArchObj>  outputArches, double delayValue);
+        TimedConstantTransition(objectId id, PetriNetsEngineObj engine, std::string label, vector<InputArcObj> inputArcs, vector<OutputArcObj>  outputArcs, double delayValue);
+        static TimedConstantTransitionObj New(PetriNetsEngineObj engine, std::string label, vector<InputArcObj> inputArcs, vector<OutputArcObj>  outputArcs, double delayValue);
 };
 
 
@@ -105,8 +105,8 @@ class TimedExponentialTransition : public TimedTransition {
         double getDelay() override;
         std::string objTypeName() override;
 
-        TimedExponentialTransition(objectId id, PetriNetsEngineObj engine, std::string label, vector<InputArchObj> inputArches, vector<OutputArchObj>  outputArches, double delayValue);
-        static TimedExponentialTransitionObj New(PetriNetsEngineObj engine, std::string label, vector<InputArchObj> inputArches, vector<OutputArchObj>  outputArches, double delayValue);
+        TimedExponentialTransition(objectId id, PetriNetsEngineObj engine, std::string label, vector<InputArcObj> inputArcs, vector<OutputArcObj>  outputArcs, double delayValue);
+        static TimedExponentialTransitionObj New(PetriNetsEngineObj engine, std::string label, vector<InputArcObj> inputArcs, vector<OutputArcObj>  outputArcs, double delayValue);
 };
 
 #endif

@@ -2,13 +2,12 @@
 #define GENERATOR_H
 
 #include <cstdlib>
-#include <math.h>
 #include <climits>
 
 using namespace std;
 class Generator {
     public:
-        static unsigned int Random();
+        static double Random();
         static double Uniform(double a, double b);
         static double Exponential(double rate);
     private:

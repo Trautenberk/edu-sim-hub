@@ -1,5 +1,5 @@
 #include <iostream>
-#include "PetriNets/Arch.hpp"
+#include "PetriNets/Arc.hpp"
 #include "PetriNets/Place.hpp"
 #include "PetriNets/Transition.hpp"
 #include "DiscreteSimulation/DiscreteEngine.hpp"
@@ -63,16 +63,16 @@ void testGenerator()
     auto engine = PetriNetsEngine::New();
     // auto placeOne = Place::New(engine, "Place 1", 1);
     // auto placeTwo = Place::New(engine, "Place 2", 0);
-    // auto inputArch = InputArch::New(engine, placeOne);
-    // auto outputArch = OutputArch::New(engine, placeTwo);
-    // auto rekurseArch = OutputArch::New(engine, placeOne);
+    // auto inputArc = InputArc::New(engine, placeOne);
+    // auto outputArc = OutputArc::New(engine, placeTwo);
+    // auto rekurseArc = OutputArc::New(engine, placeOne);
 
-    // vector<InputArchObj> inputArches = {inputArch};
-    // vector<OutputArchObj> outputArches = {outputArch, rekurseArch};
+    // vector<InputArcObj> inputArces = {inputArc};
+    // vector<OutputArcObj> outputArces = {outputArc, rekurseArc};
 
-    // auto transition = TimedConstantTransition::New(engine, "Transition 1", inputArches, outputArches, 5);
+    // auto transition = TimedConstantTransition::New(engine, "Transition 1", inputArces, outputArces, 5);
 
-    // vector<shared_ptr<SimObject>> objects = {placeOne, placeTwo, inputArch, outputArch, rekurseArch, transition};
+    // vector<shared_ptr<SimObject>> objects = {placeOne, placeTwo, inputArc, outputArc, rekurseArc, transition};
     // auto engine = DiscreteEngine();
     // engine.allTransitions = {transition};
 

@@ -12,12 +12,12 @@
 using namespace std;
 
 ////////////////////////////////////////////////////////////////
-class Arch;
-using ArchObj = shared_ptr<Arch>;
+class Arc;
+using ArcObj = shared_ptr<Arc>;
 
-class Arch : public PetriNetsObject {
+class Arc : public PetriNetsObject {
     public:
-        Arch(objectId id, PetriNetsEngineObj engine, PlaceObj targetPlace, int weight = 1);
+        Arc(objectId id, PetriNetsEngineObj engine, PlaceObj targetPlace, int weight = 1);
         virtual string objTypeName() = 0;
         int weight() const {return _weight;};
         shared_ptr<Place> targetPlace;
@@ -28,13 +28,13 @@ class Arch : public PetriNetsObject {
 };
 
 ////////////////////////////////////////////////////////////////
-class InputArch;
-using InputArchObj = shared_ptr<InputArch>;
+class InputArc;
+using InputArcObj = shared_ptr<InputArc>;
 
-class InputArch : public Arch {
+class InputArc : public Arc {
     public:
-        InputArch(objectId id, PetriNetsEngineObj engine, PlaceObj targetPlace, int weight = 1);
-        static InputArchObj New(PetriNetsEngineObj engine, PlaceObj targetPlace, int weight = 1); 
+        InputArc(objectId id, PetriNetsEngineObj engine, PlaceObj targetPlace, int weight = 1);
+        static InputArcObj New(PetriNetsEngineObj engine, PlaceObj targetPlace, int weight = 1); 
         string objTypeName();
         void execute();
         int satisfied();
@@ -42,13 +42,13 @@ class InputArch : public Arch {
 
 
 ////////////////////////////////////////////////////////////////
-class OutputArch;
-using OutputArchObj = shared_ptr<OutputArch>;
+class OutputArc;
+using OutputArcObj = shared_ptr<OutputArc>;
 
-class OutputArch : public Arch {
+class OutputArc : public Arc {
     public:
-        OutputArch(objectId id, PetriNetsEngineObj engine, PlaceObj targetPlace, int weight = 1);
-        static OutputArchObj New(PetriNetsEngineObj engine, PlaceObj targetPlace, int weight = 1);
+        OutputArc(objectId id, PetriNetsEngineObj engine, PlaceObj targetPlace, int weight = 1);
+        static OutputArcObj New(PetriNetsEngineObj engine, PlaceObj targetPlace, int weight = 1);
         string objTypeName();
         void execute();
 };
