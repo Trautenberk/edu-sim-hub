@@ -80,10 +80,10 @@ export class PetriNetsSimulatorAdapter implements ISimulatorAdapter {
         
         for(const obj of objects) {
             switch (obj.className) {
-                case Place.name:
+                case Place.className:
                     places.push(obj as IPlace);
                     break;
-                case InputArc.className:
+            case InputArc.className:
                     inputArcs.push(obj as IArc);
                     break;
                 case OutputArc.className:

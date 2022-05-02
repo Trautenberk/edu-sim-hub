@@ -59,6 +59,9 @@ enum ChosenArea {
   ContBlocks
 }
 
+function delay(ms: number) {
+  return new Promise( resolve => setTimeout(resolve, ms) );
+}
 
 
 /**
@@ -239,7 +242,9 @@ export const App : FC = () => {
     },[])
 
 
-    const showExample = (exampleState : Example) => {
+    const showExample = async (exampleState : Example) => {
+        dispatch(removeAllObjects());
+        await delay(10);   /// Hack, jinak se ty příklady vykreslují nějak divně, neznámo proč
         dispatch(setState(exampleState));
         setShowModal(false);
     }

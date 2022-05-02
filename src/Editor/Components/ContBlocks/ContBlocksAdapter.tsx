@@ -51,25 +51,25 @@ export class ContBlocksAdapter {
         for (const obj of Object.values(allEditorObjects)) {
             let simObj = null;
             switch(obj.className) {
-                case Constant.name:
+                case Constant.className:
                     simObj = new simulatorModule.Constant(obj.id, this._engine, (obj as IConstant).value); break;
-                case Add.name:
+                case Add.className:
                     simObj = new simulatorModule.Add(obj.id, this._engine); break;
-                case Sub.name:
+                case Sub.className:
                     simObj = new simulatorModule.Sub(obj.id, this._engine); break;
-                case Mul.name:
+                case Mul.className:
                     simObj = new simulatorModule.Mul(obj.id, this._engine); break;
-                case Div.name:
+                case Div.className:
                     simObj = new simulatorModule.Div(obj.id, this._engine); break;
-                case Gain.name:
+                case Gain.className:
                     simObj = new simulatorModule.Gain(obj.id, this._engine, (obj as IGain).gain); break;
-                case Integrator.name:
+                case Integrator.className:
                     this._integratorIds.push(obj.id);
                     simObj = new simulatorModule.Integrator(obj.id, this._engine, (obj as IIntegrator).initialValue);
                     break;
-                case Time.name:
+                case Time.className:
                     simObj = new simulatorModule.Time(obj.id, this._engine); break;
-                case Signal.name:
+                case Signal.className:
                     signals.push(obj as ISignal); break;
             }
 
