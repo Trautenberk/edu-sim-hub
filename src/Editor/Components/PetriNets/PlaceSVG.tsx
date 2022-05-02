@@ -4,7 +4,7 @@ import { ObjectSVGProps } from "App"
 import { EndPointType, IEndPointBrief, IPoint } from "Editor/Model/UtilClasses/Point";
 import { IPlace } from "Editor/Model/PetriNets/Place";
 import { addEdgeObject } from "Editor/Feature/SimObjectManagementSlice";
-import { InputArch } from "Editor/Model/PetriNets/Arch";
+import { InputArc } from "Editor/Model/PetriNets/Arc";
 import { useSVGComponentUtils } from "../Utilities/CustomHooks/useSVGComponentUtils";
 import styles from "Editor/Styles/PetriNetsStyle.module.scss";
 
@@ -28,11 +28,11 @@ export const PlaceSVG : FunctionComponent<ObjectSVGProps> = (props) => {
     } 
     = useSVGComponentUtils<IPlace>({id: props.id, initialCoordinates: INITIAL_COORDINATES, endPointsBrief: placeEndPointsBrief});
 
-    const addInputArch = useCallback(
+    const addInputArc = useCallback(
         (firstPoint : IPoint, secondPoint : IPoint) => {
-            const inputArch = new InputArch({objId: obj.id, pointId: firstPoint.id});
-            inputArch.pointsId = [firstPoint.id, secondPoint.id];
-            dispatch(addEdgeObject({point : secondPoint, obj : inputArch.toSerializableObj()}))
+            const inputArc = new InputArc({objId: obj.id, pointId: firstPoint.id});
+            inputArc.pointsId = [firstPoint.id, secondPoint.id];
+            dispatch(addEdgeObject({point : secondPoint, obj : inputArc.toSerializableObj()}))
         },[obj]
     )
 
@@ -40,7 +40,7 @@ export const PlaceSVG : FunctionComponent<ObjectSVGProps> = (props) => {
         <g transform={`translate(${coordinates.x},${coordinates.y})`}> 
             <circle className={styles.spot} onMouseDown={onMouseDownHandler} onMouseUp={onMouseUpHandler} r="30"/>
             <circle visibility={selectedVisible} className={styles.selected} r="30"/>
-            {mapEndPoints(addInputArch)}
+            {mapEndPoints(addInputArc)}
             <text className={styles.text} x="-50" y="-50">{obj.label}</text>
             <text x="-10" y="5">{obj.tokenCount > 0 ? `${obj.tokenCount} x` : ""}</text>
         </g>

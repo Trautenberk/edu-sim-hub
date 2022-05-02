@@ -1,6 +1,6 @@
 import { IEditorObject } from "../EditorObject";
 import { IPNSimulationParams } from "../SimulationParams";
-import { IArch, InputArch, OutputArch } from "./Arch";
+import { IArc, InputArc, OutputArc } from "./Arc";
 import { IPlace, Place } from "./Place";
 import { ITransition, Transition, TransitionType } from "./Transition";
 
@@ -14,8 +14,8 @@ export class PetriNetsSimulatorAdapter implements ISimulatorAdapter {
     private _engine : any;
 
     private _placesDict : {[key : string] : any } = {};
-    private _inputArchesDict : {[key : string] : any } = {};
-    private _outputArchesDict : {[key : string] : any } = {};
+    private _inputArcsDict : {[key : string] : any } = {};
+    private _outputArcsDict : {[key : string] : any } = {};
     private _transitionsDict : {[key : string] : any } = {};
 
     public statistics : IPetriNetsStatistics;
@@ -29,7 +29,7 @@ export class PetriNetsSimulatorAdapter implements ISimulatorAdapter {
     }
 
     public clear() : void {
-        const allObjects = {...this._placesDict, ...this._inputArchesDict, ...this._outputArchesDict, ...this._transitionsDict };
+        const allObjects = {...this._placesDict, ...this._inputArcsDict, ...this._outputArcsDict, ...this._transitionsDict };
 
         for (const simObject of Object.values(allObjects))
             simObject.delete();
@@ -74,8 +74,8 @@ export class PetriNetsSimulatorAdapter implements ISimulatorAdapter {
         this._engine = new simulatorModule.PetriNetsEngine();
 
         const places :  IPlace[] = [];
-        const inputArches : IArch[] = [];
-        const outputArches : IArch[] = [];
+        const inputArcs : IArc[] = [];
+        const outputArcs : IArc[] = [];
         const transitions : ITransition[] = [];
         
         for(const obj of objects) {
@@ -83,13 +83,13 @@ export class PetriNetsSimulatorAdapter implements ISimulatorAdapter {
                 case Place.name:
                     places.push(obj as IPlace);
                     break;
-                case InputArch.name:
-                    inputArches.push(obj as IArch);
+                case InputArc.className:
+                    inputArcs.push(obj as IArc);
                     break;
-                case OutputArch.name:
-                    outputArches.push(obj as IArch);
+                case OutputArc.className:
+                    outputArcs.push(obj as IArc);
                     break;
-                case Transition.name:
+                case Transition.className:
                     transitions.push(obj as ITransition);
                     break;
             }
@@ -99,41 +99,41 @@ export class PetriNetsSimulatorAdapter implements ISimulatorAdapter {
             this._placesDict[place.id] = new simulatorModule.Place(place.id, this._engine, place.label, place.tokenCount);
         }
 
-        for (const inputArch of inputArches) {
-            this._inputArchesDict[inputArch.id] = new simulatorModule.InputArch(inputArch.id, this._engine, this._placesDict[inputArch.placeId], inputArch.weight);
+        for (const inputArc of inputArcs) {
+            this._inputArcsDict[inputArc.id] = new simulatorModule.InputArc(inputArc.id, this._engine, this._placesDict[inputArc.placeId], inputArc.weight);
         }
 
-        for (const outputArch of outputArches) {
-            if (outputArch.to != null) {    // TODO docasne reseni, predelat
-                this._outputArchesDict[outputArch.id] = new simulatorModule.OutputArch(outputArch.id, this._engine, this._placesDict[outputArch.to.objId], outputArch.weight);
+        for (const outputArc of outputArcs) {
+            if (outputArc.to != null) {    // TODO docasne reseni, predelat
+                this._outputArcsDict[outputArc.id] = new simulatorModule.OutputArc(outputArc.id, this._engine, this._placesDict[outputArc.to.objId], outputArc.weight);
             }
         }
 
         for (const transition of transitions) {
-            const inputArchVec = new simulatorModule.InputArchVec();
-            const outputArchVec = new simulatorModule.OutputArchVec();
+            const inputArcVec = new simulatorModule.InputArcVec();
+            const outputArcVec = new simulatorModule.OutputArcVec();
 
-            for (const inputArch of inputArches) {
-                if (inputArch.to != null && inputArch.to?.objId === transition.id) {
-                    inputArchVec.push_back(this._inputArchesDict[inputArch.id]);
+            for (const inputArc of inputArcs) {
+                if (inputArc.to != null && inputArc.to?.objId === transition.id) {
+                    inputArcVec.push_back(this._inputArcsDict[inputArc.id]);
                 }
             }
 
-            for (const outputArch of outputArches) {
-                if (outputArch.transitionId === transition.id) {
-                    outputArchVec.push_back(this._outputArchesDict[outputArch.id]);
+            for (const outputArc of outputArcs) {
+                if (outputArc.transitionId === transition.id) {
+                    outputArcVec.push_back(this._outputArcsDict[outputArc.id]);
                 }
             }
 
             switch (transition.type) {
                 case TransitionType.Immediate:
-                    this._transitionsDict[transition.id] = new simulatorModule.ImmediateTransition(transition.id, this._engine, transition.label, inputArchVec, outputArchVec, transition.priority);
+                    this._transitionsDict[transition.id] = new simulatorModule.ImmediateTransition(transition.id, this._engine, transition.label, inputArcVec, outputArcVec, transition.priority);
                     break;
                 case TransitionType.Constant:
-                    this._transitionsDict[transition.id] = new simulatorModule.TimedConstantTransition(transition.id, this._engine, transition.label, inputArchVec, outputArchVec, transition.timeValue);
+                    this._transitionsDict[transition.id] = new simulatorModule.TimedConstantTransition(transition.id, this._engine, transition.label, inputArcVec, outputArcVec, transition.timeValue);
                     break;
                 case TransitionType.Exponential:
-                    this._transitionsDict[transition.id] = new simulatorModule.TimedExponentialTransition(transition.id, this._engine, transition.label, inputArchVec, outputArchVec, transition.timeValue);
+                    this._transitionsDict[transition.id] = new simulatorModule.TimedExponentialTransition(transition.id, this._engine, transition.label, inputArcVec, outputArcVec, transition.timeValue);
                     break;
             }   
         }

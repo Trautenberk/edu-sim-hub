@@ -5,25 +5,34 @@ import { IPoint } from "../UtilClasses/Point";
 import { Transition } from "./Transition";
 import { Place } from "./Place";
 
-export interface IArch extends IEdge {
+
+////////////////////////////////////////////////////////////////
+//// Arc
+export interface IArc extends IEdge {
     placeId: string;
     transitionId: string;   // TODO visi to pak blbe v reduxu
     weight : number;
 }
 
-export abstract class Arch extends Edge implements IToSerializable<IArch> {
+
+export abstract class Arc extends Edge implements IToSerializable<IArc> {
     private weight : number = 1;
 
     abstract get transitionId(): string;
     abstract get placeId() : string;
 
-    public toSerializableObj(): IArch {
+    public toSerializableObj(): IArc {
         return {...super.toSerializableObj(), weight: this.weight, transitionId: this.transitionId, placeId: this.placeId};
     }
 }
 
-export class InputArch extends Arch implements IToSerializable<IArch> {
-    public className() { return InputArch.name; }
+
+////////////////////////////////////////////////////////////////
+//// InputArc
+const INPUT_ARC_CLASSNAME = "InputArc";
+export class InputArc extends Arc implements IToSerializable<IArc> {
+    public className() { return INPUT_ARC_CLASSNAME; }
+    public static className = INPUT_ARC_CLASSNAME; 
 
     public get transitionId() : string {
         if (this.to != null) 
@@ -46,8 +55,15 @@ export class InputArch extends Arch implements IToSerializable<IArch> {
     }
 }
 
-export class OutputArch extends Arch {
-    public className() { return OutputArch.name }
+
+////////////////////////////////////////////////////////////////
+/// OutputArc
+
+const OUTPUT_ARCH_CLASSNAME = "OutputArc";
+
+export class OutputArc extends Arc {
+    public className() { return OUTPUT_ARCH_CLASSNAME }
+    public static className = OUTPUT_ARCH_CLASSNAME;
 
     public get transitionId() : string {
         if (this.from != null) 

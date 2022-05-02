@@ -2,6 +2,6 @@ export { Place } from "./Place";
 export type { IPlace } from "./Place";
 export { Transition } from "./Transition";
 export type { ITransition } from "./Transition";
-export type { IArch } from "./Arch";
-export { Arch, InputArch, OutputArch } from "./Arch";
+export type { IArc } from "./Arc";
+export { Arc, InputArc, OutputArc } from "./Arc";
 export { PetriNetsSimulatorAdapter } from "./PetriNetsSimulatorAdapter"

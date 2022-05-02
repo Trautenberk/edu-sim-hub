@@ -39,9 +39,9 @@ export const EXAMPLE_ONE : Example = {
       timeValue: 1,
       type: 'Časovaný přechod - Konstatní'
     } as IEditorObject,
-    inputarch_2: {
-      id: 'inputarch_2',
-      className: 'InputArch',
+    inputarc_2: {
+      id: 'inputarc_2',
+      className: 'InputArc',
       pointsId: [
         'Point_0',
         'Point_8'
@@ -63,7 +63,7 @@ export const EXAMPLE_ONE : Example = {
     } as IEditorObject
   },
   edgeObjectsIds: [
-    'inputarch_2'
+    'inputarc_2'
   ],
   selectedObjectId: null,
   endPoints: {

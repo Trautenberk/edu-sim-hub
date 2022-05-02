@@ -41,9 +41,9 @@ export const FAULT_EXAMPLE : Example = {
         timeValue: 1,
         type: 'Časovaný přechod -  Exponenciální'
       } as IEditorObject,
-      inputarch_2: {
-        id: 'inputarch_2',
-        className: 'InputArch',
+      inputarc_2: {
+        id: 'inputarc_2',
+        className: 'InputArc',
         pointsId: [
           'Point_0',
           'Point_8'
@@ -63,9 +63,9 @@ export const FAULT_EXAMPLE : Example = {
         transitionId: 'NULL_OBJ_ID',
         placeId: 'place_0'
       } as IEditorObject,
-      outputarch_3: {
-        id: 'outputarch_3',
-        className: 'OutputArch',
+      outputarc_3: {
+        id: 'outputarc_3',
+        className: 'OutputArc',
         pointsId: [
           'Point_5',
           'Point_9'
@@ -101,9 +101,9 @@ export const FAULT_EXAMPLE : Example = {
         label: 'Fronta',
         tokenCount: 0
       } as IEditorObject,
-      outputarch_5: {
-        id: 'outputarch_5',
-        className: 'OutputArch',
+      outputarc_5: {
+        id: 'outputarc_5',
+        className: 'OutputArc',
         pointsId: [
           'Point_4',
           'Point_14'
@@ -141,9 +141,9 @@ export const FAULT_EXAMPLE : Example = {
         timeValue: 1,
         type: 'Okamžitý přechod'
       } as IEditorObject,
-      inputarch_7: {
-        id: 'inputarch_7',
-        className: 'InputArch',
+      inputarc_7: {
+        id: 'inputarc_7',
+        className: 'InputArc',
         pointsId: [
           'Point_10',
           'Point_19'
@@ -195,9 +195,9 @@ export const FAULT_EXAMPLE : Example = {
         label: 'Probíhá obsluha...',
         tokenCount: 0
       } as IEditorObject,
-      outputarch_12: {
-        id: 'outputarch_12',
-        className: 'OutputArch',
+      outputarc_12: {
+        id: 'outputarc_12',
+        className: 'OutputArc',
         pointsId: [
           'Point_15',
           'Point_30'
@@ -235,9 +235,9 @@ export const FAULT_EXAMPLE : Example = {
         timeValue: 1,
         type: 'Časovaný přechod - Konstatní'
       } as IEditorObject,
-      inputarch_14: {
-        id: 'inputarch_14',
-        className: 'InputArch',
+      inputarc_14: {
+        id: 'inputarc_14',
+        className: 'InputArc',
         pointsId: [
           'Point_26',
           'Point_35'
@@ -273,9 +273,9 @@ export const FAULT_EXAMPLE : Example = {
         label: '',
         tokenCount: 0
       } as IEditorObject,
-      outputarch_17: {
-        id: 'outputarch_17',
-        className: 'OutputArch',
+      outputarc_17: {
+        id: 'outputarc_17',
+        className: 'OutputArc',
         pointsId: [
           'Point_31',
           'Point_41'
@@ -295,9 +295,9 @@ export const FAULT_EXAMPLE : Example = {
         transitionId: 'transition_13',
         placeId: 'NULL_OBJ_ID'
       } as IEditorObject,
-      inputarch_18: {
-        id: 'inputarch_18',
-        className: 'InputArch',
+      inputarc_18: {
+        id: 'inputarc_18',
+        className: 'InputArc',
         pointsId: [
           'Point_21',
           'Point_42'
@@ -351,9 +351,9 @@ export const FAULT_EXAMPLE : Example = {
         timeValue: 7,
         type: 'Časovaný přechod -  Exponenciální'
       } as IEditorObject,
-      inputarch_22: {
-        id: 'inputarch_22',
-        className: 'InputArch',
+      inputarc_22: {
+        id: 'inputarc_22',
+        className: 'InputArc',
         pointsId: [
           'Point_75',
           'Point_83'
@@ -373,9 +373,9 @@ export const FAULT_EXAMPLE : Example = {
         transitionId: 'NULL_OBJ_ID',
         placeId: 'place_20'
       } as IEditorObject,
-      outputarch_23: {
-        id: 'outputarch_23',
-        className: 'OutputArch',
+      outputarc_23: {
+        id: 'outputarc_23',
+        className: 'OutputArc',
         pointsId: [
           'Point_80',
           'Point_84'
@@ -411,9 +411,9 @@ export const FAULT_EXAMPLE : Example = {
         label: '',
         tokenCount: 0
       } as IEditorObject,
-      outputarch_25: {
-        id: 'outputarch_25',
-        className: 'OutputArch',
+      outputarc_25: {
+        id: 'outputarc_25',
+        className: 'OutputArc',
         pointsId: [
           'Point_79',
           'Point_89'
@@ -451,9 +451,9 @@ export const FAULT_EXAMPLE : Example = {
         timeValue: 1,
         type: 'Okamžitý přechod'
       } as IEditorObject,
-      inputarch_27: {
-        id: 'inputarch_27',
-        className: 'InputArch',
+      inputarc_27: {
+        id: 'inputarc_27',
+        className: 'InputArc',
         pointsId: [
           'Point_85',
           'Point_94'
@@ -489,9 +489,9 @@ export const FAULT_EXAMPLE : Example = {
         label: '',
         tokenCount: 0
       } as IEditorObject,
-      outputarch_30: {
-        id: 'outputarch_30',
-        className: 'OutputArch',
+      outputarc_30: {
+        id: 'outputarc_30',
+        className: 'OutputArc',
         pointsId: [
           'Point_90',
           'Point_100'
@@ -529,9 +529,9 @@ export const FAULT_EXAMPLE : Example = {
         timeValue: 5,
         type: 'Časovaný přechod - Konstatní'
       } as IEditorObject,
-      inputarch_33: {
-        id: 'inputarch_33',
-        className: 'InputArch',
+      inputarc_33: {
+        id: 'inputarc_33',
+        className: 'InputArc',
         pointsId: [
           'Point_96',
           'Point_106'
@@ -551,9 +551,9 @@ export const FAULT_EXAMPLE : Example = {
         transitionId: 'NULL_OBJ_ID',
         placeId: 'place_29'
       } as IEditorObject,
-      outputarch_34: {
-        id: 'outputarch_34',
-        className: 'OutputArch',
+      outputarc_34: {
+        id: 'outputarc_34',
+        className: 'OutputArc',
         pointsId: [
           'Point_104',
           'Point_108',
@@ -590,9 +590,9 @@ export const FAULT_EXAMPLE : Example = {
         label: '',
         tokenCount: 0
       } as IEditorObject,
-      outputarch_51: {
-        id: 'outputarch_51',
-        className: 'OutputArch',
+      outputarc_51: {
+        id: 'outputarc_51',
+        className: 'OutputArc',
         pointsId: [
           'Point_33',
           'Point_180'
@@ -612,9 +612,9 @@ export const FAULT_EXAMPLE : Example = {
         transitionId: 'transition_13',
         placeId: 'NULL_OBJ_ID'
       } as IEditorObject,
-      inputarch_52: {
-        id: 'inputarch_52',
-        className: 'InputArch',
+      inputarc_52: {
+        id: 'inputarc_52',
+        className: 'InputArc',
         pointsId: [
           'Point_178',
           'Point_181'
@@ -652,9 +652,9 @@ export const FAULT_EXAMPLE : Example = {
         timeValue: 1,
         type: 'Okamžitý přechod'
       } as IEditorObject,
-      outputarch_54: {
-        id: 'outputarch_54',
-        className: 'OutputArch',
+      outputarc_54: {
+        id: 'outputarc_54',
+        className: 'OutputArc',
         pointsId: [
           'Point_185',
           'Point_186'
@@ -674,9 +674,9 @@ export const FAULT_EXAMPLE : Example = {
         transitionId: 'transition_53',
         placeId: 'NULL_OBJ_ID'
       } as IEditorObject,
-      inputarch_55: {
-        id: 'inputarch_55',
-        className: 'InputArch',
+      inputarc_55: {
+        id: 'inputarc_55',
+        className: 'InputArc',
         pointsId: [
           'Point_177',
           'Point_187'
@@ -698,10 +698,10 @@ export const FAULT_EXAMPLE : Example = {
       } as IEditorObject
     },
     edgeObjectsIds: [
-      'outputarch_51',
-      'inputarch_52',
-      'outputarch_54',
-      'inputarch_55'
+      'outputarc_51',
+      'inputarc_52',
+      'outputarc_54',
+      'inputarc_55'
     ],
     selectedObjectId: null,
     endPoints: {

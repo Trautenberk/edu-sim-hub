@@ -4,9 +4,9 @@ import { ObjectSVGProps } from "App"
 import { ITransition, TransitionType } from "Editor/Model/PetriNets/Transition";
 import { EndPointType, IEndPointBrief, IPoint } from "Editor/Model/UtilClasses/Point";
 import { addEdgeObject } from "Editor/Feature/SimObjectManagementSlice";
-import { OutputArch } from "Editor/Model/PetriNets";
 import { useSVGComponentUtils } from "../Utilities/CustomHooks/useSVGComponentUtils";
 import styles from "Editor/Styles/PetriNetsStyle.module.scss";
+import { OutputArc } from "Editor/Model/PetriNets";
 
 
 const width = 30;
@@ -31,11 +31,11 @@ export const TransitionSVG : FunctionComponent<ObjectSVGProps> = (props) => {
         mapEndPoints
     } = useSVGComponentUtils<ITransition>({id: props.id, initialCoordinates: INITIAL_COORDINATES, endPointsBrief: transitionEndPointsBrief });
 
-    const addOutputArch = useCallback(
+    const addOutputArc = useCallback(
         (firstPoint : IPoint, secondPoint : IPoint) => {
-            const outputArch = new OutputArch({ objId: obj.id, pointId: firstPoint.id});
-            outputArch.pointsId = [firstPoint.id, secondPoint.id];
-            dispatch(addEdgeObject({obj: outputArch.toSerializableObj(), point: secondPoint}))
+            const outputArc = new OutputArc({ objId: obj.id, pointId: firstPoint.id});
+            outputArc.pointsId = [firstPoint.id, secondPoint.id];
+            dispatch(addEdgeObject({obj: outputArc.toSerializableObj(), point: secondPoint}))
         },[obj]
     )
     
@@ -43,7 +43,7 @@ export const TransitionSVG : FunctionComponent<ObjectSVGProps> = (props) => {
         <g transform={`translate(${coordinates.x},${coordinates.y})`}> 
             <rect className={obj.type === TransitionType.Immediate ? styles.immediate_transition : styles.timed_transition} width={width} height={height} onMouseDown={onMouseDownHandler} onMouseUp={onMouseUpHandler}/>  
             <rect className={styles.selected} visibility={selectedVisible} width={width} height={height}/> 
-            {mapEndPoints(addOutputArch)}
+            {mapEndPoints(addOutputArc)}
             <text className={styles.text} x="-20" y="-10">{obj.label}</text>
             {obj.type === TransitionType.Immediate && <text className={styles.text} x="0" y="100"> {obj.priority > 0 ? `p = ${obj.priority}` : ""} </text>  }
             {obj.type === TransitionType.Constant && <text className={styles.text} x="0" y="100"> { `D(${obj.timeValue})`} </text>}

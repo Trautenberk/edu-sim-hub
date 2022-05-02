@@ -2,4 +2,5 @@ export { PlaceEdit } from "./PlaceEdit";
 export { PlaceSVG } from "./PlaceSVG";
 export { TransitionEdit } from "./TransitionEdit";
 export { TransitionSVG } from "./TransitionSVG";
-export { ArchSVG } from "./ArchSVG";
+export { ArcSVG } from "./ArcSVG";
+export { ArcEdit } from "./ArcEdit"

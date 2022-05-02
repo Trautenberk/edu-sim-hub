@@ -1,14 +1,14 @@
 
 import { ObjectEditProps } from "App";
-import { IArch } from "Editor/Model/PetriNets";
+import { IArc } from "Editor/Model/PetriNets";
 import { FC } from "react";
 import { useEditComponentUtils } from "../Utilities/CustomHooks";
 import styles from "Editor/Styles/PetriNetsStyles.module.scss";
 
 
-export const ArchEdit : FC<ObjectEditProps> = (props) => {
+export const ArcEdit : FC<ObjectEditProps> = (props) => {
 
-    const { obj, dispatchChange } = useEditComponentUtils<IArch>(props.id);
+    const { obj, dispatchChange } = useEditComponentUtils<IArc>(props.id);
 
     const onWeightInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         obj.weight = parseInt(e.target.value);

@@ -22,9 +22,9 @@ export const GENERATOR_EXAMPLE : Example = {
           label: '',
           tokenCount: 1
         } as IEditorObject,
-        inputarch_1: {
-          id: 'inputarch_1',
-          className: 'InputArch',
+        inputarc_1: {
+          id: 'inputarc_1',
+          className: 'InputArc',
           pointsId: [
             'Point_0',
             'Point_4'
@@ -62,9 +62,9 @@ export const GENERATOR_EXAMPLE : Example = {
           timeValue: 1,
           type: 'Časovaný přechod - Konstatní'
         } as IEditorObject,
-        outputarch_3: {
-          id: 'outputarch_3',
-          className: 'OutputArch',
+        outputarc_3: {
+          id: 'outputarc_3',
+          className: 'OutputArc',
           pointsId: [
             'Point_6',
             'Point_9'
@@ -100,9 +100,9 @@ export const GENERATOR_EXAMPLE : Example = {
           label: '',
           tokenCount: 0
         } as IEditorObject,
-        outputarch_5: {
-          id: 'outputarch_5',
-          className: 'OutputArch',
+        outputarc_5: {
+          id: 'outputarc_5',
+          className: 'OutputArc',
           pointsId: [
             'Point_5',
             'Point_14'
@@ -172,9 +172,9 @@ export const GENERATOR_EXAMPLE : Example = {
           label: '',
           tokenCount: 0
         } as IEditorObject,
-        inputarch_9: {
-          id: 'inputarch_9',
-          className: 'InputArch',
+        inputarc_9: {
+          id: 'inputarc_9',
+          className: 'InputArc',
           pointsId: [
             'Point_15',
             'Point_27'
@@ -194,9 +194,9 @@ export const GENERATOR_EXAMPLE : Example = {
           transitionId: 'NULL_OBJ_ID',
           placeId: 'place_6'
         } as IEditorObject,
-        outputarch_10: {
-          id: 'outputarch_10',
-          className: 'OutputArch',
+        outputarc_10: {
+          id: 'outputarc_10',
+          className: 'OutputArc',
           pointsId: [
             'Point_19',
             'Point_28'
@@ -216,9 +216,9 @@ export const GENERATOR_EXAMPLE : Example = {
           transitionId: 'transition_7',
           placeId: 'NULL_OBJ_ID'
         } as IEditorObject,
-        outputarch_11: {
-          id: 'outputarch_11',
-          className: 'OutputArch',
+        outputarc_11: {
+          id: 'outputarc_11',
+          className: 'OutputArc',
           pointsId: [
             'Point_20',
             'Point_29'
@@ -240,12 +240,12 @@ export const GENERATOR_EXAMPLE : Example = {
         } as IEditorObject
       },
       edgeObjectsIds: [
-        'inputarch_1',
-        'outputarch_3',
-        'outputarch_5',
-        'inputarch_9',
-        'outputarch_10',
-        'outputarch_11'
+        'inputarc_1',
+        'outputarc_3',
+        'outputarc_5',
+        'inputarc_9',
+        'outputarc_10',
+        'outputarc_11'
       ],
       selectedObjectId: null,
       endPoints: {
