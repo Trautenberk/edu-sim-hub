@@ -14,10 +14,9 @@ export interface ITransition  extends IEditorObjectWithEndPoints{
     timeValue : number
 }
 
-const TRANSITION_CLASSNAME = "Transition"
 export class Transition extends EditorObjectWithEndPoints implements IToSerializable<ITransition>{
-    public className() { return TRANSITION_CLASSNAME }    
-    public static className = TRANSITION_CLASSNAME
+    public className() { return Transition.className }    
+    public static className = "Transition";
     public static MenuName : string = "Přechod";
     public priority : number = 0; 
     public label: string = "";

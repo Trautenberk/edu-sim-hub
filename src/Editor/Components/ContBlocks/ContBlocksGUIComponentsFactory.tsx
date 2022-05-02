@@ -23,23 +23,23 @@ export class ContBlocksGUIComponentFactory implements IObjectGUIComponentFactory
 
     getElement (object : IEditorObject): GUIComponents  {
         switch(object.className) {
-            case Div.name:
+            case Div.className:
                 return {SVGComponent: DivSVG, EditComponent : DefaultContBlockEdit, StatisticsComponent: EmptyComponent};
-            case Add.name:
+            case Add.className:
                 return {SVGComponent: AddSVG, EditComponent :DefaultContBlockEdit, StatisticsComponent: EmptyComponent};
-            case Sub.name:
+            case Sub.className:
                 return {SVGComponent: SubSVG, EditComponent : DefaultContBlockEdit, StatisticsComponent: EmptyComponent};
-            case Mul.name:
+            case Mul.className:
                 return {SVGComponent: MulSVG, EditComponent : DefaultContBlockEdit, StatisticsComponent: EmptyComponent};
-            case Constant.name:
+            case Constant.className:
                 return {SVGComponent: ConstantSVG, EditComponent : ConstantEdit, StatisticsComponent: EmptyComponent};
-            case Gain.name:
+            case Gain.className:
                 return {SVGComponent: GainSVG, EditComponent : GainEdit, StatisticsComponent: EmptyComponent};
-            case Signal.name:
+            case Signal.className:
                     return {SVGComponent: SignalSVG, EditComponent : EmptyComponent, StatisticsComponent: EmptyComponent};
-            case Integrator.name:
+            case Integrator.className:
                     return {SVGComponent: IntegratorSVG, EditComponent : IntegratorEdit, StatisticsComponent: IntegratorStatistics};
-            case Time.name:
+            case Time.className:
                     return {SVGComponent: TimeSVG, EditComponent : DefaultContBlockEdit, StatisticsComponent: EmptyComponent};
             default:
                 throw new Error("Couldnt find SVG component for given object");

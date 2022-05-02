@@ -29,10 +29,9 @@ export abstract class Arc extends Edge implements IToSerializable<IArc> {
 
 ////////////////////////////////////////////////////////////////
 //// InputArc
-const INPUT_ARC_CLASSNAME = "InputArc";
 export class InputArc extends Arc implements IToSerializable<IArc> {
-    public className() { return INPUT_ARC_CLASSNAME; }
-    public static className = INPUT_ARC_CLASSNAME; 
+    public className() { return InputArc.className; }
+    public static className = "InputArc"; 
 
     public get transitionId() : string {
         if (this.to != null) 
@@ -59,11 +58,10 @@ export class InputArc extends Arc implements IToSerializable<IArc> {
 ////////////////////////////////////////////////////////////////
 /// OutputArc
 
-const OUTPUT_ARCH_CLASSNAME = "OutputArc";
 
 export class OutputArc extends Arc {
-    public className() { return OUTPUT_ARCH_CLASSNAME }
-    public static className = OUTPUT_ARCH_CLASSNAME;
+    public className() { return OutputArc.className }
+    public static className = "OutputArc";
 
     public get transitionId() : string {
         if (this.from != null) 

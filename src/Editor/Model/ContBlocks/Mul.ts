@@ -8,6 +8,7 @@ export interface IMul extends IContBlock {
 }
 
 export class Mul extends ContBlock implements IToSerializable<IMul> {
-    public className() { return Mul.name; } 
+    public className() { return Mul.className; } 
+    public static className = "Mul"
     public static MenuName  = "Násobení"
 }

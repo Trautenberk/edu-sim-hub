@@ -8,7 +8,9 @@ export interface IGain extends IContBlock {
 }
 
 export class Gain extends ContBlock implements IToSerializable<IGain> {
-    public className() { return Gain.name; }
+    public className() { return Gain.className; }
+
+    public static className = "Gain";
     public static MenuName = "Gain";
 
     public gain : number = 1;

@@ -7,7 +7,9 @@ export interface IAdd extends IContBlock {
 
 }
 
+
 export class Add extends ContBlock implements  IToSerializable<IAdd> {
-    public className(){ return Add.name; }  
+    public className(){ return Add.className; }
+    public static className = "Add";
     public static MenuName  = "Sčítání"
 }

@@ -8,7 +8,8 @@ export interface IIntegrator extends IContBlock {
 }
 
 export class Integrator extends ContBlock implements IToSerializable<IIntegrator> {
-    public className() { return  Integrator.name; }
+    public className() { return  Integrator.className; }
+    public static className = "Integrator"
     public static MenuName  = "Integrátor";
 
     public initialValue : number = 0;

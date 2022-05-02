@@ -7,12 +7,10 @@ export interface IPlace extends IEditorObjectWithEndPoints {
     tokenCount : number
 }
 
-
-const PLACE_CLASSNAME = "Place"
 export class Place extends EditorObjectWithEndPoints implements IToSerializable<IPlace>{
-    public className() { return PLACE_CLASSNAME; } 
+    public className() { return Place.className; } 
 
-    public static className =  PLACE_CLASSNAME; 
+    public static className = "Place"; 
 
     public static MenuName : string = "Místo"
 

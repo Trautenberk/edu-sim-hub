@@ -8,6 +8,8 @@ export interface ISub extends IContBlock {
 }
 
 export class Sub extends ContBlock implements IToSerializable<ISub> {
-    public className() { return Sub.name; } 
+    public className() { return Sub.className; } 
+
+    public static className = "Sub";
     public static MenuName  = "Odčítání"
 }

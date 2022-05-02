@@ -7,7 +7,8 @@ export interface IConstant extends IContBlock {
 }
 
 export class Constant extends ContBlock implements IToSerializable<IConstant> {
-    public className() {return Constant.name} ;
+    public className() {return Constant.className};
+    public static className = "Constant";
     public static MenuName  = "Konstanta"
 
     public value : number = 1;

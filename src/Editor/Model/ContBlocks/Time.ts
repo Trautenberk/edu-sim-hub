@@ -8,7 +8,8 @@ export interface ITime extends IContBlock {
 }
 
 export class Time extends ContBlock implements IToSerializable<ITime> {
-    public className() { return Time.name; } 
+    public className() { return Time.className; }
+    public static className = "Time";
     public static MenuName  = "Čas";
 
     toSerializableObj(): ITime {
