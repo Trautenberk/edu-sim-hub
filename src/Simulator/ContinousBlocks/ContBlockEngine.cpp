@@ -22,7 +22,6 @@ void ContBlockEngine::simStep()
 {
     this->dynamic();    // aktualizace stavu modelu
     this->integrate();  // provedu integraci na vsech integratorech
-    this->_time += this->_stepSize;   // inkrementace casu
 }
 
 

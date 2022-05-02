@@ -2,7 +2,7 @@
 #include <iostream>
 
 
-bool ContinousSimEngine::init(double endTime, double stepSize, int sampleRate)
+bool ContinousSimEngine::init(double beginTime,double endTime, double stepSize, int sampleRate)
 {
     if (stepSize <= 0.0) 
     {
@@ -10,9 +10,9 @@ bool ContinousSimEngine::init(double endTime, double stepSize, int sampleRate)
         return false;
     }
 
-    if (endTime <= 0.0)
+    if (endTime <= beginTime)
     {
-        std::cerr <<  "endTime cannost be smaller than zero" << std::endl;
+        std::cerr <<  "endTime cannost be smaller than beginTime" << std::endl;
         return false;
     }
     
@@ -35,6 +35,7 @@ bool ContinousSimEngine::init(double endTime, double stepSize, int sampleRate)
     }
 
     this->_stepSize = stepSize;
+    this->_time = beginTime;
     this->_endTime = endTime;
     this->_sampleRate = sampleRate;
 
@@ -56,6 +57,18 @@ void ContinousSimEngine::simulate()
     {
         this->statisticsStep(); // sber statistik
         this->simStep(); // krok simulace
+        
+        if(this->_time + this->_stepSize > this->_endTime)
+        {
+            this->_stepSize = this->_endTime - this->_time; // dokroceni
+            this->statisticsStep(); // sber statistik
+            this->simStep(); // krok simulace
+            break;
+        } 
+        else
+        {
+            this->_time += this->_stepSize;   // inkrementace casu
+        }
     }
     std::cout << "Cont sim end" << std::endl;
     this->simulationEnd(); 

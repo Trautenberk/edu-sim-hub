@@ -9,6 +9,11 @@ export const ContBlockSimulationParamsEdit  : FC = () => {
 
     const params = {...useSelector(state => state.simObjectManagement.simulationParams)} as IContBlocksSimulationParams;
 
+    const onBeginTimeChange = (e : React.ChangeEvent<HTMLInputElement>) => {
+        params.beginTime = parseFloat(e.currentTarget.value);
+        dispatch(setSimulationParams(params));
+    }
+
     const onEndTimeChange = (e : React.ChangeEvent<HTMLInputElement>) => {
         params.endTime = parseFloat(e.currentTarget.value);
         dispatch(setSimulationParams(params));
@@ -28,8 +33,12 @@ export const ContBlockSimulationParamsEdit  : FC = () => {
         <div>
             <p> Parametry simulace: </p>
         <div>
-            <label>Čas konce simulace: </label>
-            <input value={params.endTime} type="number" min={1} max={Number.MAX_SAFE_INTEGER} onChange={onEndTimeChange}></input>        
+            <label>Počáteční čas simulace: </label>
+            <input value={params.beginTime} type="number" max={Number.MAX_SAFE_INTEGER} onChange={onBeginTimeChange}></input>        
+        </div>
+        <div>
+            <label>Koncový čas simulace: </label>
+            <input value={params.endTime} type="number" max={Number.MAX_SAFE_INTEGER} onChange={onEndTimeChange}></input>        
         </div>
         <div>
             <label>Délka kroku simulace:</label>

@@ -100,7 +100,7 @@ export class ContBlocksAdapter {
             }
         }
 
-        if (this._engine.init(params.endTime, params.simStepSize, params.statisticsInterval)) {
+        if (this._engine.init(params.beginTime, params.endTime, params.simStepSize, params.statisticsInterval)) {
             this._engine.simulate()
            this.statistics = this.convertStatistics(this._engine.statistics());
         } else {

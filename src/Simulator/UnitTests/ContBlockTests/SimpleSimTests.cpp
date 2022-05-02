@@ -15,7 +15,7 @@ TEST(CheckInititialisationError, BasicAssertions)
     auto engine = ContBlockEngine::New(IntegrationMethods::Euler);
     auto add = Add::New(engine);
 
-    ASSERT_FALSE(engine->init(10, 0.1));
+    ASSERT_FALSE(engine->init(0, 10, 0.1));
     ASSERT_NO_THROW(engine->simulate());
 }
 
@@ -32,11 +32,10 @@ TEST(SimplSimTest, BasicAssertions)
 
     engine->Sample = sample;
 
-    engine->init(10.0, 0.01);
+    engine->init(0, 10.0, 0.01);
     std::cout << "Simulation begin" << std::endl;
     engine->simulate();
     std::cout << "Simulation end" << std::endl;
-
 }
 
 
@@ -53,7 +52,7 @@ TEST(SimWithIntegratorOne, BasicAssertions)
 
     engine->Sample = sample;
 
-    engine->init(10.0, 0.01);
+    engine->init(0, 10.0, 0.01);
     std::cout << "Simulation begin" << std::endl;
     engine->simulate();
     std::cout << "Simulation end" << std::endl;
@@ -79,7 +78,7 @@ TEST(SimWithIntegratorTwo, BasicAssertions)
 
     engine->Sample = sample;
 
-    engine->init(10.0, 0.01, 20);
+    engine->init(0, 10.0, 0.01, 20);
     std::cout << "Simulation begin" << std::endl;
     engine->simulate();
     std::cout << "Simulation end" << std::endl;
@@ -87,24 +86,24 @@ TEST(SimWithIntegratorTwo, BasicAssertions)
 
 
 
-TEST(test, BasicAssertions)
-{
-    auto engine = ContBlockEngine::New(IntegrationMethods::Euler); 
-    auto constant = Constant::New(engine, 2);  
-    auto integrator_one = Integrator::New(engine, 0);
-    auto integrator_two = Integrator::New(engine, 0);
+// TEST(test, BasicAssertions)
+// {
+//     auto engine = ContBlockEngine::New(IntegrationMethods::Euler); 
+//     auto constant = Constant::New(engine, 2);  
+//     auto integrator_one = Integrator::New(engine, 0);
+//     auto integrator_two = Integrator::New(engine, 0);
     
-    auto gain = Gain::New(engine, 3, constant);
+//     auto gain = Gain::New(engine, 3, constant);
 
-    auto constantTwo = Constant::New(engine, 5);
+//     auto constantTwo = Constant::New(engine, 5);
 
-    // auto add = Add::New(engine, gain, constantTwo);
-    auto add = make_shared<Add>("aaa",engine);
+//     // auto add = Add::New(engine, gain, constantTwo);
+//     auto add = make_shared<Add>("aaa",engine);
     
-    auto test = Gain::New(engine, 5, add);
+//     auto test = Gain::New(engine, 5, add);
 
-    engine->init(10.0, 0.01, 20);
-    std::cout << "Simulation begin" << std::endl;
-    engine->simulate();
-    std::cout << "Simulation end" << std::endl;
-}
+//     engine->init(0, 10.0, 0.01, 20);
+//     std::cout << "Simulation begin" << std::endl;
+//     engine->simulate();
+//     std::cout << "Simulation end" << std::endl;
+// }

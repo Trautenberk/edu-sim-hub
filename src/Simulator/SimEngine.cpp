@@ -12,8 +12,6 @@ double SimEngine::endTime()
     return this->_endTime;
 }
 
-
-
 class TestanA {
     public:
         TestanA() {};

@@ -13,7 +13,7 @@ using namespace std;
 
 class ContinousSimEngine : public SimEngine {
     public:
-        bool init(double endTime, double stepSize, int sampleRate = 1);
+        bool init(double beginTime, double endTime, double stepSize, int sampleRate = 1);
         virtual void simStep() = 0;   // krok simulace
         void simulate() override;
         virtual void simulationBegin() override;
