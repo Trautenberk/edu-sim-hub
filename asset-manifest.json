@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/edu-sim-hub/static/css/main.3a31f447.chunk.css",
-    "main.js": "/edu-sim-hub/static/js/main.ba975f96.chunk.js",
-    "main.js.map": "/edu-sim-hub/static/js/main.ba975f96.chunk.js.map",
+    "main.js": "/edu-sim-hub/static/js/main.d3d55ec6.chunk.js",
+    "main.js.map": "/edu-sim-hub/static/js/main.d3d55ec6.chunk.js.map",
     "runtime-main.js": "/edu-sim-hub/static/js/runtime-main.92c40083.js",
     "runtime-main.js.map": "/edu-sim-hub/static/js/runtime-main.92c40083.js.map",
     "static/css/2.0a9ec390.chunk.css": "/edu-sim-hub/static/css/2.0a9ec390.chunk.css",
@@ -25,6 +25,6 @@
     "static/css/2.0a9ec390.chunk.css",
     "static/js/2.fc34136f.chunk.js",
     "static/css/main.3a31f447.chunk.css",
-    "static/js/main.ba975f96.chunk.js"
+    "static/js/main.d3d55ec6.chunk.js"
   ]
 }
