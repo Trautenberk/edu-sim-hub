@@ -14,7 +14,9 @@ export const PlaceStatistics : FC<StatisticsComponentProps> = (props) => {
     return (
         <div>
             <p>Statistiky místa: {props.id}</p>
-            <DiscreteGraph data={values} xKey="time" yKey="tokens" />
+            <div>
+                <DiscreteGraph data={values} xKey="time" yKey="tokens" />
+            </div>
         </div>
     )
   }

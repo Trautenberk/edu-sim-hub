@@ -13,10 +13,7 @@ export const GRAPH_COLOR = "#0088FE";
 export  const DiscreteGraph : FC<GraphProps> = (props) => {
 
   return (
-          <AreaChart
-              width={680} height={700} data={props.data}
-              margin={{ left: -40 }}
-              >
+          <AreaChart width={650} height={670} data={props.data} margin={{ left: -30 }}>
               <defs>
               <linearGradient id="Gradient" x1="0" y1="0" x2="0" y2="1">
                   <stop offset="5%" stopColor="rgba(0, 136, 254, 0.8)" />

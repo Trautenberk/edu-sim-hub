@@ -1,0 +1,1 @@
+cd build/UnitTests && ./ContBlockTests/ContBlockTest && ./PetriNetsTests/PetriNetsTest

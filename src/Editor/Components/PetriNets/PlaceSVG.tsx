@@ -42,7 +42,7 @@ export const PlaceSVG : FunctionComponent<ObjectSVGProps> = (props) => {
             <circle visibility={selectedVisible} className={styles.selected} r="30"/>
             {mapEndPoints(addInputArc)}
             <text className={styles.text} x="-50" y="-50">{obj.label}</text>
-            <text x="-10" y="5">{obj.tokenCount > 0 ? `${obj.tokenCount} x` : ""}</text>
+            <text className={styles.tokens} x="-10" y="5">{obj.tokenCount > 0 ? `${obj.tokenCount} x` : ""}</text>
         </g>
     )
 }

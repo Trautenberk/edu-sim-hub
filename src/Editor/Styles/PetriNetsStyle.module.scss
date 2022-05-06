@@ -22,6 +22,11 @@
     font-size: medium;
 }
 
+.tokens {
+    pointer-events: none;
+    user-select: none;
+}
+
 .transition_foundation {
     @extend .foundation;
     margin: 30px;

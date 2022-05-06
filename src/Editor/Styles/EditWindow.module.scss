@@ -74,7 +74,8 @@
         padding: 1%;
     }
     p + div {
-        @extend .max-size;
+        height: 110%;
+        width: 105%;
         padding-top: 1%;
         background-color: white;
     }

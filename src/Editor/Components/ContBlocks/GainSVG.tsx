@@ -28,7 +28,7 @@ export const GainSVG : FC<ObjectSVGProps> = (props) => {
     return (
         <g transform={`translate(${coordinates.x},${coordinates.y})`}> 
             <ContBlockSingleSVG onMouseDownDragHandler={onMouseDownHandler} onMouseUpDragHandler={onMouseUpHandler} selectedVisible={selectedVisible} />
-            <text className={styles.text} fontSize={20} x={middleX - 15} y={middleY}>{obj.gain.toFixed(2)}</text>
+            <text className={styles.text} fontSize={20} x={middleX - 20} y={middleY}>*{obj.gain.toFixed(1)}</text>
             {mapEndPoints(addSignal)}
             <text className={styles.label} x={5} y={-15}>{obj.label}</text>
         </g>

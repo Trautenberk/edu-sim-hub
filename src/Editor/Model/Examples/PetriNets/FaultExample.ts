@@ -347,7 +347,7 @@ export const FAULT_EXAMPLE : Example = {
           y: 491
         },
         priority: 0,
-        label: '',
+        label: 'Generátor poruchy',
         timeValue: 7,
         type: 'Časovaný přechod -  Exponenciální'
       } as IEditorObject,

@@ -27,7 +27,7 @@ export const ConstantSVG : FC<ObjectSVGProps> = (props) => {
     return (
         <g transform={`translate(${coordinates.x},${coordinates.y})`}> 
             <ContBlockWithSingleOutputSVG onMouseDownDragHandler={onMouseDownHandler} onMouseUpDragHandler={onMouseUpHandler} selectedVisible={selectedVisible} />
-            <text fontSize={20} className={styles.text} x={middleX} y={middleY}>{obj.value}</text>
+            <text fontSize={20} className={styles.text} x={middleX - 20} y={middleY}>{obj.value}</text>
             {mapEndPoints(addSignal)}
             <text className={styles.label} x={5} y={-15}>{obj.label}</text>
         </g>

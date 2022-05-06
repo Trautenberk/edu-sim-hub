@@ -100,9 +100,9 @@ function removeBoundedEdgeObjects(state : SimObjectManagementState, obj : IEdito
 
 function isOwnerClassAllowed(state : SimObjectManagementState, endPoint : IEndPoint) {
     const ownerObj = state.objects[endPoint.ownerId];
-    const selectedEdgeObj = state.objects[state.selectedObjectId ?? NULL_OBJ_ID] as IEdge;
+    const selectedEdgeObj = state.objects[state.selectedObjectId ?? NULL_OBJ_ID] as (IEdge | typeof NULL_OBJ_ID) ;
     
-    if (selectedEdgeObj.allowedClassNames.length > 0)
+    if (typeof(selectedEdgeObj) != "string" && ownerObj != null &&  selectedEdgeObj.allowedClassNames != null && selectedEdgeObj.allowedClassNames.length > 0)
         return selectedEdgeObj.allowedClassNames.includes(ownerObj.className);
         
     return true;
