@@ -4,7 +4,6 @@ import { FC } from "react";
 import { IObjectGUIComponentFactory } from "./ObjectGUIComponentFactory";
 import { useStoreHooks } from "./Utilities/CustomHooks";
 import style from "Editor/Styles/EditWindow.module.scss"
-import { EmptyComponent } from "./Utilities/UtilMethodsAndTypes";
 
 
 
@@ -19,6 +18,22 @@ export const StatisticsWindow : FC<{factory : IObjectGUIComponentFactory}> = (pr
     return (
         <div className={style.statistics_window}>
             {selectedObjectId != null && object != null && statistics != null && props.factory.getElement(object).StatisticsComponent({id : selectedObjectId, statistics})}
+            {selectedObjectId == null && <DefaultWindow/>}
         </div>
+    )
+}
+
+
+
+const DefaultWindow : FC = () => {
+    return (
+        <p>Není co zobrazit, nejdříve vyberte nějakou komponentu v hlavní ploše.</p>
+    )
+}
+
+
+export const NothingToShowWindow : FC = () => {
+    return (
+        <p>Pro vybraný typ elementu nejsou dostupné žádné statistiky, vyberte prosím jiný.</p>
     )
 }

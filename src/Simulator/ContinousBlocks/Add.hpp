@@ -39,9 +39,9 @@ class Add : public ContBlockDouble {
          * 
          * @return double 
          */
-        double value();
+        double value() override;
         void eval() override;
-        string objTypeName();
+        string objTypeName() override;
 };
 
 #endif // __ADD_H__

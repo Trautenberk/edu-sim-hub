@@ -16,6 +16,7 @@ import { IntegratorStatistics } from "./IntegratorStatistics";
 import { Time } from "Editor/Model/ContBlocks/Time";
 import { TimeSVG } from "./TimeSVG";
 import { DefaultContBlockEdit } from "./DefaultContBlockEdit";
+import { NothingToShowWindow } from "../StatisticsWindow";
 
 
 /**
@@ -28,23 +29,23 @@ export class ContBlocksGUIComponentFactory implements IObjectGUIComponentFactory
     getElement (object : IEditorObject): GUIComponents  {
         switch(object.className) {
             case Div.className:
-                return {SVGComponent: DivSVG, EditComponent : DefaultContBlockEdit, StatisticsComponent: EmptyComponent};
+                return {SVGComponent: DivSVG, EditComponent : DefaultContBlockEdit, StatisticsComponent : NothingToShowWindow};
             case Add.className:
-                return {SVGComponent: AddSVG, EditComponent :DefaultContBlockEdit, StatisticsComponent: EmptyComponent};
+                return {SVGComponent: AddSVG, EditComponent :DefaultContBlockEdit, StatisticsComponent : NothingToShowWindow};
             case Sub.className:
-                return {SVGComponent: SubSVG, EditComponent : DefaultContBlockEdit, StatisticsComponent: EmptyComponent};
+                return {SVGComponent: SubSVG, EditComponent : DefaultContBlockEdit, StatisticsComponent : NothingToShowWindow};
             case Mul.className:
-                return {SVGComponent: MulSVG, EditComponent : DefaultContBlockEdit, StatisticsComponent: EmptyComponent};
+                return {SVGComponent: MulSVG, EditComponent : DefaultContBlockEdit, StatisticsComponent : NothingToShowWindow};
             case Constant.className:
-                return {SVGComponent: ConstantSVG, EditComponent : ConstantEdit, StatisticsComponent: EmptyComponent};
+                return {SVGComponent: ConstantSVG, EditComponent : ConstantEdit, StatisticsComponent : NothingToShowWindow};
             case Gain.className:
-                return {SVGComponent: GainSVG, EditComponent : GainEdit, StatisticsComponent: EmptyComponent};
+                return {SVGComponent: GainSVG, EditComponent : GainEdit, StatisticsComponent : NothingToShowWindow};
             case Signal.className:
-                    return {SVGComponent: SignalSVG, EditComponent : EmptyComponent, StatisticsComponent: EmptyComponent};
+                    return {SVGComponent: SignalSVG, EditComponent : EmptyComponent, StatisticsComponent : NothingToShowWindow};
             case Integrator.className:
                     return {SVGComponent: IntegratorSVG, EditComponent : IntegratorEdit, StatisticsComponent: IntegratorStatistics};
             case Time.className:
-                    return {SVGComponent: TimeSVG, EditComponent : DefaultContBlockEdit, StatisticsComponent: EmptyComponent};
+                    return {SVGComponent: TimeSVG, EditComponent : DefaultContBlockEdit, StatisticsComponent : NothingToShowWindow};
             default:
                 throw new Error("Couldnt find SVG component for given object");
         }

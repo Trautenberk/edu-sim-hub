@@ -9,6 +9,7 @@ import { PetriNetsSimulationParamsEdit } from "./PetriNetsSimulationParamsEdit";
 import { PlaceStatistics } from "./PlaceStatistics";
 import { TransitionStatistics } from "./TransitionStatistics";
 import { EmptyComponent } from "../Utilities/UtilMethodsAndTypes";
+import { NothingToShowWindow } from "../StatisticsWindow";
 
 
 /**
@@ -29,9 +30,9 @@ export class PetriNetsGUIComponentFactory implements IObjectGUIComponentFactory 
             case Transition.className:
                 return  {SVGComponent: TransitionSVG, EditComponent : TransitionEdit, StatisticsComponent : TransitionStatistics};
             case InputArc.className:
-                return {SVGComponent: ArcSVG, EditComponent: ArcEdit, StatisticsComponent : EmptyComponent}
+                return {SVGComponent: ArcSVG, EditComponent: ArcEdit, StatisticsComponent : NothingToShowWindow}
             case OutputArc.className:
-                    return {SVGComponent: ArcSVG, EditComponent: ArcEdit, StatisticsComponent : EmptyComponent}
+                    return {SVGComponent: ArcSVG, EditComponent: ArcEdit, StatisticsComponent : NothingToShowWindow}
             default:
                 throw new Error(`Couldnt find SVG component for given object with className: ${object.className}`);
         }

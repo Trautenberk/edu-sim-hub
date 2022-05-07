@@ -14,6 +14,7 @@ void PetriNetsEngine::addTransition(Transition *transition)
 
 void PetriNetsEngine::addPlace(Place *place)
 {
+
     this->_allPlaces.push_back(place);
 }
 

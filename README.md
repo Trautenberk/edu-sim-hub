@@ -16,17 +16,22 @@ Zdrojové kódy se nachází ve složce src a kódy jednotlivých částí se na
 * CMake pro sestavení simulátoru
 
 ***
-## Kompilace simulátoru:
+## Kompilace simulátoru do WebAssembly:
 Pro kompilaci simulátoru byly vytvořeny následující skripty:
 
 * configure.sh:  Vytvoří soubory sestavení pomocí CMake
 * build.sh : Zkompiluje simulátor do WebAssembly a umístí modul do složky wasm-build, Editor počítá s tím že soubor se bude nacházet na pevně daném místě
 * clear.sh : Smaže obsah složky wasm-build
 
+## Kompilace simulátoru pro desktop:
+Konfigurační soubory CMakeLists byly napsány tak, aby šlo simulátor sestavit i pro desktop.
+Složka Simulator obsahuje stejné skripty jako v předchozí části, akorát je výsledkem desktop knihovna.
+
 ***
 ## Jak zkompilovat aplikaci?
 1. Nainstalovat všechny potřebné balíčky pomocí příkazu npm install
-2. npm start (příkaz byl upraven tak že nejdříve zkompiluje Simulátor a až potom spustí lokální dev server s aplikací)
+2. Pomocí příkazu npm run build dojde ke kompilaci simulátoru a editoru
+3. Příkaz npm start spustí vývojový webový server s aplikací na portu localhost:3000
 
 ***
 

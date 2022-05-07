@@ -29,81 +29,16 @@
 
 using namespace std;
 
-template <typename T> using SP = std::shared_ptr<T>;
-template <typename T> using vec = std::vector<T>;
-
-
-
-void testGenerator();
-// void contBlocksSandBox();
-
-
-// void hello() {
-//     cout << "Hello from wasm!!" << endl;
-// }
 
 int main()
 {
-    cout << "Main begin..." << endl;
-    testGenerator();
-    // contBlocksSandBox();
-    cout << "Main end..." << endl;
+    // Pokud to zde chybí, Emscripten nevytvoří správně bindingy do JS, asi kvůli nějakým interním optimalizacím kompilátoru
+    auto pnengine = PetriNetsEngine::New();
+    auto cnengine = ContBlockEngine::New(IntegrationMethods::Euler);
 }
-
-
-
-
-
-void testGenerator()
-{
-    auto test = ContBlockEngine::New(IntegrationMethods::Euler);
-    auto add = Add("aaa", test);
-
-
-    auto engine = PetriNetsEngine::New();
-    // auto placeOne = Place::New(engine, "Place 1", 1);
-    // auto placeTwo = Place::New(engine, "Place 2", 0);
-    // auto inputArc = InputArc::New(engine, placeOne);
-    // auto outputArc = OutputArc::New(engine, placeTwo);
-    // auto rekurseArc = OutputArc::New(engine, placeOne);
-
-    // vector<InputArcObj> inputArces = {inputArc};
-    // vector<OutputArcObj> outputArces = {outputArc, rekurseArc};
-
-    // auto transition = TimedConstantTransition::New(engine, "Transition 1", inputArces, outputArces, 5);
-
-    // vector<shared_ptr<SimObject>> objects = {placeOne, placeTwo, inputArc, outputArc, rekurseArc, transition};
-    // auto engine = DiscreteEngine();
-    // engine.allTransitions = {transition};
-
-    // cout << "Initializing..." << endl;
-    // engine.init(30, objects);
-    // cout << "Begin simulation..." << endl;
-    // engine.simulate();
-    // cout << "Simulation end at "<< engine.time << "..." << endl;
-}
-
-void contBlocksSandBox()
-{
-    // auto engine = ContBlockEngine::New(IntegrationMethods::Euler);
-
-    // auto constantOne = Constant::New(engine, 1.0);
-    // auto constantTwo = Constant::New(engine, 2.0);
-    // vector<ContBlockObj> inputs = {constantOne, constantTwo};
-
-    // auto add = Add::New(engine, constantOne, constantTwo);
-    // auto sub = Sub::New(engine, constantOne, constantTwo);
-    // auto div = Div::New(engine, constantOne, constantTwo);
-    // auto mul = Mul::New(engine, constantOne, constantTwo);
-    // auto gain = Gain::New(engine, 1, constantOne);
-    // // auto integrator = Integrator();
-    // auto sum = Sum::New(engine, inputs);
-}
-
-
 
 #ifdef EMSCRIPTEN
-    EMSCRIPTEN_BINDINGS(main) {
+    EMSCRIPTEN_BINDINGS(main) {        
         emscripten::class_<ContBlock>("ContBlock")
         .smart_ptr<shared_ptr<ContBlock>>("shared_ptr<ContBlock>");
 

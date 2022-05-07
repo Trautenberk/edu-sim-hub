@@ -23,7 +23,7 @@ import { ContBlocksGUIComponentFactory } from 'Editor/Components/ContBlocks';
 
 /**
  * @author Jaromír Březina
- * @abstract 
+ * 
  */
 
 
@@ -209,7 +209,7 @@ export const App : FC = () => {
   /// Funkčnost dostupná v hlavním menu
   const mainComponents = [ 
     {name: "Petriho sítě", initFunction: initializePetriNets},
-    {name: "Spojitá bloková schémata", initFunction: initializeContBlocks}
+    {name: "Blokové schéma", initFunction: initializeContBlocks}
   ];
 
 
