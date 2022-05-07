@@ -11,6 +11,11 @@ const circleDiameter = 5
 const middleX = 35
 const middleY = 35
 
+/**
+ * React komponenta pro blok dělení
+ * @param props 
+ * @returns React komponenta bloku
+ */
 export const DivSVG : FC<ObjectSVGProps> = (props) => {
     const {
         coordinates,

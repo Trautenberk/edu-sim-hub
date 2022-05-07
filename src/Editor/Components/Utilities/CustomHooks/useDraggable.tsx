@@ -17,13 +17,23 @@ type useDraggableParams = {
     onMouseUp? : (e: React.MouseEvent) => void
 }
 
+/**
+ * React custom hook přidávají komponentě prostředky, aby s ní mohlo být pomocí myši pohybováno v hlavní ploše
+ * @param params Parametry ovlivňující výsledné prostředky
+ * @returns Handlery a další proměnné poskytující funkčnost drag 
+ */
 export const useDragable = (params : useDraggableParams) => {
-    const [coordinates, setCoordinates] = useState<ICoordinates>(params.initialCoordinates);
+    // Souřadnice
+    const [coordinates, setCoordinates] = useState<ICoordinates>(params.initialCoordinates);   
+    // Odkud se začalo táhnout myší
     const initMousePos = useRef<Coordinates>(new Coordinates({x: 0, y: 0}));
+    // Původní pozice elementu
     const initElementPos = useRef<Coordinates>(new Coordinates({x: 0, y: 0}));
     const useSelector = useAppSelector;
     
+    // Současná hondnota zvětšení
     const zoom = useSelector(selelctCurrentZoom)
+    // Hranice elementu plochy
     const canvasBoundaries = useSelector(state => selectCanvasBoundaries(state));
 
     const mouseMoveEventHandler = useCallback(

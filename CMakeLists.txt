@@ -8,6 +8,7 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 
 add_subdirectory(src/Simulator)
+add_subdirectory(docs/Simulator)
 
 
 if (${CMAKE_SYSTEM_NAME} MATCHES "Emscripten")

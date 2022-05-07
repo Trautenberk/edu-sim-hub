@@ -7,6 +7,9 @@ export interface IPlace extends IEditorObjectWithEndPoints {
     tokenCount : number
 }
 
+/**
+ * Místo Petriho sítí 
+ */
 export class Place extends EditorObjectWithEndPoints implements IToSerializable<IPlace>{
     public className() { return Place.className; } 
 
@@ -14,7 +17,14 @@ export class Place extends EditorObjectWithEndPoints implements IToSerializable<
 
     public static MenuName : string = "Místo"
 
+    /**
+     * Počet tokenů v místě
+     */
     public tokenCount : number = 0;
+    
+    /**
+     * Návěští
+     */
     public label: string = "";
 
     public toSerializableObj(): IPlace {

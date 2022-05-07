@@ -17,21 +17,35 @@ type UseSVGComponentUtilsParams = {
     endPointsBrief : IEndPointBrief[]
 }
 
+/**
+ * Pomocný react custom hook pro komponenty hlavní plochy.
+ * Obsahuje prostředky pro zonačení i pohyb pomocí mši v hlavní ploše. Zařídí provázání s odpovídajícím objektem.
+ * Dále hook obslouží vytvoření potřebných endpointů komponenty a jejich umístění do skladu.
+ * ve skladu.
+ * @param params 
+ * @returns 
+ */
 export const useSVGComponentUtils = <T extends IEditorObjectWithEndPoints,>(params : UseSVGComponentUtilsParams) => {
     const { dispatch, useSelector } = useStoreHooks();
+    // Odpovídající objekt ze skladu
     const obj = {...useSelector(state => selectObj(state, params.id))} as T;    // TODO tady to pretypovani vyresit
 
+    // Select hoook
     const { onMouseDown } = useSelectable(params.id);
+    // Drag hook
     const { coordinates, onMouseDownHandler, onMouseUpHandler } = useDragable({initialCoordinates: obj.coordinates, onMouseDown: onMouseDown});
-
+    // Příznak určující jeslti se má komponenta zvýraznit, protože je označená 
     const selectedVisible = convertToVisibility(useSelector(state => selectedObjectId(state) === params.id));
     
+    // Koncové body komponenty
     const [endPoints, setEndPoints] = useState<EndPoint[]>([]);
 
+    // Pomocná funkce pro vytvoření React Komponent pro každý endpoint
     const mapEndPoints = (onAddObject? : (firstPoint : IPoint, secondPoint : IPoint) => void) => {
         return endPoints.map((item, index) => <EndPointSVG onAddObject={onAddObject} key={item.id} coordinates={params.endPointsBrief[index].coords}  endPointId={item.id}/> )
     }
 
+    // UseEffect Hook, který při inicializaci komponenty přidá objekty endpointů do skladu
     useEffect(
         () => {
             if (obj.endPointIds.length == 0) {
@@ -52,6 +66,7 @@ export const useSVGComponentUtils = <T extends IEditorObjectWithEndPoints,>(para
         ,[]
     )
 
+    // UseEffect Hook, který při odebrání komponenty odebere odpovídající endpointy ze skladu
     useEffect(() => {
         return (() => {
             endPoints.forEach(item => { 
@@ -60,6 +75,7 @@ export const useSVGComponentUtils = <T extends IEditorObjectWithEndPoints,>(para
         })
     },[])
 
+    // UseEffect Hook, zařídí změnu souřadnice endpointů při změně souřadnic hlavní komponenty
     useEffect(
         () => {
             setEndPoints(endPoints => endPoints.map((item, index) => {
@@ -70,6 +86,7 @@ export const useSVGComponentUtils = <T extends IEditorObjectWithEndPoints,>(para
         ,[coordinates]
     )
 
+    // UseEffect Hook, zařídí update souřadnic endPointů ve skladu
     useEffect(
         () => {
             endPoints.forEach(item => dispatch(updatePointCoords({id: item.id,  newCoords: item.coords.toSerializableObj()})));

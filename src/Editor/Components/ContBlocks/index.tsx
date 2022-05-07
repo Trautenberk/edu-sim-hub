@@ -5,3 +5,4 @@ export { GainSVG } from "./GainSVG";
 export { MulSVG } from "./MulSVG";
 export { SumSVG } from "./SumSVG";
 export { ConstantSVG } from "./ConstantSVG";
+export * from "./ContBlocksGUIComponentsFactory";

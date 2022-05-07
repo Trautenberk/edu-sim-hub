@@ -23,8 +23,20 @@
     "jsx": "react-jsx"
   },
   "typedocOptions": {
-    "entryPoints": ["src/index.tsx"],
-    "out": "docs"
+    "entryPoints": [
+      "./src/index.tsx",
+      "./src/Editor/Components",
+      "./src/Editor/Components/Utilities",
+      "./src/Editor/Components/ContBlocks",
+      "./src/Editor/Components/PetriNets",
+      "./src/Editor/Model/UtilClasses",
+      "./src/Editor/Model/ContBlocks",
+      "./src/Editor/Model/PetriNets"
+
+    
+    ],
+    "includes": "./src",
+    "out": "./docs/Editor"
  },
   "include": [
     "src"

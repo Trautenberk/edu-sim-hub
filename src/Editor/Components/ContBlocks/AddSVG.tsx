@@ -10,15 +10,18 @@ import styles from "Editor/Styles/ContBlockStyles.module.scss"
 const middleX = 35
 const middleY = 35
 
+/**
+ * React komponenta pro blok sčítání
+ * @param props 
+ * @returns React komponenta bloku
+ */
 export const AddSVG : FC<ObjectSVGProps> = (props) => {
     const {
         coordinates,
         onMouseDownHandler,
         onMouseUpHandler,
-        dispatch,
         selectedVisible,
         obj,
-        endPoints,
         mapEndPoints
     } 
     = useSVGComponentUtils<IAdd>({id: props.id, initialCoordinates: INITIAL_COORDINATES, endPointsBrief: ContBlockDoubleEndPoints });

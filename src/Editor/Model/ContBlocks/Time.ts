@@ -7,6 +7,9 @@ export interface ITime extends IContBlock {
 
 }
 
+/**
+ * Blok reprezentujícího čas
+ */
 export class Time extends ContBlock implements IToSerializable<ITime> {
     public className() { return Time.className; }
     public static className = "Time";

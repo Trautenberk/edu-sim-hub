@@ -2,6 +2,11 @@ import { FC } from "react"
 import { LineChart, XAxis, YAxis, Tooltip, Line, Brush, AreaChart, CartesianGrid, Area } from "recharts"
 import { GraphProps, GRAPH_COLOR } from "./DiscreteGraph"
 
+/**
+ * React komponenta pro vykreslení spojitého grafu
+ * @param props 
+ * @returns  React komponenta
+ */
   export const ContGraph : FC<GraphProps> = (props) => {
     return (
           <LineChart

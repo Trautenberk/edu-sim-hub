@@ -7,6 +7,9 @@ export interface ISub extends IContBlock {
 
 }
 
+/**
+ *  Blok operace odčítaní
+ */
 export class Sub extends ContBlock implements IToSerializable<ISub> {
     public className() { return Sub.className; } 
 

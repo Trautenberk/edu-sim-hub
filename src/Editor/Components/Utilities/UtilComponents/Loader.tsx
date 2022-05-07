@@ -6,6 +6,11 @@ type LoaderProps = {
     visibile : boolean;
 }
 
+/**
+ * React komponenta loaderu
+ * @param props 
+ * @returns 
+ */
 export const Loader : FC<LoaderProps> = (props) => {
 
 if(props.visibile){

@@ -7,6 +7,11 @@ type ModalWindowProps = {
     cancelAction : () => void
 }
 
+/**
+ * React komponenta modálního okna
+ * @param props 
+ * @returns 
+ */
 export const ModalWindow : FC<ModalWindowProps> = (props) => {
 
   return (

@@ -10,6 +10,11 @@ import { AreaChart, XAxis, YAxis, Tooltip, Area, Brush, CartesianGrid } from "re
 
 export const GRAPH_COLOR = "#0088FE"; 
 
+/**
+ * React komponenta pro vykreslení disrétního grafu
+ * @param props 
+ * @returns 
+ */
 export  const DiscreteGraph : FC<GraphProps> = (props) => {
 
   return (

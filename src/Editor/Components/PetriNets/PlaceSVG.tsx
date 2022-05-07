@@ -8,6 +8,9 @@ import { InputArc } from "Editor/Model/PetriNets/Arc";
 import { useSVGComponentUtils } from "../Utilities/CustomHooks/useSVGComponentUtils";
 import styles from "Editor/Styles/PetriNetsStyle.module.scss";
 
+/**
+ * EndPointy místa
+ */
 const placeEndPointsBrief : IEndPointBrief[] =  [
     { coords : {x : 30, y: 0}, type: EndPointType.Infinite, arrowDirection : Direction.Right},
     { coords : {x : -30, y: 0}, type: EndPointType.Infinite, arrowDirection : Direction.Left},
@@ -15,6 +18,11 @@ const placeEndPointsBrief : IEndPointBrief[] =  [
     { coords : {x : 0, y: -30}, type: EndPointType.Infinite, arrowDirection : Direction.Top},
 ]
 
+/**
+ * React komponenta místa Petriho sítě.
+ * @param props 
+ * @returns React komponenta hlavní plochy
+ */
 export const PlaceSVG : FunctionComponent<ObjectSVGProps> = (props) => {
 
     const {
@@ -28,11 +36,15 @@ export const PlaceSVG : FunctionComponent<ObjectSVGProps> = (props) => {
     } 
     = useSVGComponentUtils<IPlace>({id: props.id, initialCoordinates: INITIAL_COORDINATES, endPointsBrief: placeEndPointsBrief});
 
+    /**
+     * Handler předávaný endpointu pro přidání vstupní hrany.
+     */
     const addInputArc = useCallback(
-        (firstPoint : IPoint, secondPoint : IPoint) => {
-            const inputArc = new InputArc({objId: obj.id, pointId: firstPoint.id});
-            inputArc.pointsId = [firstPoint.id, secondPoint.id];
-            dispatch(addEdgeObject({point : secondPoint, obj : inputArc.toSerializableObj()}))
+        // Přijímá dva body, první z nich je endPoint samotný a druhý bod udává primárně směr jakým bude hrana orientována
+        (firstPoint : IPoint, secondPoint : IPoint) => {    
+            const inputArc = new InputArc({objId: obj.id, pointId: firstPoint.id}); // Vytvoření objektu hrany
+            inputArc.pointsId = [firstPoint.id, secondPoint.id];    // Nastavení požadovaných bodů ze kterých se skládá
+            dispatch(addEdgeObject({point : secondPoint, obj : inputArc.toSerializableObj()}))  // Přidání do skladu
         },[obj]
     )
 

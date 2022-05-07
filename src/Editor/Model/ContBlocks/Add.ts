@@ -7,6 +7,9 @@ export interface IAdd extends IContBlock {
 
 }
 
+/**
+ * Blok pro operaci sčítání
+ */
 
 export class Add extends ContBlock implements  IToSerializable<IAdd> {
     public className(){ return Add.className; }

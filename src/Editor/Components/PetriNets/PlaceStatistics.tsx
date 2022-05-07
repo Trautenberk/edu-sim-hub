@@ -7,6 +7,11 @@ import { useStoreHooks } from "../Utilities/CustomHooks";
 import { DiscreteGraph } from "../Utilities/UtilComponents/DiscreteGraph";
 
 
+/**
+ * React komponenta pro zobrazení statistik místa získaných v průběhu simulace.
+ * @param props 
+ * @returns React komponenta okna statistik
+ */
 export const PlaceStatistics : FC<StatisticsComponentProps> = (props) => {
         
     const values = (props.statistics as IPetriNetsStatistics).placeRecords[props.id];

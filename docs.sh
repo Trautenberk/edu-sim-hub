@@ -1,0 +1,1 @@
+npx typedoc --tsconfig  ./tsconfig.json  --readme ./README.md --logLevel Error

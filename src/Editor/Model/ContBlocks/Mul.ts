@@ -7,6 +7,9 @@ export interface IMul extends IContBlock {
 
 }
 
+/**
+ * Blok operace násobení
+ */
 export class Mul extends ContBlock implements IToSerializable<IMul> {
     public className() { return Mul.className; } 
     public static className = "Mul"

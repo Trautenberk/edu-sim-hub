@@ -9,6 +9,12 @@ import styles from "Editor/Styles/ContBlockStyles.module.scss"
 
 const middleX = 35
 const middleY = 35
+
+/**
+ * React komponenta pro blok zesilovače
+ * @param props 
+ * @returns React komponenta bloku
+ */
 export const GainSVG : FC<ObjectSVGProps> = (props) => {
 
     const {

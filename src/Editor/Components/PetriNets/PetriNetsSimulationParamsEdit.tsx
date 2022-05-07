@@ -4,6 +4,10 @@ import { FC } from "react"
 import { checkMinValueAndSetDefault } from "../Utilities";
 import { useStoreHooks } from "../Utilities/CustomHooks";
 
+/**
+ * React komponenta pro editaci parametrů simulace Petriho sítě
+ * @returns React kompoenta pro editační okno
+ */
 export const PetriNetsSimulationParamsEdit  : FC = () => {
     const { dispatch, useSelector } = useStoreHooks();
 

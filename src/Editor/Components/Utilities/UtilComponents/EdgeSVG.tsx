@@ -12,19 +12,30 @@ export type EdgeSVGComponentProps = {
     value? : string | number
  }
 
+ /**
+  * Pomocná React komponenta pro vykreslení hrany.
+  * @param props 
+  * @returns React komponenta
+  */
 export const EdgeSVG : FC<EdgeSVGComponentProps> = (props) => {
     const { dispatch, useSelector } = useStoreHooks();
 
+    // Zdrojový objekt ze skladu
     const edge = useSelector(state => selectObj(state,props.id)) as IEdge;
+    // Body které tvoří hranu
     const points = useSelector(state => selectPoints(state, edge.pointsId));
+    // Jestli je hrana vybraná
     const selected = edge.id === useSelector(selectedObjectId);
+    // Poslední bod hrany, slouží ke spojování.
     const lastPoint = new Point(points[points.length - 1]);
 
     if (selected) {
         const edgePoints : Point[] = (points.slice(1, points.length - 1)).map(item => new Point(item));
         const addPoints : Point[] = [];
     
-        for (var i = 0; i <  points.length - 1; i++) {
+        // Konstrukce pomocných bodů, které jsou vždy v polovině vzdálenosti mezi dvěma body a slouží
+        // k přidání dalších bodů do hrany
+        for (var i = 0; i <  points.length - 1; i++) {  
             const beginCoords = new Coordinates(points[i].coords);
             const vector = new Coordinates(points[i+1].coords).sub(beginCoords).scale(1/2) // vektor mezi dvěma body vydělený dvěma
             const halfWayPoint = new Point({ id : `addPoint_${i}`, coords : beginCoords.add(vector)});
@@ -59,6 +70,11 @@ type EdgePointSVGProps = {
     point : Point
 }
 
+/**
+ * React komponenta bodu hrany
+ * @param props 
+ * @returns 
+ */
 const EdgePointsSVG : FC<EdgePointSVGProps> = (props) => {
     const { dispatch } = useStoreHooks();
     const point = props.point
@@ -81,6 +97,12 @@ type AddPointSVGProps = {
     edgeId : string
 }
 
+
+/**
+ * React komponenta pomocného bodu pro přidávání dalších bodů do hrany
+ * @param props 
+ * @returns 
+ */
 const AddPointSVG : FC<AddPointSVGProps> = (props) => {
     const { dispatch } = useStoreHooks();
 
@@ -98,6 +120,12 @@ type LastEdgePointSVGProps = {
     point : Point
 }
 
+/**
+ * React komponenta posledního bodu hrany.
+ * Je potřeba ho odlišit od ostantích bodů, protože se použí pro spojování.
+ * @param props 
+ * @returns 
+ */
 const LastEdgePointSVG : FC<LastEdgePointSVGProps> = (props) => {
     const { dispatch } = useStoreHooks();
     const point = props.point

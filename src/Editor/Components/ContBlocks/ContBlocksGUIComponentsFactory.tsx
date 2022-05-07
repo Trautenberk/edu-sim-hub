@@ -18,9 +18,13 @@ import { TimeSVG } from "./TimeSVG";
 import { DefaultContBlockEdit } from "./DefaultContBlockEdit";
 
 
-
+/**
+ * Továrna pro konstrukci GUI komponent Spojitých bloků.
+ */
 export class ContBlocksGUIComponentFactory implements IObjectGUIComponentFactory {
-
+    /**
+     * @inheritdoc
+     */
     getElement (object : IEditorObject): GUIComponents  {
         switch(object.className) {
             case Div.className:

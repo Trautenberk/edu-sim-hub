@@ -3,14 +3,25 @@ import { IPlace  } from "Editor/Model/PetriNets/Place";
 import React, { FC} from "react"
 import { useEditComponentUtils } from "../Utilities/CustomHooks/useEditComponentUtils";
 
+/**
+ * React komponenta pro editaci atributů místa PN.
+ * @param props 
+ * @returns React komponenta editačního okna
+ */
 export const PlaceEdit : FC<ObjectEditProps>  = (props) => {
     const { obj, dispatchChange} = useEditComponentUtils<IPlace>(props.id);
 
+    /**
+     * Handler input elementu návěští
+     */
     const onLabelInputChange = (e : React.ChangeEvent<HTMLInputElement>) => {
         obj.label = e.currentTarget.value;
         dispatchChange(obj)
     }
 
+    /**
+     * Handler input elementu počtu tokenů v místě
+     */
     const onTokensChange = (e : React.ChangeEvent<HTMLInputElement>) => {
         obj.tokenCount = parseInt(e.target.value);
         dispatchChange(obj)

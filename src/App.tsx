@@ -24,10 +24,17 @@ import { CONT_EXAMPLES_MAP, PN_EXAMPLES_MAP } from 'Editor/Model/Examples/Exampl
  * @abstract 
  */
 
+
+/**
+ * Typ props pro komponenty hlavní plochy
+ *  */
 export type ObjectSVGProps = {
   id : string;
 }
 
+/**
+ * Typ props pro komponenty editačního okna
+ */
 export type ObjectEditProps = {
   id : string
 }
@@ -47,6 +54,7 @@ export type Action = {
   actionMethod : (...params : any[]) => any
 }
 
+
 type CanvasElementType = {
   name: string,
   icon: string,
@@ -59,6 +67,12 @@ enum ChosenArea {
   ContBlocks
 }
 
+/**
+ * Calculates the square root of a number.
+ *
+ * @param x the number to calculate the root of.
+ * @returns the square root if `x` is non-negative or `NaN` if `x` is negative.
+ */
 function delay(ms: number) {
   return new Promise( resolve => setTimeout(resolve, ms) );
 }

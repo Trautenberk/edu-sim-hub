@@ -10,6 +10,11 @@ export type ArrowSVGComponentProps = {
     scale? : number
 }
 
+/**
+ * Pomocná React komponenta, která slouží k vykreslení šipky z EndPointu pro přidávání dalších hran
+ * @param props 
+ * @returns React komponenta
+ */
 export const ArrowSVG : FC<ArrowSVGComponentProps> = (props) => {
     const directionConvertor = () => {
         switch(props.direction){

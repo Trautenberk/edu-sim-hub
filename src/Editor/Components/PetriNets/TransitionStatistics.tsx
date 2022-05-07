@@ -5,6 +5,11 @@ import { DiscreteGraph } from "../Utilities/UtilComponents/DiscreteGraph";
 
 
 
+/**
+ * React komponenta pro zobrazení statistik přechodu získaných v průběhu simulace.
+ * @param props Struktura statistik obsahující kolekci hodnot a klíče pro osy grafu 
+ * @returns React komponenta okna statistik
+ */
 export  const TransitionStatistics : FC<StatisticsComponentProps> = (props) => {
 
     const values = (props.statistics as IPetriNetsStatistics).transitionRecords[props.id];

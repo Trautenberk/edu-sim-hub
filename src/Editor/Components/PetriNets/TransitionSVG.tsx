@@ -12,7 +12,9 @@ import { OutputArc } from "Editor/Model/PetriNets";
 const width = 30;
 const height = 80;
 
-
+/**
+ * EndPointy komponenty přechodu
+ */
 const transitionEndPointsBrief : IEndPointBrief[] = [
     {coords : {x : width, y: height / 2}, type: EndPointType.Infinite, arrowDirection: Direction.Right },
     {coords : {x : 0, y: height / 2}, type: EndPointType.Infinite, arrowDirection: Direction.Left },
@@ -20,6 +22,12 @@ const transitionEndPointsBrief : IEndPointBrief[] = [
     {coords : {x : width / 2, y: 0}, type: EndPointType.Infinite, arrowDirection: Direction.Top },
 ]
 
+/**
+ * React komponenta přechodu Petriho sítě.
+ * Komponenta mění svou grafickou reprezentaci podle typu přechodu který zobrazuje.
+ * @param props 
+ * @returns React komponenta hlavní plochy
+ */
 export const TransitionSVG : FunctionComponent<ObjectSVGProps> = (props) => {
     const {
         coordinates,

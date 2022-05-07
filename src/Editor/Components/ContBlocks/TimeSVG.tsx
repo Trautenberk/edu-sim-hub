@@ -9,6 +9,11 @@ import styles from "Editor/Styles/ContBlockStyles.module.scss"
 const middleX = 35
 const middleY = 35
 
+/**
+ * React komponenta pro blok času
+ * @param props 
+ * @returns React komponenta bloku
+ */
 export const TimeSVG : FC<ObjectSVGProps> = (props) => {
 
     const {

@@ -18,6 +18,12 @@ export type GUIComponents = {
 }
 
 export interface IObjectGUIComponentFactory {
+    /**
+     * Tovární funcke příjímá objekt a podle jeho classname vrací objekt obsahující GUI komponenty
+     * pro jednotlivá okna.
+     * @param object Vstupní objekt
+     * @returns Objekt obsahující požadované GUI komponenty.
+     */
     getElement(object : IEditorObject) : GUIComponents;
     getSimulationParamsEdit() : FunctionComponent;
 }

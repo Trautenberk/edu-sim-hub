@@ -4,7 +4,7 @@ import { convertDirectionToOffset, convertToVisibility, Direction } from "Editor
 import { useAppSelector, useAppDispatch } from "Editor/Store/Hooks"
 import { registerEndPoint, unregisterEndPoint, updatePointCoords, visibleForConnection } from "Editor/Feature/SimObjectManagementSlice"
 import { ArrowSVG } from "Editor/Components/Utilities/UtilComponents/ArrowSVG"
-import { EndPoint, EndPointType, GroupPoint, IEndPoint, IPoint, Point } from "../../../Model/UtilClasses/Point"
+import { EndPoint, EndPointType, IEndPoint, IPoint, Point } from "../../../Model/UtilClasses/Point"
 import { Coordinates, ICoordinates } from "../../../Model/UtilClasses/Coordinates"
 import { selectedObjectId } from "Editor/Feature/SimObjectManagementSlice"
 import { useStoreHooks } from "../CustomHooks"
@@ -19,18 +19,26 @@ function isRestrictionMet(endPoint : IEndPoint, spawnedObjCnt : number) : boolea
     return (endPoint.type === EndPointType.Restricted && endPoint.maxSpawnedObj && endPoint.maxSpawnedObj > spawnedObjCnt) as boolean;
 }
 
+
+/**
+ * React komponenta EndPointu.
+ * Tato komponenta slouží k vykreslení jednotlivých endpointů v nadřazené komponentě. 
+ * 
+ * @param props 
+ * @returns 
+ */
 export const EndPointSVG : FC<EndPointProps> = (props) => {
     const { dispatch, useSelector} = useStoreHooks();
-
+    // Zobrazovaný endpoint ze skladu
     const endPointObj = useSelector(state => state.simObjectManagement.endPoints[props.endPointId]);
-
+    // Jestli mají být zvýrazněny, protože byla nadřazená komponenta vybrána
     const selectedVisible = useSelector(state => selectedObjectId(state) === endPointObj.ownerId);
-
+    // Jesltli má být endpoint zvýrazněn pro spojení
     const forConnectionVisible = useSelector(state => visibleForConnection(state, endPointObj.id));
-
-    
+    // Jeslti má být zvýrazněn pomocný kru označení
     const higlihghtVisible = convertToVisibility(useSelector(state => state.simObjectManagement.highlightedEndPoint) === endPointObj.id);
 
+    // Handler vyvylaný po kliknutí na šipku z endpointu
     const onArrowClick = useCallback(() => {
         if (endPointObj.type === EndPointType.Input || (endPointObj.type !== EndPointType.Infinite && !isRestrictionMet(endPointObj, endPointObj.spawnedObjCnt)) || (endPointObj.arrowDirection == null)) {
             return;

@@ -6,20 +6,32 @@ import { Transition } from "./Transition";
 import { Place } from "./Place";
 
 
-////////////////////////////////////////////////////////////////
-//// Arc
+/**
+ * Rozhraní pro třídu hrany.
+ */
 export interface IArc extends IEdge {
-    placeId: string;
+    placeId: string;    
     transitionId: string;   // TODO visi to pak blbe v reduxu
-    weight : number;
+    weight : number;    
 }
 
-
+/**
+ * Hrana spojující elementy Petriho sítě 
+ */
 export abstract class Arc extends Edge implements IToSerializable<IArc> {
+
+    /**
+     * Váha hrany
+     */
     private weight : number = 1;
 
+    /**
+     * Id přechodu, který hrana spojuje
+     *  */ 
     abstract get transitionId(): string;
+    // Id místa, které hrana spojuje
     abstract get placeId() : string;
+
 
     public toSerializableObj(): IArc {
         return {...super.toSerializableObj(), weight: this.weight, transitionId: this.transitionId, placeId: this.placeId};
@@ -27,9 +39,12 @@ export abstract class Arc extends Edge implements IToSerializable<IArc> {
 }
 
 
-////////////////////////////////////////////////////////////////
-//// InputArc
+/**
+ * Vstupní hrana přechodu. 
+ * Slouží k reprezentování vstupní hrany přechodu.
+ */
 export class InputArc extends Arc implements IToSerializable<IArc> {
+
     public className() { return InputArc.className; }
     public static className = "InputArc"; 
 
@@ -55,11 +70,13 @@ export class InputArc extends Arc implements IToSerializable<IArc> {
 }
 
 
-////////////////////////////////////////////////////////////////
-/// OutputArc
-
-
+/**
+ * Výstupní hrana přechodu. 
+ * Slouží k reprezentování výstupní hrany přechodu.
+ */
 export class OutputArc extends Arc {
+
+    // ClassName pro identifikaci typu objektu v runtime
     public className() { return OutputArc.className }
     public static className = "OutputArc";
 

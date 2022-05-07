@@ -6,3 +6,5 @@ export { Point } from "../../Model/UtilClasses/Point";
 export { Edge } from "../../Model/UtilClasses/Edge";
 export { useSelectable } from "./CustomHooks/useSelectable";
 export { checkMinValueAndSetDefault } from "./UtilMethodsAndTypes";
+export * from "./CustomHooks";
+export * from "./UtilComponents"

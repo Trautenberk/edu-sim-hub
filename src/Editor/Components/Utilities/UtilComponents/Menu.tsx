@@ -7,6 +7,11 @@ type MenuProps = {
     listClassName? : string,
 }
 
+/**
+ * React komponenta sloužící jako menu do které lze přidávat další komponenty jako položky
+ * @param props 
+ * @returns 
+ */
 export const Menu : FC<MenuProps> = (props) => {
     return(
         <div className={props.clasName}>
@@ -29,6 +34,11 @@ type MenuItemButtonProps = MenuProps & {
     imageElement? : ReactElement;
 }
 
+/**
+ * React komponenta tvořící položku menu 
+ * @param props 
+ * @returns 
+ */
 export const MenuItemButton : FC<MenuItemButtonProps> = (props) => {
     const onClickHandler : MouseEventHandler<HTMLButtonElement> = (e) => {
         if(props.onItemSelected){

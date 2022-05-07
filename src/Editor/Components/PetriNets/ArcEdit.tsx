@@ -5,25 +5,23 @@ import { FC } from "react";
 import { useEditComponentUtils } from "../Utilities/CustomHooks";
 import styles from "Editor/Styles/PetriNetsStyles.module.scss";
 
-
+/**
+ * React komponenta pro editaci atributů hrany 
+ * @param props 
+ * @returns React komponenta editačního okna
+ */
 export const ArcEdit : FC<ObjectEditProps> = (props) => {
 
     const { obj, dispatchChange } = useEditComponentUtils<IArc>(props.id);
 
+    /**
+     * Handler input elementu váhy hrany 
+     */
     const onWeightInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         obj.weight = parseInt(e.target.value);
         dispatchChange(obj);
     }
 
-    const incrementWeight = () => {
-        obj.weight++;
-        dispatchChange(obj);
-    }
-
-    const decrementWeight = () => {
-        obj.weight--;
-        dispatchChange(obj);
-    }
 
     if (obj != null) {
         return (

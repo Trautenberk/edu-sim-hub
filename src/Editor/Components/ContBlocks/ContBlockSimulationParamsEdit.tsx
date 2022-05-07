@@ -4,26 +4,41 @@ import { FC } from "react"
 import { checkMinValueAndSetDefault } from "../Utilities";
 import { useStoreHooks } from "../Utilities/CustomHooks";
 
+/**
+ * React komponenta pro editaci parametrů simulace blokového schéma
+ * @param props 
+ * @returns React komponenta editačního okna
+ */
 export const ContBlockSimulationParamsEdit  : FC = () => {
     const { dispatch, useSelector } = useStoreHooks();
 
     const params = {...useSelector(state => state.simObjectManagement.simulationParams)} as IContBlocksSimulationParams;
 
+    /**
+     * Handler input elementu s počátečním časem
+     */
     const onBeginTimeChange = (e : React.ChangeEvent<HTMLInputElement>) => {
         params.beginTime = parseFloat(e.currentTarget.value);
         dispatch(setSimulationParams(params));
     }
-
+    /**
+     * Handler input elementu s koncovým časem
+     */
     const onEndTimeChange = (e : React.ChangeEvent<HTMLInputElement>) => {
         params.endTime = parseFloat(e.currentTarget.value);
         dispatch(setSimulationParams(params));
     }
-
+    /**
+     * Handler input elementu s počátečním časem
+     */
     const onSimStepSizeChange = (e : React.ChangeEvent<HTMLInputElement>) => {
         params.simStepSize = parseFloat(e.currentTarget.value);
         dispatch(setSimulationParams(params));
     }
 
+    /**
+     * Handler input elementu s intervalem sběru statistik
+     */
     const onStatisticsIntervalChange = (e : React.ChangeEvent<HTMLInputElement>) => {
         params.statisticsInterval = parseInt(e.currentTarget.value);
         dispatch(setSimulationParams(params));

@@ -7,6 +7,12 @@ import { updateCanvasBoundaries} from "../Feature/CanvasContextSlice"
 import { unselectObject } from "Editor/Feature/SimObjectManagementSlice";
 import { useStoreHooks } from "./Utilities/CustomHooks";
 
+
+/**
+ *  Komponenta reprezentující aplikaci
+ * @component
+ * 
+ */
 export const CanvasSVG : FC<{middle : boolean}> = (props) => {
     const { dispatch, useSelector } = useStoreHooks();
 

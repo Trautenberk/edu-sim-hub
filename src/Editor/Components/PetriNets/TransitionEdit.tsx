@@ -3,24 +3,45 @@ import { ITransition, TransitionType } from "Editor/Model/PetriNets/Transition";
 import React, {FC} from "react"
 import { useEditComponentUtils } from "../Utilities/CustomHooks";
 
+/**
+ * React komponenta pro editaci atributů přechodu 
+ * @param props 
+ * @returns React komponenta hlavní plochy
+ */
 export const TransitionEdit : FC<ObjectEditProps> = (props) => {
     const { obj, dispatchChange } = useEditComponentUtils<ITransition>(props.id); 
  
+    /**
+     * Handler input elementu návěští
+     * @param e HTML input element
+     */
     const onLabelInputChange = (e : React.ChangeEvent<HTMLInputElement>) => {
         obj.label = e.currentTarget.value;
         dispatchChange(obj)
     }
 
+    /**
+     * Handler input elementu priority přechodu
+     * @param e HTML input element
+     */
     const onPriorityChange = (e : React.ChangeEvent<HTMLInputElement>) => {
         obj.priority = parseInt(e.target.value);
         dispatchChange(obj)
     }
 
+    /**
+     * Handler select elementu změny typu přechdou
+     * @param e HTML select element
+     */
     const onSelectChange = (e : React.ChangeEvent<HTMLSelectElement>) => {
         obj.type = e.target.value as TransitionType;
         dispatchChange(obj)
     }
 
+    /**
+     * Handler input elementu časového zpoždění přechodu
+     * @param e HTML input element
+     */
     const onTimeValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         obj.timeValue = parseInt(e.target.value);
         dispatchChange(obj)

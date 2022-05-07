@@ -6,6 +6,11 @@ import { EdgeSVG } from "../Utilities/UtilComponents"
 import { EdgeSVGComponentProps } from "../Utilities/UtilComponents/EdgeSVG";
 
 
+/**
+ * React komponenta hrany signálu
+ * @param props 
+ * @returns React komponenta bloku
+ */
 export const SignalSVG : FC<EdgeSVGComponentProps> = (props) => {
 
     const { useSelector } = useStoreHooks();

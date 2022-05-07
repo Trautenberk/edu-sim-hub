@@ -8,7 +8,13 @@ export interface IContBlock extends IEditorObjectWithEndPoints{
 }
 
 
+/**
+ * Rodičovská třída pro bloky.
+ */
 export abstract class ContBlock extends EditorObjectWithEndPoints implements IToSerializable<IContBlock> {
+    /**
+     * Návěští
+     */
     public label : string = "";
     public toSerializableObj(): IContBlock {
         return {...super.toSerializableObj(), label: this.label};

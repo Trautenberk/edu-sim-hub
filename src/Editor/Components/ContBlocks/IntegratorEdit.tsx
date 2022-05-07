@@ -4,6 +4,12 @@ import { useEditComponentUtils } from "../Utilities/CustomHooks/useEditComponent
 import { IConstant } from "Editor/Model/ContBlocks/Constant";
 import { IIntegrator } from "Editor/Model/ContBlocks/Integrator";
 
+
+/**
+ * React komponenta pro editaci atributů Integrátoru 
+ * @param props 
+ * @returns React komponenta editačního okna
+ */
 export const IntegratorEdit : FC<ObjectEditProps>  = (props) => {
     const { obj, dispatchChange} = useEditComponentUtils<IIntegrator>(props.id);
 

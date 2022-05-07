@@ -7,6 +7,9 @@ export interface IDiv extends IContBlock {
 }
 
 
+/**
+ * Blok operace dělení
+ */
 export class Div extends ContBlock implements IToSerializable<IDiv> {
     public className() { return Div.className; }
     public static className = "Div";

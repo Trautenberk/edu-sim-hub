@@ -1,7 +1,7 @@
 import { FC, useCallback } from "react"
 import { DraggableHandlers } from "Editor/Components/Utilities"
 import { Direction, Visibility } from "../Utilities/UtilMethodsAndTypes"
-import { EndPointType, GroupPoint, IEndPointBrief, IPoint } from "../../Model/UtilClasses/Point"
+import { EndPointType, IEndPointBrief, IPoint } from "../../Model/UtilClasses/Point"
 import { addEdgeObject } from "Editor/Feature/SimObjectManagementSlice"
 import { Signal } from "Editor/Model/ContBlocks/Signal"
 import { useStoreHooks } from "../Utilities/CustomHooks"
@@ -14,6 +14,11 @@ type ContBlockProps = DraggableHandlers & {
 }
 
 
+/**
+ * Handler pro přidání signálu po kliknutí na šipku u endpointu
+ * @param obj 
+ * @returns 
+ */
 export const useAddSignal = (obj : IEditorObject) => {
     const { dispatch } = useStoreHooks();
 
@@ -28,6 +33,11 @@ export const useAddSignal = (obj : IEditorObject) => {
 }
 
 
+/**
+ * React komponenta které tvoří základní strukturu bloku
+ * @param props 
+ * @returns React komponenta
+ */
 export const ContBlockFoundationSVG : FC<ContBlockProps> = (props) => {    
     return (
         <>
@@ -38,10 +48,18 @@ export const ContBlockFoundationSVG : FC<ContBlockProps> = (props) => {
 }
 
 // TODO jsou to konstanty, takze prepsat na velka pismena
+/**
+ * EndPointu bloku s jednim vystupem
+ */
 export const ContBlockWithSingleOutputEndPoints : IEndPointBrief[] = [
     { coords : {x: 70, y: 35}, type: EndPointType.Restricted, maxSpawnedObj: 3, arrowDirection: Direction.Right, connectable : false }
 ]
 
+/**
+ * React komponenta bloku s jedním výstupem
+ * @param props 
+ * @returns React komponenta
+ */
 export const ContBlockWithSingleOutputSVG : FC<ContBlockProps> = (props) => {
     return (
         <>
@@ -51,12 +69,21 @@ export const ContBlockWithSingleOutputSVG : FC<ContBlockProps> = (props) => {
     )
 }
 
+/**
+ * EndPointy bloku s dvěma vstupy
+ */
 export const ContBlockDoubleEndPoints : IEndPointBrief[] = [
     { coords : {x: 0, y: 15}, type: EndPointType.Input },
     { coords: {x: 0, y: 55}, type: EndPointType.Input },
     ...ContBlockWithSingleOutputEndPoints
 ]
 
+
+/**
+ * React komponenta bloku s dvěma vstupy a jedním výstupem
+ * @param props 
+ * @returns React komponenta
+ */
 export const ContBlockDoubleSVG : FC<ContBlockProps> = (props) => {
     return (
         <>
@@ -67,13 +94,20 @@ export const ContBlockDoubleSVG : FC<ContBlockProps> = (props) => {
     )
 }
 
-
+/**
+ * EndPointy bloku s jedním vstupem
+ */
 export const ContBlockSingleEndPoints : IEndPointBrief[] = [
     {coords : {x: 0, y: 35}, type: EndPointType.Input},
     ...ContBlockWithSingleOutputEndPoints,
 
 ]
 
+/**
+ * React komponenta bloku s jedním vstupem a jedním výstupem
+ * @param props 
+ * @returns React komponenta
+ */
 export const ContBlockSingleSVG : FC<ContBlockProps> = (props) => {    
 return (
         <>

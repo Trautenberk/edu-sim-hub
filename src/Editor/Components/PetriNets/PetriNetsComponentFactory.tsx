@@ -11,9 +11,17 @@ import { TransitionStatistics } from "./TransitionStatistics";
 import { EmptyComponent } from "../Utilities/UtilMethodsAndTypes";
 
 
-
+/**
+ * Továrna pro konstrukci GUI komponent Petriho Sítě
+ */
 export class PetriNetsGUIComponentFactory implements IObjectGUIComponentFactory {
 
+    /**
+     * Tovární funcke příjímá objekt a podle jeho classname vrací objekt obsahující GUI komponenty
+     * pro jednotlivá okna.
+     * @param object Vstupní objekt
+     * @returns Objekt obsahující požadované GUI komponenty.
+     */
     getElement (object : IEditorObject): GUIComponents  {
         switch(object.className) {
             case Place.className:
@@ -29,6 +37,10 @@ export class PetriNetsGUIComponentFactory implements IObjectGUIComponentFactory 
         }
     }
 
+    /**
+     * 
+     * @returns Vrací komponentu pro editaci parametrů simulace.
+     */
     getSimulationParamsEdit(): FunctionComponent<{}> {
        return PetriNetsSimulationParamsEdit; 
     }
