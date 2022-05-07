@@ -3,8 +3,20 @@
 
 class Integrator;
 
+/**
+ * @brief Třída pro numerické metody
+ * 
+ */
 class IntegrationMethods {
     public:
+        /**
+         * @brief Eulerova metoda
+         * 
+         * @param currentState 
+         * @param derivation 
+         * @param step 
+         * @return double 
+         */
         static double Euler(double currentState, double derivation, double step);
 };
 

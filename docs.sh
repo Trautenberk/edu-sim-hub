@@ -1,1 +1,1 @@
-npx typedoc --tsconfig  ./tsconfig.json  --readme ./README.md --logLevel Error
+npx typedoc --tsconfig  ./tsconfig.json  --readme ./README.md --logLevel Error && cd ./src/wasm-build && make doxygen

@@ -17,8 +17,8 @@ wasm-build
 # production
 /build
 
-#docs
-/docs 
+/docs/Editor/
+/docs/Simulator/html
 
 # misc
 .DS_Store

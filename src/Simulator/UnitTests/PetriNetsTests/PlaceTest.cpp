@@ -5,7 +5,7 @@
 TEST(AddTokens, BasicAssertions)
 {
     auto engine = PetriNetsEngine::New();
-    auto place = Place::New(engine, "Test", 0);
+    auto place = Place::New(engine, 0);
     EXPECT_EQ(place->tokens(),0);
     place->addTokens(5);
     EXPECT_EQ(place->tokens(),5);
@@ -16,7 +16,7 @@ TEST(AddTokens, BasicAssertions)
 TEST(RemoveTokens, BasicAssertions) 
 {
     auto engine = PetriNetsEngine::New();
-    auto place = Place::New(engine, "Test", 15);
+    auto place = Place::New(engine, 15);
     EXPECT_EQ(place->tokens(),15);
     place->removeTokens(5);
     EXPECT_EQ(place->tokens(), 10);
@@ -29,7 +29,7 @@ TEST(RemoveTokensException, BasicAssertions)
     try
     {
         auto engine = PetriNetsEngine::New();
-        auto place = Place::New(engine, "Test", 3);
+        auto place = Place::New(engine, 3);
         place->removeTokens(4);
         FAIL();
     }

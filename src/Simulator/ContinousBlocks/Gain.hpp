@@ -6,8 +6,19 @@
 
 using namespace std;
 
+/**
+ * @brief Blok zesilovače
+ * 
+ */
 class Gain : public ContBlockSingle {
     public:
+        /**
+         * @brief Konstruktor
+         * 
+         * @param id Id
+         * @param engine Simulační engine 
+         * @param gain Hodnota zesílení
+         */
         Gain(objectId id, ContBlockEngineObj engine, double gain);
         static ContBlockObj New(ContBlockEngineObj engine, double gain);
         static ContBlockObj New(ContBlockEngineObj engine, double gain, ContBlockObj input);        

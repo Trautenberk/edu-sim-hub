@@ -3,8 +3,18 @@
 
 #include "ContBlock.hpp"
 
+/**
+ * @brief Blok času
+ * 
+ */
 class Time : public ContBlock {
     public:
+        /**
+         * @brief Konstruktor
+         * 
+         * @param id 
+         * @param engine 
+         */
         Time(objectId id, ContBlockEngineObj engine);
         static ContBlockObj New(ContBlockEngineObj engine);
         void eval();

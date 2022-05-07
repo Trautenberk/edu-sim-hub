@@ -6,8 +6,19 @@
 
 using namespace std;
 
+/**
+ * @brief Blok dělení
+ * 
+ */
+
 class Div : public ContBlockDouble {
     public:
+        /**
+         * @brief Konstruktor
+         * 
+         * @param id 
+         * @param engine 
+         */
         Div(objectId id, ContBlockEngineObj engine);
         static ContBlockObj New(ContBlockEngineObj engine);
         static ContBlockObj New(ContBlockEngineObj engine, ContBlockObj value, ContBlockObj divider);

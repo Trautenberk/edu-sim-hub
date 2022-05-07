@@ -43,15 +43,6 @@ void Integrator::integrate()
     this->_currentState = integrationMethod(this->_currentState, this->_currentInputValue, this->engine->stepSize());
 }
 
-double Integrator::currentState()
-{
-    return this->_currentState;
-}
-
-double Integrator::currentInputValue()
-{
-    return this->_currentInputValue;
-}
 
 IntegratorRecord Integrator::getStatisticsRecord()
 {

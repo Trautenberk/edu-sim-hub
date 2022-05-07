@@ -14,13 +14,22 @@ using namespace std;
 
 using PlaceObj = shared_ptr<Place>;
 
+/**
+ * @brief Místo Petriho sítě.
+ * 
+ */
 class Place : public PetriNetsObject {
     public :
+        /**
+         * @brief Konstruktor
+         * 
+         * @param id 
+         * @param engine 
+         * @param tokens 
+         */
+        Place(objectId id, PetriNetsEngineObj engine, int tokens = 0);
+        static PlaceObj New(PetriNetsEngineObj engine, int tokens = 0);
 
-        Place(objectId id, PetriNetsEngineObj engine, string label, int tokens = 0);
-        static PlaceObj New(PetriNetsEngineObj engine, string label, int tokens = 0);
-
-        string label() { return _label; };
         int tokens() { return _tokens; };
         void removeTokens(int cnt);
         void addTokens(int cnt);
@@ -28,7 +37,6 @@ class Place : public PetriNetsObject {
         void initialize() { return; };
         PlaceRecord getStatisticsRecord();
     private:
-        string _label;
         int _tokens;
 };
 

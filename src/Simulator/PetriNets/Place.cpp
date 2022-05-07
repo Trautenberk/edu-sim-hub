@@ -4,17 +4,15 @@
 const string placeTypeName = "Place";
 
 
-Place::Place(objectId id, PetriNetsEngineObj engine, string label, int tokens) : PetriNetsObject(id, engine)
+Place::Place(objectId id, PetriNetsEngineObj engine, int tokens) : PetriNetsObject(id, engine)
 {
-    this->_label = label;
     this->_tokens = tokens; 
     engine->addPlace(this);
-    cout << "Place withId: " << this->id() << endl;
 }
 
-PlaceObj Place::New(PetriNetsEngineObj engine, string label, int tokens)
+PlaceObj Place::New(PetriNetsEngineObj engine, int tokens)
 {
-    return make_shared<Place>(SimObject::createId(placeTypeName), engine, label, tokens);
+    return make_shared<Place>(SimObject::createId(placeTypeName), engine, tokens);
 }
 
 string Place::objTypeName()
@@ -50,7 +48,7 @@ PlaceRecord Place::getStatisticsRecord()
 
         emscripten::class_<Place>("Place")
         .smart_ptr<shared_ptr<Place>>("shared_ptr<Place>")
-        .constructor(&std::make_shared<Place, objectId, PetriNetsEngineObj, string, int>)
+        .constructor(&std::make_shared<Place, objectId, PetriNetsEngineObj, int>)
         .function("tokens", &Place::tokens);
     }
 #endif

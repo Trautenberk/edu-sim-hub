@@ -3,8 +3,18 @@
 
 #include "ContBlock.hpp"
 
+/**
+ * @brief Blok násobení
+ * 
+ */
 class Mul : public ContBlockDouble {
     public:
+        /**
+         * @brief Konstruktor
+         * 
+         * @param id 
+         * @param engine 
+         */
         Mul(objectId id, ContBlockEngineObj engine);
 
         static ContBlockObj New(ContBlockEngineObj engine);

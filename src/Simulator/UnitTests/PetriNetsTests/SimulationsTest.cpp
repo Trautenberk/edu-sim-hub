@@ -9,11 +9,11 @@
 TEST(SimpleSimWithImmediateTransition, BasicAssertions)
 {
     auto engine = PetriNetsEngine::New();
-    auto placeOne = Place::New(engine, "Place 1", 1);
-    auto placeTwo = Place::New(engine, "Place 2", 0);
+    auto placeOne = Place::New(engine, 1);
+    auto placeTwo = Place::New(engine, 0);
     auto inputArc = InputArc::New(engine, placeOne);
     auto outputArc = OutputArc::New(engine, placeTwo);
-    auto transition = ImmediateTransition::New(engine, "Transition 1", vector<InputArcObj>{inputArc}, vector<OutputArcObj>{outputArc});
+    auto transition = ImmediateTransition::New(engine, vector<InputArcObj>{inputArc}, vector<OutputArcObj>{outputArc});
     EXPECT_EQ(engine, transition->engine);
     engine->init(10);
     engine->simulate();
@@ -25,11 +25,11 @@ TEST(SimpleSimWithImmediateTransition, BasicAssertions)
 TEST(SimpleSimWithTimedConstantTransition, BasicAssertions)
 {
     auto engine = PetriNetsEngine::New();
-    auto placeOne = Place::New(engine, "Place 1", 1);
-    auto placeTwo = Place::New(engine, "Place 2", 0);
+    auto placeOne = Place::New(engine, 1);
+    auto placeTwo = Place::New(engine, 0);
     auto inputArc = InputArc::New(engine, placeOne);
     auto outputArc = OutputArc::New(engine, placeTwo);
-    auto transition = TimedConstantTransition::New(engine, "Transition 1", vector<InputArcObj> {inputArc}, vector<OutputArcObj> {outputArc}, 5);
+    auto transition = TimedConstantTransition::New(engine, vector<InputArcObj> {inputArc}, vector<OutputArcObj> {outputArc}, 5);
     
     EXPECT_EQ(engine, transition->engine);
     engine->init(10);
@@ -42,11 +42,11 @@ TEST(SimpleSimWithTimedConstantTransition, BasicAssertions)
 TEST(SimpleSimWithTimedExponenetialTransition, BasicAssertions)
 {
     auto engine = PetriNetsEngine::New();
-    auto placeOne = Place::New(engine, "Place 1", 1);
-    auto placeTwo = Place::New(engine, "Place 2", 0);
+    auto placeOne = Place::New(engine, 1);
+    auto placeTwo = Place::New(engine, 0);
     auto inputArc = InputArc::New(engine, placeOne);
     auto outputArc = OutputArc::New(engine, placeTwo);
-    auto transition = TimedExponentialTransition::New(engine, "Transition 1", vector<InputArcObj> {inputArc}, vector<OutputArcObj> {outputArc}, 5);
+    auto transition = TimedExponentialTransition::New(engine,  vector<InputArcObj> {inputArc}, vector<OutputArcObj> {outputArc}, 5);
     
     EXPECT_EQ(engine, transition->engine);
     engine->init(100);
@@ -60,15 +60,15 @@ TEST(SimpleSimWithTimedExponenetialTransition, BasicAssertions)
 TEST(testImmediateAndTimedConstantTransition, BasicAssertions)
 {
     auto engine = PetriNetsEngine::New();
-    auto placeOne = Place::New(engine, "Place 1", 1);
-    auto placeTwo = Place::New(engine, "Place 2", 0);
-    auto placeThree = Place::New(engine, "Place 3", 0);
+    auto placeOne = Place::New(engine, 1);
+    auto placeTwo = Place::New(engine, 0);
+    auto placeThree = Place::New(engine, 0);
     auto inputImmediate = InputArc::New(engine, placeOne);
     auto outputImmediate = OutputArc::New(engine, placeTwo);
     auto inputTimed = InputArc::New(engine, placeOne);
     auto outputTimed = OutputArc::New(engine, placeThree);
-    auto immediate = ImmediateTransition::New(engine, "Immediate 1", vector<InputArcObj> {inputImmediate}, vector<OutputArcObj> {outputImmediate});
-    auto timed = TimedConstantTransition::New(engine, "Timed 1", vector<InputArcObj> {inputTimed}, vector<OutputArcObj> {outputTimed}, 5);
+    auto immediate = ImmediateTransition::New(engine, vector<InputArcObj> {inputImmediate}, vector<OutputArcObj> {outputImmediate});
+    auto timed = TimedConstantTransition::New(engine, vector<InputArcObj> {inputTimed}, vector<OutputArcObj> {outputTimed}, 5);
 
     engine->init(10);
     engine->simulate();
@@ -82,10 +82,10 @@ TEST(testImmediateAndTimedConstantTransition, BasicAssertions)
 TEST(testImmediateAndTimedConstantTransitionTwo, BasicAssertions)
 {
     auto engine = PetriNetsEngine::New();
-    auto placeOne = Place::New(engine, "Place 1", 5);
-    auto placeTwo = Place::New(engine, "Place 2", 2);
-    auto placeThree = Place::New(engine, "Place 3", 0);
-    auto placeFour = Place::New(engine, "Place 4", 0);
+    auto placeOne = Place::New(engine, 5);
+    auto placeTwo = Place::New(engine, 2);
+    auto placeThree = Place::New(engine, 0);
+    auto placeFour = Place::New(engine, 0);
 
     auto inputImmediate = InputArc::New(engine, placeOne);
     auto inputImmediateTwo = InputArc::New(engine, placeTwo);
@@ -94,8 +94,8 @@ TEST(testImmediateAndTimedConstantTransitionTwo, BasicAssertions)
     auto inputTimed = InputArc::New(engine, placeOne);
     auto outputTimed = OutputArc::New(engine, placeFour);
 
-    auto immediate = ImmediateTransition::New(engine, "Immediate 1", vector<InputArcObj> {inputImmediate, inputImmediateTwo}, vector<OutputArcObj> {outputImmediate});
-    auto timed = TimedConstantTransition::New(engine, "Timed 1", vector<InputArcObj> {inputTimed}, vector<OutputArcObj> {outputTimed}, 5);
+    auto immediate = ImmediateTransition::New(engine, vector<InputArcObj> {inputImmediate, inputImmediateTwo}, vector<OutputArcObj> {outputImmediate});
+    auto timed = TimedConstantTransition::New(engine, vector<InputArcObj> {inputTimed}, vector<OutputArcObj> {outputTimed}, 5);
 
     engine->init(10);
     engine->simulate();
@@ -112,16 +112,16 @@ TEST(testImmediateAndTimedConstantTransitionTwo, BasicAssertions)
 TEST(SimpleSimWithTimedConstantTransitionTwo, BasicAssertions)
 {
     auto engine = PetriNetsEngine::New();
-    auto placeOne = Place::New(engine, "Place 1", 5);
-    auto placeTwo = Place::New(engine, "Place 2", 0);
+    auto placeOne = Place::New(engine, 5);
+    auto placeTwo = Place::New(engine, 0);
     auto inputArc = InputArc::New(engine, placeOne);
     auto outputArc = OutputArc::New(engine, placeTwo, 2);
-    auto transition = TimedConstantTransition::New(engine, "Transition 1", vector<InputArcObj> {inputArc}, vector<OutputArcObj> {outputArc}, 5);
+    auto transition = TimedConstantTransition::New(engine, vector<InputArcObj> {inputArc}, vector<OutputArcObj> {outputArc}, 5);
 
-    auto placeThree = Place::New(engine, "Place 3", 0);
+    auto placeThree = Place::New(engine, 0);
     auto iputArcTwo = InputArc::New(engine, placeTwo);
     auto outputArcTwo = OutputArc::New(engine, placeThree);
-    auto transitionTwo = TimedConstantTransition::New(engine, "Transition 1", vector<InputArcObj> {iputArcTwo}, vector<OutputArcObj> {outputArcTwo}, 5);
+    auto transitionTwo = TimedConstantTransition::New(engine, vector<InputArcObj> {iputArcTwo}, vector<OutputArcObj> {outputArcTwo}, 5);
     
     EXPECT_EQ(engine, transition->engine);
     engine->init(10);

@@ -6,35 +6,33 @@
 using namespace std;
 
 // Transition
-Transition::Transition(objectId id, PetriNetsEngineObj engine, string label, vector<InputArcObj> inputArcs, vector<OutputArcObj> outputArcs) 
+Transition::Transition(objectId id, PetriNetsEngineObj engine, vector<InputArcObj> inputArcs, vector<OutputArcObj> outputArcs) 
 : PetriNetsObject(id, engine)
 {
-    this->label = label;
-    this->inputArcs = inputArcs;
+    this->_inputArcs = inputArcs;
 
     this->engine->addTransition(this);
 
-    for (auto& arch : inputArcs)
+    for (auto& arch : _inputArcs)
     {
         this->placeIdsOnInput.push_back(arch->targetPlace->id());
     }
 
-    this->outputArcs = outputArcs;
+    this->_outputArcs = outputArcs;
 
     for (auto& arch : outputArcs)
     {
         this->placeIdsOnOutput.push_back(arch->targetPlace->id());
     }
 
-    this->allArcs.reserve(inputArcs.size() + outputArcs.size());
+    this->_allArcs.reserve(inputArcs.size() + outputArcs.size());
 
-    this->allArcs.insert(this->allArcs.end(), outputArcs.begin(), outputArcs.end());
-    this->allArcs.insert(this->allArcs.end(), inputArcs.begin(), inputArcs.end());
+    this->_allArcs.insert(this->_allArcs.end(), outputArcs.begin(), outputArcs.end());
+    this->_allArcs.insert(this->_allArcs.end(), inputArcs.begin(), _inputArcs.end());
 }
 
 void Transition::initialize()
 {
-    cout << "Transition initialization withId: " << this->id()  << endl;
     // cout << "Inputs satisfied: " << this->allInputArcSsatisfied() << endl;
     for (int i = 0; i < this->allInputArcSsatisfied(); i++)
         this->planTransitionFiringEvent();
@@ -48,11 +46,11 @@ int Transition::allInputArcSsatisfied()
 {
     int timesSatisfied = INT_MAX;
 
-    // cout << "input arches count: " << this->inputArcs.size() << endl;
-    if (this->inputArcs.size() == 0)
+    // cout << "input arches count: " << this->_inputArcs.size() << endl;
+    if (this->_inputArcs.size() == 0)
         return 0;
     
-    for (auto& inputArc : this->inputArcs)
+    for (auto& inputArc : this->_inputArcs)
     {
         if (inputArc->satisfied() == 0)
             return 0;
@@ -64,26 +62,26 @@ int Transition::allInputArcSsatisfied()
 
 void Transition::removeTransitionFiringEvent()
 {
-    auto eventIdToCancel = plannedEventsId.front();
-    plannedEventsId.pop_front();
+    auto eventIdToCancel = _plannedEventsId.front();
+    _plannedEventsId.pop_front();
     this->engine->calendar.cancelEvent(eventIdToCancel);
 }
 
 void Transition::fire(int eventId)
 {
-    for (auto i = 0; i < plannedEventsId.size(); i++)
+    for (auto i = 0; i < _plannedEventsId.size(); i++)
     {
-        if (plannedEventsId[i] == eventId)
-            this->plannedEventsId.erase(plannedEventsId.begin() + 0);
+        if (_plannedEventsId[i] == eventId)
+            this->_plannedEventsId.erase(_plannedEventsId.begin() + 0);
     }
 
     // odebrani
-    for (auto& arch : this->inputArcs)
+    for (auto& arch : this->_inputArcs)
     {
         arch->execute();
     }
 
-    for (auto& transition : this->engine->allTransitions)
+    for (auto& transition : this->engine->allTransitions())
     {
         if (transition->id() != this->id() && transition->hasPlaceOnInput(this->placeIdsOnInput))
         {
@@ -93,12 +91,12 @@ void Transition::fire(int eventId)
     }
 
     // pridani tokenu
-    for (auto& arch : this->outputArcs)
+    for (auto& arch : this->_outputArcs)
     {
         arch->execute();
     }
 
-    for (auto& transition : this->engine->allTransitions)
+    for (auto& transition : this->engine->allTransitions())
     {
         if (transition->hasPlaceOnInput(this->placeIdsOnOutput))
         {
@@ -112,7 +110,7 @@ void Transition::fire(int eventId)
 
 bool Transition::hasPlaceOnInput(vector<objectId> &placeIds)
 {
-    for (auto& arch : this->inputArcs)
+    for (auto& arch : this->_inputArcs)
     {
         if (find(placeIds.begin(), placeIds.end(), arch->targetPlace->id()) != placeIds.end())
         {
@@ -125,17 +123,17 @@ bool Transition::hasPlaceOnInput(vector<objectId> &placeIds)
 void Transition::rePlanTransition()
 {
     // musim preplanovat
-    if (this->allInputArcSsatisfied() < this->plannedEventsId.size())
+    if (this->allInputArcSsatisfied() < this->_plannedEventsId.size())
     {
         // odplanovat
-        while(plannedEventsId.size() != this->allInputArcSsatisfied())
+        while(_plannedEventsId.size() != this->allInputArcSsatisfied())
         {
             this->removeTransitionFiringEvent();
         }
 
     } else {
         // pridat do planu
-        while(plannedEventsId.size() != this->allInputArcSsatisfied())
+        while(_plannedEventsId.size() != this->allInputArcSsatisfied())
         {
             this->planTransitionFiringEvent();
         }
@@ -156,8 +154,8 @@ TransitionRecord Transition::getStatisticsRecord()
 // ImmediateTransition
 const string immediateTransitionTypeName = "ImmediateTransition";
 
-ImmediateTransition::ImmediateTransition(objectId id, PetriNetsEngineObj engine, string label, vector<InputArcObj> inputArcs, vector<OutputArcObj> outputArcs, int priority)
-: Transition(id, engine, label, inputArcs, outputArcs)
+ImmediateTransition::ImmediateTransition(objectId id, PetriNetsEngineObj engine, vector<InputArcObj> inputArcs, vector<OutputArcObj> outputArcs, int priority)
+: Transition(id, engine, inputArcs, outputArcs)
 {
     this->priority = priority;
 }
@@ -168,12 +166,12 @@ void ImmediateTransition::planTransitionFiringEvent()
     auto func = [this](int evenetId) {this->fire(evenetId);};
     auto event = Event(engine->time(), func, this->priority);
     this->engine->calendar.insertEvent(event);
-    this->plannedEventsId.push_back(event.id);    
+    this->_plannedEventsId.push_back(event.id);    
 }
 
-ImmediateTransitionObj ImmediateTransition::New(PetriNetsEngineObj engine, std::string label, vector<InputArcObj> inputArcs, vector<OutputArcObj> outputArcs, int priority)
+ImmediateTransitionObj ImmediateTransition::New(PetriNetsEngineObj engine, vector<InputArcObj> inputArcs, vector<OutputArcObj> outputArcs, int priority)
 {
-    return make_shared<ImmediateTransition>(SimObject::createId(immediateTransitionTypeName), engine, label, inputArcs, outputArcs, priority);
+    return make_shared<ImmediateTransition>(SimObject::createId(immediateTransitionTypeName), engine, inputArcs, outputArcs, priority);
 }
 
 string ImmediateTransition::objTypeName()
@@ -186,8 +184,8 @@ string ImmediateTransition::objTypeName()
 
 const string timedTransitionTypeName = "TimedTransition";
 
-TimedTransition::TimedTransition(objectId id, PetriNetsEngineObj engine, string label, vector<InputArcObj> inputArcs, vector<OutputArcObj> outputArcs, double delay)
-: Transition(id, engine, label, inputArcs, outputArcs)
+TimedTransition::TimedTransition(objectId id, PetriNetsEngineObj engine, vector<InputArcObj> inputArcs, vector<OutputArcObj> outputArcs, double delay)
+: Transition(id, engine, inputArcs, outputArcs)
 {
     this->_delayValue = delay;
 }
@@ -196,11 +194,9 @@ TimedTransition::TimedTransition(objectId id, PetriNetsEngineObj engine, string 
 void TimedTransition::planTransitionFiringEvent()
 {
     auto func = [this](int evenetId) {this->fire(evenetId);};
-    cout << "delay: " << this->getDelay() << endl;
-    cout << "planned time: " << engine->time() + this->getDelay() << endl; 
     auto event = Event(engine->time() + this->getDelay(), func);
     this->engine->calendar.insertEvent(event);
-    this->plannedEventsId.push_back(event.id);    
+    this->_plannedEventsId.push_back(event.id);    
 }
 
 string TimedTransition::objTypeName()
@@ -214,13 +210,13 @@ string TimedTransition::objTypeName()
 const string timedConstantTransitionTypeName = "TimedConstantTransition";
 
 
-TimedConstantTransition::TimedConstantTransition(objectId id, PetriNetsEngineObj engine, std::string label, vector<InputArcObj> inputArcs, vector<OutputArcObj>  outputArcs, double delayValue)
-: TimedTransition(id, engine, label, inputArcs, outputArcs, delayValue)
+TimedConstantTransition::TimedConstantTransition(objectId id, PetriNetsEngineObj engine, vector<InputArcObj> inputArcs, vector<OutputArcObj>  outputArcs, double delayValue)
+: TimedTransition(id, engine, inputArcs, outputArcs, delayValue)
 {}
 
-TimedConstantTransitionObj TimedConstantTransition::New(PetriNetsEngineObj engine, std::string label, vector<InputArcObj> inputArcs, vector<OutputArcObj>  outputArcs, double delayValue)
+TimedConstantTransitionObj TimedConstantTransition::New(PetriNetsEngineObj engine, vector<InputArcObj> inputArcs, vector<OutputArcObj>  outputArcs, double delayValue)
 {
-    return make_shared<TimedConstantTransition>(SimObject::createId(timedConstantTransitionTypeName), engine, label, inputArcs, outputArcs, delayValue);
+    return make_shared<TimedConstantTransition>(SimObject::createId(timedConstantTransitionTypeName), engine,  inputArcs, outputArcs, delayValue);
 }
 
 string TimedConstantTransition::objTypeName()
@@ -244,14 +240,14 @@ std::string TimedExponentialTransition::objTypeName()
     return timedExponentialTransitionTypeName;
 }
 
-TimedExponentialTransition::TimedExponentialTransition(objectId id, PetriNetsEngineObj engine, std::string label, vector<InputArcObj> inputArcs, vector<OutputArcObj>  outputArcs, double delayValue)
-: TimedTransition(id, engine, label, inputArcs, outputArcs, delayValue)
+TimedExponentialTransition::TimedExponentialTransition(objectId id, PetriNetsEngineObj engine, vector<InputArcObj> inputArcs, vector<OutputArcObj>  outputArcs, double delayValue)
+: TimedTransition(id, engine, inputArcs, outputArcs, delayValue)
 {}
          
        
- TimedExponentialTransitionObj TimedExponentialTransition::New(PetriNetsEngineObj engine, std::string label, vector<InputArcObj> inputArcs, vector<OutputArcObj>  outputArcs, double delayValue)
+ TimedExponentialTransitionObj TimedExponentialTransition::New(PetriNetsEngineObj engine, vector<InputArcObj> inputArcs, vector<OutputArcObj>  outputArcs, double delayValue)
  {
-     return make_shared<TimedExponentialTransition>(SimObject::createId(timedExponentialTransitionTypeName), engine, label, inputArcs, outputArcs, delayValue);
+     return make_shared<TimedExponentialTransition>(SimObject::createId(timedExponentialTransitionTypeName), engine, inputArcs, outputArcs, delayValue);
  }
 
 double TimedExponentialTransition::getDelay()
@@ -268,15 +264,15 @@ double TimedExponentialTransition::getDelay()
 
         emscripten::class_<TimedConstantTransition>("TimedConstantTransition")
         .smart_ptr<shared_ptr<TimedConstantTransition>>("shared_ptr<TimedConstantTransition>")
-        .constructor(&std::make_shared<TimedConstantTransition, objectId ,PetriNetsEngineObj, string, vector<InputArcObj>, vector<OutputArcObj>, double>);
+        .constructor(&std::make_shared<TimedConstantTransition, objectId ,PetriNetsEngineObj, vector<InputArcObj>, vector<OutputArcObj>, double>);
 
         emscripten::class_<TimedExponentialTransition>("TimedExponentialTransition")
         .smart_ptr<shared_ptr<TimedExponentialTransition>>("shared_ptr<TimedExponentialTransition>")
-        .constructor(&std::make_shared<TimedExponentialTransition, objectId ,PetriNetsEngineObj, string, vector<InputArcObj>, vector<OutputArcObj>, double>);
+        .constructor(&std::make_shared<TimedExponentialTransition, objectId ,PetriNetsEngineObj, vector<InputArcObj>, vector<OutputArcObj>, double>);
 
 
         emscripten::class_<ImmediateTransition>("ImmediateTransition")
         .smart_ptr<shared_ptr<ImmediateTransition>>("shared_ptr<ImmediateTransition>")
-        .constructor(&std::make_shared<ImmediateTransition, objectId, PetriNetsEngineObj, string, vector<InputArcObj>, vector<OutputArcObj>, double>);
+        .constructor(&std::make_shared<ImmediateTransition, objectId, PetriNetsEngineObj, vector<InputArcObj>, vector<OutputArcObj>, double>);
     }
 #endif

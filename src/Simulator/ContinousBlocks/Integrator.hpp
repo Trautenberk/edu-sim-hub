@@ -6,9 +6,19 @@
 #include "ContBlockStatistics.hpp"
 
 
+/**
+ * @brief Blok integrátoru
+ * 
+ */
 class Integrator : public ContBlockSingle {
     public:
-        // input value = f(t,y)
+        /**
+         * @brief Konstruktor
+         * 
+         * @param id 
+         * @param engine 
+         * @param initialValue Počáteční hodnota/výchozí podmínka 
+         */
         Integrator(objectId id, ContBlockEngineObj engine, double initialValue);
         static ContBlockSingleObj New(ContBlockEngineObj engine, double initialValue);
         static ContBlockSingleObj New(ContBlockEngineObj engine, double initialValue, ContBlockObj input);
@@ -18,14 +28,20 @@ class Integrator : public ContBlockSingle {
 
         void eval();
         double value();
+
+        /**
+         * @brief Provede krok numerické metody
+         * 
+         */
         void integrate();
-        double currentState();
-        double currentInputValue(); 
     private:
-        double _currentState;  
+        // Hodnota bloku v současném kroku
+        double _currentState;
+        // Hodnota bloku v předchozím kroku
         double _prevState; 
+        // Slouží pro načtení vstupní hodnoty
         double _currentInputValue;
-        double _prevInputValue;
+        // Počáteční hodnota        
         double _initialValue;
 
 

@@ -5,7 +5,7 @@ import windowStyles from "Editor/Styles/EditWindow.module.scss"
 import { Place, Transition } from "Editor/Model/PetriNets" 
 import { MenuIcons } from "Editor/Components/Icons";
 import { addObject, Example, removeAllObjects, removeObject, selectedObjectId,  setSimulationParams,  setState,  SimObjectManagementState,  unselectObject } from 'Editor/Feature/SimObjectManagementSlice';
-import { EditWindow, CanvasSVG, IObjectGUIComponentFactory, ContBlocksGUIComponentFactory, PetriNetsGUIComponentFactory } from "Editor/Components"
+import { EditWindow, CanvasSVG, IObjectGUIComponentFactory } from "Editor/Components"
 import {Add, Div, Sub, Mul, Constant, Gain, Integrator} from "Editor/Model/ContBlocks"
 import { PetriNetsSimulatorAdapter } from "Editor/Model/PetriNets"
 import SimulatorModule from "wasm-build/wasm_Simulator.js";
@@ -18,6 +18,8 @@ import { Time } from 'Editor/Model/ContBlocks/Time';
 import { TransitionType } from 'Editor/Model/PetriNets/Transition';
 import { ModalWindow } from 'Editor/Components/Utilities/UtilComponents/ModalWindow';
 import { CONT_EXAMPLES_MAP, PN_EXAMPLES_MAP } from 'Editor/Model/Examples/ExampleMap';
+import { PetriNetsGUIComponentFactory } from 'Editor/Components/PetriNets';
+import { ContBlocksGUIComponentFactory } from 'Editor/Components/ContBlocks';
 
 /**
  * @author Jaromír Březina

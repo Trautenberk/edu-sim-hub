@@ -5,6 +5,7 @@ bool Calendar::isEmpty()
     return this->_eventQueue.empty();
 }
 
+// Vloží event do kalendáře
 void Calendar::insertEvent(Event event)
 {
     for (int i = 0; i < this->_eventQueue.size(); i++)
@@ -18,6 +19,7 @@ void Calendar::insertEvent(Event event)
     this->_eventQueue.push_back(event);
 }
 
+// Vrací následující event
 Event Calendar::getNextEvent()
 {
     auto& event = this->_eventQueue.front();
@@ -25,6 +27,7 @@ Event Calendar::getNextEvent()
     return event;
 }
 
+// Zruší event s daným id
 bool Calendar::cancelEvent(int id)
 {
     deque<Event>::iterator iter;
@@ -40,6 +43,7 @@ bool Calendar::cancelEvent(int id)
     return false;
 }
 
+// Vymaže kalendář
 void Calendar::clear()
 {
     this->_eventQueue.clear();

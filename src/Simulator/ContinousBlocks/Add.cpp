@@ -1,6 +1,11 @@
 #include "Add.hpp"
 
+/**
+ * @brief TypeName
+ * 
+ */
 const string addTypeName = "AddBlock";
+
 
 Add::Add(objectId id, ContBlockEngineObj engine)
 : ContBlockDouble(id, engine)

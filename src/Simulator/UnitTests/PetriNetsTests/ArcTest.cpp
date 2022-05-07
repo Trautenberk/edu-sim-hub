@@ -7,7 +7,7 @@
 TEST(InputArcExecute, BasicAssertions)
 {
     auto engine = PetriNetsEngine::New();
-    auto place = Place::New(engine, "Test", 2);
+    auto place = Place::New(engine, 2);
     auto inputArc = InputArc::New(engine, place);
     EXPECT_EQ(inputArc->targetPlace, place);
     inputArc->execute();
@@ -17,7 +17,7 @@ TEST(InputArcExecute, BasicAssertions)
 TEST(InputArcWeightedExecute, BasicAssertions)
 {
     auto engine = PetriNetsEngine::New();
-    auto place = Place::New(engine, "Test", 10);
+    auto place = Place::New(engine, 10);
     auto inputArc = InputArc::New(engine, place, 3);
     EXPECT_EQ(inputArc->targetPlace, place);
     inputArc->execute();
@@ -29,7 +29,7 @@ TEST(InputArcWeightedExecute, BasicAssertions)
 TEST(InputArcSatisfied, BasicAssertions)
 {
     auto engine = PetriNetsEngine::New();
-    auto place = Place::New(engine, "Test", 0);
+    auto place = Place::New(engine, 0);
     auto inputArc = InputArc::New(engine, place);
     EXPECT_EQ(inputArc->satisfied(), 0);
     place->addTokens(1);
@@ -42,7 +42,7 @@ TEST(InputArcSatisfied, BasicAssertions)
 TEST(InputArcWeightedSatisfied, BasicAssertions)
 {
     auto engine = PetriNetsEngine::New();
-    auto place = Place::New(engine, "Test", 0);
+    auto place = Place::New(engine, 0);
     auto inputArc = InputArc::New(engine, place,3);
     EXPECT_EQ(inputArc->satisfied(), 0);
     place->addTokens(2);
@@ -56,7 +56,7 @@ TEST(InputArcWeightedSatisfied, BasicAssertions)
 TEST(OutputArcExecute, BasicAssertions)
 {
     auto engine = PetriNetsEngine::New();
-    auto place = Place::New(engine, "Test", 0);
+    auto place = Place::New(engine, 0);
     auto outputArc = OutputArc::New(engine, place);
     EXPECT_EQ(outputArc->targetPlace, place);
     outputArc->execute();
@@ -67,7 +67,7 @@ TEST(OutputArcExecute, BasicAssertions)
 TEST(OutputArcWeightedExecute, BasicAssertions)
 {
     auto engine = PetriNetsEngine::New();
-    auto place = Place::New(engine, "Test", 0);
+    auto place = Place::New(engine, 0);
     auto outputArc = OutputArc::New(engine, place, 5);
     EXPECT_EQ(outputArc->targetPlace, place);
     outputArc->execute();

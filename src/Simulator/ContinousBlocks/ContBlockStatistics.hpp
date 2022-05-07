@@ -5,15 +5,26 @@
 #include <map>
 #include <vector>
 
-
+/**
+ * @brief Záznam statistik pro integrátor
+ */
 struct IntegratorRecord {
     double time;
     double value;
 };
 
-
+/**
+ * @brief Statistiky simulace spojitého blokového schéma.
+ * 
+ */
 struct ContBlockStatistics {
+    /**
+     * @brief Mapa objketů a jejich záznamů statistik
+     */
     std::map<objectId, std::vector<IntegratorRecord>> integratorRecords = {};
+    /**
+     * @brief Simulační čas
+     */
     double simulationTime = -1;
 };
 

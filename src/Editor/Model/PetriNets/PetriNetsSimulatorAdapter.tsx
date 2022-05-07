@@ -96,7 +96,7 @@ export class PetriNetsSimulatorAdapter implements ISimulatorAdapter {
         }
 
         for (const place of places) {
-            this._placesDict[place.id] = new simulatorModule.Place(place.id, this._engine, place.label, place.tokenCount);
+            this._placesDict[place.id] = new simulatorModule.Place(place.id, this._engine, place.tokenCount);
         }
 
         for (const inputArc of inputArcs) {
@@ -127,13 +127,13 @@ export class PetriNetsSimulatorAdapter implements ISimulatorAdapter {
 
             switch (transition.type) {
                 case TransitionType.Immediate:
-                    this._transitionsDict[transition.id] = new simulatorModule.ImmediateTransition(transition.id, this._engine, transition.label, inputArcVec, outputArcVec, transition.priority);
+                    this._transitionsDict[transition.id] = new simulatorModule.ImmediateTransition(transition.id, this._engine, inputArcVec, outputArcVec, transition.priority);
                     break;
                 case TransitionType.Constant:
-                    this._transitionsDict[transition.id] = new simulatorModule.TimedConstantTransition(transition.id, this._engine, transition.label, inputArcVec, outputArcVec, transition.timeValue);
+                    this._transitionsDict[transition.id] = new simulatorModule.TimedConstantTransition(transition.id, this._engine, inputArcVec, outputArcVec, transition.timeValue);
                     break;
                 case TransitionType.Exponential:
-                    this._transitionsDict[transition.id] = new simulatorModule.TimedExponentialTransition(transition.id, this._engine, transition.label, inputArcVec, outputArcVec, transition.timeValue);
+                    this._transitionsDict[transition.id] = new simulatorModule.TimedExponentialTransition(transition.id, this._engine, inputArcVec, outputArcVec, transition.timeValue);
                     break;
             }   
         }

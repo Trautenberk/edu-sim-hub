@@ -9,7 +9,7 @@ PetriNetsEngine::PetriNetsEngine() : DiscreteEngine()
 
 void PetriNetsEngine::addTransition(Transition *transition)
 {
-    this->allTransitions.push_back(transition);
+    this->_allTransitions.push_back(transition);
 }
 
 void PetriNetsEngine::addPlace(Place *place)
@@ -22,19 +22,6 @@ PetriNetsEngineObj PetriNetsEngine::New()
     return make_shared<PetriNetsEngine>();
 }
 
-void PetriNetsEngine::initializeStatistics()
-{
-    for (auto place : this->_allPlaces)
-    {
-        this->_statistics.placeRecords.insert({place->id(), std::vector<PlaceRecord> {}});
-    }
-
-    for (auto transition : this->allTransitions)
-    {
-        this->_statistics.transitionRecords.insert({transition->id(), std::vector<TransitionRecord>{}});
-    }
-}
-
 void PetriNetsEngine::gatherStatistics()
 {
     for (auto place : this->_allPlaces)
@@ -42,7 +29,7 @@ void PetriNetsEngine::gatherStatistics()
         this->_statistics.placeRecords[place->id()].push_back(place->getStatisticsRecord());
     }
 
-    for (auto transition : this->allTransitions)
+    for (auto transition : this->_allTransitions)
     {
         this->_statistics.transitionRecords[transition->id()].push_back(transition->getStatisticsRecord());
     }
@@ -52,6 +39,10 @@ PetriNetsStatistics PetriNetsEngine::statistics() {
     return this->_statistics;
 }
 
+vector<Transition*>& PetriNetsEngine::allTransitions()
+{
+    return this->_allTransitions;
+}
 
 
 
