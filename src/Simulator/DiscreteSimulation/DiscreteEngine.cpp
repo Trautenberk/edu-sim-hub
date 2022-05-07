@@ -1,4 +1,5 @@
 #include "DiscreteEngine.hpp"
+#include "../SimObject.hpp"
 
 void DiscreteEngine::init(float endTime, int maxIteration)
 {  
@@ -39,10 +40,6 @@ void DiscreteEngine::simulate()
     cout << "Simulation finished at model time: " << this->_time << ", simulation duration: " << double(endSimTime - beginSimTime) / CLOCKS_PER_SEC << "s" << endl;
 }
 
-void DiscreteEngine::addDiscreteObject(DiscreteSimObject *object)
-{
-    this->_simObjects.push_back(object);
-}
 
 void DiscreteEngine::updateTime(double nextEventTime)
 {

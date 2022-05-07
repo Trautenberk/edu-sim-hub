@@ -1,7 +1,7 @@
 #ifndef __CONTBLOCK_H__
 #define __CONTBLOCK_H__
 
-#include "../ContinousSimulation/ContinousSimObject.hpp"
+#include "../SimObject.hpp"
 #include <memory>
 #include <vector>
 #include "ContBlockEngine.hpp"
@@ -10,16 +10,16 @@ class ContBlock;
 
 using ContBlockObj = std::shared_ptr<ContBlock>;
 
-
 template <typename T>
 ContBlockObj createContBlockObj(objectId id, ContBlockEngine engine) {
     return make_shared<T>(id, engine);
 }
 
-class ContBlock : public ContinousSimObject {
+class ContBlock : public SimObject {
     public:
         ContBlock(objectId id, ContBlockEngineObj engine);
         virtual double value() = 0;
+        virtual void eval() = 0;
         ContBlockEngineObj engine;
         void initialize() override;
 };

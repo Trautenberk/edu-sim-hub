@@ -2,19 +2,22 @@
 #define SIMOBJECT_H
 
 #include <string>
-#include "DiscreteSimulation/Calendar.hpp"
+#include "SimEngine.hpp"
+
 
 using objectId = std::string;
 
+class SimEngine;
  class SimObject {
 
     private:
         static int _objCounter;
     public:
-        static string createId(string objectType); 
-        const objectId id();
-        virtual string objTypeName() = 0;
         SimObject(objectId id);
+        static std::string createId(std::string objectType); 
+        const objectId id();
+        virtual std::string objTypeName() = 0;
+        virtual void initialize() = 0;
     private:
         objectId _id;
 };

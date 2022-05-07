@@ -1,7 +1,8 @@
 #include "PetriNetsObject.hpp"
+#include "../SimEngine.hpp"
 
 PetriNetsObject::PetriNetsObject(objectId id, PetriNetsEngineObj _engine) 
-: DiscreteSimObject(id), engine(_engine) 
+: SimObject(id), engine(_engine) 
 {
-    this->engine->addDiscreteObject(this);  // TODO je tohle to spravne misto?
+    engine->addObject(this);
 }

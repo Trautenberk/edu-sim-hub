@@ -1,4 +1,4 @@
-set(CONTINOUS_SIMULATION_HEADERS ContinousSimObject.hpp ContinousSimEngine.hpp ../SimObject.hpp ../SimEngine.hpp)
+set(CONTINOUS_SIMULATION_HEADERS ContinousSimEngine.hpp ../SimObject.hpp ../SimEngine.hpp)
 set(CONTINOUS_SIMULATION_SOURCES ContinousSimEngine.cpp ../SimObject.cpp ../SimEngine.cpp) 
 
 

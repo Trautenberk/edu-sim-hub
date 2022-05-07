@@ -2,8 +2,8 @@
 #define CONTSIMULATOR_H
 
 #include <vector>
-#include "ContinousSimObject.hpp"
 #include "../SimEngine.hpp"
+
 
 #ifdef EMSCRIPTEN
     #include <emscripten/bind.h>
@@ -18,13 +18,11 @@ class ContinousSimEngine : public SimEngine {
         void simulate() override;
         virtual void simulationBegin() override;
         virtual void simulationEnd() override;
-        void addContSimObject(ContinousSimObject* object);
         virtual void gatherStatistics() = 0;
         void statisticsStep();
         double stepSize();
 
     protected:
-        vector<ContinousSimObject*> _objects = {};
         double _stepSize = -1;
         int _sampleRate = 1;     // kolikaty kazdy krok se ma zaznamenat
         int _sampleStep = 0;

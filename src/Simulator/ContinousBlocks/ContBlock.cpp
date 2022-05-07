@@ -4,9 +4,9 @@
 ////////////////////////////////////////////////////////////////////////
 //// ContBlock
 ContBlock::ContBlock(objectId id, ContBlockEngineObj _engine)
-: ContinousSimObject(id), engine(_engine)
+: SimObject(id), engine(_engine)
 {
-        this->engine->addContSimObject(this);
+    engine->addObject(this);
 }
 
 void ContBlock::initialize()

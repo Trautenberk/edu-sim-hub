@@ -1,6 +1,6 @@
 #include "ContinousSimEngine.hpp"
 #include <iostream>
-
+#include "../SimObject.hpp"
 
 bool ContinousSimEngine::init(double beginTime,double endTime, double stepSize, int sampleRate)
 {
@@ -24,7 +24,7 @@ bool ContinousSimEngine::init(double beginTime,double endTime, double stepSize, 
 
     try 
     {
-        for(auto obj : this->_objects)
+        for(auto obj : this->_simObjects)
         {
             obj->initialize();
         }
@@ -89,10 +89,6 @@ void ContinousSimEngine::simulationEnd()
     this->gatherStatistics();
 }
 
-void ContinousSimEngine::addContSimObject(ContinousSimObject *object)
-{
-    this->_objects.push_back(object);
-}
 
 void ContinousSimEngine::statisticsStep()
 {

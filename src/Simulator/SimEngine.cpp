@@ -1,5 +1,7 @@
 #include "SimEngine.hpp"
 #include <memory>
+#include "SimObject.hpp"
+
 
 
 double SimEngine::time()
@@ -12,17 +14,14 @@ double SimEngine::endTime()
     return this->_endTime;
 }
 
-class TestanA {
-    public:
-        TestanA() {};
-};
+void SimEngine::addObject(SimObject* object)
+{
+    this->_simObjects.push_back(object);
+}
 
 
 #ifdef EMSCRIPTEN
     EMSCRIPTEN_BINDINGS(SimEngine) {
-        emscripten::class_<TestanA>("TestanA")
-        .constructor<>()
-        ;
     }
 
 #endif
