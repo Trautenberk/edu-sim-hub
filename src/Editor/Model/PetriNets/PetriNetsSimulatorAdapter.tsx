@@ -1,16 +1,21 @@
+import { IContBlockStatistics } from "Editor/Components/ContBlocks/ContBlocksAdapter";
 import { IEditorObject } from "../EditorObject";
-import { IPNSimulationParams } from "../SimulationParams";
+import { IContBlocksSimulationParams, IPNSimulationParams } from "../SimulationParams";
 import { IArc, InputArc, OutputArc } from "./Arc";
 import { IPlace, Place } from "./Place";
 import { ITransition, Transition, TransitionType } from "./Transition";
 
-interface ISimulatorAdapter {
-    init(endTime : number, maxIteration : number) : void;
-    simulate() : void;
+/**
+ * Rozhraní adptéru modulu simulátoru
+ */
+export interface ISimulatorAdapter {
+    simulate(objects : {[key : string] :IEditorObject }, params : IPNSimulationParams | IContBlocksSimulationParams) : void;
+    statistics  : IPetriNetsStatistics | IContBlockStatistics | null;
 }
 
 export class PetriNetsSimulatorAdapter implements ISimulatorAdapter {
 
+    private _simulatorModule : any;
     private _engine : any;
 
     private _placesDict : {[key : string] : any } = {};
@@ -18,15 +23,8 @@ export class PetriNetsSimulatorAdapter implements ISimulatorAdapter {
     private _outputArcsDict : {[key : string] : any } = {};
     private _transitionsDict : {[key : string] : any } = {};
 
-    public statistics : IPetriNetsStatistics;
+    public statistics : IPetriNetsStatistics | null = null;
     
-    public init(endTime : number, maxIteration : number): void {
-        this._engine.init(endTime, maxIteration);
-    }
-
-    public simulate(): void {
-        this._engine.simulate();
-    }
 
     public clear() : void {
         const allObjects = {...this._placesDict, ...this._inputArcsDict, ...this._outputArcsDict, ...this._transitionsDict };
@@ -69,16 +67,19 @@ export class PetriNetsSimulatorAdapter implements ISimulatorAdapter {
         return statistics;
     }
 
+    constructor(simulatorModule: any) {
+        this._simulatorModule = simulatorModule;
+    }
 
-    constructor(simulatorModule: any, objects : IEditorObject[], params : IPNSimulationParams) {
-        this._engine = new simulatorModule.PetriNetsEngine();
+    simulate(objects : {[key : string] :IEditorObject }, params : IPNSimulationParams) {
+        this._engine = new this._simulatorModule.PetriNetsEngine();
 
         const places :  IPlace[] = [];
         const inputArcs : IArc[] = [];
         const outputArcs : IArc[] = [];
         const transitions : ITransition[] = [];
         
-        for(const obj of objects) {
+        for(const obj of Object.values(objects)) {
             switch (obj.className) {
                 case Place.className:
                     places.push(obj as IPlace);
@@ -96,22 +97,22 @@ export class PetriNetsSimulatorAdapter implements ISimulatorAdapter {
         }
 
         for (const place of places) {
-            this._placesDict[place.id] = new simulatorModule.Place(place.id, this._engine, place.tokenCount);
+            this._placesDict[place.id] = new this._simulatorModule.Place(place.id, this._engine, place.tokenCount);
         }
 
         for (const inputArc of inputArcs) {
-            this._inputArcsDict[inputArc.id] = new simulatorModule.InputArc(inputArc.id, this._engine, this._placesDict[inputArc.placeId], inputArc.weight);
+            this._inputArcsDict[inputArc.id] = new this._simulatorModule.InputArc(inputArc.id, this._engine, this._placesDict[inputArc.placeId], inputArc.weight);
         }
 
         for (const outputArc of outputArcs) {
             if (outputArc.to != null) {    // TODO docasne reseni, predelat
-                this._outputArcsDict[outputArc.id] = new simulatorModule.OutputArc(outputArc.id, this._engine, this._placesDict[outputArc.to.objId], outputArc.weight);
+                this._outputArcsDict[outputArc.id] = new this._simulatorModule.OutputArc(outputArc.id, this._engine, this._placesDict[outputArc.to.objId], outputArc.weight);
             }
         }
 
         for (const transition of transitions) {
-            const inputArcVec = new simulatorModule.InputArcVec();
-            const outputArcVec = new simulatorModule.OutputArcVec();
+            const inputArcVec = new this._simulatorModule.InputArcVec();
+            const outputArcVec = new this._simulatorModule.OutputArcVec();
 
             for (const inputArc of inputArcs) {
                 if (inputArc.to != null && inputArc.to?.objId === transition.id) {
@@ -127,18 +128,18 @@ export class PetriNetsSimulatorAdapter implements ISimulatorAdapter {
 
             switch (transition.type) {
                 case TransitionType.Immediate:
-                    this._transitionsDict[transition.id] = new simulatorModule.ImmediateTransition(transition.id, this._engine, inputArcVec, outputArcVec, transition.priority);
+                    this._transitionsDict[transition.id] = new this._simulatorModule.ImmediateTransition(transition.id, this._engine, inputArcVec, outputArcVec, transition.priority);
                     break;
                 case TransitionType.Constant:
-                    this._transitionsDict[transition.id] = new simulatorModule.TimedConstantTransition(transition.id, this._engine, inputArcVec, outputArcVec, transition.timeValue);
+                    this._transitionsDict[transition.id] = new this._simulatorModule.TimedConstantTransition(transition.id, this._engine, inputArcVec, outputArcVec, transition.timeValue);
                     break;
                 case TransitionType.Exponential:
-                    this._transitionsDict[transition.id] = new simulatorModule.TimedExponentialTransition(transition.id, this._engine, inputArcVec, outputArcVec, transition.timeValue);
+                    this._transitionsDict[transition.id] = new this._simulatorModule.TimedExponentialTransition(transition.id, this._engine, inputArcVec, outputArcVec, transition.timeValue);
                     break;
             }   
         }
 
-            this._engine.init(params.endTime,10);
+            this._engine.init(params.endTime, 1000);
             this._engine.simulate();
             this.statistics = this.convertStatistics(this._engine.statistics())
             this.clear();

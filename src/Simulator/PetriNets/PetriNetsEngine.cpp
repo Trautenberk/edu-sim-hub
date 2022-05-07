@@ -2,27 +2,32 @@
 #include "Place.hpp"
 #include "Transition.hpp"
 
+// Konstruktor
 PetriNetsEngine::PetriNetsEngine() : DiscreteEngine() 
 {
-    cout << "PetriNetsEngine constructor" << endl;
+    // cout << "PetriNetsEngine constructor" << endl;
 }
 
+// Přidá přechod do interní kolekce
 void PetriNetsEngine::addTransition(Transition *transition)
 {
     this->_allTransitions.push_back(transition);
 }
 
+// Přidá místo do interní kolekce
 void PetriNetsEngine::addPlace(Place *place)
 {
 
     this->_allPlaces.push_back(place);
 }
 
+// Pomocná metoda pro konstrukci
 PetriNetsEngineObj PetriNetsEngine::New()
 {
     return make_shared<PetriNetsEngine>();
 }
 
+// Sběr statistik
 void PetriNetsEngine::gatherStatistics()
 {
     for (auto place : this->_allPlaces)
@@ -36,15 +41,16 @@ void PetriNetsEngine::gatherStatistics()
     }
 }
 
+// Getter statistik
 PetriNetsStatistics PetriNetsEngine::statistics() {
     return this->_statistics;
 }
 
+// Getter kolekce všech přechodů
 vector<Transition*>& PetriNetsEngine::allTransitions()
 {
     return this->_allTransitions;
 }
-
 
 
 #ifdef EMSCRIPTEN

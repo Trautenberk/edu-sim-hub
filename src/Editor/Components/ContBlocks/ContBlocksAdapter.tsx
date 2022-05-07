@@ -5,9 +5,12 @@ import { IIntegrator } from "Editor/Model/ContBlocks/Integrator";
 import { ISignal, Signal } from "Editor/Model/ContBlocks/Signal";
 import { Time } from "Editor/Model/ContBlocks/Time";
 import { IEditorObject, IEditorObjectWithEndPoints } from "Editor/Model/EditorObject";
+import { ISimulatorAdapter } from "Editor/Model/PetriNets/PetriNetsSimulatorAdapter";
 import { IContBlocksSimulationParams } from "Editor/Model/SimulationParams";
 
-export class ContBlocksAdapter {
+export class ContBlocksAdapter implements ISimulatorAdapter {
+
+    private _simulatorModule : any;
 
     private _engine : any;
 
@@ -42,9 +45,12 @@ export class ContBlocksAdapter {
         this._engine.delete();
     }
 
+    constructor(simulatorModule: any) {
+        this._simulatorModule = simulatorModule;
+    }
 
-    constructor(simulatorModule: any, allEditorObjects : {[key : string] :IEditorObject }, params : IContBlocksSimulationParams) {
-        this._engine = new simulatorModule.ContBlockEngine();
+    simulate(allEditorObjects : {[key : string] :IEditorObject }, params : IContBlocksSimulationParams) {
+        this._engine = new this._simulatorModule.ContBlockEngine();
 
         const signals : ISignal[] = []
 
@@ -52,23 +58,23 @@ export class ContBlocksAdapter {
             let simObj = null;
             switch(obj.className) {
                 case Constant.className:
-                    simObj = new simulatorModule.Constant(obj.id, this._engine, (obj as IConstant).value); break;
+                    simObj = new this._simulatorModule.Constant(obj.id, this._engine, (obj as IConstant).value); break;
                 case Add.className:
-                    simObj = new simulatorModule.Add(obj.id, this._engine); break;
+                    simObj = new this._simulatorModule.Add(obj.id, this._engine); break;
                 case Sub.className:
-                    simObj = new simulatorModule.Sub(obj.id, this._engine); break;
+                    simObj = new this._simulatorModule.Sub(obj.id, this._engine); break;
                 case Mul.className:
-                    simObj = new simulatorModule.Mul(obj.id, this._engine); break;
+                    simObj = new this._simulatorModule.Mul(obj.id, this._engine); break;
                 case Div.className:
-                    simObj = new simulatorModule.Div(obj.id, this._engine); break;
+                    simObj = new this._simulatorModule.Div(obj.id, this._engine); break;
                 case Gain.className:
-                    simObj = new simulatorModule.Gain(obj.id, this._engine, (obj as IGain).gain); break;
+                    simObj = new this._simulatorModule.Gain(obj.id, this._engine, (obj as IGain).gain); break;
                 case Integrator.className:
                     this._integratorIds.push(obj.id);
-                    simObj = new simulatorModule.Integrator(obj.id, this._engine, (obj as IIntegrator).initialValue);
+                    simObj = new this._simulatorModule.Integrator(obj.id, this._engine, (obj as IIntegrator).initialValue);
                     break;
                 case Time.className:
-                    simObj = new simulatorModule.Time(obj.id, this._engine); break;
+                    simObj = new this._simulatorModule.Time(obj.id, this._engine); break;
                 case Signal.className:
                     signals.push(obj as ISignal); break;
             }

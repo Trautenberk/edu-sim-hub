@@ -20,7 +20,7 @@ void ContBlockEngine::addIntegrator(Integrator *integrator)
 
 void ContBlockEngine::simStep()
 {
-    this->dynamic();    // aktualizace stavu modelu
+    this->dynamic();    // načtu vstupy všech integratoru
     this->integrate();  // provedu integraci na vsech integratorech
 }
 
@@ -36,28 +36,31 @@ void ContBlockEngine::dynamic()
     }
 }
 
-void ContBlockEngine::integrate()
+// Provede krok numericke metody na všech integrátorech
+void ContBlockEngine::integrate()   
 {
     if (this->_allIntegrators.empty())
         return;
 
     for (auto integratorPtr : this->_allIntegrators)
     {
-        integratorPtr->integrate();    // provedu integraci na vsech integratorech
+        integratorPtr->integrate();
     }
 }
 
+// Vrací numerickou metodu v enginu
 function<double(double currentState, double derivation, double step)> ContBlockEngine::integrationMethod()
 {
     return this->_integrationMethod;
 }
 
-
+// Pomocná metoda pro snažší konstrukci
 ContBlockEngineObj ContBlockEngine::New(function<double(double currentState, double derivation, double step)> integrationMethod)
 {
     return make_shared<ContBlockEngine>(integrationMethod);
 }
 
+// Sběr statistik
 void ContBlockEngine::gatherStatistics()
 {
     for (auto integrator : this->_allIntegrators)
@@ -66,9 +69,10 @@ void ContBlockEngine::gatherStatistics()
     }
 }
 
+
 ContBlockStatistics ContBlockEngine::statistics() 
 {
-    std::cout << "statistics report: " << this->_statistics.simulationTime << "  " << this->_statistics.integratorRecords.size() << std::endl;
+    // std::cout << "statistics report: " << this->_statistics.simulationTime << "  " << this->_statistics.integratorRecords.size() << std::endl;
     return this->_statistics;
 }
 

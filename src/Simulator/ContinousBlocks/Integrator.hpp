@@ -44,7 +44,5 @@ class Integrator : public ContBlockSingle {
         // Počáteční hodnota        
         double _initialValue;
 
-
-        // TODO
 };
 #endif // __INTEGRATOR_H__

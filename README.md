@@ -36,5 +36,5 @@ Složka Simulator obsahuje stejné skripty jako v předchozí části, akorát j
 ***
 
 ## Jak vyvtořit dokumentaci?
-* Obě části mají oddělenou dokumentaci a pro její vygenerování slouží skript docs.sh.
-* Dokumentaci lze vygenerovat až po sestavení simulátoru, jinak dojde k chybě.
+* Obě části mají oddělenou dokumentaci a pro její vygenerování slouží skript docs.sh. Výsledná dokumentace se pak nachází v složce docs.
+* Dokumentaci lze vygenerovat až po sestavení aplikace.

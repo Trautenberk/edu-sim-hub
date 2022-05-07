@@ -30,11 +30,35 @@ class Place : public PetriNetsObject {
         Place(objectId id, PetriNetsEngineObj engine, int tokens = 0);
         static PlaceObj New(PetriNetsEngineObj engine, int tokens = 0);
 
+        /**
+         * @brief Getter tokenů
+         * 
+         * @return int 
+         */
         int tokens() { return _tokens; };
+        /**
+         * @brief Metoda pro odebrání tokenů z místa
+         * 
+         * @param cnt 
+         */
         void removeTokens(int cnt);
+        /**
+         * @brief Metoda pro přidání tokenů do místa
+         * 
+         * @param cnt 
+         */
         void addTokens(int cnt);
         string objTypeName();
+        /**
+         * @brief Inicializační funkce
+         * 
+         */
         void initialize() { return; };
+        /**
+         * @brief Metoda pro vytvoření záznamu do statistik pro daný časový okamžik
+         * 
+         * @return PlaceRecord 
+         */
         PlaceRecord getStatisticsRecord();
     private:
         int _tokens;

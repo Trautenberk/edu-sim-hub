@@ -1,9 +1,6 @@
 #include "Add.hpp"
 
-/**
- * @brief TypeName
- * 
- */
+
 const string addTypeName = "AddBlock";
 
 

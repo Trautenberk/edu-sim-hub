@@ -3,13 +3,14 @@
 
 const string placeTypeName = "Place";
 
-
+// Konstruktor
 Place::Place(objectId id, PetriNetsEngineObj engine, int tokens) : PetriNetsObject(id, engine)
 {
     this->_tokens = tokens; 
     engine->addPlace(this);
 }
 
+// Pomocná metoda pro konstrukci
 PlaceObj Place::New(PetriNetsEngineObj engine, int tokens)
 {
     return make_shared<Place>(SimObject::createId(placeTypeName), engine, tokens);
@@ -20,11 +21,13 @@ string Place::objTypeName()
     return placeTypeName;
 }
 
+// Metoda pro přidání tokenů do místa
 void Place::addTokens(int cnt)
 {
     this->_tokens += cnt;  
 }
 
+// Metoda pro odebrání tokenů z místa
 void Place::removeTokens(int cnt)
 {
     if (this->_tokens - cnt < 0)
@@ -35,6 +38,7 @@ void Place::removeTokens(int cnt)
     this->_tokens -= cnt;
 }
 
+// Vytvoří záznam statistik pro daný časový okamžik
 PlaceRecord Place::getStatisticsRecord()
 {  
     return PlaceRecord { this->engine->time(), this->_tokens };

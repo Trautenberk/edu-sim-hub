@@ -2,6 +2,7 @@
 
 using namespace std;
 
+// Konstruktor
 Arc::Arc(string id, PetriNetsEngineObj engine, PlaceObj targetPlace, int weight) : PetriNetsObject(id, engine)
 {
     if (weight < 1) {
@@ -16,6 +17,7 @@ Arc::Arc(string id, PetriNetsEngineObj engine, PlaceObj targetPlace, int weight)
 /// InputArc
 const string inputArcTypeName = "InputArc";
 
+// Konstruktor
 InputArc::InputArc(objectId id, PetriNetsEngineObj engine, shared_ptr<Place> targetPlace, int weight) 
 : Arc(id, engine, targetPlace, weight)
 {}
@@ -25,17 +27,19 @@ string InputArc::objTypeName()
     return inputArcTypeName;
 }
 
+// Provedení vstupní hrany, odebere počet tokenů odpovídající váze hrany z místa
 void InputArc::execute()
 {
     this->targetPlace->removeTokens(this->_weight);    
 }
 
-// kolikrat je prechod uspokojen
+// kolikrát je přechod uspokojen
 int InputArc::satisfied() 
 {
     return this->targetPlace->tokens() / _weight;
 }
 
+// Pomocná metoda pro konstrukci
 InputArcObj InputArc::New(PetriNetsEngineObj engine, PlaceObj targetPlace, int weight)
 {
     return make_shared<InputArc>(SimObject::createId(inputArcTypeName), engine, targetPlace, weight);
@@ -43,14 +47,14 @@ InputArcObj InputArc::New(PetriNetsEngineObj engine, PlaceObj targetPlace, int w
 
 
 /// OutpuArch
-
 const string outputArcTypeName = "OutputArc";
 
-
+// Konstruktor
 OutputArc::OutputArc(objectId id, PetriNetsEngineObj engine, PlaceObj targetPlace, int weight)
 : Arc(id, engine, targetPlace, weight)
 {}
 
+// POmocná metoda pro konstrukci
 OutputArcObj OutputArc::New(PetriNetsEngineObj engine, PlaceObj targetPlace, int weight)
 {
     return make_shared<OutputArc>(SimObject::createId(outputArcTypeName), engine, targetPlace, weight);
@@ -61,6 +65,7 @@ string OutputArc::objTypeName()
     return outputArcTypeName;
 }
 
+// Přidá počet tokenů odpovídající váze hrany do místa
 void OutputArc::execute()
 {
     this->targetPlace->addTokens(this->_weight);
