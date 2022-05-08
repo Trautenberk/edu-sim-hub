@@ -347,6 +347,15 @@ export const VAN_DER_POL_OSCILATOR : Example = {
       } as  IEditorObject
     },
     edgeObjectsIds: [
+      'signal_2',
+      'signal_4',
+      'signal_5',
+      'signal_7',
+      'signal_9',
+      'signal_12',
+      'signal_13',
+      'signal_15',
+      'signal_16',
       'signal_19',
       'signal_20',
       'signal_21'

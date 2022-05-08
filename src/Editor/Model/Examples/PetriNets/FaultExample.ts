@@ -698,10 +698,25 @@ export const FAULT_EXAMPLE : Example = {
       } as IEditorObject
     },
     edgeObjectsIds: [
+      'outputarc_3',
+      'outputarc_5',
+      'outputarc_12',
+      'outputarc_17',
+      'outputarc_30',
+      'outputarc_34',
+      'outputarc_23',
+      'outputarc_25',
       'outputarc_51',
       'inputarc_52',
       'outputarc_54',
-      'inputarc_55'
+      'inputarc_2',
+      'inputarc_7',
+      'inputarc_14',
+      'inputarc_18',
+      'inputarc_22',
+      'inputarc_27',
+      'inputarc_33',
+      'inputarc_55',
     ],
     selectedObjectId: null,
     endPoints: {

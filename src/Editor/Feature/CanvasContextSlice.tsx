@@ -11,11 +11,17 @@ type CanvasContextState = {
     initPos : ICoordinates,
 }
 
+// Výchozí hodnota řezu
 const initialState : CanvasContextState = {
     canvasBoundaries : { left : 0, top: 0 },
     initPos : { x : INIT_POS_OFFSET_X, y : INIT_POS_OFFSET_Y },
 }
 
+/**
+ * Řez skladu s názve CanvasContextSlice. 
+ * Řez obsahuje objekt s informacemi potřebnými pro kompontenty v hlavní ploše, jako jsou hranice
+ * HTML elementu plochy.
+ */
 const canvasContextSlice = createSlice({
     name : "CanvasContext",
     initialState,

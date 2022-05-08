@@ -14,7 +14,7 @@ export class Gain extends ContBlock implements IToSerializable<IGain> {
     public className() { return Gain.className; }
 
     public static className = "Gain";
-    public static MenuName = "Gain";
+    public static MenuName = "Násobení konstantou";
 
     /**
      * Hodnota zesílení

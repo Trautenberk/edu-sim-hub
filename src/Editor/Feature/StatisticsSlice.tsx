@@ -12,13 +12,16 @@ const initialState : StatisticsState = {
 
 }
 
+// Řez pro správu statistik
 const statisticsSlice = createSlice({
     name: "StatisticsSlice",
     initialState,
     reducers : {
+        // Nastaví objekt statistik
         setStatistics(state , action : PayloadAction<IPetriNetsStatistics | IContBlockStatistics>) {
             state.statistics = action.payload;
         },
+        // Smaže objekt statistik
         clearStatistics(state) {
             state.statistics = null;
         }

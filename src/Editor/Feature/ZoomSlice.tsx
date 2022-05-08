@@ -16,6 +16,7 @@ const initialState : ZoomState = {
     currentZoomScale : 1
 }
 
+// Řez pro přibližování v hlavní ploše
 const zoomSlice = createSlice({
     name : "Zoom",
     initialState,

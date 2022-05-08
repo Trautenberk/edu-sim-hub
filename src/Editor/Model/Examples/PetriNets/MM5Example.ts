@@ -341,7 +341,15 @@ export const MM5_EXAMPLE : Example = {
         } as IEditorObject
       },
       edgeObjectsIds: [
-        'inputarc_18'
+        'inputarc_2',
+        'inputarc_7',
+        'inputarc_14',
+        'inputarc_18',
+        'outputarc_3',
+        'outputarc_5',
+        'outputarc_12',
+        'outputarc_15',
+        'outputarc_17',
       ],
       selectedObjectId: null,
       endPoints: {

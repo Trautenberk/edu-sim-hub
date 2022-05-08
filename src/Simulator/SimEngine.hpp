@@ -13,6 +13,16 @@ class SimObject;
 class SimEngine;
 
 
+/*! @mainpage Dokumentace Simulátoru
+ *
+ * @section Úvod
+ *
+ * Vygenerovaná dokumentace pro část simulátoru výsledné aplikace. Je zde možné se dočíst o jednotlivých 
+ * třídách, ze kterých se modul skládá a které jsou použity pro jakou oblast.
+ *
+ *
+ */
+
 using SimEngineObj = std::shared_ptr<SimEngine>;
 
 /**

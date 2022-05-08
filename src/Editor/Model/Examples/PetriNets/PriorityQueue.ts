@@ -545,7 +545,24 @@ export const PRIORITY_QUEUE : Example = {
           placeId: 'NULL_OBJ_ID'
         } as IEditorObject
       },
-      edgeObjectsIds: [],
+      edgeObjectsIds: [
+        'inputarc_2',
+        'inputarc_6',
+        'inputarc_17',
+        'inputarc_18',
+        'inputarc_22',
+        'inputarc_27',
+        'inputarc_28',
+        'outputarc_3',
+        'outputarc_23',
+        'outputarc_7',
+        'outputarc_12',
+        'outputarc_13',
+        'outputarc_29',
+        'outputarc_25',
+        'outputarc_24',
+
+      ],
       selectedObjectId: null,
       endPoints: {
         Point_0: {

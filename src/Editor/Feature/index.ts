@@ -1,5 +1,4 @@
 export * from "./CanvasContextSlice"
-export * from "./ExamplesSlice"
 export * from "./SimObjectManagementSlice"
 export * from "./StatisticsSlice"
 export * from "./ZoomSlice"

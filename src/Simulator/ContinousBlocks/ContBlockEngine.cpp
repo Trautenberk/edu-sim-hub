@@ -20,8 +20,8 @@ void ContBlockEngine::addIntegrator(Integrator *integrator)
 
 void ContBlockEngine::simStep()
 {
-    this->dynamic();    // načtu vstupy všech integratoru
-    this->integrate();  // provedu integraci na vsech integratorech
+    this->dynamic();   // Vyhodnocení derivací (vstupů integrátorů).
+    this->integrate();  // Výpočet nového stavu integrační metodou.
 }
 
 

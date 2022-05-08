@@ -262,6 +262,9 @@ export const SPRING_WEIGHT : Example = {
         } as IEditorObject
       },
       edgeObjectsIds: [
+        'signal_5',
+        'signal_6',
+        'signal_8',
         'signal_19',
         'signal_20',
         'signal_21',

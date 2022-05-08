@@ -23,7 +23,7 @@ export const PN_EXAMPLES_MAP : { [key : string] : Example } = {
 export const CONT_EXAMPLES_MAP : { [key : string] : Example} = {
   "y = x" : FIRST_EXAMPLE,
   "y = x^2" : SECOND_EXAMPLE,
-  "Kruhovy test" : THIRD_EXAMPLE,
+  "Kruhový test" : THIRD_EXAMPLE,
   "Van der Polův oscilátor" : VAN_DER_POL_OSCILATOR,
   "Systém závaží na pružině: y''+(-K/m)y = 0" : SPRING_WEIGHT
 } 

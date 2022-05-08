@@ -68,7 +68,7 @@ void ContinousSimEngine::simulate()
         } 
         else
         {
-            this->_time += this->_stepSize;   // inkrementace casu o délku kroku
+            this->_time += this->_stepSize;   // posun modelového času o délku kroku
         }
     }
     this->gatherStatistics();
