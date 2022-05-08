@@ -1,19 +1,19 @@
 {
   "files": {
-    "main.css": "/edu-sim-hub/static/css/main.3cbc9ff8.chunk.css",
-    "main.js": "/edu-sim-hub/static/js/main.4a65b997.chunk.js",
-    "main.js.map": "/edu-sim-hub/static/js/main.4a65b997.chunk.js.map",
+    "main.css": "/edu-sim-hub/static/css/main.f60b36cf.chunk.css",
+    "main.js": "/edu-sim-hub/static/js/main.580acf31.chunk.js",
+    "main.js.map": "/edu-sim-hub/static/js/main.580acf31.chunk.js.map",
     "runtime-main.js": "/edu-sim-hub/static/js/runtime-main.92c40083.js",
     "runtime-main.js.map": "/edu-sim-hub/static/js/runtime-main.92c40083.js.map",
     "static/css/2.0a9ec390.chunk.css": "/edu-sim-hub/static/css/2.0a9ec390.chunk.css",
-    "static/js/2.42883368.chunk.js": "/edu-sim-hub/static/js/2.42883368.chunk.js",
-    "static/js/2.42883368.chunk.js.map": "/edu-sim-hub/static/js/2.42883368.chunk.js.map",
+    "static/js/2.2059b5a9.chunk.js": "/edu-sim-hub/static/js/2.2059b5a9.chunk.js",
+    "static/js/2.2059b5a9.chunk.js.map": "/edu-sim-hub/static/js/2.2059b5a9.chunk.js.map",
     "static/js/3.4eeb6ed5.chunk.js": "/edu-sim-hub/static/js/3.4eeb6ed5.chunk.js",
     "static/js/3.4eeb6ed5.chunk.js.map": "/edu-sim-hub/static/js/3.4eeb6ed5.chunk.js.map",
     "index.html": "/edu-sim-hub/index.html",
     "static/css/2.0a9ec390.chunk.css.map": "/edu-sim-hub/static/css/2.0a9ec390.chunk.css.map",
-    "static/css/main.3cbc9ff8.chunk.css.map": "/edu-sim-hub/static/css/main.3cbc9ff8.chunk.css.map",
-    "static/js/2.42883368.chunk.js.LICENSE.txt": "/edu-sim-hub/static/js/2.42883368.chunk.js.LICENSE.txt",
+    "static/css/main.f60b36cf.chunk.css.map": "/edu-sim-hub/static/css/main.f60b36cf.chunk.css.map",
+    "static/js/2.2059b5a9.chunk.js.LICENSE.txt": "/edu-sim-hub/static/js/2.2059b5a9.chunk.js.LICENSE.txt",
     "static/media/blank.f7a9f9f4.png": "/edu-sim-hub/static/media/blank.f7a9f9f4.png",
     "static/media/div.06214292.svg": "/edu-sim-hub/static/media/div.06214292.svg",
     "static/media/AppStyle.module.scss": "/edu-sim-hub/static/media/page-background.061ad514.jpg",
@@ -23,8 +23,8 @@
   "entrypoints": [
     "static/js/runtime-main.92c40083.js",
     "static/css/2.0a9ec390.chunk.css",
-    "static/js/2.42883368.chunk.js",
-    "static/css/main.3cbc9ff8.chunk.css",
-    "static/js/main.4a65b997.chunk.js"
+    "static/js/2.2059b5a9.chunk.js",
+    "static/css/main.f60b36cf.chunk.css",
+    "static/js/main.580acf31.chunk.js"
   ]
 }
