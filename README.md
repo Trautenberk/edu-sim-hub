@@ -15,25 +15,28 @@ Zdrojové kódy se nachází ve složce src a kódy jednotlivých částí se na
 * Node.js v16 (poslední LTS)
 * CMake pro sestavení simulátoru
 
+
+***
+## Jak zkompilovat aplikaci pro vývoj?
+1. Nainstalovat všechny potřebné balíčky pomocí příkazu npm install
+2. Pomocí příkazu npm run build dojde ke kompilaci simulátoru a editoru
+3. Příkaz npm start spustí vývojový webový server s aplikací na portu localhost:3000
+
+
 ***
 ## Kompilace simulátoru do WebAssembly:
-Pro kompilaci simulátoru byly vytvořeny následující skripty:
+Pro kompilaci simulátoru do WebAssembly byly vytvořeny následující skripty:
 
 * configure.sh:  Vytvoří soubory sestavení pomocí CMake
 * build.sh : Zkompiluje simulátor do WebAssembly a umístí modul do složky wasm-build, Editor počítá s tím že soubor se bude nacházet na pevně daném místě
 * clear.sh : Smaže obsah složky wasm-build
 
+***
+
+
 ## Kompilace simulátoru pro desktop:
 Konfigurační soubory CMakeLists byly napsány tak, aby šlo simulátor sestavit i pro desktop.
 Složka Simulator obsahuje stejné skripty jako v předchozí části, akorát je výsledkem desktop knihovna.
-
-***
-## Jak zkompilovat aplikaci?
-1. Nainstalovat všechny potřebné balíčky pomocí příkazu npm install
-2. Pomocí příkazu npm run build dojde ke kompilaci simulátoru a editoru
-3. Příkaz npm start spustí vývojový webový server s aplikací na portu localhost:3000
-
-***
 
 ## Dokumentace
 * Vygenerovaná dokumentace se nachází ve složce docs.
