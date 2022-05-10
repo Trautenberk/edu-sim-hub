@@ -12,8 +12,8 @@ Zdrojové kódy se nachází ve složce src a kódy jednotlivých částí se na
 ***
 ## Prerekvizity
 * Nainstalovaný nástroj emscripten pro překlad do webassembly dostupný zde: https://emscripten.org/index.html
-* Node.js v16 (poslední LTS)
-* CMake pro sestavení simulátoru
+* Node.js v16 (poslední LTS) dostupné zde: https://nodejs.org/en/
+* CMake pro sestavení simulátoru dostupný zde: https://cmake.org/
 
 
 ***
