@@ -3,7 +3,7 @@
 Aplikace obsahuje jednoduchý editor a simulátor Časovaných stochastických Petriho sítí a spojitých blokových schémat.
 Editor byl implementován pomocí jazyku typescript a knihoven React a Redux. Jeho primárním účelem je poskytnout uživateli
 prostředky pro tvorbu modelu. O simulaci vytvořeného modelu se pak stará simulátor napsaný v jazyce C++ a pomocí nástroje
-Emscripten zkompilován do WebAssembly modulu a propojen s editorem. Funkční aplikace je dostupná na adrese: https://trautenberk.github.io/edu-sim-hub/
+Emscripten zkompilován do WebAssembly modulu a propojen s editorem. V této složce jsou obsaženy veškeré zdrojové kódy projektu a slouží pouze pro vývoj. Funkční aplikace je dostupná na adrese: https://trautenberk.github.io/edu-sim-hub/
 
 ***
 ## Struktura projektu?
@@ -35,6 +35,6 @@ Složka Simulator obsahuje stejné skripty jako v předchozí části, akorát j
 
 ***
 
-## Jak vyvtořit dokumentaci?
-* Obě části mají oddělenou dokumentaci a pro její vygenerování slouží skript docs.sh. Výsledná dokumentace se pak nachází v složce docs.
-* Dokumentaci lze vygenerovat až po sestavení aplikace.
+## Dokumentace
+* Vygenerovaná dokumentace se nachází ve složce docs.
+* Obě části mají oddělenou dokumentaci a pro její vygenerování slouží skript docs.sh. Dokumentaci lze vygenerovat až po sestavení aplikace.
