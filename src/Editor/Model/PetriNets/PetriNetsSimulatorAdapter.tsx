@@ -29,8 +29,16 @@ export class PetriNetsSimulatorAdapter implements ISimulatorAdapter {
     public clear() : void {
         const allObjects = {...this._placesDict, ...this._inputArcsDict, ...this._outputArcsDict, ...this._transitionsDict };
 
-        for (const simObject of Object.values(allObjects))
+        for (const simObject of Object.values(allObjects)) {
             simObject.delete();
+        }
+        this._engine.delete();
+
+        this._engine = undefined;
+        this._placesDict = {};
+        this._inputArcsDict = {};
+        this._outputArcsDict = {};
+        this._transitionsDict = {};
     }
 
     private convertStatistics(rawStatistics : any) : IPetriNetsStatistics {

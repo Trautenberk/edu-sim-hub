@@ -16,9 +16,9 @@ export  const TransitionStatistics : FC<StatisticsComponentProps> = (props) => {
 
     return (
         <div>
-            <p>Statistiky přechodu: {props.id}</p>
+            <p>Graf kolikrát byl přechod proveden v čase: {props.id}</p>
             <div >
-                <DiscreteGraph  data={values} xKey={"time"} yKey={"fired"}  />
+                <DiscreteGraph  data={values} xKey={"time"} yKey={"fired"} xLabel="Modelový čas" yLabel="Počet provedení"  />
             </div>
         </div>
     )

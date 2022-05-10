@@ -38,4 +38,7 @@ body {
     @include default-shadow-hover;
     background-color: $background-blue-hover;
   }
+  p {
+    margin-top: 1%;
+  }
 }

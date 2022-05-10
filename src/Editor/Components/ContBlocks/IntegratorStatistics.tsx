@@ -15,9 +15,9 @@ export const IntegratorStatistics : FC<StatisticsComponentProps> = (props) => {
 
     return (
         <div>
-            <p>Statistiky integrátoru: {props.id}</p>
+            <p>Graf hodnoty stavové proměnné v čase pro integrátor : {props.id}</p>
             <div>
-                <ContGraph data={values} xKey={"time"} yKey={"value"} />
+                <ContGraph data={values} xKey={"time"} yKey={"value"} xLabel="Modelový čas" yLabel="Hodnota stavové proměnné" />
             </div>
         </div>
     )

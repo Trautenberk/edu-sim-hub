@@ -1,3 +1,4 @@
+import { timeStamp } from "console";
 import { Add, Div, Gain, Integrator, Mul, Sub } from "Editor/Model/ContBlocks";
 import { Constant, IConstant } from "Editor/Model/ContBlocks/Constant";
 import { IGain } from "Editor/Model/ContBlocks/Gain";
@@ -43,7 +44,16 @@ export class ContBlocksAdapter implements ISimulatorAdapter {
 
     private clear() : void {
         this._engine.delete();
+        this._integratorIds = [];
+        
+        for (const key of Object.keys(this._allSimObjects)) {
+            const simObj = this._allSimObjects[key];
+            simObj.delete();
+        }
+
+        this._allSimObjects = {};
     }
+
 
     constructor(simulatorModule: any) {
         this._simulatorModule = simulatorModule;

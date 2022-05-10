@@ -14,7 +14,7 @@ Transition::Transition(objectId id, PetriNetsEngineObj engine, vector<InputArcOb
     this->engine->addTransition(this);
 
     // Vytvoří kolekci id vstupních míst
-    for (auto& arch : _inputArcs)   
+    for (auto& arch : inputArcs)   
     {
         this->placeIdsOnInput.push_back(arch->targetPlace->id());
     }
@@ -30,7 +30,7 @@ Transition::Transition(objectId id, PetriNetsEngineObj engine, vector<InputArcOb
     // Kolekce všech hran
     this->_allArcs.reserve(inputArcs.size() + outputArcs.size());
     this->_allArcs.insert(this->_allArcs.end(), outputArcs.begin(), outputArcs.end());
-    this->_allArcs.insert(this->_allArcs.end(), inputArcs.begin(), _inputArcs.end());
+    this->_allArcs.insert(this->_allArcs.end(), inputArcs.begin(), inputArcs.end());
 }
 
 // Inicializační metoda

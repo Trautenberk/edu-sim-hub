@@ -1,5 +1,5 @@
 import { FC } from "react"
-import { LineChart, XAxis, YAxis, Tooltip, Line, Brush, AreaChart, CartesianGrid, Area } from "recharts"
+import { LineChart, XAxis, YAxis, Tooltip, Line, Brush, AreaChart, CartesianGrid, Area, Label } from "recharts"
 import { GraphProps, GRAPH_COLOR } from "./DiscreteGraph"
 
 /**
@@ -10,10 +10,13 @@ import { GraphProps, GRAPH_COLOR } from "./DiscreteGraph"
   export const ContGraph : FC<GraphProps> = (props) => {
     return (
           <LineChart
-              width={700} height={700} data={props.data}
-              margin={{ top: 20, right: 20, bottom: 20, left: 20 }}>
-              <XAxis dataKey={props.xKey}  type="number"  domain={['auto', 'auto']} />
-              <YAxis domain={['auto', 'auto']} type="number" />
+              width={650} height={670} data={props.data}>
+              <XAxis dataKey={props.xKey}  type="number" height={40} domain={['auto', 'auto']} >
+                  <Label value={props.xLabel}  position="insideBottom"  />
+              </XAxis>
+              <YAxis domain={['auto', 'auto']} type="number" width={60} >
+                  <Label value={props.yLabel}  position="insideLeft"  angle={90} />
+              </YAxis>
               <Tooltip />
               <Line type="linear" dataKey={props.yKey} stroke={GRAPH_COLOR} dot={false} />
               <Brush dataKey={props.xKey} type="number" startIndex={0} >

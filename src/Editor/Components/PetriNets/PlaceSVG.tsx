@@ -50,11 +50,20 @@ export const PlaceSVG : FunctionComponent<ObjectSVGProps> = (props) => {
 
     return(
         <g transform={`translate(${coordinates.x},${coordinates.y})`}> 
-            <circle className={styles.spot} onMouseDown={onMouseDownHandler} onMouseUp={onMouseUpHandler} r="30"/>
-            <circle visibility={selectedVisible} className={styles.selected} r="30"/>
+            <circle className={styles.spot} onMouseDown={onMouseDownHandler} onMouseUp={onMouseUpHandler} r={32}/>
+            <circle visibility={selectedVisible} className={styles.selected} r={32}/>
             {mapEndPoints(addInputArc)}
-            <text className={styles.text} x="-50" y="-50">{obj.label}</text>
-            <text className={styles.tokens} x="-10" y="5">{obj.tokenCount > 0 ? `${obj.tokenCount} x` : ""}</text>
+            <text className={styles.text} x={-50} y={-50}>{obj.label}</text>
+            {obj.tokenCount > 0 && obj.tokenCount < 10 &&
+                <text className={styles.tokens} x={-20} y={5}>{obj.tokenCount} x</text> 
+            }
+            {obj.tokenCount >= 10 &&
+                <text className={styles.tokens} x={-23} y={5}>{obj.tokenCount} x</text> 
+            }
+            {obj.tokenCount > 0 &&
+                <circle color="black"  cx={13} cy={0} r={5}/>
+            }
+
         </g>
     )
 }
