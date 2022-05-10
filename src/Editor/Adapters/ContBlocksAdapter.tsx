@@ -6,31 +6,49 @@ import { IIntegrator } from "Editor/Model/ContBlocks/Integrator";
 import { ISignal, Signal } from "Editor/Model/ContBlocks/Signal";
 import { Time } from "Editor/Model/ContBlocks/Time";
 import { IEditorObject, IEditorObjectWithEndPoints } from "Editor/Model/EditorObject";
-import { ISimulatorAdapter } from "Editor/Model/PetriNets/PetriNetsSimulatorAdapter";
+import { ISimulatorAdapter } from "./PetriNetsSimulatorAdapter";
 import { IContBlocksSimulationParams } from "Editor/Model/SimulationParams";
 
+
+/**
+ * Adaptér wasm modulu se simulátorem pro simulaci spojitých blokových schémat
+ */
 export class ContBlocksAdapter implements ISimulatorAdapter {
 
+    // Wasm modul
     private _simulatorModule : any;
 
+    // Simulační engine
     private _engine : any;
 
+    // Kolekce simObjektů z wasm modulu
     private _allSimObjects : {[key : string] : any} = {}
 
+    // Id integrátorů
     private _integratorIds : string[] = []
 
+    // Statistiky
     public statistics : any
 
+    /**
+     * Metoda slouží pro konverzi objektu statstiky z wasm objektu na normální JS objekt
+     * @param rawStatistics Wasm objekt se statistikami
+     * @returns JS objekt se statistikami simulace
+     */
     private convertStatistics(rawStatistics : any) : IContBlockStatistics {
         const statistics : IContBlockStatistics = {
             simulationTime : rawStatistics.simulationTime,
             integratorRecords: {}
         };
-
+        
+        // Iteruje přes všechny id integrátorů
         for (const objId of this._integratorIds) {
             const recordsArray : IntegratorRecord[] = [];
+
+            // Najdu odpovídající objekt v mapě wasm statistik
             const rawRecordsArray : any = rawStatistics.integratorRecords.get(objId);
             
+            // Získanou kolekci proiteruje a vytvoří odpovídající JS objekt
             for (let i = 0; i < rawRecordsArray.size(); i++) {
                 const rawRecord = rawRecordsArray.get(i);
                 recordsArray.push({time: rawRecord.time, value: rawRecord.value});
@@ -42,6 +60,9 @@ export class ContBlocksAdapter implements ISimulatorAdapter {
         return statistics;
     }
 
+    /**
+     * Uvolní všechny držené Wasm instance
+     */
     private clear() : void {
         this._engine.delete();
         this._integratorIds = [];
@@ -59,11 +80,19 @@ export class ContBlocksAdapter implements ISimulatorAdapter {
         this._simulatorModule = simulatorModule;
     }
 
+    /**
+     * Metoda provede vytvoření simulačního modelu a provede simulaci 
+     * @param allEditorObjects objekty editoru
+     * @param params parametry simulace
+     * @returns 
+     */
     simulate(allEditorObjects : {[key : string] :IEditorObject }, params : IContBlocksSimulationParams) {
+        // vytvoří simulační engine pro spojité blokové schéma
         this._engine = new this._simulatorModule.ContBlockEngine();
 
         const signals : ISignal[] = []
 
+        // Pro každý objekt modelu z editoru vytvoří odpovídající objekt z modulu simulátoru
         for (const obj of Object.values(allEditorObjects)) {
             let simObj = null;
             switch(obj.className) {
@@ -93,7 +122,8 @@ export class ContBlocksAdapter implements ISimulatorAdapter {
                 this._allSimObjects[obj.id] = simObj;
             }
         }
-
+        
+        // Podle signálů propojí bloky
         for (const signal of signals) {
             if (signal.from == null ||  signal.to == null) {
                 console.error(`Unconected signal ${signal.id}`);
@@ -116,23 +146,29 @@ export class ContBlocksAdapter implements ISimulatorAdapter {
             }
         }
 
+        // pokud inicializace proběhne v pořádku, provede experiment
         if (this._engine.init(params.beginTime, params.endTime, params.simStepSize, params.statisticsInterval)) {
-            this._engine.simulate()
-           this.statistics = this.convertStatistics(this._engine.statistics());
+            this._engine.simulate(); // provedení simulace
+           this.statistics = this.convertStatistics(this._engine.statistics()); // konverze statistik
         } else {
             console.error("Error during engine initialization");
         }
-        this.clear();
-
+        this.clear(); // uvolnění objektů
     }
 }
 
+/**
+ * Statistiky pro spojité blokové schéma
+ */
 export interface IContBlockStatistics {
     simulationTime : number
     integratorRecords : {[key : string] : IntegratorRecord[]}
 }
 
 
+/**
+ * Záznam statistik pro blok integrátoru
+ */
 type IntegratorRecord = {
     time : number
     value : number

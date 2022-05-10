@@ -1,5 +1,5 @@
 import { NULL_OBJ_ID } from "Editor/Model/EditorObject";
-import { IPetriNetsStatistics } from "Editor/Model/PetriNets/PetriNetsSimulatorAdapter";
+import { IPetriNetsStatistics } from "Editor/Adapters";
 import { FC } from "react";
 import { LineChart, XAxis, YAxis, Tooltip, Line, Area, AreaChart, Brush, CartesianGrid } from "recharts";
 import { StatisticsComponentProps } from "../ObjectGUIComponentFactory";

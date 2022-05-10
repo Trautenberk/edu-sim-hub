@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { StatisticsComponentProps } from "../ObjectGUIComponentFactory";
 import { ContGraph } from "../Utilities/UtilComponents/ContGraph";
-import { IContBlockStatistics } from "./ContBlocksAdapter";
+import { IContBlockStatistics } from "../../Adapters/ContBlocksAdapter";
 
 
 /**

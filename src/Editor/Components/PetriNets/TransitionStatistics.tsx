@@ -1,4 +1,4 @@
-import { IPetriNetsStatistics } from "Editor/Model/PetriNets/PetriNetsSimulatorAdapter";
+import { IPetriNetsStatistics } from "Editor/Adapters";
 import { FC } from "react";
 import { StatisticsComponentProps } from "../ObjectGUIComponentFactory";
 import { DiscreteGraph } from "../Utilities/UtilComponents/DiscreteGraph";

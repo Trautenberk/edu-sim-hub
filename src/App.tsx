@@ -7,20 +7,18 @@ import { MenuIcons } from "Editor/Components/Icons";
 import { addObject, Example, removeAllObjects, removeObject, selectedObjectId,  setSimulationParams,  setState,  SimObjectManagementState,  unselectObject } from 'Editor/Feature/SimObjectManagementSlice';
 import { EditWindow, CanvasSVG, IObjectGUIComponentFactory } from "Editor/Components"
 import {Add, Div, Sub, Mul, Constant, Gain, Integrator} from "Editor/Model/ContBlocks"
-import { PetriNetsSimulatorAdapter } from "Editor/Model/PetriNets"
 import SimulatorModule from "wasm-build/wasm_Simulator.js";
 import { defaultContBlocksSimulationParams, defaultPNSimulationParams, IContBlocksSimulationParams, IPNSimulationParams } from 'Editor/Model/SimulationParams';
 import { clearStatistics, setStatistics } from 'Editor/Feature/StatisticsSlice';
 import { useStoreHooks } from 'Editor/Components/Utilities/CustomHooks';
 import { StatisticsWindow } from 'Editor/Components/StatisticsWindow';
-import { ContBlocksAdapter } from 'Editor/Components/ContBlocks/ContBlocksAdapter';
 import { Time } from 'Editor/Model/ContBlocks/Time';
 import { TransitionType } from 'Editor/Model/PetriNets/Transition';
 import { ModalWindow } from 'Editor/Components/Utilities/UtilComponents/ModalWindow';
 import { CONT_EXAMPLES_MAP, PN_EXAMPLES_MAP } from 'Editor/Model/Examples/ExampleMap';
 import { PetriNetsGUIComponentFactory } from 'Editor/Components/PetriNets';
 import { ContBlocksGUIComponentFactory } from 'Editor/Components/ContBlocks';
-import { ISimulatorAdapter } from 'Editor/Model/PetriNets/PetriNetsSimulatorAdapter';
+import { ISimulatorAdapter, ContBlocksAdapter, PetriNetsSimulatorAdapter } from 'Editor/Adapters';
 
 /**
  * @author Jaromír Březina

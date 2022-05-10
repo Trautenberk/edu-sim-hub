@@ -27,6 +27,7 @@
       "./src/index.tsx",
       "./src/Editor/Components",
       "./src/Editor/Feature",
+      "./src/Editor/Adapters",
       "./src/Editor/Components/Utilities",
       "./src/Editor/Components/ContBlocks",
       "./src/Editor/Components/PetriNets",
