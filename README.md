@@ -20,7 +20,7 @@ Zdrojové kódy se nachází ve složce src a kódy jednotlivých částí se na
 ## Jak zkompilovat aplikaci pro vývoj?
 1. Nainstalovat všechny potřebné balíčky pomocí příkazu npm install
 2. Pomocí příkazu npm run build dojde ke kompilaci simulátoru a editoru
-3. Příkaz npm start spustí vývojový webový server s aplikací na portu localhost:3000
+3. Příkaz npm start spustí vývojový webový server s aplikací na adrese localhost:3000
 
 
 ***
